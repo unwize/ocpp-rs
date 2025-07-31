@@ -1,0 +1,76 @@
+use serde::{Deserialize, Serialize};
+
+/// Represents additional selected services as part of the ISO 15118-20 price schedule.
+/// Used by: Common::AbsolutePriceScheduleType
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct AdditionalSelectedServicesType {
+    /// Required. Human readable string to identify this service.
+    /// String length: 0..80
+    pub service_name: String,
+    /// Required. Cost of the service.
+    /// Adapted from RationalNumberType, considered as u32.
+    pub service_fee: u32,
+}
+
+impl AdditionalSelectedServicesType {
+    /// Validates the fields of AdditionalSelectedServicesType based on specified constraints.
+    /// Returns `true` if all values are valid, `false` otherwise.
+    pub fn validate(&self) -> bool {
+        // Validate service_name length (0 to 80)
+        if self.service_name.len() > 80 {
+            // In a real application, you might want to log this error.
+            return false;
+        }
+
+        // For u32, a common-sense validation might be to ensure it's not negative,
+        // although u32 itself is unsigned and cannot be negative.
+        // If there were specific upper bounds from the spec, they would go here.
+        // For now, we'll assume any valid u32 value is acceptable for the fee.
+        // If 0 is not allowed, you would add: if self.service_fee == 0 { return false; }
+        true
+    }
+}
+
+// Example usage (optional, for demonstration)
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_serialization_deserialization() {
+        let service = AdditionalSelectedServicesType {
+            service_name: "Charging Service".to_string(),
+            service_fee: 1500, // Example fee
+        };
+
+        let serialized = serde_json::to_string(&service).unwrap();
+        println!("Serialized: {}", serialized);
+
+        let deserialized: AdditionalSelectedServicesType = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(service, deserialized);
+    }
+
+    #[test]
+    fn test_validation_valid() {
+        let service = AdditionalSelectedServicesType {
+            service_name: "Short service name".to_string(),
+            service_fee: 100,
+        };
+        assert!(service.validate());
+
+        let service_max_len = AdditionalSelectedServicesType {
+            service_name: "a".repeat(80),
+            service_fee: 0, // Valid fee
+        };
+        assert!(service_max_len.validate());
+    }
+
+    #[test]
+    fn test_validation_service_name_too_long() {
+        let service = AdditionalSelectedServicesType {
+            service_name: "a".repeat(81), // Too long
+            service_fee: 500,
+        };
+        assert!(!service.validate());
+    }
+}
