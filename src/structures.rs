@@ -14,3 +14,4 @@ mod charging_limit_type;
 mod charging_needs_type;
 mod charging_period_type;
 mod charging_profile_criterion_type;
+mod charging_profile_type;
