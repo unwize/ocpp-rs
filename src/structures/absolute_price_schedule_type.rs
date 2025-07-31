@@ -1,5 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 
 /// Represents an absolute price schedule with timing and pricing information
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -43,10 +44,10 @@ pub struct AbsolutePriceScheduleType {
     overstay_rule_list: Option<OverstayRuleListTypeOptional>,
 
     /// Optional. Minimum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
-    minimum_cost: Option<RationalNumberType>,
+    minimum_cost: Option<u32>,
 
     ///  Optional. Maximum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
-    maximum_cost: Option<RationalNumberType>
+    maximum_cost: Option<u32>
 }
 
 impl AbsolutePriceScheduleType {

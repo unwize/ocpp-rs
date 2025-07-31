@@ -1,10 +1,11 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::APNAuthentication;
 
 /// Collection of configuration data needed to make a data-connection over a cellular network.
 /// Used by: SetNetworkProfileRequest.NetworkConnectionProfileType
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ApnType {
-    /// Required. The Access Point Name as a URL.
+    /// Required. The Access Point Name as an URL.
     /// String length: 0..2000
     pub apn: String,
     /// Optional. APN username.
@@ -15,6 +16,13 @@ pub struct ApnType {
     pub apn_password: Option<String>,
     /// Optional. SIM card pin code.
     pub sim_pin: Option<i32>, // Assuming integer can be i32 or similar
+    /// Optional. Preferred network, written as MCC and MNC concatenated.
+    /// String length: 0..6
+    pub preferred_network: Option<String>,
+    /// Optional. Default: false. Use only the preferred Network, do not dial in when not available.
+    pub use_only_preferred_network: Option<bool>,
+    /// Required. Authentication method.
+    pub apn_authentication: APNAuthentication
 }
 
 impl ApnType {
@@ -40,8 +48,16 @@ impl ApnType {
                 return false;
             }
         }
+        if let Some(preferred_net) = &self.preferred_network {
+            if preferred_net.len() > 6 {
+                // println!("Validation failed: preferred_network length exceeds 6.");
+                return false;
+            }
+        }
 
-        // No specific constraints for sim_pin other than its type (i32)
+        // No specific constraints for sim_pin or use_only_preferred_network other than their types.
+        // For apn_authentication, without the enum definition, we can't add specific validation beyond
+        // basic string checks if it were a string. Assuming it will be a valid enum variant.
         true
     }
 }
@@ -58,6 +74,9 @@ mod tests {
             apn_user_name: Some("user123".to_string()),
             apn_password: Some("secure_pass".to_string()),
             sim_pin: Some(1234),
+            preferred_network: Some("20404".to_string()),
+            use_only_preferred_network: Some(true),
+            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(), // Example value
         };
 
         let serialized = serde_json::to_string(&apn_config).unwrap();
@@ -74,6 +93,9 @@ mod tests {
             apn_user_name: None,
             apn_password: None,
             sim_pin: None,
+            preferred_network: None,
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthentication::try_from("NONE".to_string()).unwrap(),
         };
         assert!(apn_config.validate());
 
@@ -82,6 +104,9 @@ mod tests {
             apn_user_name: Some("b".repeat(50)),
             apn_password: Some("c".repeat(64)),
             sim_pin: Some(9999),
+            preferred_network: Some("123456".to_string()),
+            use_only_preferred_network: Some(false),
+            apn_authentication: APNAuthentication::try_from("PAP".to_string()).unwrap(),
         };
         assert!(apn_config_full.validate());
     }
@@ -93,6 +118,9 @@ mod tests {
             apn_user_name: None,
             apn_password: None,
             sim_pin: None,
+            preferred_network: None,
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
         };
         assert!(!apn_config.validate());
     }
@@ -104,6 +132,9 @@ mod tests {
             apn_user_name: Some("a".repeat(51)), // Too long
             apn_password: None,
             sim_pin: None,
+            preferred_network: None,
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
         };
         assert!(!apn_config.validate());
     }
@@ -115,6 +146,23 @@ mod tests {
             apn_user_name: None,
             apn_password: Some("a".repeat(65)), // Too long
             sim_pin: None,
+            preferred_network: None,
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
+        };
+        assert!(!apn_config.validate());
+    }
+
+    #[test]
+    fn test_validation_preferred_network_too_long() {
+        let apn_config = ApnType {
+            apn: "valid.apn".to_string(),
+            apn_user_name: None,
+            apn_password: None,
+            sim_pin: None,
+            preferred_network: Some("1234567".to_string()), // Too long
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
         };
         assert!(!apn_config.validate());
     }

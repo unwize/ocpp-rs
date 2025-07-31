@@ -2,9 +2,9 @@ use serde::{Deserialize, Serialize};
 
 /// Represents additional selected services as part of the ISO 15118-20 price schedule.
 /// Used by: Common::AbsolutePriceScheduleType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct AdditionalSelectedServicesType {
-    /// Required. Human readable string to identify this service.
+    /// Required. Human-readable string to identify this service.
     /// String length: 0..80
     pub service_name: String,
     /// Required. Cost of the service.
