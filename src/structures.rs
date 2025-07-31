@@ -10,3 +10,4 @@ mod certificate_hash_data_chain_type;
 mod certificate_hash_data_type;
 mod certificate_status_request_info_type;
 mod certificate_status_type;
+mod charging_limit_type;
