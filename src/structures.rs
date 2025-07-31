@@ -11,3 +11,6 @@ mod certificate_hash_data_type;
 mod certificate_status_request_info_type;
 mod certificate_status_type;
 mod charging_limit_type;
+mod charging_needs_type;
+mod charging_period_type;
+mod charging_profile_criterion_type;

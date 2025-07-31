@@ -1,7 +1,0 @@
-struct PeriodicEventStreamParamsType {
-    
-}
-
-struct AdjustPeriodicEventStream {
-
-}
