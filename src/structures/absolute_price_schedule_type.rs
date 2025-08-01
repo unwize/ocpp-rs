@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 
 /// Represents an absolute price schedule with timing and pricing information
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AbsolutePriceScheduleType {
     /// Required. Starting point of price schedule.

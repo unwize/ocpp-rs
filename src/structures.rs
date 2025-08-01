@@ -15,3 +15,6 @@ mod charging_needs_type;
 mod charging_period_type;
 mod charging_profile_criterion_type;
 mod charging_profile_type;
+mod charging_schedule_period_type;
+mod charging_schedule_type;
+mod charging_schedule_update_type;
