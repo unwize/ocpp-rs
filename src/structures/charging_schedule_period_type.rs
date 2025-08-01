@@ -134,6 +134,34 @@ pub struct ChargingSchedulePeriodType {
 
 }
 
+impl Default for ChargingSchedulePeriodType {
+    fn default() -> ChargingSchedulePeriodType {
+        Self {
+            start_period: 0,
+            limit: None,
+            limit_l2: None,
+            limit_l3: None,
+            number_phases: None,
+            phase_to_use: None,
+            discharge_limit: None,
+            discharge_limit_l2: None,
+            discharge_limit_l3: None,
+            setpoint: None,
+            setpoint_l2: None,
+            setpoint_l3: None,
+            setpoint_reactive: None,
+            setpoint_reactive_l2: None,
+            setpoint_reactive_l3: None,
+            precondition_request: None,
+            evse_sleep: None,
+            v2x_baseline: None,
+            operation_mode: None,
+            v2x_freq_watt_curve: None,
+            v2x_signal_watt_point_type: None,
+        }
+    }
+}
+
 impl ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

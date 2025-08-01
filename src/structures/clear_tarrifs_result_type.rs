@@ -1,0 +1,110 @@
+use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+
+/// Result of a clear tariffs request.
+/// Used by: ClearTariffsResponse
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct ClearTariffsResultType {
+    /// Optional. Id of tariff for which status is reported.
+    /// If no tariffs were found, then this field is absent, and status will be NoTariff.
+    /// String length: 0..60
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tariff_id: Option<String>,
+    /// Required.
+    pub status: TarrifClearStatusEnumType, // TODO: Implement TariffClearStatusEnumType
+    /// Optional. Additional info on status.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
+}
+
+impl ClearTariffsResultType {
+    /// Validates the fields of ClearTariffsResultType based on specified constraints.
+    /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
+    pub fn validate(&self) -> Result<(), OcppError> {
+        let mut errors: Vec<OcppError> = Vec::new();
+
+        // Validate tariff_id length
+        if let Some(id) = &self.tariff_id {
+            if id.len() > 60 {
+                errors.push(OcppError::FieldValidationError {
+                    field: "tariff_id".to_string(),
+                    source: vec![OcppError::FieldCardinalityError {
+                        cardinality: id.len() as i32,
+                        lower: 0,
+                        upper: 60,
+                    }],
+                });
+            }
+        }
+
+        // TODO: No validation for 'status' or 'status_info' without their type definitions.
+
+        // Check if any errors occurred
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(OcppError::StructureValidationError {
+                structure: "ClearTariffsResultType".to_string(),
+                source: errors,
+            })
+        }
+    }
+}
+
+// Example usage (optional, for demonstration)
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_serialization_deserialization() {
+        let result = ClearTariffsResultType {
+            tariff_id: Some("TARIFF_XYZ_789".to_string()),
+            status: "Accepted".to_string(), // Placeholder
+            status_info: Some("Tariff cleared successfully".to_string()), // Placeholder
+        };
+
+        let serialized = serde_json::to_string(&result).unwrap();
+        println!("Serialized: {}", serialized);
+
+        let deserialized: ClearTariffsResultType = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(result, deserialized);
+    }
+
+    #[test]
+    fn test_validation_valid() {
+        let result_minimal = ClearTariffsResultType {
+            tariff_id: None,
+            status: "NoTariff".to_string(),
+            status_info: None,
+        };
+        assert!(result_minimal.validate().is_ok());
+
+        let result_with_id = ClearTariffsResultType {
+            tariff_id: Some("a".repeat(60)), // Valid length
+            status: "Accepted".to_string(),
+            status_info: Some("Some info".to_string()),
+        };
+        assert!(result_with_id.validate().is_ok());
+    }
+
+    #[test]
+    fn test_validation_tariff_id_too_long() {
+        let result = ClearTariffsResultType {
+            tariff_id: Some("a".repeat(61)), // Invalid
+            status: "Rejected".to_string(),
+            status_info: None,
+        };
+        let err = result.validate().unwrap_err();
+        if let OcppError::StructureValidationError { source, .. } = err {
+            assert_eq!(source.len(), 1);
+            if let OcppError::FieldValidationError { field, .. } = &source[0] {
+                assert_eq!(field, "tariff_id");
+            } else {
+                panic!("Expected FieldValidationError");
+            }
+        } else {
+            panic!("Expected StructureValidationError");
+        }
+    }
+}
