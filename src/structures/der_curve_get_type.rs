@@ -1,0 +1,116 @@
+use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+
+/// DERCurveGetType is used by: ReportDERControlRequest
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct DERCurveGetType {
+    /// Required. Id of DER curve
+    /// String length: 0..36
+    pub id: String,
+    /// Required. Type of DER curve
+    pub curve_type: DERControlEnumType, // TODO: Implement DERControlEnumType
+    /// Required. True if this is a default curve
+    pub is_default: bool,
+    /// Required. True if this setting is superseded by a higher priority setting (i.e. lower value of priority)
+    pub is_superseded: bool,
+    /// Required. Parameters defining the DER curve
+    pub curve: DERCurveType, // TODO: Implement DERCurveType
+}
+
+impl DERCurveGetType {
+    /// Validates the fields of DERCurveGetType based on specified constraints.
+    /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
+    pub fn validate(&self) -> Result<(), OcppError> {
+        let mut errors: Vec<OcppError> = Vec::new();
+
+        // Validate id length
+        if self.id.len() > 36 {
+            errors.push(OcppError::FieldValidationError {
+                field: "id".to_string(),
+                source: vec![OcppError::FieldCardinalityError {
+                    cardinality: self.id.len() as i32,
+                    lower: 0,
+                    upper: 36,
+                }],
+            });
+        }
+
+        // No validation for 'curve_type' or 'curve' without their type definitions.
+
+        // Check if any errors occurred
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(OcppError::StructureValidationError {
+                structure: "DERCurveGetType".to_string(),
+                source: errors,
+            })
+        }
+    }
+}
+
+// Example usage (optional, for demonstration)
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_serialization_deserialization() {
+        let der_curve_get = DERCurveGetType {
+            id: "DER_CURVE_001".to_string(),
+            curve_type: "ActivePowerControl".to_string(), // Placeholder
+            is_default: false,
+            is_superseded: false,
+            curve: "curve_data_placeholder".to_string(), // Placeholder
+        };
+
+        let serialized = serde_json::to_string(&der_curve_get).unwrap();
+        println!("Serialized: {}", serialized);
+
+        let deserialized: DERCurveGetType = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(der_curve_get, deserialized);
+    }
+
+    #[test]
+    fn test_validation_valid() {
+        let der_curve_get = DERCurveGetType {
+            id: "valid_id_123".to_string(),
+            curve_type: "VoltageRegulation".to_string(),
+            is_default: true,
+            is_superseded: false,
+            curve: "some_curve_data".to_string(),
+        };
+        assert!(der_curve_get.validate().is_ok());
+
+        let der_curve_get_max_id_len = DERCurveGetType {
+            id: "a".repeat(36), // Valid length
+            curve_type: "FrequencyWatt".to_string(),
+            is_default: false,
+            is_superseded: true,
+            curve: "other_curve_data".to_string(),
+        };
+        assert!(der_curve_get_max_id_len.validate().is_ok());
+    }
+
+    #[test]
+    fn test_validation_id_too_long() {
+        let der_curve_get = DERCurveGetType {
+            id: "a".repeat(37), // Invalid
+            curve_type: "ActivePowerControl".to_string(),
+            is_default: false,
+            is_superseded: false,
+            curve: "curve_data".to_string(),
+        };
+        let err = der_curve_get.validate().unwrap_err();
+        if let OcppError::StructureValidationError { source, .. } = err {
+            assert_eq!(source.len(), 1);
+            if let OcppError::FieldValidationError { field, .. } = &source[0] {
+                assert_eq!(field, "id");
+            } else {
+                panic!("Expected FieldValidationError");
+            }
+        } else {
+            panic!("Expected StructureValidationError");
+        }
+    }
+}

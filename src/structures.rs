@@ -32,3 +32,8 @@ mod cost_dimension_type;
 mod cost_type;
 mod dc_charging_parameters_type;
 mod der_charging_parameters_type;
+mod der_curve_get_type;
+mod der_curve_points_type;
+mod der_curve_type;
+mod enter_service_get_type;
+mod enter_service_type;
