@@ -37,11 +37,17 @@ pub enum OcppError {
         upper: i32,
     },
 
-    #[error("Field Value Error: {value} not in range {lower}..{upper}")]
+    #[error("Field Bound Error: {value} not in range {lower}..{upper}")]
     #[diagnostic()]
-    FieldValueError {
+    FieldBoundsError {
         value: String,
         lower: String,
         upper: String,
+    },
+
+    #[error("Field Value Error: {value} is not a valid value")]
+    #[diagnostic()]
+    FieldValueError {
+        value: String,
     }
 }

@@ -78,7 +78,7 @@ impl ChargingScheduleType {
             if id < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "signature_id".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: id.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(), // No upper bound specified, so use a generic placeholder
@@ -106,7 +106,7 @@ impl ChargingScheduleType {
             if delay < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "randomized_delay".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: delay.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(), // No upper bound specified

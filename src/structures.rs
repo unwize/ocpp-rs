@@ -37,3 +37,5 @@ mod der_curve_points_type;
 mod der_curve_type;
 mod enter_service_get_type;
 mod enter_service_type;
+mod ev_absolute_price_schedule_entry_type;
+mod ev_absolute_price_schedule_type;

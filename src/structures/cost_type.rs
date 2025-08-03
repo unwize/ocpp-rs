@@ -25,7 +25,7 @@ impl CostType {
             if multiplier < -3 || multiplier > 3 {
                 errors.push(OcppError::FieldValidationError {
                     field: "amount_multiplier".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: multiplier.to_string(),
                         lower: "-3".to_string(),
                         upper: "3".to_string(),

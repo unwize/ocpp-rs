@@ -72,7 +72,7 @@ impl ChargingScheduleUpdateType {
             if limit > 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "discharge_limit".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: limit.to_string(),
                         lower: "-INF".to_string(), // Represents negative infinity
                         upper: "0".to_string(),
@@ -86,7 +86,7 @@ impl ChargingScheduleUpdateType {
             if limit_l2 > 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "discharge_limit_l2".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: limit_l2.to_string(),
                         lower: "-INF".to_string(),
                         upper: "0".to_string(),
@@ -100,7 +100,7 @@ impl ChargingScheduleUpdateType {
             if limit_l3 > 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "discharge_limit_l3".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: limit_l3.to_string(),
                         lower: "-INF".to_string(),
                         upper: "0".to_string(),

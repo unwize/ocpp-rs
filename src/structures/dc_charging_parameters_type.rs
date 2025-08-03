@@ -50,7 +50,7 @@ impl DCChargingParametersType {
         if self.ev_max_current <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_max_current".to_string(),
-                source: vec![OcppError::FieldValueError {
+                source: vec![OcppError::FieldBoundsError {
                     value: self.ev_max_current.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -61,7 +61,7 @@ impl DCChargingParametersType {
         if self.ev_max_voltage <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_max_voltage".to_string(),
-                source: vec![OcppError::FieldValueError {
+                source: vec![OcppError::FieldBoundsError {
                     value: self.ev_max_voltage.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -74,7 +74,7 @@ impl DCChargingParametersType {
             if power <= 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "ev_max_power".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: power.to_string(),
                         lower: ">0".to_string(),
                         upper: "INF".to_string(),
@@ -88,7 +88,7 @@ impl DCChargingParametersType {
             if capacity < 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "ev_energy_capacity".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: capacity.to_string(),
                         lower: "0".to_string(),
                         upper: "INF".to_string(),
@@ -102,7 +102,7 @@ impl DCChargingParametersType {
             if amount < 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "energy_amount".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: amount.to_string(),
                         lower: "0".to_string(),
                         upper: "INF".to_string(),
@@ -116,7 +116,7 @@ impl DCChargingParametersType {
             if soc < 0 || soc > 100 {
                 errors.push(OcppError::FieldValidationError {
                     field: "state_of_charge".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: soc.to_string(),
                         lower: "0".to_string(),
                         upper: "100".to_string(),
@@ -130,7 +130,7 @@ impl DCChargingParametersType {
             if full_soc < 0 || full_soc > 100 {
                 errors.push(OcppError::FieldValidationError {
                     field: "full_soc".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: full_soc.to_string(),
                         lower: "0".to_string(),
                         upper: "100".to_string(),
@@ -144,7 +144,7 @@ impl DCChargingParametersType {
             if bulk_soc < 0 || bulk_soc > 100 {
                 errors.push(OcppError::FieldValidationError {
                     field: "bulk_soc".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: bulk_soc.to_string(),
                         lower: "0".to_string(),
                         upper: "100".to_string(),

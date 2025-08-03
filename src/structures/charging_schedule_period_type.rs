@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
-use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, FieldValueError};
+use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, FieldBoundsError};
 
 /// Charging schedule period structure defines a time period in a charging schedule.
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.
@@ -175,7 +175,7 @@ impl ChargingSchedulePeriodType {
                 error.push(
                     FieldValidationError {
                         field: String::from("number_phases"),
-                        source: vec![FieldValueError {
+                        source: vec![FieldBoundsError {
                             value: phases.to_string(),
                             lower: "0".to_string(),
                             upper: "INF".to_string(),
@@ -192,7 +192,7 @@ impl ChargingSchedulePeriodType {
                 error.push(
                     FieldValidationError {
                         field: "phase_to_use".to_string(),
-                        source: vec![FieldValueError {
+                        source: vec![FieldBoundsError {
                             value: phase.to_string(),
                             lower: "1".to_string(),
                             upper: "3".to_string()
@@ -209,7 +209,7 @@ impl ChargingSchedulePeriodType {
                 error.push(
                     FieldValidationError {
                         field: "discharge_limit".to_string(),
-                        source: vec![FieldValueError {
+                        source: vec![FieldBoundsError {
                             value: limit.to_string(),
                             lower: "-INF".to_string(),
                             upper: "0".to_string(),
@@ -224,7 +224,7 @@ impl ChargingSchedulePeriodType {
                 error.push(
                     FieldValidationError {
                         field: "discharge_limit_l2".to_string(),
-                        source: vec![FieldValueError {
+                        source: vec![FieldBoundsError {
                             value: limit_l2.to_string(),
                             lower: "-INF".to_string(),
                             upper: "0".to_string(),
@@ -239,7 +239,7 @@ impl ChargingSchedulePeriodType {
                 error.push(
                     FieldValidationError {
                         field: "discharge_limit_l3".to_string(),
-                        source: vec![FieldValueError {
+                        source: vec![FieldBoundsError {
                             value: limit_l3.to_string(),
                             lower: "-INF".to_string(),
                             upper: "0".to_string(),

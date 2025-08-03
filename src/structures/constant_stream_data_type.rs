@@ -24,7 +24,7 @@ impl ConstantStreamDataType {
         if self.id < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "id".to_string(),
-                source: vec![OcppError::FieldValueError {
+                source: vec![OcppError::FieldBoundsError {
                     value: self.id.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(), // No upper bound specified
@@ -36,7 +36,7 @@ impl ConstantStreamDataType {
         if self.variable_monitoring_id < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "variable_monitoring_id".to_string(),
-                source: vec![OcppError::FieldValueError {
+                source: vec![OcppError::FieldBoundsError {
                     value: self.variable_monitoring_id.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(), // No upper bound specified

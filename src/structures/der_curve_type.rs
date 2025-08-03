@@ -45,7 +45,7 @@ impl DERCurveType {
         if self.priority < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "priority".to_string(),
-                source: vec![OcppError::FieldValueError {
+                source: vec![OcppError::FieldBoundsError {
                     value: self.priority.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(), // No upper bound specified

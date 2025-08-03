@@ -34,7 +34,7 @@ impl ClearChargingProfileType {
             if id < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "evse_id".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: id.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(), // No upper bound specified
@@ -48,7 +48,7 @@ impl ClearChargingProfileType {
             if level < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "stack_level".to_string(),
-                    source: vec![OcppError::FieldValueError {
+                    source: vec![OcppError::FieldBoundsError {
                         value: level.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(), // No upper bound specified
