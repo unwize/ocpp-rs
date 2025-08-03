@@ -39,3 +39,5 @@ mod enter_service_get_type;
 mod enter_service_type;
 mod ev_absolute_price_schedule_entry_type;
 mod ev_absolute_price_schedule_type;
+mod ev_energy_offer_type;
+mod event_data_type;
