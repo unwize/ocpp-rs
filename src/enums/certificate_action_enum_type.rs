@@ -1,0 +1,32 @@
+use serde::{Deserialize, Serialize};
+use std::convert::TryFrom;
+use std::fmt;
+
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+pub enum CertificateActionEnumType {
+    /// Install the provided certificate.
+    Install,
+    /// Update the provided certificate.
+    Update,
+}
+
+impl TryFrom<String> for CertificateActionEnumType {
+    type Error = String;
+
+    fn try_from(s: String) -> Result<Self, Self::Error> {
+        match s.as_str() {
+            "Install" => Ok(CertificateActionEnumType::Install),
+            "Update" => Ok(CertificateActionEnumType::Update),
+            _ => Err(format!("'{}' is not a valid CertificateActionEnumType", s)),
+        }
+    }
+}
+
+impl Into<String> for CertificateActionEnumType {
+    fn into(self) -> String {
+        match self {
+            CertificateActionEnumType::Install => "Install".to_string(),
+            CertificateActionEnumType::Update => "Update".to_string(),
+        }
+    }
+}

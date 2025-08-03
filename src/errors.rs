@@ -49,9 +49,18 @@ pub enum OcppError {
     #[diagnostic()]
     FieldValueError {
         value: String,
+    },
+
+    #[error("Field ISO Error: {field} does not comply with ISO {iso}")]
+    #[diagnostic()]
+    FieldISOError {
+        value: String,
+        iso: String,
     }
 }
 
+/// Convenience function to read a StructureValidationError, parse its sources, and verify that the
+/// provided vec of field names appear in the vec of sources. Each field is asserted to appear.
 pub fn assert_invalid_fields(e: OcppError, fields: Vec<String>) {
     if let OcppError::StructureValidationError { source, .. } = e {
         let field_names: Vec<String> = source.iter().map(|e| {
@@ -68,4 +77,17 @@ pub fn assert_invalid_fields(e: OcppError, fields: Vec<String>) {
     } else {
         panic!("Expected StructureValidationError");
     }
+}
+
+/// Convenience function to check the length of a string and throw an error if it is out of range.
+pub fn validate_string_length(s: &str, min_len: usize, max_len: usize) -> Result<(), OcppError> {
+    if s.len() < min_len || s.len() > max_len {
+        return Err(OcppError::FieldBoundsError {
+            value: s.to_string(),
+            lower: min_len.to_string(),
+            upper: max_len.to_string(),
+        })
+    }
+
+    Ok(())
 }
