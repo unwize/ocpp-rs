@@ -75,6 +75,7 @@ impl ClearChargingProfileType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -157,19 +158,9 @@ mod tests {
             stack_level: Some(-2), // Invalid 2
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 2); // Expecting 2 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"evse_id".to_string()));
-            assert!(field_names.contains(&"stack_level".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "evse_id".to_string(),
+            "stack_level".to_string(),
+        ]);
     }
 }

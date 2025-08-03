@@ -168,6 +168,7 @@ impl DCChargingParametersType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -292,25 +293,15 @@ mod tests {
             bulk_soc: Some(105), // Invalid 8
         };
         let err = dc_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 8); // Expecting 8 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"ev_max_current".to_string()));
-            assert!(field_names.contains(&"ev_max_voltage".to_string()));
-            assert!(field_names.contains(&"ev_max_power".to_string()));
-            assert!(field_names.contains(&"ev_energy_capacity".to_string()));
-            assert!(field_names.contains(&"energy_amount".to_string()));
-            assert!(field_names.contains(&"state_of_charge".to_string()));
-            assert!(field_names.contains(&"full_soc".to_string()));
-            assert!(field_names.contains(&"bulk_soc".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "ev_max_current".to_string(),
+            "ev_max_voltage".to_string(),
+            "ev_max_power".to_string(),
+            "ev_energy_capacity".to_string(),
+            "energy_amount".to_string(),
+            "state_of_charge".to_string(),
+            "full_soc".to_string(),
+            "bulk_soc".to_string(),
+        ]);
     }
 }

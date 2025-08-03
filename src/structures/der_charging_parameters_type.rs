@@ -273,6 +273,7 @@ impl DERChargingParametersType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -451,23 +452,13 @@ mod tests {
             ..Default::default()
         };
         let err = der_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 5);
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"ev_inverter_manufacturer".to_string()));
-            assert!(field_names.contains(&"ev_inverter_model".to_string()));
-            assert!(field_names.contains(&"ev_inverter_serial_number".to_string()));
-            assert!(field_names.contains(&"ev_inverter_sw_version".to_string()));
-            assert!(field_names.contains(&"ev_inverter_hw_version".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "ev_inverter_manufacturer".to_string(),
+            "ev_inverter_model".to_string(),
+            "ev_inverter_serial_number".to_string(),
+            "ev_inverter_sw_version".to_string(),
+            "ev_inverter_hw_version".to_string(),
+        ]);
     }
 }
 

@@ -73,6 +73,7 @@ impl ComponentType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -155,19 +156,9 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 2); // Expecting 2 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"name".to_string()));
-            assert!(field_names.contains(&"instance".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "name".to_string(),
+            "instance".to_string(),
+        ]);
     }
 }

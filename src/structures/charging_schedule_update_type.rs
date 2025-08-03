@@ -127,6 +127,7 @@ impl ChargingScheduleUpdateType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -292,20 +293,10 @@ mod tests {
             setpoint_reactive_l3: None,
         };
         let err = update.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 3); // Expecting 3 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"discharge_limit".to_string()));
-            assert!(field_names.contains(&"discharge_limit_l2".to_string()));
-            assert!(field_names.contains(&"discharge_limit_l3".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "discharge_limit".to_string(),
+            "discharge_limit_l2".to_string(),
+            "discharge_limit_l3".to_string()
+        ]);
     }
 }

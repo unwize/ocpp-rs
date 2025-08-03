@@ -170,6 +170,7 @@ impl EnterServiceType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -302,23 +303,13 @@ mod tests {
             ramp_rate: Some(-0.5), // Invalid 5
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 6);
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"priority".to_string()));
-            assert!(field_names.contains(&"voltage_range".to_string()));
-            assert!(field_names.contains(&"frequency_range".to_string()));
-            assert!(field_names.contains(&"delay".to_string()));
-            assert!(field_names.contains(&"random_delay".to_string()));
-            assert!(field_names.contains(&"ramp_rate".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "priority".to_string(),
+            "voltage_range".to_string(),
+            "frequency_range".to_string(),
+            "delay".to_string(),
+            "random_delay".to_string(),
+            "ramp_rate".to_string(),
+        ]);
     }
 }

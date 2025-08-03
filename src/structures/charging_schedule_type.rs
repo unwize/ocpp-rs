@@ -154,6 +154,7 @@ impl ChargingScheduleType {
 mod tests {
     use super::*;
     use chrono::TimeZone;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -383,21 +384,11 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 4); // Expecting 4 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"signature_id".to_string()));
-            assert!(field_names.contains(&"digest_value".to_string()));
-            assert!(field_names.contains(&"randomized_delay".to_string()));
-            assert!(field_names.contains(&"charging_schedule_period".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "signature_id".to_string(),
+            "digest_value".to_string(),
+            "randomized_delay".to_string(),
+            "charging_schedule_period".to_string(),
+        ]);
     }
 }

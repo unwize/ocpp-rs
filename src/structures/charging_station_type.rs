@@ -110,6 +110,7 @@ impl ChargingStationType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -248,21 +249,11 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 4); // Expecting 4 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"serial_number".to_string()));
-            assert!(field_names.contains(&"model".to_string()));
-            assert!(field_names.contains(&"vendor_name".to_string()));
-            assert!(field_names.contains(&"firmware_version".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "serial_number".to_string(),
+            "model".to_string(),
+            "vendor_name".to_string(),
+            "firmware_version".to_string(),
+        ]);
     }
 }

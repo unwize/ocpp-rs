@@ -51,3 +51,21 @@ pub enum OcppError {
         value: String,
     }
 }
+
+pub fn assert_invalid_fields(e: OcppError, fields: Vec<String>) {
+    if let OcppError::StructureValidationError { source, .. } = e {
+        let field_names: Vec<String> = source.iter().map(|e| {
+            if let OcppError::FieldValidationError { field, .. } = e {
+                field.clone()
+            } else {
+                "".to_string()
+            }
+        }).collect();
+
+        for field in &fields {
+            assert!(field_names.contains(field))
+        }
+    } else {
+        panic!("Expected StructureValidationError");
+    }
+}

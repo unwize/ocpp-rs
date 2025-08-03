@@ -61,6 +61,7 @@ impl ConstantStreamDataType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::assert_invalid_fields;
     use super::*;
 
     #[test]
@@ -143,19 +144,9 @@ mod tests {
             params: "params".to_string(),
         };
         let err = stream_data.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 2); // Expecting 2 errors
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"id".to_string()));
-            assert!(field_names.contains(&"variable_monitoring_id".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec![
+            "id".to_string(),
+            "variable_monitoring_id".to_string()
+        ]);
     }
 }

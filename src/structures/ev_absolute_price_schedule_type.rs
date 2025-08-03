@@ -87,11 +87,12 @@ impl EVAbsolutePriceScheduleType {
 mod tests {
     use super::*;
     use chrono::TimeZone;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "EUR".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:Power".to_string(),
             ev_absolute_price_schedule_entries: vec![], // TODO:  Placeholder
@@ -107,7 +108,7 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:PeakPower".to_string(),
             ev_absolute_price_schedule_entries: vec![],
@@ -115,7 +116,7 @@ mod tests {
         assert!(schedule.validate().is_ok());
 
         let schedule_max_lengths_and_cardinality = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "ABC".to_string(), // Max length
             price_algorithm: "a".repeat(2000), // Max length
             ev_absolute_price_schedule_entries: vec![Default::default(); 1024], // Max cardinality
@@ -127,7 +128,7 @@ mod tests {
     #[test]
     fn test_validation_price_algorithm_too_long() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "a".repeat(2001), // Invalid
             ev_absolute_price_schedule_entries: vec![],
@@ -148,7 +149,7 @@ mod tests {
     #[test]
     fn test_validation_ev_absolute_price_schedule_entries_empty() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:Power".to_string(),
             ev_absolute_price_schedule_entries: vec![], // Invalid cardinality
@@ -190,26 +191,12 @@ mod tests {
     #[test]
     fn test_validation_multiple_errors() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "ABCD".to_string(), // Invalid 1
             price_algorithm: "a".repeat(2001), // Invalid 2
             ev_absolute_price_schedule_entries: vec![], // Invalid 3
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
-            assert_eq!(source.len(), 3);
-            let field_names: Vec<String> = source.iter().map(|e| {
-                if let OcppError::FieldValidationError { field, .. } = e {
-                    field.clone()
-                } else {
-                    "".to_string()
-                }
-            }).collect();
-            assert!(field_names.contains(&"currency".to_string()));
-            assert!(field_names.contains(&"price_algorithm".to_string()));
-            assert!(field_names.contains(&"ev_absolute_price_schedule_entries".to_string()));
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(err, vec!["currency".to_string(), "price_algorithm".to_string(), "ev_absolute_price_schedule_entries".to_string()]);
     }
 }
