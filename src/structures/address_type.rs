@@ -1,4 +1,7 @@
 use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+use crate::errors::OcppError::{FieldCardinalityError, StructureValidationError};
+use crate::traits::OcppEntity;
 
 /// A generic address format.
 /// Used by: NotifySettlementRequest, VatNumberValidationResponse
@@ -24,43 +27,84 @@ pub struct AddressType {
     pub country: String,
 }
 
-impl AddressType {
+impl OcppEntity for AddressType {
     /// Validates the fields of AddressType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut errors: Vec<OcppError> = Vec::new();
+
         // Validate required fields
         if self.name.len() > 50 {
-            // println!("Validation failed: name length exceeds 50.");
-            return false;
+            errors.push(
+                FieldCardinalityError {
+                    cardinality: self.name.len(),
+                    lower: 0,
+                    upper: 50,
+                }.to_field_validation_error("name")
+            )
         }
         if self.address1.len() > 100 {
-            // println!("Validation failed: address1 length exceeds 100.");
-            return false;
+           errors.push(
+               FieldCardinalityError {
+                   cardinality: self.address1.len(),
+                   lower: 0,
+                   upper: 100
+               }.to_field_validation_error("address1")
+           )
         }
         if self.city.len() > 100 {
-            // println!("Validation failed: city length exceeds 100.");
-            return false;
+            errors.push(
+                FieldCardinalityError {
+                    cardinality: self.city.len(),
+                    lower: 0,
+                    upper: 100
+                }.to_field_validation_error("city")
+            )
         }
         if self.country.len() > 50 {
-            // println!("Validation failed: country length exceeds 50.");
-            return false;
+            errors.push(
+                FieldCardinalityError {
+                    cardinality: self.country.len(),
+                    lower: 0,
+                    upper: 50
+                }.to_field_validation_error("country")
+            )
         }
 
         // Validate optional fields if they exist
         if let Some(addr2) = &self.address2 {
             if addr2.len() > 100 {
-                // println!("Validation failed: address2 length exceeds 100.");
-                return false;
+                errors.push(
+                    FieldCardinalityError {
+                        cardinality: addr2.len(),
+                        lower: 0,
+                        upper: 100
+                    }.to_field_validation_error("address2")
+                )
             }
         }
         if let Some(postal_code) = &self.postal_code {
             if postal_code.len() > 20 {
-                // println!("Validation failed: postal_code length exceeds 20.");
-                return false;
+                errors.push(
+                    FieldCardinalityError {
+                        cardinality: postal_code.len(),
+                        lower: 0,
+                        upper: 20
+                    }.to_field_validation_error("postal_code")
+                )
             }
         }
 
-        true
+        if !errors.is_empty() {
+            return Err(
+                StructureValidationError {
+                    structure: "AddressType".to_string(),
+                    source: errors,
+                }
+            )
+        }
+
+        Ok(())
     }
 }
 
@@ -97,7 +141,7 @@ mod tests {
             postal_code: None,
             country: "Canada".to_string(),
         };
-        assert!(address.validate());
+        assert!(address.validate().is_ok());
 
         let address_with_all_fields = AddressType {
             name: "Max Name".repeat(5), // 50 chars
@@ -107,7 +151,7 @@ mod tests {
             postal_code: Some("12345678901234567890".to_string()), // 20 chars
             country: "Max Country".repeat(4), // 44 chars
         };
-        assert!(address_with_all_fields.validate());
+        assert!(address_with_all_fields.validate().is_ok());
     }
 
     #[test]
@@ -120,7 +164,7 @@ mod tests {
             postal_code: None,
             country: "USA".to_string(),
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 
     #[test]
@@ -133,7 +177,7 @@ mod tests {
             postal_code: None,
             country: "USA".to_string(),
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 
     #[test]
@@ -146,7 +190,7 @@ mod tests {
             postal_code: None,
             country: "USA".to_string(),
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 
     #[test]
@@ -159,7 +203,7 @@ mod tests {
             postal_code: None,
             country: "USA".to_string(),
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 
     #[test]
@@ -172,7 +216,7 @@ mod tests {
             postal_code: Some("a".repeat(21)), // Too long
             country: "USA".to_string(),
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 
     #[test]
@@ -185,6 +229,6 @@ mod tests {
             postal_code: None,
             country: "a".repeat(51), // Too long
         };
-        assert!(!address.validate());
+        assert!(address.validate().is_err());
     }
 }

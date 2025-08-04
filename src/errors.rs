@@ -34,9 +34,9 @@ pub enum OcppError {
     #[error("Field Cardinality Error: {cardinality} not in range {lower}..{upper}")]
     #[diagnostic()]
     FieldCardinalityError {
-        cardinality: i32,
-        lower: i32,
-        upper: i32,
+        cardinality: usize,
+        lower: usize,
+        upper: usize,
     },
 
     #[error("Field Bound Error: {value} not in range {lower}..{upper}")]
@@ -67,14 +67,6 @@ impl OcppError {
     pub fn to_field_validation_error(self, field: &str) -> OcppError {
         FieldValidationError {
             field: field.to_string(),
-            source: vec![self],
-        }
-    }
-
-    /// A convenience function that consumes any OcppError and returns it wrapped in a StructValidationError
-    pub fn to_struct_validation_error(self, structure: &str) -> OcppError {
-        StructureValidationError {
-            structure: structure.to_string(),
             source: vec![self],
         }
     }

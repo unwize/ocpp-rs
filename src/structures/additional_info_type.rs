@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
-use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError};
+use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, StructureValidationError};
 use crate::traits::OcppEntity;
 
 /// Contains a case-insensitive identifier to use for the authorization
@@ -26,28 +26,33 @@ impl OcppEntity for AdditionalInfoType {
 
         // Validate additional_id_token length (0 to 255)
         if self.additional_id_token.len() > 255 {
-            // println!("Validation failed: additional_id_token length exceeds 255.");
            errors.push(
-               FieldValidationError {
-                   field: "additional_id_token".to_string(),
-                   source: vec![
-                       FieldCardinalityError {
-                       cardinality: self.additional_id_token.len() as i32,
-                       lower: 0,
-                       upper: 255,
-                        }
-                   ]
-               }
-
+                FieldCardinalityError {
+                    cardinality: self.additional_id_token.len(),
+                    lower: 0,
+                    upper: 255,
+                }.to_field_validation_error("additional_id_token")
            )
         }
 
         // Validate type length (0 to 50)
         if self.r#type.len() > 50 {
-            // println!("Validation failed: type length exceeds 50.");
-            return false;
+           errors.push(
+               FieldCardinalityError {
+                   cardinality: self.r#type.len(),
+                   lower: 0,
+                   upper: 50,
+               }.to_field_validation_error("type")
+           )
         }
 
-        true
+        if !errors.is_empty() {
+            return Err(StructureValidationError {
+                structure: "AdditionalInfoType".to_string(),
+                source: errors,
+            })
+        }
+
+        Ok(())
     }
 }

@@ -1,4 +1,7 @@
 use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, StructureValidationError};
+use crate::traits::OcppEntity;
 
 /// Represents additional selected services as part of the ISO 15118-20 price schedule.
 /// Used by: Common::AbsolutePriceScheduleType
@@ -12,22 +15,37 @@ pub struct AdditionalSelectedServicesType {
     pub service_fee: u32,
 }
 
-impl AdditionalSelectedServicesType {
+impl OcppEntity for AdditionalSelectedServicesType {
     /// Validates the fields of AdditionalSelectedServicesType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
+    fn validate(self: &Self) -> Result<(), OcppError> {
         // Validate service_name length (0 to 80)
         if self.service_name.len() > 80 {
-            // In a real application, you might want to log this error.
-            return false;
+            return Err(
+                // Outer container error
+                StructureValidationError {
+                    structure: "AdditionalSelectedServicesType".to_string(),
+                    source: vec![
+
+                        // Field-level-error
+                        FieldValidationError {
+                            field: "service_name".to_string(),
+                            source: vec![
+
+                                // Specific error regarding value validity
+                                FieldCardinalityError {
+                                    cardinality: self.service_name.len(),
+                                    lower: 0,
+                                    upper: 80
+                                }
+                            ]
+                        }
+                    ]
+                }
+            )
         }
 
-        // For u32, a common-sense validation might be to ensure it's not negative,
-        // although u32 itself is unsigned and cannot be negative.
-        // If there were specific upper bounds from the spec, they would go here.
-        // For now, we'll assume any valid u32 value is acceptable for the fee.
-        // If 0 is not allowed, you would add: if self.service_fee == 0 { return false; }
-        true
+        Ok(())
     }
 }
 
