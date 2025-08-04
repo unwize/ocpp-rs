@@ -1,11 +1,14 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::APNAuthentication;
+use crate::errors::OcppError;
+use crate::errors::OcppError::{FieldCardinalityError, StructureValidationError};
+use crate::traits::OcppEntity;
 
 /// Collection of configuration data needed to make a data-connection over a cellular network.
 /// Used by: SetNetworkProfileRequest.NetworkConnectionProfileType
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ApnType {
-    /// Required. The Access Point Name as an URL.
+    /// Required. The Access Point Name as a URL.
     /// String length: 0..2000
     pub apn: String,
     /// Optional. APN username.
@@ -25,40 +28,59 @@ pub struct ApnType {
     pub apn_authentication: APNAuthentication
 }
 
-impl ApnType {
+impl OcppEntity for ApnType {
     /// Validates the fields of ApnType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // Validate required field
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut errors : Vec<OcppError> = Vec::new();
+
         if self.apn.len() > 2000 {
-            // println!("Validation failed: apn length exceeds 2000.");
-            return false;
+            errors.push(FieldCardinalityError {
+                cardinality: self.apn.len(),
+                lower: 0,
+                upper: 2000
+            }.to_field_validation_error("ApnType"))
         }
 
         // Validate optional fields if they exist
         if let Some(user_name) = &self.apn_user_name {
             if user_name.len() > 50 {
-                // println!("Validation failed: apn_user_name length exceeds 50.");
-                return false;
+                errors.push(FieldCardinalityError {
+                    cardinality: user_name.len(),
+                    lower: 0,
+                    upper: 50
+                }.to_field_validation_error("apn_user_name"))
             }
         }
         if let Some(password) = &self.apn_password {
             if password.len() > 64 {
-                // println!("Validation failed: apn_password length exceeds 64.");
-                return false;
+                errors.push(FieldCardinalityError {
+                    cardinality: password.len(),
+                    lower: 0,
+                    upper: 64
+                }.to_field_validation_error("apn_password"))
             }
         }
         if let Some(preferred_net) = &self.preferred_network {
             if preferred_net.len() > 6 {
-                // println!("Validation failed: preferred_network length exceeds 6.");
-                return false;
+                errors.push(FieldCardinalityError {
+                    cardinality: preferred_net.len(),
+                    lower: 0,
+                    upper: 6
+                }.to_field_validation_error("preferred_network"))
             }
         }
 
-        // No specific constraints for sim_pin or use_only_preferred_network other than their types.
-        // For apn_authentication, without the enum definition, we can't add specific validation beyond
-        // basic string checks if it were a string. Assuming it will be a valid enum variant.
-        true
+        if !errors.is_empty() {
+            return Err(
+                StructureValidationError {
+                    structure: "ApnType".to_string(),
+                    source: errors
+                }
+            )
+        }
+
+        Ok(())
     }
 }
 

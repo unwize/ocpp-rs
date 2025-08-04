@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::errors::OcppError;
+use crate::traits::OcppEntity;
 
 /// Represents battery data.
 /// Used by: BatterySwapRequest
@@ -24,10 +26,10 @@ pub struct BatteryDataType {
     pub vendor_info: Option<String>,
 }
 
-impl BatteryDataType {
+impl OcppEntity for BatteryDataType {
     /// Validates the fields of BatteryDataType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
+    fn validate(self: &Self) -> Result<(), OcppError> {
         // Validate ev_se_id
         if self.ev_se_id < 0 {
             // println!("Validation failed: ev_se_id must be non-negative.");

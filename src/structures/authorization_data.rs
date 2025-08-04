@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+use crate::traits::OcppEntity;
 
 /// Contains the identifier to use for authorization.
 /// Used by: SendLocalListRequest
@@ -13,19 +15,18 @@ pub struct AuthorizationData {
     pub id_token: IdTokenType, // TODO: Implement IdTokenType
 }
 
-impl AuthorizationData {
-    /// Validates the fields of AuthorizationData.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // No specific validation rules can be applied without the definitions
-        // of IdTokenInfoType and IdTokenType.
-        // If IdTokenInfoType and IdTokenType were structs with their own validate methods,
-        // you would call them here:
-        // if let Some(info) = &self.id_token_info {
-        //     if !info.validate() { return false; }
-        // }
-        // if !self.id_token.validate() { return false; }
+impl OcppEntity for AuthorizationData {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut errors: Vec<OcppError> = Vec::new();
 
-        true
+        if let Err(e) = self.id_token_info.validate() {
+            errors.push(e.to_field_validation_error("id_token_info"));
+        }
+
+        if let Err(e) = self.id_token.validate() {
+            errors.push(e.to_field_validation_error("id_token"));
+        }
+
+        Ok(())
     }
 }
