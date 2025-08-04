@@ -1,5 +1,7 @@
+use std::slice::Iter;
 use miette::Diagnostic;
 use thiserror::Error;
+use crate::errors::OcppError::{FieldValidationError, StructureValidationError};
 
 #[derive(Error, Diagnostic, Debug)]
 pub enum OcppError {
@@ -56,6 +58,25 @@ pub enum OcppError {
     FieldISOError {
         value: String,
         iso: String,
+    }
+}
+
+impl OcppError {
+
+    /// A convenience function that consumes any OcppError and returns it wrapped in a FieldValidationError
+    pub fn to_field_validation_error(self, field: &str) -> OcppError {
+        FieldValidationError {
+            field: field.to_string(),
+            source: vec![self],
+        }
+    }
+
+    /// A convenience function that consumes any OcppError and returns it wrapped in a StructValidationError
+    pub fn to_struct_validation_error(self, structure: &str) -> OcppError {
+        StructureValidationError {
+            structure: structure.to_string(),
+            source: vec![self],
+        }
     }
 }
 

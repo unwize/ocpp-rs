@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use crate::errors::{validate_string_length, OcppError};
-use crate::errors::OcppError::StructureValidationError;
+use crate::errors::OcppError::{FieldValidationError, StructureValidationError};
 use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 use crate::traits::OcppEntity;
@@ -63,7 +63,7 @@ impl OcppEntity for AbsolutePriceScheduleType {
         // Validate str len for price_schedule_description
         if let Some(price_schedule_description) = &self.price_schedule_description {
             if let(Err(e)) = validate_string_length(price_schedule_description, 0, 160) {
-                errors.push(e);
+                errors.push(e.to_field_validation_error("price_schedule_description"));
             }
         }
 
@@ -72,30 +72,30 @@ impl OcppEntity for AbsolutePriceScheduleType {
             errors.push(OcppError::FieldISOError {
                 value: "currency".to_string(),
                 iso: "4217".to_string(),
-            })
+            }.to_field_validation_error("currency"))
         }
 
         if let Err(e) = validate_string_length(self.language.as_str(), 0, 8) {
-            errors.push(e);
+            errors.push(e.to_field_validation_error("language"));
         }
 
         if let Err(e) = validate_string_length(self.price_algorithm.as_str(), 0, 2000) {
-            errors.push(e);
+            errors.push(e.to_field_validation_error("price_algorithm"));
         }
 
         if let Err(e) = self.price_rule_stacks.validate() {
-            errors.push(e);
+            errors.push(e.to_field_validation_error("price_rule_stacks"));
         }
 
         if let Some(tax_rules) = &self.tax_rules {
             if let Err(e) = tax_rules.validate() {
-                errors.push(e);
+                errors.push(e.to_field_validation_error("tax_rules"));
             }
         }
 
         if let Some(additional_selected_services) = &self.additional_selected_services {
             if let Err(e) = additional_selected_services.validate() {
-                errors.push(e);
+                errors.push(e.to_field_validation_error("additional_selected_services"));
             }
         }
 

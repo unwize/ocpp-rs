@@ -1,9 +1,12 @@
 use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError};
+use crate::traits::OcppEntity;
 
 /// Contains a case-insensitive identifier to use for the authorization
 /// and the type of authorization to support multiple forms of identifiers.
 /// Used by: Common::IdTokenType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct AdditionalInfoType {
     /// Required. This field specifies the additional IdToken.
     /// String length: 0..255
@@ -15,14 +18,28 @@ pub struct AdditionalInfoType {
     pub r#type: String, // 'type' is a Rust keyword, so we use r#type to escape it
 }
 
-impl AdditionalInfoType {
+impl OcppEntity for AdditionalInfoType {
     /// Validates the fields of AdditionalInfoType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut errors: Vec<OcppError> = Vec::new();
+
         // Validate additional_id_token length (0 to 255)
         if self.additional_id_token.len() > 255 {
             // println!("Validation failed: additional_id_token length exceeds 255.");
-            return false;
+           errors.push(
+               FieldValidationError {
+                   field: "additional_id_token".to_string(),
+                   source: vec![
+                       FieldCardinalityError {
+                       cardinality: self.additional_id_token.len() as i32,
+                       lower: 0,
+                       upper: 255,
+                        }
+                   ]
+               }
+
+           )
         }
 
         // Validate type length (0 to 50)
