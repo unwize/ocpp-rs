@@ -25,7 +25,7 @@ impl EVPowerScheduleType {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_power_schedule_entries".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_power_schedule_entries.len() as i32,
+                    cardinality: self.ev_power_schedule_entries.len(),
                     lower: 1,
                     upper: 1024,
                 }],

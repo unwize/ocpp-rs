@@ -90,7 +90,7 @@ impl EventDataType {
             errors.push(OcppError::FieldValidationError {
                 field: "actual_value".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.actual_value.len() as i32,
+                    cardinality: self.actual_value.len(),
                     lower: 0,
                     upper: 2500,
                 }],
@@ -103,7 +103,7 @@ impl EventDataType {
                 errors.push(OcppError::FieldValidationError {
                     field: "tech_code".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: tc.len() as i32,
+                        cardinality: tc.len(),
                         lower: 0,
                         upper: 50,
                     }],
@@ -117,7 +117,7 @@ impl EventDataType {
                 errors.push(OcppError::FieldValidationError {
                     field: "tech_info".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: ti.len() as i32,
+                        cardinality: ti.len(),
                         lower: 0,
                         upper: 500,
                     }],
@@ -131,7 +131,7 @@ impl EventDataType {
                 errors.push(OcppError::FieldValidationError {
                     field: "transaction_id".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: tid.len() as i32,
+                        cardinality: tid.len(),
                         lower: 0,
                         upper: 36,
                     }],

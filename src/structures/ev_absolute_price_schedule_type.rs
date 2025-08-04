@@ -42,7 +42,7 @@ impl EVAbsolutePriceScheduleType {
             errors.push(OcppError::FieldValidationError {
                 field: "price_algorithm".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.price_algorithm.len() as i32,
+                    cardinality: self.price_algorithm.len(),
                     lower: 0,
                     upper: 2000,
                 }],
@@ -54,7 +54,7 @@ impl EVAbsolutePriceScheduleType {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_absolute_price_schedule_entries".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_absolute_price_schedule_entries.len() as i32,
+                    cardinality: self.ev_absolute_price_schedule_entries.len(),
                     lower: 1,
                     upper: 1024,
                 }],

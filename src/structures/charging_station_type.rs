@@ -36,7 +36,7 @@ impl ChargingStationType {
                 errors.push(OcppError::FieldValidationError {
                     field: "serial_number".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: serial_num.len() as i32,
+                        cardinality: serial_num.len(),
                         lower: 0,
                         upper: 25,
                     }],
@@ -49,7 +49,7 @@ impl ChargingStationType {
             errors.push(OcppError::FieldValidationError {
                 field: "model".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.model.len() as i32,
+                    cardinality: self.model.len(),
                     lower: 0,
                     upper: 20,
                 }],
@@ -61,7 +61,7 @@ impl ChargingStationType {
             errors.push(OcppError::FieldValidationError {
                 field: "vendor_name".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.vendor_name.len() as i32,
+                    cardinality: self.vendor_name.len(),
                     lower: 0,
                     upper: 50,
                 }],
@@ -74,7 +74,7 @@ impl ChargingStationType {
                 errors.push(OcppError::FieldValidationError {
                     field: "firmware_version".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: fw_version.len() as i32,
+                        cardinality: fw_version.len(),
                         lower: 0,
                         upper: 50,
                     }],

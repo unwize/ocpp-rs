@@ -26,7 +26,7 @@ impl EVAbsolutePriceScheduleEntryType {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_price_rule".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_price_rule.len() as i32,
+                    cardinality: self.ev_price_rule.len(),
                     lower: 1,
                     upper: 8,
                 }],

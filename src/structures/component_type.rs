@@ -35,7 +35,7 @@ impl ComponentType {
             errors.push(OcppError::FieldValidationError {
                 field: "name".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.name.len() as i32,
+                    cardinality: self.name.len(),
                     lower: 0,
                     upper: 50,
                 }],
@@ -48,7 +48,7 @@ impl ComponentType {
                 errors.push(OcppError::FieldValidationError {
                     field: "instance".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: instance_name.len() as i32,
+                        cardinality: instance_name.len(),
                         lower: 0,
                         upper: 50,
                     }],

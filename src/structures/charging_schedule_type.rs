@@ -93,7 +93,7 @@ impl ChargingScheduleType {
                 errors.push(OcppError::FieldValidationError {
                     field: "digest_value".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: digest.len() as i32,
+                        cardinality: digest.len(),
                         lower: 0,
                         upper: 88,
                     }],
@@ -120,7 +120,7 @@ impl ChargingScheduleType {
             errors.push(OcppError::FieldValidationError {
                 field: "charging_schedule_period".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.charging_schedule_period.len() as i32,
+                    cardinality: self.charging_schedule_period.len(),
                     lower: 1,
                     upper: 1024,
                 }],

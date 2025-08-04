@@ -1,10 +1,10 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
-use crate::errors::{validate_string_length, OcppError};
-use crate::errors::OcppError::{FieldValidationError, StructureValidationError};
+use crate::errors::OcppError::StructureValidationError;
+use crate::errors::{validate_string_length, OcppError, StructureValidationBuilder};
 use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Represents an absolute price schedule with timing and pricing information
 #[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
@@ -58,54 +58,32 @@ impl OcppEntity for AbsolutePriceScheduleType {
     /// Naively validate the values within the struct. Does not cross-validate against external
     /// data.
     fn validate(self: &Self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
+        let mut e = StructureValidationBuilder::new();
         // Validate str len for price_schedule_description
         if let Some(price_schedule_description) = &self.price_schedule_description {
-            if let(Err(e)) = validate_string_length(price_schedule_description, 0, 160) {
-                errors.push(e.to_field_validation_error("price_schedule_description"));
-            }
+            e.check_cardinality("price_schedule_description", 0, 160, price_schedule_description.as_ref());
         }
 
         // Validate ISO compliance for currency
         if !CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
-            errors.push(OcppError::FieldISOError {
+            e.push(OcppError::FieldISOError {
                 value: "currency".to_string(),
                 iso: "4217".to_string(),
-            }.to_field_validation_error("currency"))
+            }.to_field_validation_error("currency"));
         }
 
-        if let Err(e) = validate_string_length(self.language.as_str(), 0, 8) {
-            errors.push(e.to_field_validation_error("language"));
-        }
-
-        if let Err(e) = validate_string_length(self.price_algorithm.as_str(), 0, 2000) {
-            errors.push(e.to_field_validation_error("price_algorithm"));
-        }
-
-        if let Err(e) = self.price_rule_stacks.validate() {
-            errors.push(e.to_field_validation_error("price_rule_stacks"));
-        }
+        e.check_cardinality("language", 0, 8, self.language.as_ref());
+        e.check_cardinality("price_algorithm", 0, 2000, self.price_algorithm.as_ref());
+        e.push_member("price_rule_stacks", &self.price_rule_stacks);
 
         if let Some(tax_rules) = &self.tax_rules {
-            if let Err(e) = tax_rules.validate() {
-                errors.push(e.to_field_validation_error("tax_rules"));
-            }
+            e.push_member("tax_rules", &tax_rules);
         }
 
         if let Some(additional_selected_services) = &self.additional_selected_services {
-            if let Err(e) = additional_selected_services.validate() {
-                errors.push(e.to_field_validation_error("additional_selected_services"));
-            }
+            e.push_member("additional_selected_services", &additional_selected_services);
         }
 
-        if errors.is_empty() {Ok(())} else {
-            Err(StructureValidationError {
-                structure: "AbsolutePriceScheduleType".to_string(),
-                source: errors
-            })
-        }
-
-
+        e.build("AbsolutePriceScheduleType")
     }
 }

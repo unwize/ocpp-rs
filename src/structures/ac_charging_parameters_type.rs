@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+use crate::errors::OcppError;
+use crate::traits::OcppEntity;
 
 /// Represents AC charging parameters for ISO 15118-2.
 /// Used by: Common::ChargingNeedsType
@@ -17,4 +19,21 @@ pub struct ACChargingParametersType {
     /// Required. Maximum voltage supported by vehicle.
     /// Relates to: ISO 15118-2: AC_EVChargeParameterType: EVMaxVoltage
     pub ev_max_voltage: f64,
+}
+
+impl Default for ACChargingParametersType {
+    fn default() -> ACChargingParametersType {
+        Self {
+            energy_amount: 0.0,
+            ev_min_current: 0.0,
+            ev_max_current: 0.0,
+            ev_max_voltage: 0.0,
+        }
+    }
+}
+
+impl OcppEntity for ACChargingParametersType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        Ok(())
+    }
 }

@@ -38,7 +38,7 @@ impl CostDetailsType {
                 errors.push(OcppError::FieldValidationError {
                     field: "failure_reason".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: reason.len() as i32,
+                        cardinality: reason.len(),
                         lower: 0,
                         upper: 500,
                     }],

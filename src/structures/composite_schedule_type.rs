@@ -43,9 +43,9 @@ impl CompositeScheduleType {
             errors.push(OcppError::FieldValidationError {
                 field: "charging_schedule_period".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.charging_schedule_period.len() as i32,
+                    cardinality: self.charging_schedule_period.len(),
                     lower: 1,
-                    upper: -1, // Represents no upper limit
+                    upper: usize::MAX, // Represents no upper limit
                 }],
             });
         }

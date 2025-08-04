@@ -58,7 +58,7 @@ impl DERCurveType {
             errors.push(OcppError::FieldValidationError {
                 field: "curve_data".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.curve_data.len() as i32,
+                    cardinality: self.curve_data.len(),
                     lower: 1,
                     upper: 10,
                 }],

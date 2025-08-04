@@ -238,9 +238,9 @@ impl DERChargingParametersType {
                         errors.push(OcppError::FieldValidationError {
                             field: $field_name.to_string(),
                             source: vec![OcppError::FieldCardinalityError {
-                                cardinality: s.len() as i32,
+                                cardinality: s.len(),
                                 lower: 0,
-                                upper: $max_len as i32,
+                                upper: $max_len,
                             }],
                         });
                     }

@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
-use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, StructureValidationError};
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::errors::OcppError::{FieldCardinalityError, StructureValidationError};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Contains a case-insensitive identifier to use for the authorization
 /// and the type of authorization to support multiple forms of identifiers.
@@ -22,37 +22,11 @@ impl OcppEntity for AdditionalInfoType {
     /// Validates the fields of AdditionalInfoType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate additional_id_token length (0 to 255)
-        if self.additional_id_token.len() > 255 {
-           errors.push(
-                FieldCardinalityError {
-                    cardinality: self.additional_id_token.len(),
-                    lower: 0,
-                    upper: 255,
-                }.to_field_validation_error("additional_id_token")
-           )
-        }
+        e.check_cardinality("additional_id_token", 0, 255, self.additional_id_token.as_ref());
+        e.check_cardinality("type", 0, 50, self.r#type.as_ref());
 
-        // Validate type length (0 to 50)
-        if self.r#type.len() > 50 {
-           errors.push(
-               FieldCardinalityError {
-                   cardinality: self.r#type.len(),
-                   lower: 0,
-                   upper: 50,
-               }.to_field_validation_error("type")
-           )
-        }
-
-        if !errors.is_empty() {
-            return Err(StructureValidationError {
-                structure: "AdditionalInfoType".to_string(),
-                source: errors,
-            })
-        }
-
-        Ok(())
+       e.build("AdditionalInfoType")
     }
 }

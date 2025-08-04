@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, StructureValidationError};
 use crate::traits::OcppEntity;
 
@@ -19,33 +19,9 @@ impl OcppEntity for AdditionalSelectedServicesType {
     /// Validates the fields of AdditionalSelectedServicesType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
-        // Validate service_name length (0 to 80)
-        if self.service_name.len() > 80 {
-            return Err(
-                // Outer container error
-                StructureValidationError {
-                    structure: "AdditionalSelectedServicesType".to_string(),
-                    source: vec![
-
-                        // Field-level-error
-                        FieldValidationError {
-                            field: "service_name".to_string(),
-                            source: vec![
-
-                                // Specific error regarding value validity
-                                FieldCardinalityError {
-                                    cardinality: self.service_name.len(),
-                                    lower: 0,
-                                    upper: 80
-                                }
-                            ]
-                        }
-                    ]
-                }
-            )
-        }
-
-        Ok(())
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("service_name", 0, 80, self.service_name.as_ref());
+        e.build("AdditionalSelectedServicesType")
     }
 }
 

@@ -255,7 +255,7 @@ impl ChargingSchedulePeriodType {
                     FieldValidationError {
                         field: "v2x_freq_watt_curve".to_string(),
                         source: vec![FieldCardinalityError {
-                            cardinality: v2x_freq_watt_curve.len() as i32,
+                            cardinality: v2x_freq_watt_curve.len(),
                             lower: 0,
                             upper: 20
                         }]
@@ -270,7 +270,7 @@ impl ChargingSchedulePeriodType {
                     FieldValidationError {
                         field: "v2x_signal_watt_curve".to_string(),
                         source: vec![FieldCardinalityError {
-                            cardinality: v2x_signal_watt_curve.len() as i32,
+                            cardinality: v2x_signal_watt_curve.len(),
                             lower: 0,
                             upper: 20
                         }]

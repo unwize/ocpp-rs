@@ -28,7 +28,7 @@ impl DERCurveGetType {
             errors.push(OcppError::FieldValidationError {
                 field: "id".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.id.len() as i32,
+                    cardinality: self.id.len(),
                     lower: 0,
                     upper: 36,
                 }],

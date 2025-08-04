@@ -29,7 +29,7 @@ impl ClearTariffsResultType {
                 errors.push(OcppError::FieldValidationError {
                     field: "tariff_id".to_string(),
                     source: vec![OcppError::FieldCardinalityError {
-                        cardinality: id.len() as i32,
+                        cardinality: id.len(),
                         lower: 0,
                         upper: 60,
                     }],

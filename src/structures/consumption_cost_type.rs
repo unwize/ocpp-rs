@@ -26,7 +26,7 @@ impl ConsumptionCostType {
             errors.push(OcppError::FieldValidationError {
                 field: "cost".to_string(),
                 source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.cost.len() as i32,
+                    cardinality: self.cost.len(),
                     lower: 1,
                     upper: 3,
                 }],

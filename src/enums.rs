@@ -1,3 +1,21 @@
+mod apn_authentication_enum_type;
+mod attribute_enum_type;
+mod authorization_status_enum_type;
+mod authorize_certificate_status_enum_type;
+mod battery_swap_event_enum_typs;
+mod boot_reason_enum_type;
+mod cancel_reservation_status_enum_type;
+mod certificate_action_enum_type;
+mod certificate_signed_status_enum_type;
+mod certificate_signing_use_enum_type;
+mod certificate_status_enum_type;
+mod certificate_status_source_enum_type;
+mod change_availability_status_enum_type;
+mod charging_profile_kind_enum_type;
+mod charging_profile_purpose_enum_type;
+mod charging_profile_status_enum_type;
+mod charging_rate_unit_enum_type;
+
 use crate::errors::OcppError;
 use crate::errors::OcppError::InvalidEnumValueError;
 use serde::{Deserialize, Serialize};
