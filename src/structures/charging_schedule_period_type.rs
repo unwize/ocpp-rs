@@ -349,7 +349,7 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(period_minimal.validate());
+        assert!(period_minimal.validate().is_ok());
 
         let period_with_limits = ChargingSchedulePeriodType {
             start_period: 3600,
@@ -374,7 +374,7 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(period_with_limits.validate());
+        assert!(period_with_limits.validate().is_ok());
     }
 
     #[test]
@@ -394,7 +394,7 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(!period.validate());
+        assert!(period.validate().is_err());
     }
 
     #[test]
@@ -414,7 +414,7 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(!period_low.validate());
+        assert!(period_low.validate().is_err());
 
         let period_high = ChargingSchedulePeriodType {
             start_period: 0,
@@ -431,7 +431,7 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(!period_high.validate());
+        assert!(period_high.validate().is_err());
     }
 
     #[test]
@@ -451,6 +451,6 @@ mod tests {
             v2x_freq_watt_curve: None,
             v2x_signal_watt_point_type: None,
         };
-        assert!(!period.validate());
+        assert!(period.validate().is_err());
     }
 }

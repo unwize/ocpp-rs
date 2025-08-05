@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::structures::ev_absolute_price_schedule_type::EVAbsolutePriceScheduleType;
+use crate::structures::ev_power_schedule_type::EVPowerScheduleType;
 
 /// A schedule of the energy amount over time that EV is willing to discharge.
 /// A negative value indicates the willingness to discharge under specific conditions,
@@ -9,7 +10,7 @@ use crate::structures::ev_absolute_price_schedule_type::EVAbsolutePriceScheduleT
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct EVEnergyOfferType {
     /// Required. Power schedule offered for discharging.
-    pub ev_power_schedule: EVPowerScheduleType, // TODO: Implement EVPowerScheduleType
+    pub ev_power_schedule: EVPowerScheduleType,
     /// Optional. Price schedule for which EV is willing to discharge.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ev_absolute_price_schedule: Option<EVAbsolutePriceScheduleType>,
@@ -51,7 +52,7 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let energy_offer = EVEnergyOfferType {
-            ev_power_schedule: "power_schedule_placeholder".to_string(), // Placeholder
+            ev_power_schedule: EVPowerScheduleType::default(), // Placeholder
             ev_absolute_price_schedule: Some(EVAbsolutePriceScheduleType {
                 time_anchor: Default::default(),
                 currency: "USD".to_string(),
@@ -70,13 +71,13 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let energy_offer_minimal = EVEnergyOfferType {
-            ev_power_schedule: "some_power_schedule".to_string(),
+            ev_power_schedule: EVPowerScheduleType::default(),
             ev_absolute_price_schedule: None,
         };
         assert!(energy_offer_minimal.validate().is_ok());
 
         let energy_offer_full = EVEnergyOfferType {
-            ev_power_schedule: "some_power_schedule".to_string(),
+            ev_power_schedule: EVPowerScheduleType::default(),
             ev_absolute_price_schedule: Some(EVAbsolutePriceScheduleType {
                 time_anchor: Default::default(),
                 currency: "USD".to_string(),

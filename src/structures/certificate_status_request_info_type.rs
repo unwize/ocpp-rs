@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::certificate_status_source_enum_type::CertificateStatusSourceEnumType;
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 
 /// Data necessary to request the revocation status of a certificate.
@@ -6,7 +7,7 @@ use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct CertificateStatusRequestInfoType {
     /// Required. Source of status: OCSP, CRL
-    pub source: CertificateStatusSourceEnumType, // TODO: Implement CertificateStatusSourceEnumType
+    pub source: CertificateStatusSourceEnumType,
     /// Required. URL(s) of source.
     /// String length: 0..2000
     /// Cardinality 1..5, so represented as a Vec.
@@ -45,12 +46,12 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let cert_status_req = CertificateStatusRequestInfoType {
-            source: "OCSP".to_string(), // Placeholder
+            source: CertificateStatusSourceEnumType::Ocsp, // Placeholder
             urls: vec![
                 "http://example.com/ocsp1".to_string(),
                 "http://example.com/ocsp2".to_string(),
             ],
-            certificate_hash_data: "cert_hash_data_placeholder".to_string(), // Placeholder
+            certificate_hash_data: CertificateHashDataType::default(), // Placeholder
         };
 
         let serialized = serde_json::to_string(&cert_status_req).unwrap();
@@ -63,14 +64,14 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let cert_status_req = CertificateStatusRequestInfoType {
-            source: "CRL".to_string(),
+            source: CertificateStatusSourceEnumType::Crl,
             urls: vec!["http://example.com/crl".to_string()],
-            certificate_hash_data: "some_hash".to_string(),
+            certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(cert_status_req.validate());
 
         let cert_status_req_max_urls = CertificateStatusRequestInfoType {
-            source: "OCSP".to_string(),
+            source: CertificateStatusSourceEnumType::Ocsp,
             urls: vec![
                 "a".repeat(2000),
                 "b".repeat(2000),
@@ -78,7 +79,7 @@ mod tests {
                 "d".repeat(2000),
                 "e".repeat(2000),
             ],
-            certificate_hash_data: "another_hash".to_string(),
+            certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(cert_status_req_max_urls.validate());
     }
@@ -86,9 +87,9 @@ mod tests {
     #[test]
     fn test_validation_no_urls() {
         let cert_status_req = CertificateStatusRequestInfoType {
-            source: "OCSP".to_string(),
+            source: CertificateStatusSourceEnumType::Ocsp,
             urls: vec![], // No URLs
-            certificate_hash_data: "some_hash".to_string(),
+            certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(!cert_status_req.validate());
     }
@@ -96,7 +97,7 @@ mod tests {
     #[test]
     fn test_validation_too_many_urls() {
         let cert_status_req = CertificateStatusRequestInfoType {
-            source: "OCSP".to_string(),
+            source: CertificateStatusSourceEnumType::Ocsp,
             urls: vec![
                 "u1".to_string(),
                 "u2".to_string(),
@@ -105,7 +106,7 @@ mod tests {
                 "u5".to_string(),
                 "u6".to_string(), // Too many
             ],
-            certificate_hash_data: "some_hash".to_string(),
+            certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(!cert_status_req.validate());
     }
@@ -113,9 +114,9 @@ mod tests {
     #[test]
     fn test_validation_url_too_long() {
         let cert_status_req = CertificateStatusRequestInfoType {
-            source: "OCSP".to_string(),
+            source: CertificateStatusSourceEnumType::Ocsp,
             urls: vec!["a".repeat(2001)], // URL too long
-            certificate_hash_data: "some_hash".to_string(),
+            certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(!cert_status_req.validate());
     }

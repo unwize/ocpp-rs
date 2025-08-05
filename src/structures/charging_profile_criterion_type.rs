@@ -1,11 +1,12 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
 
 /// A ChargingProfileCriterionType is a filter for charging profiles to be selected by a GetChargingProfilesRequest.
 /// Used by: GetChargingProfilesRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ChargingProfileCriterionType {
     /// Optional. Defines the purpose of the schedule transferred by this profile.
-    pub charging_profile_purpose: Option<ChargingProfilePurposeEnumType>, // TODO: Implement ChargingProfilePurposeEnumType
+    pub charging_profile_purpose: Option<ChargingProfilePurposeEnumType>,
     /// Optional. Value determining level in hierarchy stack of profiles.
     /// Higher values have precedence over lower values. Lowest level is 0.
     /// Constraints: 0 <= val
@@ -68,7 +69,7 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let criterion = ChargingProfileCriterionType {
-            charging_profile_purpose: Some("ChargePointMaxProfile".to_string()), // Placeholder
+            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::TxProfile), // Placeholder
             stack_level: Some(1),
             charging_profile_id: Some(vec![101, 102]),
             charging_limit_source: Some(vec!["EMS".to_string(), "CSO".to_string()]),
@@ -92,7 +93,7 @@ mod tests {
         assert!(criterion_minimal.validate());
 
         let criterion_full = ChargingProfileCriterionType {
-            charging_profile_purpose: Some("TxProfile".to_string()),
+            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::TxProfile),
             stack_level: Some(0),
             charging_profile_id: Some(vec![1, 2, 3, 4, 5]), // Assuming no hard limit other than maxLimit
             charging_limit_source: Some(vec![

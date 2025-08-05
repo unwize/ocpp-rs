@@ -1,5 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::OcppError;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
 
@@ -14,7 +15,7 @@ pub struct CompositeScheduleType {
     /// Required.
     pub schedule_start: DateTime<Utc>,
     /// Required.
-    pub charging_rate_unit: ChargingRateUnitEnumType, // TODO: Implement ChargingRateUnitEnumType
+    pub charging_rate_unit: ChargingRateUnitEnumType,
     /// Required. List of ChargingSchedulePeriod elements defining maximum power or current over time.
     /// Cardinality 1..*
     pub charging_schedule_period: Vec<ChargingSchedulePeriodType>,
@@ -84,7 +85,7 @@ mod tests {
             evse_id: 1,
             duration: 3600,
             schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            charging_rate_unit: "A".to_string(), // Placeholder
+            charging_rate_unit: ChargingRateUnitEnumType::A, // Placeholder
             charging_schedule_period: vec![Default::default(), Default::default()], // Placeholder
         };
 
@@ -100,8 +101,8 @@ mod tests {
         let schedule = CompositeScheduleType {
             evse_id: 0, // Valid
             duration: 1800,
-            schedule_start: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
-            charging_rate_unit: "W".to_string(),
+            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             charging_schedule_period: vec![Default::default()], // Valid cardinality
         };
         assert!(schedule.validate().is_ok());
@@ -110,7 +111,7 @@ mod tests {
             evse_id: 5,
             duration: 7200,
             schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            charging_rate_unit: "A".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::A,
             charging_schedule_period: vec![Default::default(), Default::default(), Default::default()],
         };
         assert!(schedule_multiple_periods.validate().is_ok());
@@ -121,8 +122,8 @@ mod tests {
         let schedule = CompositeScheduleType {
             evse_id: -1, // Invalid
             duration: 1800,
-            schedule_start: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
-            charging_rate_unit: "W".to_string(),
+            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             charging_schedule_period: vec![Default::default()],
         };
         let err = schedule.validate().unwrap_err();
@@ -143,8 +144,8 @@ mod tests {
         let schedule = CompositeScheduleType {
             evse_id: 1,
             duration: 1800,
-            schedule_start: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
-            charging_rate_unit: "W".to_string(),
+            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             charging_schedule_period: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();

@@ -1,4 +1,7 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::hash_algorithm_enum_type::HashAlgorithmEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// Represents information to identify a certificate.
 /// Used by: Common::CertificateHashDataChainType, Common::CertificateStatusRequestInfoType,
@@ -6,7 +9,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct CertificateHashDataType {
     /// Required. Used algorithms for the hashes provided.
-    pub hash_algorithm: HashAlgorithmEnumType, // TODO: Implement HashAlgorithmEnumType
+    pub hash_algorithm: HashAlgorithmEnumType,
     /// Required. The hash of the issuer's distinguished name (DN), that must be calculated
     /// over the DER encoding of the issuer's name field in the certificate being checked.
     /// String length: 0..128
@@ -21,30 +24,27 @@ pub struct CertificateHashDataType {
     pub serial_number: String,
 }
 
-impl CertificateHashDataType {
+impl Default for CertificateHashDataType {
+    fn default() -> CertificateHashDataType {
+        Self {
+            hash_algorithm: HashAlgorithmEnumType::SHA256,
+            issuer_name_hash: "SomeOCPPAuthHash".to_string(),
+            issuer_key_hash: "0".to_string(),
+            serial_number: "0".to_string(),
+        }
+    }
+}
+
+impl OcppEntity for CertificateHashDataType {
     /// Validates the fields of CertificateHashDataType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // No specific validation for hash_algorithm without its enum definition.
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate issuer_name_hash length
-        if self.issuer_name_hash.len() > 128 {
-            // println!("Validation failed: issuer_name_hash length exceeds 128.");
-            return false;
-        }
+        e.check_cardinality("issuer_name_hash", 0, 128, self.issuer_name_hash.as_ref());
+        e.check_cardinality("issuer_key_hash", 0, 128, self.issuer_key_hash.as_ref());
+        e.check_cardinality("serial_number", 0, 40, self.serial_number.as_ref());
 
-        // Validate issuer_key_hash length
-        if self.issuer_key_hash.len() > 128 {
-            // println!("Validation failed: issuer_key_hash length exceeds 128.");
-            return false;
-        }
-
-        // Validate serial_number length
-        if self.serial_number.len() > 40 {
-            // println!("Validation failed: serial_number length exceeds 40.");
-            return false;
-        }
-
-        true
+        e.build("CertificateHashDataType")
     }
 }

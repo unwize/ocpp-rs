@@ -1,5 +1,4 @@
-use crate::errors::OcppError::StructureValidationError;
-use crate::errors::{validate_string_length, OcppError, StructureValidationBuilder};
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 use crate::traits::OcppEntity;
@@ -45,7 +44,7 @@ pub struct AbsolutePriceScheduleType {
     pub additional_selected_services: Option<AdditionalSelectedServicesType>,
 
     /// A set of overstay rules that allows for escalation of charges after the overstay is triggered.
-    overstay_rule_list: Option<OverstayRuleListTypeOptional>,
+    overstay_rule_list: Option<OverstayRuleListType>,
 
     /// Optional. Minimum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
     minimum_cost: Option<u32>,
@@ -59,7 +58,6 @@ impl OcppEntity for AbsolutePriceScheduleType {
     /// data.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        // Validate str len for price_schedule_description
         if let Some(price_schedule_description) = &self.price_schedule_description {
             e.check_cardinality("price_schedule_description", 0, 160, price_schedule_description.as_ref());
         }

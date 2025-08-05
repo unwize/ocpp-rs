@@ -1,8 +1,7 @@
-use std::slice::Iter;
-use miette::Diagnostic;
-use thiserror::Error;
 use crate::errors::OcppError::{FieldBoundsError, FieldCardinalityError, FieldValidationError, StructureValidationError};
 use crate::traits::OcppEntity;
+use miette::Diagnostic;
+use thiserror::Error;
 
 #[derive(Error, Diagnostic, Debug)]
 pub enum OcppError {
@@ -129,6 +128,15 @@ impl StructureValidationBuilder {
         }
 
         self
+    }
+
+    /// For a given Iterator of OcppEntity objects, call its yielded items' validate functions and add any errors from it to the list.
+    pub fn push_iter_member(&mut self,  field: &str, iter: impl Iterator<Item=&dyn OcppEntity>) -> &Self {
+        let mut count = 0;
+        for e in iter {
+            e.push_member(format!("{field}[{count}]").as_str(), e);
+            count += 1;
+        }
     }
 
     /// For a given field, check if its value is within the given bounds. If it is not, add a

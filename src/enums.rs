@@ -1,54 +1,59 @@
-mod apn_authentication_enum_type;
-mod attribute_enum_type;
-mod authorization_status_enum_type;
-mod authorize_certificate_status_enum_type;
-mod battery_swap_event_enum_typs;
-mod boot_reason_enum_type;
-mod cancel_reservation_status_enum_type;
-mod certificate_action_enum_type;
-mod certificate_signed_status_enum_type;
-mod certificate_signing_use_enum_type;
-mod certificate_status_enum_type;
-mod certificate_status_source_enum_type;
-mod change_availability_status_enum_type;
-mod charging_profile_kind_enum_type;
-mod charging_profile_purpose_enum_type;
-mod charging_profile_status_enum_type;
-mod charging_rate_unit_enum_type;
-
-use crate::errors::OcppError;
-use crate::errors::OcppError::InvalidEnumValueError;
-use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
-pub enum APNAuthentication {
-    PAP = 0, // Use PAP authentication
-    CHAP = 1, // Use CHAP authentication
-    NONE = 2, // Use no authentication
-    AUTO = 3, // Sequentially try CHAP, PAP, NONE.
-}
-
-impl Into<String> for APNAuthentication {
-    fn into(self) -> String {
-        match self {
-            APNAuthentication::PAP => "pap".to_string(),
-            APNAuthentication::CHAP => "chap".to_string(),
-            APNAuthentication::NONE => "none".to_string(),
-            APNAuthentication::AUTO => "auto".to_string(),
-        }
-    }
-}
-
-impl TryFrom<String> for APNAuthentication {
-    type Error = OcppError;
-
-    fn try_from(value: String) -> Result<Self, Self::Error> {
-        match value.trim().to_lowercase().as_str() {
-            "pap" => Ok(APNAuthentication::PAP),
-            "chap" => Ok(APNAuthentication::CHAP),
-            "none" => Ok(APNAuthentication::NONE),
-            "auto" => Ok(APNAuthentication::AUTO),
-            _ => {Err(InvalidEnumValueError{enum_name: String::from("APNAuthentication"), value })}
-        }
-    }
-}
+pub mod apn_authentication_enum_type;
+pub mod attribute_enum_type;
+pub mod authorize_certificate_status_enum_type;
+pub mod battery_swap_event_enum_types;
+pub mod boot_reason_enum_type;
+pub mod cancel_reservation_status_enum_type;
+pub mod certificate_action_enum_type;
+pub mod certificate_signed_status_enum_type;
+pub mod certificate_signing_use_enum_type;
+pub mod certificate_status_enum_type;
+pub mod certificate_status_source_enum_type;
+pub mod change_availability_status_enum_type;
+pub mod charging_profile_kind_enum_type;
+pub mod charging_profile_purpose_enum_type;
+pub mod charging_profile_status_enum_type;
+pub mod charging_rate_unit_enum_type;
+pub mod authorization_status_enum_type;
+pub mod charging_state_enum_type;
+pub mod clear_cache_status_enum_type;
+pub mod clear_monitoring_status_enum_type;
+pub mod component_criterion_enum_type;
+pub mod connector_status_enum_type;
+pub mod control_model_enum_type;
+pub mod customer_information_status_enum_type;
+pub mod cost_dimension_enum_type;
+pub mod data_enum_type;
+pub mod data_transfer_status_enum_type;
+pub mod day_of_week_enum_type;
+pub mod der_control_enum_type;
+pub mod der_control_status_enum_type;
+pub mod der_unit_enum_type;
+pub mod display_message_status_enum_type;
+pub mod energy_transfer_mode_enum_type;
+pub mod clear_charging_profile_status_enum_type;
+pub mod clear_message_status_enum_type;
+pub mod cost_kind_enum_type;
+pub mod delete_certificate_status_enum_type;
+pub mod event_notification_enum_type;
+pub mod event_trigger_enum_type;
+pub mod evse_kind_enum_type;
+pub mod firmware_status_enum_type;
+pub mod generic_device_model_status;
+pub mod get_certificate_id_use_enum_type;
+pub mod generic_status_enum_type;
+pub mod get_certificate_status_enum_type;
+pub mod get_charging_profile_status_enum_type;
+pub mod get_installed_certificate_status_enum_type;
+pub mod get_variable_status_enum_type;
+pub mod grid_event_fault_enum_type;
+pub mod hash_algorithm_enum_type;
+pub mod islanding_detection_enum_type;
+pub mod iso_15118_ev_certificate_status_enum_type;
+pub mod install_certificate_status_enum_type;
+pub mod install_certificate_use_enum_type;
+pub mod log_status_enum_type;
+pub mod measurand_enum_type;
+pub mod location_enum_type;
+pub mod log_enum_type;
+pub mod get_display_messages_status_enum_type;

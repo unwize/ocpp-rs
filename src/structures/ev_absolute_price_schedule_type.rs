@@ -6,7 +6,7 @@ use crate::structures::ev_absolute_price_schedule_entry_type::EVAbsolutePriceSch
 
 /// Price schedule of EV energy offer.
 /// Used by: Common::EVEnergyOfferType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EVAbsolutePriceScheduleType {
     /// Required. Starting point in time of the EVEnergyOffer.
     pub time_anchor: DateTime<Utc>,
@@ -170,7 +170,7 @@ mod tests {
     #[test]
     fn test_validation_ev_absolute_price_schedule_entries_too_many() {
         let schedule = EVAbsolutePriceScheduleType {
-            time_anchor: Utc.ymd(2025, 8, 1).and_hms(10, 0, 0),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:Power".to_string(),
             ev_absolute_price_schedule_entries: vec![Default::default(); 1025], // Invalid cardinality

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::enums::der_unit_enum_type::DERUnitEnumType;
 use crate::errors::OcppError;
 use crate::structures::der_curve_points_type::DERCurvePointsType;
 
@@ -10,7 +11,7 @@ pub struct DERCurveType {
     /// Constraints: 0 <= val
     pub priority: i32,
     /// Required. Unit of the Y-axis of DER curve.
-    pub y_unit: DERUnitEnumType, // TODO: Implement DERUnitEnumType
+    pub y_unit: DERUnitEnumType,
     /// Optional. Open loop response time, the time to ramp up to 90% of the new target in response to the change in voltage, in seconds.
     /// A value of 0 is used to mean no limit. When not present, the device should follow its default behavior.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -33,6 +34,22 @@ pub struct DERCurveType {
     /// Required. Coordinates of the DER curve. X-axis is determined by curveType. Y-axis is determined by yUnit.
     /// Cardinality 1..10
     pub curve_data: Vec<DERCurvePointsType>
+}
+
+impl Default for DERCurveType {
+    fn default() -> DERCurveType {
+        Self {
+            priority: 0,
+            y_unit: DERUnitEnumType::Not_Applicable,
+            response_time: None,
+            start_time: None,
+            duration: None,
+            hysteresis: None,
+            voltage_params: None,
+            reactive_power_params: None,
+            curve_data: vec![],
+        }
+    }
 }
 
 impl DERCurveType {
@@ -91,7 +108,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let der_curve = DERCurveType {
             priority: 0,
-            y_unit: "Power".to_string(), // Placeholder
+            y_unit: DERUnitEnumType::PctMaxW, // Placeholder
             response_time: Some(1.5),
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600.0),
@@ -112,7 +129,7 @@ mod tests {
     fn test_validation_valid() {
         let der_curve_minimal = DERCurveType {
             priority: 0,
-            y_unit: "Power".to_string(),
+            y_unit: DERUnitEnumType::PctWAvail,
             response_time: None,
             start_time: None,
             duration: None,
@@ -125,7 +142,7 @@ mod tests {
 
         let der_curve_full = DERCurveType {
             priority: 1,
-            y_unit: "Voltage".to_string(),
+            y_unit: DERUnitEnumType::PctVarAvail,
             response_time: Some(0.0), // No limit
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(7200.0),
@@ -141,7 +158,7 @@ mod tests {
     fn test_validation_invalid_priority() {
         let der_curve = DERCurveType {
             priority: -1, // Invalid
-            y_unit: "Power".to_string(),
+            y_unit: DERUnitEnumType::Not_Applicable,
             response_time: None, start_time: None, duration: None, hysteresis: None,
             voltage_params: None, reactive_power_params: None,
             curve_data: vec![Default::default()],
@@ -163,7 +180,7 @@ mod tests {
     fn test_validation_curve_data_empty() {
         let der_curve = DERCurveType {
             priority: 0,
-            y_unit: "Power".to_string(),
+            y_unit: DERUnitEnumType::PctVarAvail,
             response_time: None, start_time: None, duration: None, hysteresis: None,
             voltage_params: None, reactive_power_params: None,
             curve_data: vec![], // Invalid cardinality
@@ -185,7 +202,7 @@ mod tests {
     fn test_validation_curve_data_too_many() {
         let der_curve = DERCurveType {
             priority: 0,
-            y_unit: "Power".to_string(),
+            y_unit: DERUnitEnumType::PctWAvail,
             response_time: None, start_time: None, duration: None, hysteresis: None,
             voltage_params: None, reactive_power_params: None,
             curve_data: vec![Default::default(); 11], // Invalid cardinality

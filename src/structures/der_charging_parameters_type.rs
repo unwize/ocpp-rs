@@ -1,5 +1,6 @@
-use miette::Diagnostic;
 use serde::{Deserialize, Serialize};
+use crate::enums::der_control_enum_type::DERControlEnumType;
+use crate::enums::islanding_detection_enum_type::IslandingDetectionEnumType;
 use crate::errors::OcppError;
 
 /// DER DC charging parameters for ISO 15118-2
@@ -9,7 +10,7 @@ pub struct DERChargingParametersType {
     /// Optional. DER control functions supported by EV.
     /// ISO 15118-20: DER_BPT_AC_CPDReqEnergyTransferModeType:DERControlFunctions (bitmap)
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub ev_supported_der_control: Option<Vec<DERControlEnumType>>, // TODO: Implement DERControlEnumType
+    pub ev_supported_der_control: Option<Vec<DERControlEnumType>>,
     /// Optional. Rated maximum injected active power by EV, at specified over-excited power factor (overExcitedPowerFactor)
     /// It can also be defined as the rated maximum discharge power at the rated minimum injected reactive power value.
     /// This means that if the EV is providing reactive power support, and it is requested to discharge at max power (e.g. to satisfy an EMS request),
@@ -190,7 +191,7 @@ pub struct DERChargingParametersType {
     /// ISO 15118-20: DER_BPT_AC_CPDReqEnergyTransferModeType: EVIslandingDetectionMethod
     /// Cardinality 0..*
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub ev_islanding_detection_method: Option<Vec<IslandDetectionEnumType>>, // TODO: Implement IslandingDetectionEnumType
+    pub ev_islanding_detection_method: Option<Vec<IslandingDetectionEnumType>>,
     /// Optional. Time after which EV will trip if an island has been detected.
     /// ISO 15118-20: DER_BPT_AC_CPDReqEnergyTransferModeType: EVIslandingTripTime
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -279,7 +280,7 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let der_params = DERChargingParametersType {
-            ev_supported_der_control: Some(vec!["ControlA".to_string()]),
+            ev_supported_der_control: Some(vec![DERControlEnumType::FreqWatt]),
             ev_over_excited_max_discharge_power: Some(100.0),
             ev_over_excited_power_factor: Some(0.9),
             ev_under_excited_max_discharge_power: Some(80.0),
@@ -312,7 +313,7 @@ mod tests {
             ev_inverter_serial_number: Some("INV-SN-123".to_string()),
             ev_inverter_sw_version: Some("1.0.0".to_string()),
             ev_inverter_hw_version: Some("A.B".to_string()),
-            ev_islanding_detection_method: Some(vec!["MethodA".to_string()]),
+            ev_islanding_detection_method: Some(vec![IslandingDetectionEnumType::RoCoF]),
             ev_islanding_trip_time: Some(0.5),
             ev_maximum_level1_dc_injection: Some(10.0),
             ev_duration_level1_dc_injection: Some(300.0),

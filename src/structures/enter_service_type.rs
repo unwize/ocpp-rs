@@ -26,6 +26,21 @@ pub struct EnterServiceType {
     pub ramp_rate: Option<f64>, // decimal
 }
 
+impl Default for EnterServiceType {
+    fn default() -> Self {
+        Self  {
+            priority: 0,
+            high_voltage: 0.0,
+            low_voltage: 0.0,
+            high_freq: 0.0,
+            low_freq: 0.0,
+            delay: None,
+            random_delay: None,
+            ramp_rate: None,
+        }
+    }
+}
+
 impl EnterServiceType {
     /// Validates the fields of EnterServiceType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

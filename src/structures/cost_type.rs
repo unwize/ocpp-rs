@@ -1,11 +1,12 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::cost_kind_enum_type::CostKindEnumType;
 use crate::errors::OcppError;
 
 /// CostType is used by: Common::ConsumptionCostType
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct CostType {
     /// Required. The kind of cost referred to in the message element amount.
-    pub cost_kind: CostKindEnumType, // TODO: Implement CostKindEnumType
+    pub cost_kind: CostKindEnumType,
     /// Required. The estimated or actual cost per kWh.
     pub amount: i32, // integer
     /// Optional. Values: -3..3. The amountMultiplier defines the exponent to base 10 (dec).
@@ -57,7 +58,7 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let cost = CostType {
-            cost_kind: "RelativePrice".to_string(), // Placeholder
+            cost_kind: CostKindEnumType::RelativePricePercentage,
             amount: 1500,
             amount_multiplier: Some(-2),
         };
@@ -72,21 +73,21 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let cost_minimal = CostType {
-            cost_kind: "AbsolutePrice".to_string(),
+            cost_kind: CostKindEnumType::RenewableGenerationPercentage,
             amount: 100,
             amount_multiplier: None,
         };
         assert!(cost_minimal.validate().is_ok());
 
         let cost_with_multiplier = CostType {
-            cost_kind: "FlatRate".to_string(),
+            cost_kind: CostKindEnumType::CarbonDioxideEmission,
             amount: 250,
             amount_multiplier: Some(3), // Valid
         };
         assert!(cost_with_multiplier.validate().is_ok());
 
         let cost_with_min_multiplier = CostType {
-            cost_kind: "FlatRate".to_string(),
+            cost_kind: CostKindEnumType::CarbonDioxideEmission,
             amount: 250,
             amount_multiplier: Some(-3), // Valid
         };
@@ -96,7 +97,7 @@ mod tests {
     #[test]
     fn test_validation_invalid_amount_multiplier_low() {
         let cost = CostType {
-            cost_kind: "RelativePrice".to_string(),
+            cost_kind: CostKindEnumType::RelativePricePercentage,
             amount: 100,
             amount_multiplier: Some(-4), // Invalid
         };
@@ -116,7 +117,7 @@ mod tests {
     #[test]
     fn test_validation_invalid_amount_multiplier_high() {
         let cost = CostType {
-            cost_kind: "RelativePrice".to_string(),
+            cost_kind: CostKindEnumType::RelativePricePercentage,
             amount: 100,
             amount_multiplier: Some(4), // Invalid
         };

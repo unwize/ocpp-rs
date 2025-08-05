@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::clear_monitoring_status_enum_type::ClearMonitoringStatusEnumType;
 use crate::errors::OcppError;
 
 /// Result of a clear monitoring request.
@@ -6,7 +7,7 @@ use crate::errors::OcppError;
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ClearMonitoringResultType {
     /// Required. Result of the clear request for this monitor, identified by its id.
-    pub status: ClearMonitoringStatusEnumType, // TODO: Implement ClearMonitoringStatusEnumType
+    pub status: ClearMonitoringStatusEnumType,
     /// Required. Id of the monitor of which a clear was requested.
     /// Constraints: 0 <= val
     pub id: i32,
@@ -55,9 +56,9 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let result = ClearMonitoringResultType {
-            status: "Accepted".to_string(), // Placeholder
+            status: ClearMonitoringStatusEnumType::Accepted,
             id: 123,
-            status_info: Some("Monitor cleared successfully".to_string()), // Placeholder
+            status_info: Some("Monitor cleared successfully".to_string()),
         };
 
         let serialized = serde_json::to_string(&result).unwrap();
@@ -70,14 +71,14 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let result_minimal = ClearMonitoringResultType {
-            status: "Rejected".to_string(),
+            status: ClearMonitoringStatusEnumType::Rejected,
             id: 0, // Valid
             status_info: None,
         };
         assert!(result_minimal.validate().is_ok());
 
         let result_positive_id = ClearMonitoringResultType {
-            status: "Accepted".to_string(),
+            status: ClearMonitoringStatusEnumType::Accepted,
             id: 456, // Valid
             status_info: Some("Some info".to_string()),
         };
@@ -87,7 +88,7 @@ mod tests {
     #[test]
     fn test_validation_invalid_id() {
         let result = ClearMonitoringResultType {
-            status: "Rejected".to_string(),
+            status: ClearMonitoringStatusEnumType::Rejected,
             id: -1, // Invalid
             status_info: None,
         };

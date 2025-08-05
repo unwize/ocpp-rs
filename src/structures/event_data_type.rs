@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::enums::event_notification_enum_type::EventNotificationEnumType;
+use crate::enums::event_trigger_enum_type::EventTriggerEnumType;
 use crate::errors::OcppError;
 use crate::structures::component_type::ComponentType;
 
@@ -13,7 +15,7 @@ pub struct EventDataType {
     /// Required. Timestamp of the moment the report was generated.
     pub timestamp: DateTime<Utc>,
     /// Required. Type of trigger for this event, e.g. exceeding a threshold value.
-    pub trigger: EventTriggerEnumType, // TODO: Implement EventTriggerEnumType
+    pub trigger: EventTriggerEnumType,
     /// Optional. Refers to the Id of an event that is considered to be the cause for this event.
     /// Constraints: 0 <= val
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -42,7 +44,7 @@ pub struct EventDataType {
     pub variable_monitoring_id: Option<i32>,
     /// Optional. Specifies the event notification type of the message.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub event_notification_type: Option<EventTypeNotificationEnumType>, // TODO: Implement EventTypeNotificationEnumType
+    pub event_notification_type: Option<EventNotificationEnumType>,
     /// Optional. Severity associated with the monitor in variableMonitoringId or with the hardwired notification.
     /// Constraints: 0 <= val
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -192,7 +194,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "VoltageExceeded".to_string(), // Placeholder
+            trigger: EventTriggerEnumType::Periodic, // Placeholder
             cause: Some(0),
             actual_value: "245.5".to_string(),
             tech_code: Some("VOLT_HIGH".to_string()),
@@ -200,7 +202,7 @@ mod tests {
             cleared: Some(false),
             transaction_id: Some("TXN12345".to_string()),
             variable_monitoring_id: Some(101),
-            event_notification_type: Some("HardWiredNotification".to_string()), // Placeholder
+            event_notification_type: Some(EventNotificationEnumType::HardWiredMonitor), // Placeholder
             severity: Some(5),
             component: ComponentType {
                 name: "EVSE".to_string(),
@@ -222,7 +224,7 @@ mod tests {
         let event_data_minimal = EventDataType {
             event_id: 0,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "CurrentExceeded".to_string(),
+            trigger: EventTriggerEnumType::Periodic,
             cause: None,
             actual_value: "10.0".to_string(),
             tech_code: None,
@@ -244,7 +246,7 @@ mod tests {
         let event_data_full_lengths = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Threshold".to_string(),
+            trigger: EventTriggerEnumType::Alerting,
             cause: Some(10),
             actual_value: "a".repeat(2500), // Max length
             tech_code: Some("b".repeat(50)), // Max length
@@ -252,7 +254,7 @@ mod tests {
             cleared: Some(true),
             transaction_id: Some("d".repeat(36)), // Max length
             variable_monitoring_id: Some(999),
-            event_notification_type: Some("HardWiredNotification".to_string()),
+            event_notification_type: Some(EventNotificationEnumType::PreconfiguredMonitor),
             severity: Some(10),
             component: ComponentType {
                 name: "EVSE".to_string(),
@@ -269,7 +271,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: -1, // Invalid
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Alerting,
             cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
             cleared: None, transaction_id: None, variable_monitoring_id: None,
             event_notification_type: None, severity: None, component: ComponentType {
@@ -287,7 +289,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(1998, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Delta,
             cause: Some(-5), // Invalid
             actual_value: "val".to_string(), tech_code: None, tech_info: None,
             cleared: None, transaction_id: None, variable_monitoring_id: None,
@@ -306,7 +308,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Periodic,
             cause: None,
             actual_value: "a".repeat(2501), // Invalid
             tech_code: None, tech_info: None,
@@ -326,7 +328,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Periodic,
             cause: None, actual_value: "val".to_string(),
             tech_code: Some("a".repeat(51)), // Invalid
             tech_info: None,
@@ -346,7 +348,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Delta,
             cause: None, actual_value: "val".to_string(), tech_code: None,
             tech_info: Some("a".repeat(501)), // Invalid
             cleared: None, transaction_id: None, variable_monitoring_id: None,
@@ -365,7 +367,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Alerting,
             cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
             cleared: None,
             transaction_id: Some("a".repeat(37)), // Invalid
@@ -385,7 +387,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Periodic,
             cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
             cleared: None, transaction_id: None,
             variable_monitoring_id: Some(-10), // Invalid
@@ -404,7 +406,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Periodic,
             cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
             cleared: None, transaction_id: None, variable_monitoring_id: None,
             event_notification_type: None,
@@ -424,7 +426,7 @@ mod tests {
         let event_data = EventDataType {
             event_id: -1, // Invalid 1
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            trigger: "Trigger".to_string(),
+            trigger: EventTriggerEnumType::Alerting,
             cause: Some(-5), // Invalid 2
             actual_value: "a".repeat(2501), // Invalid 3
             tech_code: Some("b".repeat(51)), // Invalid 4

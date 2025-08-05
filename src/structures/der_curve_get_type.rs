@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::der_control_enum_type::DERControlEnumType;
 use crate::errors::OcppError;
+use crate::structures::der_curve_type::DERCurveType;
 
 /// DERCurveGetType is used by: ReportDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -8,13 +10,13 @@ pub struct DERCurveGetType {
     /// String length: 0..36
     pub id: String,
     /// Required. Type of DER curve
-    pub curve_type: DERControlEnumType, // TODO: Implement DERControlEnumType
+    pub curve_type: DERControlEnumType,
     /// Required. True if this is a default curve
     pub is_default: bool,
     /// Required. True if this setting is superseded by a higher priority setting (i.e. lower value of priority)
     pub is_superseded: bool,
     /// Required. Parameters defining the DER curve
-    pub curve: DERCurveType, // TODO: Implement DERCurveType
+    pub curve: DERCurveType,
 }
 
 impl DERCurveGetType {
@@ -58,10 +60,10 @@ mod tests {
     fn test_serialization_deserialization() {
         let der_curve_get = DERCurveGetType {
             id: "DER_CURVE_001".to_string(),
-            curve_type: "ActivePowerControl".to_string(), // Placeholder
+            curve_type: DERControlEnumType::FreqWatt, // Placeholder
             is_default: false,
             is_superseded: false,
-            curve: "curve_data_placeholder".to_string(), // Placeholder
+            curve: DERCurveType::default(), // Placeholder
         };
 
         let serialized = serde_json::to_string(&der_curve_get).unwrap();
@@ -75,19 +77,19 @@ mod tests {
     fn test_validation_valid() {
         let der_curve_get = DERCurveGetType {
             id: "valid_id_123".to_string(),
-            curve_type: "VoltageRegulation".to_string(),
+            curve_type: DERControlEnumType::FixedPFAbsorb,
             is_default: true,
             is_superseded: false,
-            curve: "some_curve_data".to_string(),
+            curve: DERCurveType::default(),
         };
         assert!(der_curve_get.validate().is_ok());
 
         let der_curve_get_max_id_len = DERCurveGetType {
             id: "a".repeat(36), // Valid length
-            curve_type: "FrequencyWatt".to_string(),
+            curve_type: DERControlEnumType::HFMayTrip,
             is_default: false,
             is_superseded: true,
-            curve: "other_curve_data".to_string(),
+            curve: DERCurveType::default(),
         };
         assert!(der_curve_get_max_id_len.validate().is_ok());
     }
@@ -96,10 +98,10 @@ mod tests {
     fn test_validation_id_too_long() {
         let der_curve_get = DERCurveGetType {
             id: "a".repeat(37), // Invalid
-            curve_type: "ActivePowerControl".to_string(),
+            curve_type: DERControlEnumType::WattPF,
             is_default: false,
             is_superseded: false,
-            curve: "curve_data".to_string(),
+            curve: DERCurveType::default(),
         };
         let err = der_curve_get.validate().unwrap_err();
         if let OcppError::StructureValidationError { source, .. } = err {

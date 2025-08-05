@@ -1,8 +1,7 @@
-use serde::{Deserialize, Serialize};
-use crate::enums::APNAuthentication;
-use crate::errors::OcppError;
-use crate::errors::OcppError::{FieldCardinalityError, StructureValidationError};
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
+use crate::enums::apn_authentication_enum_type::APNAuthenticationEnumType;
 
 /// Collection of configuration data needed to make a data-connection over a cellular network.
 /// Used by: SetNetworkProfileRequest.NetworkConnectionProfileType
@@ -25,62 +24,28 @@ pub struct ApnType {
     /// Optional. Default: false. Use only the preferred Network, do not dial in when not available.
     pub use_only_preferred_network: Option<bool>,
     /// Required. Authentication method.
-    pub apn_authentication: APNAuthentication
+    pub apn_authentication: APNAuthenticationEnumType
 }
 
 impl OcppEntity for ApnType {
     /// Validates the fields of ApnType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
-        let mut errors : Vec<OcppError> = Vec::new();
+        let mut e = StructureValidationBuilder::new();
 
-        if self.apn.len() > 2000 {
-            errors.push(FieldCardinalityError {
-                cardinality: self.apn.len(),
-                lower: 0,
-                upper: 2000
-            }.to_field_validation_error("ApnType"))
-        }
+        e.check_cardinality("apn", 0, 2000, self.apn.as_ref());
 
-        // Validate optional fields if they exist
         if let Some(user_name) = &self.apn_user_name {
-            if user_name.len() > 50 {
-                errors.push(FieldCardinalityError {
-                    cardinality: user_name.len(),
-                    lower: 0,
-                    upper: 50
-                }.to_field_validation_error("apn_user_name"))
-            }
+            e.check_cardinality("user_name", 0, 50, user_name.as_ref());
         }
         if let Some(password) = &self.apn_password {
-            if password.len() > 64 {
-                errors.push(FieldCardinalityError {
-                    cardinality: password.len(),
-                    lower: 0,
-                    upper: 64
-                }.to_field_validation_error("apn_password"))
-            }
+            e.check_cardinality("apn_password", 0, 64, password.as_ref());
         }
         if let Some(preferred_net) = &self.preferred_network {
-            if preferred_net.len() > 6 {
-                errors.push(FieldCardinalityError {
-                    cardinality: preferred_net.len(),
-                    lower: 0,
-                    upper: 6
-                }.to_field_validation_error("preferred_network"))
-            }
+            e.check_cardinality("preferred_network", 0, 6, preferred_net.as_ref());
         }
 
-        if !errors.is_empty() {
-            return Err(
-                StructureValidationError {
-                    structure: "ApnType".to_string(),
-                    source: errors
-                }
-            )
-        }
-
-        Ok(())
+       e.build("ApnType")
     }
 }
 
@@ -98,7 +63,7 @@ mod tests {
             sim_pin: Some(1234),
             preferred_network: Some("20404".to_string()),
             use_only_preferred_network: Some(true),
-            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(), // Example value
+            apn_authentication: APNAuthenticationEnumType::try_from("CHAP".to_string()).unwrap(), // Example value
         };
 
         let serialized = serde_json::to_string(&apn_config).unwrap();
@@ -117,9 +82,9 @@ mod tests {
             sim_pin: None,
             preferred_network: None,
             use_only_preferred_network: None,
-            apn_authentication: APNAuthentication::try_from("NONE".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("NONE".to_string()).unwrap(),
         };
-        assert!(apn_config.validate());
+        assert!(apn_config.validate().is_ok());
 
         let apn_config_full = ApnType {
             apn: "a".repeat(2000),
@@ -128,9 +93,9 @@ mod tests {
             sim_pin: Some(9999),
             preferred_network: Some("123456".to_string()),
             use_only_preferred_network: Some(false),
-            apn_authentication: APNAuthentication::try_from("PAP".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("PAP".to_string()).unwrap(),
         };
-        assert!(apn_config_full.validate());
+        assert!(apn_config_full.validate().is_ok());
     }
 
     #[test]
@@ -142,9 +107,9 @@ mod tests {
             sim_pin: None,
             preferred_network: None,
             use_only_preferred_network: None,
-            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("CHAP".to_string()).unwrap(),
         };
-        assert!(!apn_config.validate());
+        assert!(apn_config.validate().is_err());
     }
 
     #[test]
@@ -156,9 +121,9 @@ mod tests {
             sim_pin: None,
             preferred_network: None,
             use_only_preferred_network: None,
-            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("CHAP".to_string()).unwrap(),
         };
-        assert!(!apn_config.validate());
+        assert!(apn_config.validate().is_err());
     }
 
     #[test]
@@ -170,9 +135,9 @@ mod tests {
             sim_pin: None,
             preferred_network: None,
             use_only_preferred_network: None,
-            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("CHAP".to_string()).unwrap(),
         };
-        assert!(!apn_config.validate());
+        assert!(apn_config.validate().is_err());
     }
 
     #[test]
@@ -184,8 +149,8 @@ mod tests {
             sim_pin: None,
             preferred_network: Some("1234567".to_string()), // Too long
             use_only_preferred_network: None,
-            apn_authentication: APNAuthentication::try_from("CHAP".to_string()).unwrap(),
+            apn_authentication: APNAuthenticationEnumType::try_from("CHAP".to_string()).unwrap(),
         };
-        assert!(!apn_config.validate());
+        assert!(apn_config.validate().is_err());
     }
 }

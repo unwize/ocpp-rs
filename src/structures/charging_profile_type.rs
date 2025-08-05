@@ -1,5 +1,8 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::enums::charging_profile_kind_enum_type::ChargingProfileKindEnumType;
+use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
+use crate::structures::charging_schedule_type::ChargingScheduleType;
 
 /// Represents a charging profile.
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -13,9 +16,9 @@ pub struct ChargingProfileType {
     /// Constraints: 0 <= val
     pub stack_level: i32,
     /// Required. Defines the purpose of the schedule transferred by this profile.
-    pub charging_profile_purpose: ChargingProfilePurposeEnumType, // TODO: Implement ChargingProfilePurposeEnumType
+    pub charging_profile_purpose: ChargingProfilePurposeEnumType,
     /// Required. Indicates the kind of schedule.
-    pub charging_profile_kind: ChargingProfileKindEnumType, // TODO: Implement ChargingProfileKindEnumType
+    pub charging_profile_kind: ChargingProfileKindEnumType,
     /// Optional. Indicates start point of a recurrence.
     pub recurrence_kind: Option<RecurrenceKindEnumType>, // TODO: Implement RecurrenceKindEnumType
     /// Optional. Point in time at which the profile starts to be valid.
@@ -53,5 +56,5 @@ pub struct ChargingProfileType {
     /// In order to support ISO 15118 schedules, the Charging Station SHALL support these schedules with associated tariff to choose from.
     /// Having multiple ChargingSchedules is only allowed for ChargingProfiles of type TxProfile, i.e. in the context of an ISO 15118 charging session.
     /// For ISO 15118 Dynamic Control Mode (AC_EVSECC), only one ChargingSchedule is allowed.
-    pub charging_schedule: ChargingScheduleType, // TODO: Implement ChargingScheduleType
+    pub charging_schedule: ChargingScheduleType,
 }

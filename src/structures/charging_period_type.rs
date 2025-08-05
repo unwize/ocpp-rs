@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::structures::cost_dimension_type::CostDimensionType;
 
 /// A ChargingPeriodType consists of a start time, and a list of possible values that influence this period,
 /// for example: amount of energy charged this period, maximum current during this period etc.
@@ -15,7 +16,7 @@ pub struct ChargingPeriodType {
     pub start_period: DateTime<Utc>,
     /// Optional. List of volume per cost dimension for this charging period.
     /// Cardinality 0..*, so represented as a Vec.
-    pub dimensions: Option<Vec<CostDimensionType>>, // TODO: Implement CostDimensionType
+    pub dimensions: Option<Vec<CostDimensionType>>,
 }
 
 impl ChargingPeriodType {

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
+use crate::structures::enter_service_type::EnterServiceType;
 
 /// EnterServiceGetType is used by: ReportDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -8,7 +9,7 @@ pub struct EnterServiceGetType {
     /// String length: 0..36
     pub id: String,
     /// Required. Enter Service settings
-    pub enter_service: EnterServiceType, // TODO: Implement EnterServiceType
+    pub enter_service: EnterServiceType,
 }
 
 impl EnterServiceGetType {
@@ -52,7 +53,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let enter_service_get = EnterServiceGetType {
             id: "SERVICE_SETTING_001".to_string(),
-            enter_service: "enter_service_placeholder".to_string(), // Placeholder
+            enter_service: EnterServiceType::default(), // Placeholder
         };
 
         let serialized = serde_json::to_string(&enter_service_get).unwrap();
@@ -66,13 +67,13 @@ mod tests {
     fn test_validation_valid() {
         let enter_service_get = EnterServiceGetType {
             id: "valid_id".to_string(),
-            enter_service: "some_settings".to_string(),
+            enter_service: EnterServiceType::default(),
         };
         assert!(enter_service_get.validate().is_ok());
 
         let enter_service_get_max_id_len = EnterServiceGetType {
             id: "a".repeat(36), // Valid length
-            enter_service: "other_settings".to_string(),
+            enter_service: EnterServiceType::default(),
         };
         assert!(enter_service_get_max_id_len.validate().is_ok());
     }
@@ -81,7 +82,7 @@ mod tests {
     fn test_validation_id_too_long() {
         let enter_service_get = EnterServiceGetType {
             id: "a".repeat(37), // Invalid
-            enter_service: "settings".to_string(),
+            enter_service: EnterServiceType::default(),
         };
         let err = enter_service_get.validate().unwrap_err();
         if let OcppError::StructureValidationError { source, .. } = err {

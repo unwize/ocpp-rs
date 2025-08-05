@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
 use crate::errors::OcppError;
 
 /// A ClearChargingProfileType is a filter for charging profiles to be cleared by ClearChargingProfileRequest.
@@ -15,7 +16,7 @@ pub struct ClearChargingProfileType {
     /// Optional. Specifies to purpose of the charging profiles that will be cleared,
     /// if they meet the other criteria in the request.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub charging_profile_purpose: Option<ChargingProfilePurposeEnumType>, // TODO: Implement ChargingProfilePurposeEnumType
+    pub charging_profile_purpose: Option<ChargingProfilePurposeEnumType>,
     /// Optional. Specifies the stackLevel for which charging profiles will be cleared,
     /// if they meet the other criteria in the request.
     /// Constraints: 0 <= val
@@ -82,7 +83,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let clear_profile = ClearChargingProfileType {
             evse_id: Some(1),
-            charging_profile_purpose: Some("TxProfile".to_string()), // TODO: Placeholder
+            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::TxProfile),
             stack_level: Some(0),
         };
 
@@ -104,7 +105,7 @@ mod tests {
 
         let clear_profile_full = ClearChargingProfileType {
             evse_id: Some(0), // Valid
-            charging_profile_purpose: Some("ChargePointMaxProfile".to_string()), // TODO: Placeholder
+            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::ChargingStationMaxProfile),
             stack_level: Some(10), // Valid
         };
         assert!(clear_profile_full.validate().is_ok());
@@ -154,7 +155,7 @@ mod tests {
     fn test_validation_multiple_errors() {
         let clear_profile = ClearChargingProfileType {
             evse_id: Some(-5), // Invalid 1
-            charging_profile_purpose: Some("TxProfile".to_string()),
+            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::TxProfile),
             stack_level: Some(-2), // Invalid 2
         };
         let err = clear_profile.validate().unwrap_err();

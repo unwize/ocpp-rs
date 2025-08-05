@@ -3,7 +3,7 @@ use crate::errors::OcppError;
 
 /// An entry in price schedule over time for which EV is willing to discharge.
 /// Used by: Common::EVAbsolutePriceScheduleType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EVAbsolutePriceScheduleEntryType {
     /// Required. The amount of seconds of this entry.
     pub duration: i32, // integer

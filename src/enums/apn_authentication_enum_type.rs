@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
-use std::fmt;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
 pub enum APNAuthenticationEnumType {

@@ -1,6 +1,6 @@
 use chrono::{DateTime, Utc};
-use miette::Diagnostic;
 use serde::{Deserialize, Serialize};
+use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::OcppError;
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
@@ -19,7 +19,7 @@ pub struct ChargingScheduleType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<i32>,
     /// Required. The unit of measure in which limits and setpoints are expressed.
-    pub charging_rate_unit: ChargingRateUnitEnumType, // TODO: Implement ChargingRateUnitEnumType
+    pub charging_rate_unit: ChargingRateUnitEnumType,
     /// Optional. Minimum charging rate supported by the EV.
     /// The unit of measure is defined by the ChargingRateUnit.
     /// This parameter is intended to be used by a local smart charging algorithm to optimize the power allocation
@@ -160,9 +160,9 @@ mod tests {
     fn test_serialization_deserialization() {
         let schedule = ChargingScheduleType {
             id: 1,
-            start_schedule: Some(Utc.ymd(2025, 8, 1).and_hms(10, 0, 0)),
+            start_schedule: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600),
-            charging_rate_unit: "A".to_string(), // Placeholder
+            charging_rate_unit: ChargingRateUnitEnumType::A, // Placeholder
             min_charging_rate: Some(6.0),
             power_tolerance: Some(0.05),
             signature_id: Some(123),
@@ -189,7 +189,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: Some(0), // Valid
@@ -211,7 +211,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: Some(-5), // Invalid
@@ -243,7 +243,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: None,
@@ -275,7 +275,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: None,
@@ -308,7 +308,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: None,
@@ -338,7 +338,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: None,
@@ -346,7 +346,7 @@ mod tests {
             use_local_time: None,
             randomized_delay: None,
             sales_tariff: None,
-            charging_schedule_period: vec![<>; 1025], // TODO: Invalid cardinality
+            charging_schedule_period: vec![ChargingSchedulePeriodType::default(); 1025], // TODO: Invalid cardinality
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
@@ -370,7 +370,7 @@ mod tests {
             id: 1,
             start_schedule: None,
             duration: None,
-            charging_rate_unit: "W".to_string(),
+            charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
             signature_id: Some(-5), // Invalid 1

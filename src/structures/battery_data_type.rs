@@ -1,8 +1,7 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::errors::OcppError::{FieldValueError, StructureValidationError};
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Represents battery data.
 /// Used by: BatterySwapRequest

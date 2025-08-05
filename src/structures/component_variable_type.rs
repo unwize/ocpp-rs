@@ -24,7 +24,7 @@ impl ComponentVariableType {
             Ok(())
         } else {
             Err(StructureValidationError {
-                structure: "ComponentVariableType",
+                structure: "ComponentVariableType".to_string(),
                 source: errors
             })
         }

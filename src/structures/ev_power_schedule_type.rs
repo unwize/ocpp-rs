@@ -14,6 +14,15 @@ pub struct EVPowerScheduleType {
     pub ev_power_schedule_entries: Vec<EVPowerScheduleEntryType>
 }
 
+impl Default for EVPowerScheduleType {
+    fn default() -> EVPowerScheduleType {
+        Self {
+            time_anchor: Default::default(),
+            ev_power_schedule_entries: vec![],
+        }
+    }
+}
+
 impl EVPowerScheduleType {
     /// Validates the fields of EVPowerScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
