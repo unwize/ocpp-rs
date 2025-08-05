@@ -19,7 +19,7 @@ impl OcppEntity for AdditionalSelectedServicesType {
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        e.check_cardinality("service_name", 0, 80, self.service_name.as_ref());
+        e.check_cardinality("service_name", 0, 80, &self.service_name.chars());
         e.build("AdditionalSelectedServicesType")
     }
 }
@@ -49,13 +49,13 @@ mod tests {
             service_name: "Short service name".to_string(),
             service_fee: 100,
         };
-        assert!(service.validate());
+        assert!(service.validate().is_ok());
 
         let service_max_len = AdditionalSelectedServicesType {
             service_name: "a".repeat(80),
             service_fee: 0, // Valid fee
         };
-        assert!(service_max_len.validate());
+        assert!(service_max_len.validate().is_ok());
     }
 
     #[test]
@@ -64,6 +64,6 @@ mod tests {
             service_name: "a".repeat(81), // Too long
             service_fee: 500,
         };
-        assert!(!service.validate());
+        assert!(service.validate().is_err());
     }
 }

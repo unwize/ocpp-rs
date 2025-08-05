@@ -33,16 +33,16 @@ impl OcppEntity for ApnType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("apn", 0, 2000, self.apn.as_ref());
+        e.check_cardinality("apn", 0, 2000, &self.apn.chars());
 
         if let Some(user_name) = &self.apn_user_name {
-            e.check_cardinality("user_name", 0, 50, user_name.as_ref());
+            e.check_cardinality("user_name", 0, 50, &user_name.chars());
         }
         if let Some(password) = &self.apn_password {
-            e.check_cardinality("apn_password", 0, 64, password.as_ref());
+            e.check_cardinality("apn_password", 0, 64, &password.chars());
         }
         if let Some(preferred_net) = &self.preferred_network {
-            e.check_cardinality("preferred_network", 0, 6, preferred_net.as_ref());
+            e.check_cardinality("preferred_network", 0, 6, &preferred_net.chars());
         }
 
        e.build("ApnType")

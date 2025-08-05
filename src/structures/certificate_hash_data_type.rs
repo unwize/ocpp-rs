@@ -41,9 +41,9 @@ impl OcppEntity for CertificateHashDataType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("issuer_name_hash", 0, 128, self.issuer_name_hash.as_ref());
-        e.check_cardinality("issuer_key_hash", 0, 128, self.issuer_key_hash.as_ref());
-        e.check_cardinality("serial_number", 0, 40, self.serial_number.as_ref());
+        e.check_cardinality("issuer_name_hash", 0, 128, &self.issuer_name_hash.chars());
+        e.check_cardinality("issuer_key_hash", 0, 128, &self.issuer_key_hash.chars());
+        e.check_cardinality("serial_number", 0, 40, &self.serial_number.chars());
 
         e.build("CertificateHashDataType")
     }

@@ -1,3 +1,5 @@
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
 /// Represents a charging limit.
@@ -15,17 +17,11 @@ pub struct ChargingLimitType {
     pub is_grid_critical: Option<bool>,
 }
 
-impl ChargingLimitType {
-    /// Validates the fields of ChargingLimitType based on specified constraints.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // Validate charging_limit_source length
-        if self.charging_limit_source.len() > 20 {
-            // println!("Validation failed: charging_limit_source length exceeds 20.");
-            return false;
-        }
-
-        true
+impl OcppEntity for ChargingLimitType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("charging_limit_source", 0, 20, &self.charging_limit_source.chars());
+        e.build("ChargingLimitType")
     }
 }
 
@@ -56,14 +52,14 @@ mod tests {
             is_local_generation: None,
             is_grid_critical: None,
         };
-        assert!(charging_limit_minimal.validate());
+        assert!(charging_limit_minimal.validate().is_ok());
 
         let charging_limit_full = ChargingLimitType {
             charging_limit_source: "a".repeat(20),
             is_local_generation: Some(true),
             is_grid_critical: Some(true),
         };
-        assert!(charging_limit_full.validate());
+        assert!(charging_limit_full.validate().is_ok());
     }
 
     #[test]
@@ -73,6 +69,6 @@ mod tests {
             is_local_generation: None,
             is_grid_critical: None,
         };
-        assert!(!charging_limit.validate());
+        assert!(charging_limit.validate().is_err());
     }
 }

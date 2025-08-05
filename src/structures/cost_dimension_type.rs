@@ -5,7 +5,7 @@ use crate::traits::OcppEntity;
 
 /// Volume consumed of cost dimension.
 /// Used by: Common::ChargingPeriodType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CostDimensionType {
     /// Required. Type of cost dimension: energy, power, time, etc.
     pub r#type: CostDimensionEnumType,

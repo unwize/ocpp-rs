@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::certificate_status_source_enum_type::CertificateStatusSourceEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
+use crate::traits::OcppEntity;
 
 /// Data necessary to request the revocation status of a certificate.
 /// Used by: GetCertificateChainStatusRequest
@@ -16,25 +18,20 @@ pub struct CertificateStatusRequestInfoType {
     pub certificate_hash_data: CertificateHashDataType
 }
 
-impl CertificateStatusRequestInfoType {
-    /// Validates the fields of CertificateStatusRequestInfoType based on specified constraints.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // No specific validation for 'source' or 'certificate_hash_data' without their enum/struct definitions.
+impl OcppEntity for CertificateStatusRequestInfoType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate urls cardinality (1 to 5) and string length
-        if self.urls.is_empty() || self.urls.len() > 5 {
-            // println!("Validation failed: urls must contain between 1 and 5 elements.");
-            return false;
-        }
-        for url in &self.urls {
-            if url.len() > 2000 {
-                // println!("Validation failed: URL length exceeds 2000.");
-                return false;
-            }
+        e.check_cardinality("urls", 1, 5, &self.urls.iter());
+
+        // Manually check cardinality of strings in the `urls` vector as push_iter_member only works
+        // for `impl OcppEntity`.
+        for i in 0..self.urls.len() {
+            e.check_cardinality(format!("urls[{i}").as_str(), 0, 2000, &self.urls[i].chars());
         }
 
-        true
+        e.push_member("certificate_hash_data", &self.certificate_hash_data);
+        e.build("CertificateRequestInfoType")
     }
 }
 
@@ -68,7 +65,7 @@ mod tests {
             urls: vec!["http://example.com/crl".to_string()],
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(cert_status_req.validate());
+        assert!(cert_status_req.validate().is_ok());
 
         let cert_status_req_max_urls = CertificateStatusRequestInfoType {
             source: CertificateStatusSourceEnumType::Ocsp,
@@ -81,7 +78,7 @@ mod tests {
             ],
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(cert_status_req_max_urls.validate());
+        assert!(cert_status_req_max_urls.validate().is_ok());
     }
 
     #[test]
@@ -91,7 +88,7 @@ mod tests {
             urls: vec![], // No URLs
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(!cert_status_req.validate());
+        assert!(cert_status_req.validate().is_err());
     }
 
     #[test]
@@ -108,7 +105,7 @@ mod tests {
             ],
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(!cert_status_req.validate());
+        assert!(cert_status_req.validate().is_err());
     }
 
     #[test]
@@ -118,6 +115,6 @@ mod tests {
             urls: vec!["a".repeat(2001)], // URL too long
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(!cert_status_req.validate());
+        assert!(cert_status_req.validate().is_err());
     }
 }

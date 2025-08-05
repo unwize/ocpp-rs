@@ -2,10 +2,12 @@ use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::control_model_enum_type::ControlModeEnumType;
 use crate::enums::energy_transfer_mode_enum_type::EnergyTransferModeEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ac_charging_parameters_type::ACChargingParametersType;
 use crate::structures::dc_charging_parameters_type::DCChargingParametersType;
 use crate::structures::der_charging_parameters_type::DERChargingParametersType;
 use crate::structures::ev_energy_offer_type::EVEnergyOfferType;
+use crate::traits::OcppEntity;
 
 /// Represents the charging needs of an EV.
 /// Used by: NotifyEVChargingNeedsRequest
@@ -51,11 +53,30 @@ pub struct ChargingNeedsType {
     pub der_charging_parameters: Option<DERChargingParametersType>,
 }
 
-impl ChargingNeedsType {
-    /// Validates the fields of ChargingNeedsType.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // TODO: Implement logic once composite structs are defined
-        true
+impl OcppEntity for ChargingNeedsType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+
+        if let Some(v2x_charging_parameters) = &self.v2x_charging_parameters {
+            e.push_member("v2x_charging_parameters", v2x_charging_parameters);
+        }
+
+        if let Some(dc_charging_parameters) = &self.dc_charging_parameters {
+            e.push_member("dc_charging_parameters", dc_charging_parameters);
+        }
+
+        if let Some(ac_charging_parameters) = &self.ac_charging_parameters {
+            e.push_member("ac_charging_parameters", ac_charging_parameters);
+        }
+
+        if let Some(ev_energy_offer) = &self.ev_energy_offer {
+            e.push_member("ev_energy_offer", ev_energy_offer);
+        }
+
+        if let Some(der_charging_parameters) = &self.der_charging_parameters {
+            e.push_member("der_charging_parameters", der_charging_parameters);
+        }
+
+        e.build("ChargingNeedsType")
     }
 }

@@ -32,13 +32,13 @@ impl OcppEntity for BatteryDataType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("serial_number", 0, 50, self.serial_number.as_ref());
+        e.check_cardinality("serial_number", 0, 50, &self.serial_number.chars());
         e.check_bounds("soc", 0.0, 100.0, self.soc);
         e.check_bounds("soh", 0.0, 100.0, self.soh);
 
         // Validate vendor_info length if present
         if let Some(info) = &self.vendor_info {
-            e.check_cardinality("vendor_info", 0, 500, info.as_ref());
+            e.check_cardinality("vendor_info", 0, 500, &info.chars());
         }
 
         e.build("BatteryDataType")

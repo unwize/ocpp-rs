@@ -2,7 +2,9 @@ use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::certificate_status_enum_type::CertificateStatusEnumType;
 use crate::enums::certificate_status_source_enum_type::CertificateStatusSourceEnumType;
+use crate::errors::OcppError;
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
+use crate::traits::OcppEntity;
 
 /// Revocation status of certificate
 /// Used by: GetCertificateChainStatusResponse
@@ -18,15 +20,9 @@ pub struct CertificateStatusType {
     pub certificate_hash_data: CertificateHashDataType
 }
 
-impl CertificateStatusType {
-    /// Validates the fields of CertificateStatusType.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // No specific validation rules can be applied without the definitions
-        // of CertificateStatusSourceEnumType, CertificateStatusEnumType, and CertificateHashDataType.
-        // If these were structs/enums with their own validate methods, you would call them here.
-
-        true
+impl OcppEntity for CertificateStatusType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        self.certificate_hash_data.validate()
     }
 }
 
@@ -60,6 +56,6 @@ mod tests {
             next_update: Utc.with_ymd_and_hms(2025, 9, 1,0, 0, 0).unwrap(),
             certificate_hash_data: CertificateHashDataType::default(),
         };
-        assert!(cert_status.validate());
+        assert!(cert_status.validate().is_ok());
     }
 }

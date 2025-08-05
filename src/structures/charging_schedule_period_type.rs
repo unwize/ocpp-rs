@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, FieldBoundsError};
 
 /// Charging schedule period structure defines a time period in a charging schedule.
@@ -166,121 +166,33 @@ impl ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
     pub fn validate(&self) -> Result<(), OcppError> {
-        let mut error: Vec<OcppError> = Vec::new();
-        
-        // Validate number_phases
-        if let Some(phases) = self.number_phases {
-            if phases < 0 {
-                // println!("Validation failed: number_phases must be non-negative.");
-                error.push(
-                    FieldValidationError {
-                        field: String::from("number_phases"),
-                        source: vec![FieldBoundsError {
-                            value: phases.to_string(),
-                            lower: "0".to_string(),
-                            upper: "INF".to_string(),
-                        }]
-                    }
-                )
-            }
+        let mut e = StructureValidationBuilder::new();
+
+        if let Some(number_phases) = self.number_phases {
+            e.check_bounds("number_phases", 1, 3, number_phases);
         }
 
-        // Validate phase_to_use
-        if let Some(phase) = self.phase_to_use {
-            if phase < 1 || phase > 3 {
-                // println!("Validation failed: phase_to_use must be between 1 and 3.");
-                error.push(
-                    FieldValidationError {
-                        field: "phase_to_use".to_string(),
-                        source: vec![FieldBoundsError {
-                            value: phase.to_string(),
-                            lower: "1".to_string(),
-                            upper: "3".to_string()
-                        }]
-                    }
-                )
-            }
+        if let Some(phase_to_use) = self.phase_to_use {
+            e.check_bounds("phase_to_use", 1, 3, phase_to_use);
         }
 
-        // Validate discharge_limit, discharge_limit_l2, discharge_limit_l3
-        if let Some(limit) = self.discharge_limit {
-            if limit > 0.0 {
-                // println!("Validation failed: discharge_limit must be non-positive.");
-                error.push(
-                    FieldValidationError {
-                        field: "discharge_limit".to_string(),
-                        source: vec![FieldBoundsError {
-                            value: limit.to_string(),
-                            lower: "-INF".to_string(),
-                            upper: "0".to_string(),
-                        }]
-                    }
-                );
-            }
+        if let Some(discharge_limit) = self.discharge_limit {
+            e.check_bounds("discharge_limit", f64::MIN, 0.0, discharge_limit);
         }
-        if let Some(limit_l2) = self.discharge_limit_l2 {
-            if limit_l2 > 0.0 {
-                // println!("Validation failed: discharge_limit_l2 must be non-positive.");
-                error.push(
-                    FieldValidationError {
-                        field: "discharge_limit_l2".to_string(),
-                        source: vec![FieldBoundsError {
-                            value: limit_l2.to_string(),
-                            lower: "-INF".to_string(),
-                            upper: "0".to_string(),
-                        }]
-                    }
-                );
-            }
+        if let Some(discharge_limit_l2) = self.discharge_limit_l2 {
+            e.check_bounds("discharge_limit_l2", f64::MIN, 0.0, discharge_limit_l2);
         }
-        if let Some(limit_l3) = self.discharge_limit_l3 {
-            if limit_l3 > 0.0 {
-                // println!("Validation failed: discharge_limit_l3 must be non-positive.");
-                error.push(
-                    FieldValidationError {
-                        field: "discharge_limit_l3".to_string(),
-                        source: vec![FieldBoundsError {
-                            value: limit_l3.to_string(),
-                            lower: "-INF".to_string(),
-                            upper: "0".to_string(),
-                        }]
-                    }
-                );
-            }
+        if let Some(discharge_limit_l3) = self.discharge_limit_l3 {
+            e.check_bounds("discharge_limit_l3", f64::MIN, 0.0, discharge_limit_l3);
         }
 
         if let Some(v2x_freq_watt_curve) = &self.v2x_freq_watt_curve {
-            if v2x_freq_watt_curve.len() < 20 {
-                error.push(
-                    FieldValidationError {
-                        field: "v2x_freq_watt_curve".to_string(),
-                        source: vec![FieldCardinalityError {
-                            cardinality: v2x_freq_watt_curve.len(),
-                            lower: 0,
-                            upper: 20
-                        }]
-                    }
-                );
-            }
+            e.check_cardinality("v2x_freq_watt_curve", 0, 20, &v2x_freq_watt_curve.iter());
         }
 
         if let Some(v2x_signal_watt_curve) = &self.v2x_signal_watt_point_type {
-            if v2x_signal_watt_curve.len() < 20 {
-                error.push(
-                    FieldValidationError {
-                        field: "v2x_signal_watt_curve".to_string(),
-                        source: vec![FieldCardinalityError {
-                            cardinality: v2x_signal_watt_curve.len(),
-                            lower: 0,
-                            upper: 20
-                        }]
-                    }
-                )
-            }
+            e.check_cardinality("v2x_signal_watt_curve", 0, 20, &v2x_signal_watt_curve.iter());
         }
-
-        // No explicit constraints for other decimal fields (limit, setpoint, setpoint_reactive, etc.)
-        // beyond their type. If specific ranges or non-negativity were required, they would be added here.
 
         Ok(())
     }

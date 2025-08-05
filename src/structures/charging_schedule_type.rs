@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
 
@@ -48,9 +48,11 @@ pub struct ChargingScheduleType {
     /// Constraints: 0 <= val
     #[serde(skip_serializing_if = "Option::is_none")]
     pub randomized_delay: Option<i32>,
+
     /// Optional. Sales tariff for charging associated with this schedule.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sales_tariff: Option<SalesTarrifType>, // TODO: Implement SalesTariffType
+
     /// Required. List of ChargingSchedulePeriod elements defining maximum power or current usage over time.
     /// The maximum number of periods, that is supported by the Charging Station, if less than 1024, is set by device model variable SmartCharging.MaxPeriodsPerSchedule.
     /// This equals 131 bytes, which can be encoded as base64 in 176 bytes.
@@ -71,81 +73,36 @@ impl ChargingScheduleType {
     /// Validates the fields of ChargingScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate signature_id
-        if let Some(id) = self.signature_id {
-            if id < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "signature_id".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: id.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(), // No upper bound specified, so use a generic placeholder
-                    }],
-                });
-            }
+        if let Some(signature_id) = self.signature_id {
+            e.check_bounds("signature_id", 0, i32::MAX, signature_id);
         }
 
-        // Validate digest_value length
-        if let Some(digest) = &self.digest_value {
-            if digest.len() > 88 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "digest_value".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: digest.len(),
-                        lower: 0,
-                        upper: 88,
-                    }],
-                });
-            }
+        if let Some(digest_value) = &self.digest_value {
+            e.check_cardinality("digest_value", 0, 88, &digest_value.chars());
         }
 
-        // Validate randomized_delay
-        if let Some(delay) = self.randomized_delay {
-            if delay < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "randomized_delay".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: delay.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(), // No upper bound specified
-                    }],
-                });
-            }
+        if let Some(randomized_delay) = self.randomized_delay {
+            e.check_bounds("randomized_delay", 0, i32::MAX, randomized_delay);
         }
 
-        // Validate charging_schedule_period cardinality
-        if self.charging_schedule_period.is_empty() || self.charging_schedule_period.len() > 1024 {
-            errors.push(OcppError::FieldValidationError {
-                field: "charging_schedule_period".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.charging_schedule_period.len(),
-                    lower: 1,
-                    upper: 1024,
-                }],
-            });
+        if let Some(sales_tariff) = &self.sales_tariff {
+            e.push_member("sales_tariff", sales_tariff);
         }
-        // TODO: If ChargingSchedulePeriodType had its own validate method, iterate and call it here.
-        // for (i, period) in self.charging_schedule_period.iter().enumerate() {
-        //     if let Err(e) = period.validate() {
-        //         errors.push(OcppError::FieldValidationError {
-        //             field: format!("charging_schedule_period[{}]", i),
-        //             source: vec![e],
-        //         });
-        //     }
-        // }
 
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ChargingScheduleType".to_string(),
-                source: errors,
-            })
+        if let Some(absolute_price_schedule) = &self.absolute_price_schedule {
+            e.push_member("absolute_price_schedule", absolute_price_schedule);
         }
+
+        if let Some(limit_at_soc) = &self.limit_at_soc {
+            e.push_member("limit_at_soc", limit_at_soc);
+        }
+
+        e.check_cardinality("charging_schedule_period", 1, 1024, &self.charging_schedule_period.iter());
+        e.push_iter_member("charging_schedule_period", &self.charging_schedule_period.iter());
+
+        e.build("ChargingScheduleType")
     }
 }
 

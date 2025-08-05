@@ -23,7 +23,7 @@ impl OcppEntity for CertificateHashDataChainType {
         e.push_member("certificate_hash_data", &self.certificate_hash_data);
 
         if let Some(child_certificate_hash_data) = &self.child_certificate_hash_data {
-            e.push_iter_member("certificate_hash_data", child_certificate_hash_data);
+            e.push_iter_member("certificate_hash_data", child_certificate_hash_data.iter());
         }
 
         e.build("CertificateHashDataChainType")

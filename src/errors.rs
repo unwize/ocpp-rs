@@ -1,4 +1,4 @@
-use crate::errors::OcppError::{FieldBoundsError, FieldCardinalityError, FieldValidationError, StructureValidationError};
+use crate::errors::OcppError::{FieldBoundsError, FieldCardinalityError, FieldRelationshipError, FieldValidationError, StructureValidationError};
 use crate::traits::OcppEntity;
 use miette::Diagnostic;
 use thiserror::Error;
@@ -58,6 +58,14 @@ pub enum OcppError {
     FieldISOError {
         value: String,
         iso: String,
+    },
+
+    #[error("Field Relationship Error: {this} is invalid in relation to {other}")]
+    #[diagnostic("{help}")]
+    FieldRelationshipError {
+        this: String,
+        other: String,
+        help: String,
     }
 }
 
@@ -155,16 +163,24 @@ impl StructureValidationBuilder {
 
     /// For a given field and its value, check if its length is within the given range. If it is
     /// not, add a `OcppError::FieldCardinalityError` to the list.
-    pub fn check_cardinality<T: ExactSizeIterator>(&mut self, field: &str, lower: usize, upper: usize, o: &T,) -> &Self {
+    pub fn check_cardinality<T: Iterator>(&mut self, field: &str, lower: usize, upper: usize, o: &T,) -> &Self {
         if o.len() < lower || o.len() > upper {
             self.errors.push(FieldCardinalityError {
-                cardinality: o.len(),
+                cardinality: o.size_hint(),
                 lower,
                 upper,
             }.to_field_validation_error(field));
         }
 
         self
+    }
+
+    pub fn push_relation_error(&mut self, this: &str, other: &str, help: &str) {
+        self.errors.push(FieldRelationshipError {
+            this: this.to_string(),
+            other: other.to_string(),
+            help: help.to_string(),
+        })
     }
 
     pub fn build(&self, structure: &str) -> Result<(), OcppError> {

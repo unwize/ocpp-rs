@@ -1,11 +1,13 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::cost_dimension_type::CostDimensionType;
+use crate::traits::OcppEntity;
 
 /// A ChargingPeriodType consists of a start time, and a list of possible values that influence this period,
 /// for example: amount of energy charged this period, maximum current during this period etc.
 /// Used by: Common::CostDetailsType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingPeriodType {
     /// Optional. Unique identifier of the Tariff that was used to calculate cost.
     /// If not provided, then cost was calculated by some other means.
@@ -19,21 +21,20 @@ pub struct ChargingPeriodType {
     pub dimensions: Option<Vec<CostDimensionType>>,
 }
 
-impl ChargingPeriodType {
-    /// Validates the fields of ChargingPeriodType based on specified constraints.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // Validate tariff_id length if present
+impl OcppEntity for ChargingPeriodType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+
         if let Some(tariff_id) = &self.tariff_id {
-            if tariff_id.len() > 60 {
-                // println!("Validation failed: tariff_id length exceeds 60.");
-                return false;
-            }
+            e.check_cardinality("tariff_id", 0, 60, &tariff_id.chars());
         }
 
-        // TODO: Validate CostDimensionType
+        if let Some (dimensions) = &self.dimensions {
+            e.check_cardinality("start_period", 0, 60, &dimensions.iter());
+        }
 
-        true
+
+        e.build("ChargingPeriodType")
     }
 }
 
@@ -65,14 +66,14 @@ mod tests {
             start_period: Utc.with_ymd_and_hms(2025, 7, 31, 17, 0, 0).unwrap(),
             dimensions: None,
         };
-        assert!(charging_period_minimal.validate());
+        assert!(charging_period_minimal.validate().is_ok());
 
         let charging_period_full = ChargingPeriodType {
             tariff_id: Some("a".repeat(60)),
             start_period: Utc.with_ymd_and_hms(2025, 7, 31, 18, 0, 0).unwrap(),
             dimensions: Some(vec![]), // TODO: Add actual values
         };
-        assert!(charging_period_full.validate());
+        assert!(charging_period_full.validate().is_ok());
     }
 
     #[test]
@@ -82,6 +83,6 @@ mod tests {
             start_period: Utc.with_ymd_and_hms(2025, 7, 31, 17, 0, 0).unwrap(),
             dimensions: None,
         };
-        assert!(!charging_period.validate());
+        assert!(charging_period.validate().is_err());
     }
 }

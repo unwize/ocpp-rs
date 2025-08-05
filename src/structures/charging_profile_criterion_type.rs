@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// A ChargingProfileCriterionType is a filter for charging profiles to be selected by a GetChargingProfilesRequest.
 /// Used by: GetChargingProfilesRequest
@@ -10,53 +12,34 @@ pub struct ChargingProfileCriterionType {
     /// Optional. Value determining level in hierarchy stack of profiles.
     /// Higher values have precedence over lower values. Lowest level is 0.
     /// Constraints: 0 <= val
-    pub stack_level: Option<i32>,
+    pub stack_level: Option<u32>,
     /// Optional. List of all the chargingProfileIds requested. Any ChargingProfile that matches one of these profiles will be reported.
     /// If omitted, the Charging Station SHALL NOT filter on chargingProfileId.
     /// This field SHALL NOT contain more ids than set in ChargingProfileEntries.maxLimit.
-    /// Cardinality 0..*, so represented as a Vec.
-    pub charging_profile_id: Option<Vec<i32>>,
+    /// Cardinality 0..*
+    pub charging_profile_id: Option<Vec<u32>>,
     /// Optional. For which charging limit sources, charging profiles SHALL be reported.
     /// If omitted, the Charging Station SHALL NOT filter on chargingLimitSource.
     /// Values defined in Appendix as ChargingLimitSourceEnumStringType.
     /// String length: 0..20
-    /// Cardinality 0..4, so represented as a Vec.
+    /// Cardinality 0..4
     pub charging_limit_source: Option<Vec<String>>,
 }
 
-impl ChargingProfileCriterionType {
-    /// Validates the fields of ChargingProfileCriterionType based on specified constraints.
-    /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> bool {
-        // Validate stack_level if present
-        if let Some(level) = self.stack_level {
-            if level < 0 {
-                // println!("Validation failed: stack_level must be non-negative.");
-                return false;
+impl OcppEntity for ChargingProfileCriterionType {
+    fn validate(self: &Self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+
+        if let Some(charging_limit_source) = &self.charging_limit_source {
+            e.check_cardinality("charging_limit_source",0, 4, &charging_limit_source.iter());
+
+            for i in 0..charging_limit_source.len() {
+                e.check_cardinality(format!("charging_limit_source[{i}").as_str(),0, 20, &charging_limit_source[i].chars());
             }
         }
 
-        // Validate charging_profile_id cardinality (no upper limit specified, but description mentions maxLimit)
-        // Without `ChargingProfileEntries.maxLimit` definition, we can't enforce that specific constraint here.
-        // We assume any number of IDs is valid for now, but a real implementation would need that context.
+        e.build("ChargingProfileCriterionType")
 
-        // Validate charging_limit_source cardinality (max 4) and string length
-        if let Some(sources) = &self.charging_limit_source {
-            if sources.len() > 4 {
-                // println!("Validation failed: charging_limit_source count exceeds 4.");
-                return false;
-            }
-            for source in sources {
-                if source.len() > 20 {
-                    // println!("Validation failed: charging_limit_source string length exceeds 20.");
-                    return false;
-                }
-            }
-        }
-
-        // No specific validation for 'charging_profile_purpose' without its type definition.
-
-        true
     }
 }
 
@@ -104,17 +87,6 @@ mod tests {
             ]),
         };
         assert!(criterion_full.validate());
-    }
-
-    #[test]
-    fn test_validation_invalid_stack_level() {
-        let criterion = ChargingProfileCriterionType {
-            charging_profile_purpose: None,
-            stack_level: Some(-1), // Invalid
-            charging_profile_id: None,
-            charging_limit_source: None,
-        };
-        assert!(!criterion.validate());
     }
 
     #[test]

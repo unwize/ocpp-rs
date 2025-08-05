@@ -32,17 +32,17 @@ impl OcppEntity for AddressType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("name", 0, 50, self.name.as_ref());
-        e.check_cardinality("address1", 0, 100, self.address1.as_ref());
-        e.check_cardinality("city", 0, 100, self.city.as_ref());
-        e.check_cardinality("country", 0, 50, self.country.as_ref());
+        e.check_cardinality("name", 0, 50, &self.name.chars());
+        e.check_cardinality("address1", 0, 100, &self.address1.chars());
+        e.check_cardinality("city", 0, 100, &self.city.chars());
+        e.check_cardinality("country", 0, 50, &self.country.chars());
 
         // Validate optional fields if they exist
         if let Some(addr2) = &self.address2 {
-            e.check_cardinality("address2", 0, 100, addr2.as_ref());
+            e.check_cardinality("address2", 0, 100, &addr2.chars());
         }
         if let Some(postal_code) = &self.postal_code {
-            e.check_cardinality("postal_code", 0, 20, postal_code.as_ref());
+            e.check_cardinality("postal_code", 0, 20, &postal_code.chars());
         }
 
        e.build("AddressType")
