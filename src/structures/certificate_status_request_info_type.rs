@@ -30,7 +30,7 @@ impl OcppEntity for CertificateStatusRequestInfoType {
             e.check_cardinality(format!("urls[{i}").as_str(), 0, 2000, &self.urls[i].chars());
         }
 
-        e.push_member("certificate_hash_data", &self.certificate_hash_data);
+        e.check_member("certificate_hash_data", &self.certificate_hash_data);
         e.build("CertificateRequestInfoType")
     }
 }

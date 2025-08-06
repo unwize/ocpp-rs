@@ -20,7 +20,7 @@ impl OcppEntity for EVAbsolutePriceScheduleEntryType {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("ev_price_rule", 1, 8, &self.ev_price_rule.iter());
-        e.push_iter_member("ev_price_rule", self.ev_price_rule.iter());
+        e.check_iter_member("ev_price_rule", self.ev_price_rule.iter());
         e.build("EVAbsolutePriceScheduleEntryType")
     }
 }

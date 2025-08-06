@@ -26,7 +26,7 @@ impl OcppEntity for DERCurveGetType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("id", 0, 36, &self.id.chars());
-        e.push_member("curve", &self.curve);
+        e.check_member("curve", &self.curve);
         e.build("DERCurveGetType")
     }
 }

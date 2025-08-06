@@ -130,7 +130,7 @@ impl StructureValidationBuilder {
     }
 
     /// For a given OcppEntity, call its validate function and add any errors from it to the list.
-    pub fn push_member(&mut self, field: &str, member: &dyn OcppEntity) -> &Self {
+    pub fn check_member(&mut self, field: &str, member: &dyn OcppEntity) -> &Self {
         if let Err(e) = member.validate() {
             self.errors.push(e.to_field_validation_error(field));
         }
@@ -139,7 +139,7 @@ impl StructureValidationBuilder {
     }
 
     /// For a given Iterator of OcppEntity objects, call its yielded items' validate functions and add any errors from it to the list.
-    pub fn push_iter_member(&mut self,  field: &str, iter: impl Iterator<Item=&dyn OcppEntity>) -> &Self {
+    pub fn check_iter_member(&mut self, field: &str, iter: impl Iterator<Item=&dyn OcppEntity>) -> &Self {
         let mut count = 0;
         for e in iter {
             e.push_member(format!("{field}[{count}]").as_str(), e);

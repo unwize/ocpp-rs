@@ -58,23 +58,23 @@ impl OcppEntity for ChargingNeedsType {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(v2x_charging_parameters) = &self.v2x_charging_parameters {
-            e.push_member("v2x_charging_parameters", v2x_charging_parameters);
+            e.check_member("v2x_charging_parameters", v2x_charging_parameters);
         }
 
         if let Some(dc_charging_parameters) = &self.dc_charging_parameters {
-            e.push_member("dc_charging_parameters", dc_charging_parameters);
+            e.check_member("dc_charging_parameters", dc_charging_parameters);
         }
 
         if let Some(ac_charging_parameters) = &self.ac_charging_parameters {
-            e.push_member("ac_charging_parameters", ac_charging_parameters);
+            e.check_member("ac_charging_parameters", ac_charging_parameters);
         }
 
         if let Some(ev_energy_offer) = &self.ev_energy_offer {
-            e.push_member("ev_energy_offer", ev_energy_offer);
+            e.check_member("ev_energy_offer", ev_energy_offer);
         }
 
         if let Some(der_charging_parameters) = &self.der_charging_parameters {
-            e.push_member("der_charging_parameters", der_charging_parameters);
+            e.check_member("der_charging_parameters", der_charging_parameters);
         }
 
         e.build("ChargingNeedsType")

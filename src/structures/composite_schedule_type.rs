@@ -30,7 +30,7 @@ impl OcppEntity for CompositeScheduleType {
         
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
         e.check_cardinality("charging_schedule_period", 1, usize::MAX, &self.charging_schedule_period.iter());
-        e.push_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
+        e.check_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
         e.build("CompositeScheduletype")
     }
 }

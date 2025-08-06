@@ -30,7 +30,7 @@ impl OcppEntity for ClearTariffsResultType {
         }
 
        if let Some(status_info) = &self.status_info {
-            e.push_member("status_info", status_info);
+            e.check_member("status_info", status_info);
        }
 
        e.build("ClearTariffsResultType")

@@ -75,14 +75,14 @@ impl OcppEntity for AbsolutePriceScheduleType {
 
         e.check_cardinality("language", 0, 8, self.language.as_ref());
         e.check_cardinality("price_algorithm", 0, 2000, self.price_algorithm.as_ref());
-        e.push_member("price_rule_stacks", &self.price_rule_stacks);
+        e.check_member("price_rule_stacks", &self.price_rule_stacks);
 
         if let Some(tax_rules) = &self.tax_rules {
-            e.push_member("tax_rules", &tax_rules);
+            e.check_member("tax_rules", &tax_rules);
         }
 
         if let Some(additional_selected_services) = &self.additional_selected_services {
-            e.push_member("additional_selected_services", additional_selected_services);
+            e.check_member("additional_selected_services", additional_selected_services);
         }
 
         e.build("AbsolutePriceScheduleType")

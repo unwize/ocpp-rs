@@ -22,7 +22,7 @@ impl OcppEntity for ConstantStreamDataType {
         let mut e = StructureValidationBuilder::new();
         e.check_bounds("id", 0, i32::MAX, self.id);
         e.check_bounds("variable_monitoring_id", 0, i32::MAX, self.variable_monitoring_id);
-        e.push_member("params", &self.params);
+        e.check_member("params", &self.params);
         e.build("ConstantStreamDataType")
     }
 }

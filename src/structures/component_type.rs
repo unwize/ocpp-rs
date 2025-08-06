@@ -40,7 +40,7 @@ impl OcppEntity for ComponentType {
         }
 
        if let Some(evse) = &self.evse {
-           e.push_member("evse", evse);
+           e.check_member("evse", evse);
        }
 
         e.build("ComponentType")

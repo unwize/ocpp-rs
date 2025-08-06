@@ -40,7 +40,7 @@ impl OcppEntity for EVAbsolutePriceScheduleType {
 
         e.check_cardinality("price_algorithm", 0, 2000, &self.price_algorithm.chars());
         e.check_cardinality("ev_absolute_price_schedule_entries", 1, 1024, &self.ev_absolute_price_schedule_entries.iter());
-        e.push_iter_member("ev_absolute_price_schedule_entries", self.ev_absolute_price_schedule_entries.iter());
+        e.check_iter_member("ev_absolute_price_schedule_entries", self.ev_absolute_price_schedule_entries.iter());
 
         e.build("EVAbsolutePriceScheduleType")
     }

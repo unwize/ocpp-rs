@@ -18,7 +18,7 @@ impl EnterServiceGetType {
     pub fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("id", 0, 36, &self.id.chars());
-        e.push_member("enter_service", &self.enter_service);
+        e.check_member("enter_service", &self.enter_service);
         e.build("EnterServiceGetType")
     }
 }

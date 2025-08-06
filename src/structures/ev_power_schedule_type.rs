@@ -30,7 +30,7 @@ impl OcppEntity for EVPowerScheduleType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("ev_power_schedule_entries", 1, 1024, &self.ev_power_schedule_entries.iter());
-        e.push_iter_member("ev_power_schedule_entries", self.ev_power_schedule_entries.iter());
+        e.check_iter_member("ev_power_schedule_entries", self.ev_power_schedule_entries.iter());
         e.build("EVPowerScheduleType")
     }
 }

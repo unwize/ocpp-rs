@@ -13,9 +13,9 @@ pub struct ComponentVariableType {
 impl OcppEntity for ComponentVariableType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        e.push_member("component", &self.component);
+        e.check_member("component", &self.component);
         if let Some(variable) = &self.variable {
-            e.push_member("variable", variable);
+            e.check_member("variable", variable);
         }
         
         e.build("ComponentVariableType")

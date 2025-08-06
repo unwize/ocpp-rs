@@ -89,19 +89,19 @@ impl OcppEntity for ChargingScheduleType {
         }
 
         if let Some(sales_tariff) = &self.sales_tariff {
-            e.push_member("sales_tariff", sales_tariff);
+            e.check_member("sales_tariff", sales_tariff);
         }
 
         if let Some(absolute_price_schedule) = &self.absolute_price_schedule {
-            e.push_member("absolute_price_schedule", absolute_price_schedule);
+            e.check_member("absolute_price_schedule", absolute_price_schedule);
         }
 
         if let Some(limit_at_soc) = &self.limit_at_soc {
-            e.push_member("limit_at_soc", limit_at_soc);
+            e.check_member("limit_at_soc", limit_at_soc);
         }
 
         e.check_cardinality("charging_schedule_period", 1, 1024, &self.charging_schedule_period.iter());
-        e.push_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
+        e.check_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
 
         e.build("ChargingScheduleType")
     }

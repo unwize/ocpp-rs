@@ -44,7 +44,7 @@ impl OcppEntity for ChargingStationType {
        
         
         if let Some(modem) = &self.modem {
-            e.push_member("modem", modem);
+            e.check_member("modem", modem);
         }
 
         e.build("ChargingStationType")

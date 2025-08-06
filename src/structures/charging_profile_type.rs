@@ -95,7 +95,7 @@ impl OcppEntity for ChargingProfileType {
             e.check_cardinality("price_schedule_signature", 0, 256, &price_schedule_signature.chars());
         }
 
-        e.push_member("charging_schedule", &self.charging_schedule);
+        e.check_member("charging_schedule", &self.charging_schedule);
 
         e.build("ChargingProfileType")
     }

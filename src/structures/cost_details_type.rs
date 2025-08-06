@@ -39,10 +39,10 @@ impl OcppEntity for CostDetailsType {
         }
         
         if let Some(charging_periods) = &self.charging_periods {
-            e.push_iter_member("charging_periods", charging_periods.iter());
+            e.check_iter_member("charging_periods", charging_periods.iter());
         }
 
-        e.push_member("total_cost", &self.total_cost).push_member("total_usage", &self.total_usage);
+        e.check_member("total_cost", &self.total_cost).check_member("total_usage", &self.total_usage);
 
         e.build("CostDetailsType")
     }

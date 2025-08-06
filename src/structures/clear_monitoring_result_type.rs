@@ -26,7 +26,7 @@ impl OcppEntity for ClearMonitoringResultType {
         e.check_bounds("id", 0, i32::MAX, self.id);
         
         if let Some(status_info) = &self.status_info {
-            e.push_member("status_info", status_info);
+            e.check_member("status_info", status_info);
         }
 
         e.build("ClearMonitoringResultType")

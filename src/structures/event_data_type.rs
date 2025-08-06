@@ -96,7 +96,7 @@ impl OcppEntity for  EventDataType {
             e.check_bounds("severity", 0, i32::MAX, severity);
         }
 
-        e.push_member("component", &self.component).push_member("variable", &self.variable);
+        e.check_member("component", &self.component).check_member("variable", &self.variable);
 
         e.build("EventDataType")
     }

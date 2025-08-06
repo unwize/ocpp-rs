@@ -20,7 +20,7 @@ impl OcppEntity for ConsumptionCostType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("cost", 1, 3, &self.cost.iter());
-        e.push_iter_member("cost", self.cost.iter());
+        e.check_iter_member("cost", self.cost.iter());
         e.build("ConsumptionCostType")
     }
 }

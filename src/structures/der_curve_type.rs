@@ -63,13 +63,13 @@ impl OcppEntity for DERCurveType {
         e.check_cardinality("curve_data", 1, 10, &self.curve_data.iter());
 
         if let Some(hysteresis) = &self.hysteresis {
-            e.push_member("hysteresis", &self.hysteresis);
+            e.check_member("hysteresis", &self.hysteresis);
         }
         if let Some(voltage_params) = &self.voltage_params {
-            e.push_member("voltage_params", &self.voltage_params);
+            e.check_member("voltage_params", &self.voltage_params);
         }
         if let Some(reactive_power_params) = &self.reactive_power_params {
-            e.push_member("reactive_power_params", &self.reactive_power_params);
+            e.check_member("reactive_power_params", &self.reactive_power_params);
         }
         e.build("DERCurveType")
     }
