@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::enter_service_type::EnterServiceType;
 
 /// EnterServiceGetType is used by: ReportDERControlRequest
@@ -16,31 +16,10 @@ impl EnterServiceGetType {
     /// Validates the fields of EnterServiceGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate id length
-        if self.id.len() > 36 {
-            errors.push(OcppError::FieldValidationError {
-                field: "id".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.id.len(),
-                    lower: 0,
-                    upper: 36,
-                }],
-            });
-        }
-
-        // TODO: No validation for 'enter_service' without its type definition.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EnterServiceGetType".to_string(),
-                related: errors,
-            })
-        }
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("id", 0, 36, &self.id.chars());
+        e.push_member("enter_service", &self.enter_service);
+        e.build("EnterServiceGetType")
     }
 }
 

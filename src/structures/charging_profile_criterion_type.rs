@@ -43,7 +43,6 @@ impl OcppEntity for ChargingProfileCriterionType {
         }
 
         e.build("ChargingProfileCriterionType")
-
     }
 }
 

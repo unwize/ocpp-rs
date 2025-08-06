@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// An entry in price schedule over time for which EV is willing to discharge.
 /// Used by: Common::EVAbsolutePriceScheduleType
@@ -12,46 +13,15 @@ pub struct EVAbsolutePriceScheduleEntryType {
     pub ev_price_rule: Vec<EVPriceRuleType>, // TODO: Implement EVPriceRuleType
 }
 
-impl EVAbsolutePriceScheduleEntryType {
+impl OcppEntity for EVAbsolutePriceScheduleEntryType {
     /// Validates the fields of EVAbsolutePriceScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // No explicit constraints for 'duration' other than its type (integer).
-        // If there were, they would be added here (e.g., self.duration >= 0).
-
-        // Validate ev_price_rule cardinality
-        if self.ev_price_rule.is_empty() || self.ev_price_rule.len() > 8 {
-            errors.push(OcppError::FieldValidationError {
-                field: "ev_price_rule".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_price_rule.len(),
-                    lower: 1,
-                    upper: 8,
-                }],
-            });
-        }
-
-        for (i, rule) in self.ev_price_rule.iter().enumerate() {
-             if let Err(e) = rule.validate() {
-                 errors.push(OcppError::FieldValidationError {
-                     field: format!("ev_price_rule[{}]", i),
-                     related: vec![e],
-                 });
-             }
-        }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EVAbsolutePriceScheduleEntryType".to_string(),
-                related: errors,
-            })
-        }
+        e.check_cardinality("ev_price_rule", 1, 8, &self.ev_price_rule.iter());
+        e.push_iter_member("ev_price_rule", self.ev_price_rule.iter());
+        e.build("EVAbsolutePriceScheduleEntryType")
     }
 }
 

@@ -1,8 +1,10 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::errors::OcppError::FieldISOError;
 use crate::iso;
 use crate::structures::ev_absolute_price_schedule_entry_type::EVAbsolutePriceScheduleEntryType;
+use crate::traits::OcppEntity;
 
 /// Price schedule of EV energy offer.
 /// Used by: Common::EVEnergyOfferType
@@ -21,64 +23,26 @@ pub struct EVAbsolutePriceScheduleType {
     pub ev_absolute_price_schedule_entries: Vec<EVAbsolutePriceScheduleEntryType>
 }
 
-impl EVAbsolutePriceScheduleType {
+impl OcppEntity for EVAbsolutePriceScheduleType {
     /// Validates the fields of EVAbsolutePriceScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate currency length
+        // Manually check if the `currency` field is in compliance with ISO-4217 and push a corresponding error if it is not.
+        // Currently, there is no convenience function implemented for ISO errors.
         if !iso::iso_4217::CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
-            errors.push(OcppError::FieldValidationError {
-                field: "currency".to_string(),
-                related: vec![OcppError::FieldValueError {
-                    value: "currency".to_string(),
-                }],
-            });
+            e.push(FieldISOError {
+                value: self.currency.to_string(),
+                iso: "4217".to_string(),
+            }.to_field_validation_error("currency"));
         }
 
-        // Validate price_algorithm length
-        if self.price_algorithm.len() > 2000 {
-            errors.push(OcppError::FieldValidationError {
-                field: "price_algorithm".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.price_algorithm.len(),
-                    lower: 0,
-                    upper: 2000,
-                }],
-            });
-        }
+        e.check_cardinality("price_algorithm", 0, 2000, &self.price_algorithm.chars());
+        e.check_cardinality("ev_absolute_price_schedule_entries", 1, 1024, &self.ev_absolute_price_schedule_entries.iter());
+        e.push_iter_member("ev_absolute_price_schedule_entries", self.ev_absolute_price_schedule_entries.iter());
 
-        // Validate ev_absolute_price_schedule_entries cardinality
-        if self.ev_absolute_price_schedule_entries.is_empty() || self.ev_absolute_price_schedule_entries.len() > 1024 {
-            errors.push(OcppError::FieldValidationError {
-                field: "ev_absolute_price_schedule_entries".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_absolute_price_schedule_entries.len(),
-                    lower: 1,
-                    upper: 1024,
-                }],
-            });
-        }
-        for (i, entry) in self.ev_absolute_price_schedule_entries.iter().enumerate() {
-            if let Err(e) = entry.validate() {
-                errors.push(OcppError::FieldValidationError {
-                    field: format!("ev_absolute_price_schedule_entries[{}]", i),
-                    related: vec![e],
-                });
-            }
-        }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EVAbsolutePriceScheduleType".to_string(),
-                related: errors,
-            })
-        }
+        e.build("EVAbsolutePriceScheduleType")
     }
 }
 

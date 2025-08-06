@@ -2,8 +2,9 @@ use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::event_notification_enum_type::EventNotificationEnumType;
 use crate::enums::event_trigger_enum_type::EventTriggerEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::traits::OcppEntity;
 
 /// Class to report an event notification for a component-variable.
 /// Used by: NotifyEventRequest
@@ -55,130 +56,49 @@ pub struct EventDataType {
     pub variable: VariableType, // TODO: Implement VariableType
 }
 
-impl EventDataType {
+impl OcppEntity for  EventDataType {
     /// Validates the fields of EventDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate event_id
-        if self.event_id < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "event_id".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.event_id.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(),
-                }],
-            });
-        }
+        e.check_bounds("event_id", 0, i32::MAX, self.event_id);
 
         // Validate cause
-        if let Some(c) = self.cause {
-            if c < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "cause".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: c.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(),
-                    }],
-                });
-            }
+        if let Some(cause) = self.cause {
+           e.check_bounds("cause", 0, i32::MAX, cause);
         }
 
-        // Validate actual_value length
-        if self.actual_value.len() > 2500 {
-            errors.push(OcppError::FieldValidationError {
-                field: "actual_value".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.actual_value.len(),
-                    lower: 0,
-                    upper: 2500,
-                }],
-            });
-        }
+        e.check_cardinality("actual_value", 0, 2500, &self.actual_value.chars());
 
         // Validate tech_code length
-        if let Some(tc) = &self.tech_code {
-            if tc.len() > 50 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "tech_code".to_string(),
-                    related: vec![OcppError::FieldCardinalityError {
-                        cardinality: tc.len(),
-                        lower: 0,
-                        upper: 50,
-                    }],
-                });
-            }
+        if let Some(tech_code) = &self.tech_code {
+            e.check_cardinality("tech_code", 0, 50, &tech_code.chars());
         }
 
         // Validate tech_info length
-        if let Some(ti) = &self.tech_info {
-            if ti.len() > 500 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "tech_info".to_string(),
-                    related: vec![OcppError::FieldCardinalityError {
-                        cardinality: ti.len(),
-                        lower: 0,
-                        upper: 500,
-                    }],
-                });
-            }
+        if let Some(tech_info) = &self.tech_info {
+            e.check_cardinality("tech_info", 0, 500, &tech_info.chars());
         }
 
         // Validate transaction_id length
-        if let Some(tid) = &self.transaction_id {
-            if tid.len() > 36 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "transaction_id".to_string(),
-                    related: vec![OcppError::FieldCardinalityError {
-                        cardinality: tid.len(),
-                        lower: 0,
-                        upper: 36,
-                    }],
-                });
-            }
+        if let Some(transaction_id) = &self.transaction_id {
+            e.check_cardinality("transaction_id", 0, 36, &transaction_id.chars());
         }
 
         // Validate variable_monitoring_id
-        if let Some(vmid) = self.variable_monitoring_id {
-            if vmid < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "variable_monitoring_id".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: vmid.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(),
-                    }],
-                });
-            }
+        if let Some(variable_monitoring_id) = self.variable_monitoring_id {
+            e.check_bounds("variable_monitoring_id", 0, i32::MAX, variable_monitoring_id);
         }
 
         // Validate severity
-        if let Some(s) = self.severity {
-            if s < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "severity".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: s.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(),
-                    }],
-                });
-            }
+        if let Some(severity) = self.severity {
+            e.check_bounds("severity", 0, i32::MAX, severity);
         }
 
-        // No validation for 'trigger', 'event_notification_type', 'component', 'variable' without their type definitions.
+        e.push_member("component", &self.component).push_member("variable", &self.variable);
 
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EventDataType".to_string(),
-                related: errors,
-            })
-        }
+        e.build("EventDataType")
     }
 }
 

@@ -1,6 +1,7 @@
 use std::fmt::{Display, Formatter};
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
+use crate::traits::OcppEntity;
 
 /// DERCurvePointsType is used by: Common::DERCurveType
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -13,14 +14,16 @@ pub struct DERCurvePointsType {
     pub y: f64, // decimal
 }
 
-impl DERCurvePointsType {
+impl OcppEntity for DERCurvePointsType {
     /// Validates the fields of DERCurvePointsType.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         Ok(())
     }
+}
 
-    pub fn new(x: f64, y: f64) -> Self {
+impl DERCurvePointsType {
+    fn new(x: f64, y: f64) -> Self {
         DERCurvePointsType { x, y }
     }
 }

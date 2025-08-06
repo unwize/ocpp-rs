@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ev_power_schedule_entry_type::EVPowerScheduleEntryType;
+use crate::traits::OcppEntity;
 
 /// Schedule of EV energy offer.
 /// Used by: Common::EVEnergyOfferType
@@ -23,42 +24,14 @@ impl Default for EVPowerScheduleType {
     }
 }
 
-impl EVPowerScheduleType {
+impl OcppEntity for EVPowerScheduleType {
     /// Validates the fields of EVPowerScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate ev_power_schedule_entries cardinality
-        if self.ev_power_schedule_entries.is_empty() || self.ev_power_schedule_entries.len() > 1024 {
-            errors.push(OcppError::FieldValidationError {
-                field: "ev_power_schedule_entries".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.ev_power_schedule_entries.len(),
-                    lower: 1,
-                    upper: 1024,
-                }],
-            });
-        }
-        for (i, entry) in self.ev_power_schedule_entries.iter().enumerate() {
-            if let Err(e) = entry.validate() {
-                errors.push(OcppError::FieldValidationError {
-                    field: format!("ev_power_schedule_entries[{}]", i),
-                    related: vec![e],
-                });
-            }
-        }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EVPowerScheduleType".to_string(),
-                related: errors,
-            })
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("ev_power_schedule_entries", 1, 1024, &self.ev_power_schedule_entries.iter());
+        e.push_iter_member("ev_power_schedule_entries", self.ev_power_schedule_entries.iter());
+        e.build("EVPowerScheduleType")
     }
 }
 

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// EnterServiceType is used by: Common::EnterServiceGetType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -41,144 +42,38 @@ impl Default for EnterServiceType {
     }
 }
 
-impl EnterServiceType {
+impl OcppEntity for EnterServiceType {
     /// Validates the fields of EnterServiceType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate priority
-        if self.priority < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "priority".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.priority.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
-        }
-
-        // Validate high_voltage (assuming it should be positive)
-        if self.high_voltage <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "high_voltage".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.high_voltage.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
-
-        // Validate low_voltage (assuming it should be positive)
-        if self.low_voltage <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "low_voltage".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.low_voltage.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_bounds("priority", 0, i32::MAX, self.priority);
 
         // high_voltage should be greater than or equal to low_voltage
         if self.high_voltage < self.low_voltage {
-            errors.push(OcppError::FieldValidationError {
-                field: "voltage_range".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: format!("high: {}, low: {}", self.high_voltage, self.low_voltage),
-                    lower: "lowVoltage <= highVoltage".to_string(),
-                    upper: "".to_string(), // No upper bound for this combined check
-                }],
-            });
+            e.push_relation_error("high_voltage", "low_voltage", "low voltage must be less than high voltage!");
         }
 
-        // Validate high_freq (assuming it should be positive)
-        if self.high_freq <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "high_freq".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.high_freq.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
-
-        // Validate low_freq (assuming it should be positive)
-        if self.low_freq <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "low_freq".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.low_freq.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
+        e.check_bounds("high_freq", 0.0, f64::MAX, self.high_freq);
+        e.check_bounds("low_freq", 0.0, f64::MAX, self.low_freq);
 
         // high_freq should be greater than or equal to low_freq
         if self.high_freq < self.low_freq {
-            errors.push(OcppError::FieldValidationError {
-                field: "frequency_range".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: format!("high: {}, low: {}", self.high_freq, self.low_freq),
-                    lower: "lowFreq <= highFreq".to_string(),
-                    upper: "".to_string(), // No upper bound for this combined check
-                }],
-            });
+            e.push_relation_error("high_freq", "low_freq", "high_freq must be greater than low_freq!");
         }
 
         // Validate optional delay, random_delay, ramp_rate (assuming non-negative if present)
-        if let Some(d) = self.delay {
-            if d < 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "delay".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: d.to_string(),
-                        lower: "0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(delay) = self.delay {
+            e.check_bounds("delay", 0.0, f64::MAX, delay);
         }
-        if let Some(rd) = self.random_delay {
-            if rd < 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "random_delay".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: rd.to_string(),
-                        lower: "0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(random_delay) = self.random_delay {
+            e.check_bounds("random_delay", 0.0, f64::MAX, random_delay);
         }
-        if let Some(rr) = self.ramp_rate {
-            if rr < 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "ramp_rate".to_string(),
-                    related: vec![OcppError::FieldBoundsError {
-                        value: rr.to_string(),
-                        lower: "0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(ramp_rate) = self.ramp_rate {
+            e.check_bounds("ramp_rate", 0.0, f64::MAX, ramp_rate);
         }
 
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "EnterServiceType".to_string(),
-                related: errors,
-            })
-        }
+        e.build("EnterServiceType")
     }
 }
 

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
+use crate::traits::OcppEntity;
 
 /// An entry in schedule of the energy amount over time that EV is willing to discharge.
 /// A negative value indicates the willingness to discharge under specific conditions,
@@ -14,10 +15,10 @@ pub struct EVPowerScheduleEntryType {
     pub power: f64, // decimal
 }
 
-impl EVPowerScheduleEntryType {
+impl OcppEntity for EVPowerScheduleEntryType {
     /// Validates the fields of EVPowerScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         Ok(())
     }
 }

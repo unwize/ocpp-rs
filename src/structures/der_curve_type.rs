@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::der_unit_enum_type::DERUnitEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_points_type::DERCurvePointsType;
+use crate::traits::OcppEntity;
 
 /// DERCurveType is used by: Common::DERCurveGetType, Common::LimitMaxDischargeType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -52,49 +53,25 @@ impl Default for DERCurveType {
     }
 }
 
-impl DERCurveType {
+impl OcppEntity for DERCurveType {
     /// Validates the fields of DERCurveType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate priority
-        if self.priority < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "priority".to_string(),
-                related: vec![OcppError::FieldBoundsError {
-                    value: self.priority.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
+        e.check_bounds("priority", 0, i32::MAX, self.priority);
+        e.check_cardinality("curve_data", 1, 10, &self.curve_data.iter());
+
+        if let Some(hysteresis) = &self.hysteresis {
+            e.push_member("hysteresis", &self.hysteresis);
         }
-
-        // Validate curve_data cardinality
-        if self.curve_data.is_empty() || self.curve_data.len() > 10 {
-            errors.push(OcppError::FieldValidationError {
-                field: "curve_data".to_string(),
-                related: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.curve_data.len(),
-                    lower: 1,
-                    upper: 10,
-                }],
-            });
+        if let Some(voltage_params) = &self.voltage_params {
+            e.push_member("voltage_params", &self.voltage_params);
         }
-
-        // TODO: validate hysteresis
-        // TODO: validate voltage_params
-        // TODO: Validate reactive_power_params
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "DERCurveType".to_string(),
-                related: errors,
-            })
+        if let Some(reactive_power_params) = &self.reactive_power_params {
+            e.push_member("reactive_power_params", &self.reactive_power_params);
         }
+        e.build("DERCurveType")
     }
 }
 
