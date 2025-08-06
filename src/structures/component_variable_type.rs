@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
-use crate::errors::OcppError::StructureValidationError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ComponentVariableType {
@@ -10,23 +10,14 @@ pub struct ComponentVariableType {
     pub variable: Option<VariableType>, // TODO: Implement VariableType
 }
 
-impl ComponentVariableType {
+impl OcppEntity for ComponentVariableType {
     fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-        if let Err(e) = self.component.validate() {
-            errors.push(e);
-        }
-        if let Err(e) = self.variable.validate() {
-            errors.push(e);
+        let mut e = StructureValidationBuilder::new();
+        e.push_member("component", &self.component);
+        if let Some(variable) = &self.variable {
+            e.push_member("variable", variable);
         }
         
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(StructureValidationError {
-                structure: "ComponentVariableType".to_string(),
-                source: errors
-            })
-        }
+        e.build("ComponentVariableType")
     }
 }

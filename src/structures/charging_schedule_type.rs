@@ -6,7 +6,7 @@ use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
 
 /// Represents a charging schedule.
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingScheduleType {
     /// Required.
     pub id: i32,
@@ -69,10 +69,10 @@ pub struct ChargingScheduleType {
     pub limit_at_soc: Option<LimitAtSOCType>, // TODO: Implement LimitAtSOCType
 }
 
-impl ChargingScheduleType {
+impl OcppEntity for ChargingScheduleType {
     /// Validates the fields of ChargingScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(signature_id) = self.signature_id {

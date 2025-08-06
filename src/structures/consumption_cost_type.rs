@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::cost_type::CostType;
+use crate::traits::OcppEntity;
 
 /// ConsumptionCostType is used by: Common::SalesTariffEntryType
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -9,49 +11,17 @@ pub struct ConsumptionCostType {
     pub start_value: f64, // decimal
     /// Required. This field contains the cost details.
     /// Cardinality 1..3
-    pub cost: Vec<CostType>, // TODO: Implement CostType
+    pub cost: Vec<CostType>
 }
 
-impl ConsumptionCostType {
+impl OcppEntity for ConsumptionCostType {
     /// Validates the fields of ConsumptionCostType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // No explicit constraints for start_value other than its type (decimal).
-        // If there were, they would be added here (e.g., self.start_value >= 0.0).
-
-        // Validate cost cardinality
-        if self.cost.is_empty() || self.cost.len() > 3 {
-            errors.push(OcppError::FieldValidationError {
-                field: "cost".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.cost.len(),
-                    lower: 1,
-                    upper: 3,
-                }],
-            });
-        }
-        // TODO: If CostType had its own validate method, iterate and call it here.
-        // for (i, c) in self.cost.iter().enumerate() {
-        //     if let Err(e) = c.validate() {
-        //         errors.push(OcppError::FieldValidationError {
-        //             field: format!("cost[{}]", i),
-        //             source: vec![e],
-        //         });
-        //     }
-        // }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ConsumptionCostType".to_string(),
-                source: errors,
-            })
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("cost", 1, 3, &self.cost.iter());
+        e.push_iter_member("cost", &self.cost.iter());
+        e.build("ConsumptionCostType")
     }
 }
 
@@ -64,7 +34,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let consumption_cost = ConsumptionCostType {
             start_value: 0.0,
-            cost: vec!["cost_placeholder_1".to_string()], // Placeholder
+            cost: vec![CostType::default()], // Placeholder
         };
 
         let serialized = serde_json::to_string(&consumption_cost).unwrap();
@@ -78,13 +48,13 @@ mod tests {
     fn test_validation_valid() {
         let consumption_cost_single = ConsumptionCostType {
             start_value: 10.5,
-            cost: vec!["cost1".to_string()],
+            cost: vec![CostType::default()],
         };
         assert!(consumption_cost_single.validate().is_ok());
 
         let consumption_cost_max_cardinality = ConsumptionCostType {
             start_value: 100.0,
-            cost: vec!["cost1".to_string(), "cost2".to_string(), "cost3".to_string()],
+            cost: vec![CostType::default();3],
         };
         assert!(consumption_cost_max_cardinality.validate().is_ok());
     }
@@ -112,7 +82,7 @@ mod tests {
     fn test_validation_cost_too_many() {
         let consumption_cost = ConsumptionCostType {
             start_value: 0.0,
-            cost: vec!["c".to_string(); 4], // Invalid cardinality
+            cost: vec![CostType::default(); 4], // Invalid cardinality
         };
         let err = consumption_cost.validate().unwrap_err();
         if let OcppError::StructureValidationError { source, .. } = err {

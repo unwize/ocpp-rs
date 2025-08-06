@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::cost_kind_enum_type::CostKindEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// CostType is used by: Common::ConsumptionCostType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CostType {
     /// Required. The kind of cost referred to in the message element amount.
     pub cost_kind: CostKindEnumType,
@@ -15,38 +16,28 @@ pub struct CostType {
     pub amount_multiplier: Option<i32>, // integer
 }
 
-impl CostType {
+impl Default for CostType {
+    fn default() -> CostType {
+        Self {
+            cost_kind: CostKindEnumType::CarbonDioxideEmission,
+            amount: 0,
+            amount_multiplier: None,
+        }
+    }
+}
+
+impl OcppEntity for CostType {
     /// Validates the fields of CostType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
         // Validate amount_multiplier
-        if let Some(multiplier) = self.amount_multiplier {
-            if multiplier < -3 || multiplier > 3 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "amount_multiplier".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: multiplier.to_string(),
-                        lower: "-3".to_string(),
-                        upper: "3".to_string(),
-                    }],
-                });
-            }
+        if let Some(amount_multiplier) = self.amount_multiplier {
+            e.check_bounds("amount_multiplier", -3, 3, amount_multiplier);
         }
 
-        // No validation for 'cost_kind' without its enum definition.
-        // No explicit constraints for 'amount' other than its type (integer).
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "CostType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("CostType")
     }
 }
 

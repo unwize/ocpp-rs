@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// A physical or logical component.
 /// Used by: Common::ComponentVariableType, Common::MessageInfoType,
@@ -7,7 +8,7 @@ use crate::errors::OcppError;
 /// NotifyMonitoringReportRequest.MonitoringDataType, NotifyReportRequest.ReportDataType,
 /// SetVariableMonitoringRequest.SetMonitoringDataType, SetVariableMonitoringResponse.SetMonitoringResultType,
 /// SetVariablesRequest.SetVariableDataType, SetVariablesResponse.SetVariableResultType, NotifyEventRequest.EventDataType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ComponentType {
     /// Required. Name of the component. Name should be taken from the list of standardized component names
     /// whenever possible. Case Insensitive. strongly advised to use Camel Case.
@@ -24,49 +25,25 @@ pub struct ComponentType {
     pub evse: Option<EVSEType>, // TODO: Implement EVSEType
 }
 
-impl ComponentType {
+impl OcppEntity for ComponentType {
     /// Validates the fields of ComponentType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate name length
-        if self.name.len() > 50 {
-            errors.push(OcppError::FieldValidationError {
-                field: "name".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.name.len(),
-                    lower: 0,
-                    upper: 50,
-                }],
-            });
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        
+        e.check_cardinality("name", 0, 50, &self.name.chars());
+        
 
         // Validate instance length
-        if let Some(instance_name) = &self.instance {
-            if instance_name.len() > 50 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "instance".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: instance_name.len(),
-                        lower: 0,
-                        upper: 50,
-                    }],
-                });
-            }
+        if let Some(instance) = &self.instance {
+            e.check_cardinality("instance", 0, 50, &instance.chars());
         }
 
-        // TODO: No validation for 'evse' without its type definition.
+       if let Some(evse) = &self.evse {
+           e.push_member("evse", evse);
+       }
 
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ComponentType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("ComponentType")
     }
 }
 

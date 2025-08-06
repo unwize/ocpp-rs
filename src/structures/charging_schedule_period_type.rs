@@ -1,12 +1,13 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, FieldBoundsError};
+use crate::traits::OcppEntity;
 
 /// Charging schedule period structure defines a time period in a charging schedule.
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.
 /// When used in a NotifyEVChargingScheduleRequest only startPeriod, limit, limit_L2, limit_L3 are relevant.
 /// Used by: Common::ChargingScheduleType, Common::CompositeScheduleType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingSchedulePeriodType {
 
     /// Required. Start of the period, in seconds from the start of schedule.
@@ -162,10 +163,10 @@ impl Default for ChargingSchedulePeriodType {
     }
 }
 
-impl ChargingSchedulePeriodType {
+impl OcppEntity for ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(number_phases) = self.number_phases {

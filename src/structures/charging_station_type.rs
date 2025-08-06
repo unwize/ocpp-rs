@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// The physical system where an Electrical Vehicle (EV) can be charged.
 /// Used by: BootNotificationRequest
@@ -24,86 +25,29 @@ pub struct ChargingStationType {
     pub modem: Option<ModemType>, // TODO: Implement ModemType
 }
 
-impl ChargingStationType {
+impl OcppEntity for ChargingStationType {
     /// Validates the fields of ChargingStationType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate serial_number length
-        if let Some(serial_num) = &self.serial_number {
-            if serial_num.len() > 25 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "serial_number".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: serial_num.len(),
-                        lower: 0,
-                        upper: 25,
-                    }],
-                });
-            }
+        if let Some(serial_number) = &self.serial_number {
+            e.check_cardinality("serial_number", 0, 25, &serial_number.chars());
+        }  
+        
+        e.check_cardinality("model", 0, 20, &self.model.chars());
+        e.check_cardinality("vendor_name", 0, 50, &self.vendor_name.chars());
+        
+        if let Some(firmware_version) = &self.firmware_version {
+            e.check_cardinality("firmware_version", 0, 50, &firmware_version.chars());
+        }
+       
+        
+        if let Some(modem) = &self.modem {
+            e.push_member("modem", modem);
         }
 
-        // Validate model length
-        if self.model.len() > 20 {
-            errors.push(OcppError::FieldValidationError {
-                field: "model".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.model.len(),
-                    lower: 0,
-                    upper: 20,
-                }],
-            });
-        }
-
-        // Validate vendor_name length
-        if self.vendor_name.len() > 50 {
-            errors.push(OcppError::FieldValidationError {
-                field: "vendor_name".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.vendor_name.len(),
-                    lower: 0,
-                    upper: 50,
-                }],
-            });
-        }
-
-        // Validate firmware_version length
-        if let Some(fw_version) = &self.firmware_version {
-            if fw_version.len() > 50 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "firmware_version".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: fw_version.len(),
-                        lower: 0,
-                        upper: 50,
-                    }],
-                });
-            }
-        }
-
-        // TODO:
-        // No validation for 'modem' without its type definition.
-        // If ModemType had its own validate method, you would call it here:
-        // if let Some(modem_data) = &self.modem {
-        //     if let Err(e) = modem_data.validate() {
-        //         errors.push(OcppError::FieldValidationError {
-        //             field: "modem".to_string(),
-        //             source: vec![e],
-        //         });
-        //     }
-        // }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ChargingStationType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("ChargingStationType")
     }
 }
 

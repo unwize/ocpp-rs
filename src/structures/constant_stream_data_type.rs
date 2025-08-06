@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// ConstantStreamDataType is used by: OpenPeriodicEventStreamRequest, GetPeriodicEventStreamResponse
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -14,47 +15,15 @@ pub struct ConstantStreamDataType {
     pub params: PeriodicEventStreamParamsType, // TODO: Implement PeriodicEventStreamParamsType
 }
 
-impl ConstantStreamDataType {
+impl OcppEntity for ConstantStreamDataType {
     /// Validates the fields of ConstantStreamDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate id
-        if self.id < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "id".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.id.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
-        }
-
-        // Validate variable_monitoring_id
-        if self.variable_monitoring_id < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "variable_monitoring_id".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.variable_monitoring_id.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
-        }
-
-        // TODO: No validation for 'params' without its type definition.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ConstantStreamDataType".to_string(),
-                source: errors,
-            })
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_bounds("id", 0, i32::MAX, self.id);
+        e.check_bounds("variable_monitoring_id", 0, i32::MAX, self.variable_monitoring_id);
+        e.push_member("params", &self.params);
+        e.build("ConstantStreamDataType")
     }
 }
 

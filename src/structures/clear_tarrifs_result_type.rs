@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// Result of a clear tariffs request.
 /// Used by: ClearTariffsResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ClearTariffsResultType {
     /// Optional. Id of tariff for which status is reported.
     /// If no tariffs were found, then this field is absent, and status will be NoTariff.
@@ -17,37 +18,22 @@ pub struct ClearTariffsResultType {
     pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
 }
 
-impl ClearTariffsResultType {
+impl OcppEntity for ClearTariffsResultType {
     /// Validates the fields of ClearTariffsResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
         // Validate tariff_id length
-        if let Some(id) = &self.tariff_id {
-            if id.len() > 60 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "tariff_id".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: id.len(),
-                        lower: 0,
-                        upper: 60,
-                    }],
-                });
-            }
+        if let Some(tariff_id) = &self.tariff_id {
+            e.check_cardinality("tariff_id", 0, 60, &tariff_id.chars());
         }
 
-        // TODO: No validation for 'status' or 'status_info' without their type definitions.
+       if let Some(status_info) = &self.status_info {
+            e.push_member("status_info", status_info);
+       }
 
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ClearTariffsResultType".to_string(),
-                source: errors,
-            })
-        }
+       e.build("ClearTariffsResultType")
     }
 }
 

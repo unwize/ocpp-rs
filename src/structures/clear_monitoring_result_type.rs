@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::clear_monitoring_status_enum_type::ClearMonitoringStatusEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// Result of a clear monitoring request.
 /// Used by: ClearVariableMonitoringResponse
@@ -16,35 +17,19 @@ pub struct ClearMonitoringResultType {
     pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
 }
 
-impl ClearMonitoringResultType {
+impl OcppEntity for ClearMonitoringResultType {
     /// Validates the fields of ClearMonitoringResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate id
-        if self.id < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "id".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.id.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        
+        e.check_bounds("id", 0, i32::MAX, self.id);
+        
+        if let Some(status_info) = &self.status_info {
+            e.push_member("status_info", &self.status_info);
         }
 
-        // TODO: No validation for 'status' or 'status_info' without their type definitions.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ClearMonitoringResultType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("ClearMonitoringResultType")
     }
 }
 

@@ -6,7 +6,7 @@ use crate::errors::OcppError;
 pub struct EnterServiceType {
     /// Required. Priority of setting (0=highest).
     /// Constraints: 0 <= val
-    pub priority: u32,
+    pub priority: i32,
     /// Required. Enter service voltage high.
     pub high_voltage: f64, // decimal
     /// Required. Enter service voltage low.

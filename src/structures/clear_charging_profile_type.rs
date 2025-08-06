@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// A ClearChargingProfileType is a filter for charging profiles to be cleared by ClearChargingProfileRequest.
 /// Used by: ClearChargingProfileRequest
@@ -24,52 +25,21 @@ pub struct ClearChargingProfileType {
     pub stack_level: Option<i32>,
 }
 
-impl ClearChargingProfileType {
+impl OcppEntity for ClearChargingProfileType {
     /// Validates the fields of ClearChargingProfileType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
-        // Validate evse_id
-        if let Some(id) = self.evse_id {
-            if id < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "evse_id".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: id.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(), // No upper bound specified
-                    }],
-                });
-            }
+        if let Some(evse_id) = self.evse_id {
+            e.check_bounds("evse_id", 0, i32::MAX, evse_id);
         }
 
-        // Validate stack_level
-        if let Some(level) = self.stack_level {
-            if level < 0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "stack_level".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: level.to_string(),
-                        lower: "0".to_string(),
-                        upper: "MAX_INT".to_string(), // No upper bound specified
-                    }],
-                });
-            }
+        if let Some(stack_level) = self.stack_level {
+            e.check_bounds("stack_level", 0, i32::MAX, stack_level);
         }
 
-        // TODO:
-        // No validation for 'charging_profile_purpose' without its type definition.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ClearChargingProfileType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("ClearChargingProfileType")
     }
 }
 

@@ -12,12 +12,12 @@ pub struct ChargingProfileCriterionType {
     /// Optional. Value determining level in hierarchy stack of profiles.
     /// Higher values have precedence over lower values. Lowest level is 0.
     /// Constraints: 0 <= val
-    pub stack_level: Option<u32>,
+    pub stack_level: Option<i32>,
     /// Optional. List of all the chargingProfileIds requested. Any ChargingProfile that matches one of these profiles will be reported.
     /// If omitted, the Charging Station SHALL NOT filter on chargingProfileId.
     /// This field SHALL NOT contain more ids than set in ChargingProfileEntries.maxLimit.
     /// Cardinality 0..*
-    pub charging_profile_id: Option<Vec<u32>>,
+    pub charging_profile_id: Option<Vec<i32>>,
     /// Optional. For which charging limit sources, charging profiles SHALL be reported.
     /// If omitted, the Charging Station SHALL NOT filter on chargingLimitSource.
     /// Values defined in Appendix as ChargingLimitSourceEnumStringType.
@@ -29,6 +29,10 @@ pub struct ChargingProfileCriterionType {
 impl OcppEntity for ChargingProfileCriterionType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
+        
+        if let Some(stack_level) = self.stack_level {
+            e.check_bounds("stack_level", 0, i32::MAX, stack_level);
+        }
 
         if let Some(charging_limit_source) = &self.charging_limit_source {
             e.check_cardinality("charging_limit_source",0, 4, &charging_limit_source.iter());
@@ -73,7 +77,7 @@ mod tests {
             charging_profile_id: None,
             charging_limit_source: None,
         };
-        assert!(criterion_minimal.validate());
+        assert!(criterion_minimal.validate().is_ok());
 
         let criterion_full = ChargingProfileCriterionType {
             charging_profile_purpose: Some(ChargingProfilePurposeEnumType::TxProfile),
@@ -86,7 +90,7 @@ mod tests {
                 "d".repeat(20),
             ]),
         };
-        assert!(criterion_full.validate());
+        assert!(criterion_full.validate().is_ok());
     }
 
     #[test]
@@ -103,7 +107,7 @@ mod tests {
                 "s5".to_string(), // Too many
             ]),
         };
-        assert!(!criterion.validate());
+        assert!(criterion.validate().is_err());
     }
 
     #[test]
@@ -114,6 +118,6 @@ mod tests {
             charging_profile_id: None,
             charging_limit_source: Some(vec!["a".repeat(21)]), // Too long
         };
-        assert!(!criterion.validate());
+        assert!(criterion.validate().is_err());
     }
 }

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// Updates to a ChargingSchedulePeriodType for dynamic charging profiles.
 /// Used by: PullDynamicScheduleUpdateResponse, UpdateDynamicScheduleRequest
@@ -14,12 +15,15 @@ pub struct ChargingScheduleUpdateType {
     /// in which case this field represents phase L1.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit: Option<f64>,
+    
     /// Optional. Charging rate limit on phase L2 in the applicable ChargingRateUnit.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit_l2: Option<f64>,
+    
     /// Optional. Charging rate limit on phase L3 in the applicable ChargingRateUnit.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit_l3: Option<f64>,
+    
     /// Optional. Limit in ChargingRateUnit that the EV is allowed to discharge with.
     /// Note, these are negative values in order to be consistent with setpoint, which can be positive and negative.
     /// For AC this field represents the sum of all phases, unless values are provided for L2 and L3,
@@ -27,100 +31,70 @@ pub struct ChargingScheduleUpdateType {
     /// Constraints: val <= 0
     #[serde(skip_serializing_if = "Option::is_none")]
     pub discharge_limit: Option<f64>,
+    
     /// Optional. Limit in ChargingRateUnit on phase L2 that the EV is allowed to discharge with.
     /// Constraints: val <= 0
     #[serde(skip_serializing_if = "Option::is_none")]
     pub discharge_limit_l2: Option<f64>,
+    
     /// Optional. Limit in ChargingRateUnit on phase L3 that the EV is allowed to discharge with.
     /// Constraints: val <= 0
     #[serde(skip_serializing_if = "Option::is_none")]
     pub discharge_limit_l3: Option<f64>,
+    
     /// Optional. Setpoint in ChargingRateUnit that the EV is allowed to discharge with.
     /// When a unit and/or discharge are given in the setpoint, the following setpoint values remain within these values.
     /// This field represents the sum of all phases, unless values are provided for L2 and L3,
     /// in which case this field represents phase L1.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint: Option<f64>,
+    
     /// Optional. Setpoint in ChargingRateUnit that the EV should follow on phase L2 as close as possible.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_l2: Option<f64>,
+    
     /// Optional. Setpoint in ChargingRateUnit that the EV should follow on phase L3 as close as possible.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_l3: Option<f64>,
+    
     /// Optional. Setpoint for reactive power (or current) in ChargingRateUnit that the EV should follow.
     /// Positive values for inductive, negative for capacitive reactive power or current.
     /// This field represents the sum of all phases, unless values are provided for L2 and L3,
     /// in which case this field represents phase L1.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_reactive: Option<f64>,
+    
     /// Optional. Setpoint for reactive power (or current) in ChargingRateUnit that the EV should follow on phase L2 as closely as possible.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_reactive_l2: Option<f64>,
+    
     /// Optional. Setpoint for reactive power (or current) in ChargingRateUnit that the EV should follow on phase L3 as closely as possible.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_reactive_l3: Option<f64>,
 }
 
-impl ChargingScheduleUpdateType {
+impl OcppEntity for ChargingScheduleUpdateType {
     /// Validates the fields of ChargingScheduleUpdateType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        
         // Validate discharge_limit
-        if let Some(limit) = self.discharge_limit {
-            if limit > 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "discharge_limit".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: limit.to_string(),
-                        lower: "-INF".to_string(), // Represents negative infinity
-                        upper: "0".to_string(),
-                    }],
-                });
-            }
+        if let Some(discharge_limit) = self.discharge_limit {
+            e.check_bounds("discharge_limit", f64::MIN, 0.0, discharge_limit);
         }
 
         // Validate discharge_limit_l2
-        if let Some(limit_l2) = self.discharge_limit_l2 {
-            if limit_l2 > 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "discharge_limit_l2".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: limit_l2.to_string(),
-                        lower: "-INF".to_string(),
-                        upper: "0".to_string(),
-                    }],
-                });
-            }
+        if let Some(discharge_limit_l2) = self.discharge_limit_l2 {
+            e.check_bounds("discharge_limit_l2", f64::MIN, 0.0, discharge_limit_l2);
         }
 
         // Validate discharge_limit_l3
-        if let Some(limit_l3) = self.discharge_limit_l3 {
-            if limit_l3 > 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "discharge_limit_l3".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: limit_l3.to_string(),
-                        lower: "-INF".to_string(),
-                        upper: "0".to_string(),
-                    }],
-                });
-            }
+        if let Some(discharge_limit_l3) = self.discharge_limit_l3 {
+            e.check_bounds("discharge_limit_l3", f64::MIN, 0.0, discharge_limit_l3);
         }
 
-        // No explicit constraints for other decimal fields (limit, setpoint, setpoint_reactive, etc.)
-        // beyond their type. If specific ranges or non-negativity were required, they would be added here.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "ChargingScheduleUpdateType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("ChargingScheduleUpdateType")
     }
 }
 

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::traits::OcppEntity;
 
 /// EV DC charging parameters for ISO 15118-2
 /// Used by: Common::ChargingNeedsType
@@ -40,128 +41,48 @@ pub struct DCChargingParametersType {
     pub bulk_soc: Option<i32>, // integer
 }
 
-impl DCChargingParametersType {
+impl OcppEntity for DCChargingParametersType {
     /// Validates the fields of DCChargingParametersType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
         // Assuming positive value is implied for maximums in current/voltage/power
-        if self.ev_max_current <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "ev_max_current".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.ev_max_current.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
-
-        if self.ev_max_voltage <= 0.0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "ev_max_voltage".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.ev_max_voltage.to_string(),
-                    lower: ">0".to_string(),
-                    upper: "INF".to_string(),
-                }],
-            });
-        }
+        e.check_bounds("ev_max_current", 0.0, f64::MAX, self.ev_max_current);
+        e.check_bounds("ev_max_voltage", 0.0, f64::MAX, self.ev_max_voltage);
+        
 
         // Validate ev_max_power (optional, typically > 0 if present)
-        if let Some(power) = self.ev_max_power {
-            if power <= 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "ev_max_power".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: power.to_string(),
-                        lower: ">0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(ev_max_power) = self.ev_max_power {
+            e.check_bounds("ev_max_power", 0.0, f64::MAX, ev_max_power);
         }
 
         // Validate ev_energy_capacity (optional, typically >= 0 if present)
-        if let Some(capacity) = self.ev_energy_capacity {
-            if capacity < 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "ev_energy_capacity".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: capacity.to_string(),
-                        lower: "0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(ev_energy_capacity) = self.ev_energy_capacity {
+            e.check_bounds("ev_energy_capacity", 0.0, f64::MAX, ev_energy_capacity);
         }
 
         // Validate energy_amount (optional, typically >= 0 if present)
-        if let Some(amount) = self.energy_amount {
-            if amount < 0.0 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "energy_amount".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: amount.to_string(),
-                        lower: "0".to_string(),
-                        upper: "INF".to_string(),
-                    }],
-                });
-            }
+        if let Some(energy_amount) = self.energy_amount {
+           e.check_bounds("energy_amount", 0.0, f64::MAX, energy_amount);
         }
 
         // Validate state_of_charge
-        if let Some(soc) = self.state_of_charge {
-            if soc < 0 || soc > 100 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "state_of_charge".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: soc.to_string(),
-                        lower: "0".to_string(),
-                        upper: "100".to_string(),
-                    }],
-                });
-            }
+        if let Some(state_of_charge) = self.state_of_charge {
+           e.check_bounds("state_of_charge", 0, 100, state_of_charge);
         }
 
         // Validate full_soc
         if let Some(full_soc) = self.full_soc {
-            if full_soc < 0 || full_soc > 100 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "full_soc".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: full_soc.to_string(),
-                        lower: "0".to_string(),
-                        upper: "100".to_string(),
-                    }],
-                });
-            }
+            e.check_bounds("full_soc", 0, 100, full_soc);
         }
 
         // Validate bulk_soc
         if let Some(bulk_soc) = self.bulk_soc {
-            if bulk_soc < 0 || bulk_soc > 100 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "bulk_soc".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
-                        value: bulk_soc.to_string(),
-                        lower: "0".to_string(),
-                        upper: "100".to_string(),
-                    }],
-                });
-            }
+           e.check_bounds("bulk_soc", 0, 100, bulk_soc);
         }
 
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "DCChargingParametersType".to_string(),
-                source: errors,
-            })
-        }
+       e.build("DCChargingParametersType")
     }
 }
 

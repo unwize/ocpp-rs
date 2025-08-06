@@ -13,7 +13,7 @@ pub struct AbsolutePriceScheduleType {
     pub time_anchor: DateTime<Utc>,
 
     /// Required. Unique ID of price schedule
-    pub price_schedule_id: u32, // integer, 0 <= val
+    pub price_schedule_id: i32, // integer, 0 <= val
 
     /// Optional. Description of the price schedule.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -58,8 +58,11 @@ impl OcppEntity for AbsolutePriceScheduleType {
     /// data.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
+        
+        e.check_bounds("price_schedule_id", 0, i32::MAX, self.price_schedule_id);
+        
         if let Some(price_schedule_description) = &self.price_schedule_description {
-            e.check_cardinality("price_schedule_description", 0, 160, price_schedule_description.as_ref());
+            e.check_cardinality("price_schedule_description", 0, 160, &price_schedule_description.chars());
         }
 
         // Validate ISO compliance for currency
@@ -79,7 +82,7 @@ impl OcppEntity for AbsolutePriceScheduleType {
         }
 
         if let Some(additional_selected_services) = &self.additional_selected_services {
-            e.push_member("additional_selected_services", &additional_selected_services);
+            e.push_member("additional_selected_services", additional_selected_services);
         }
 
         e.build("AbsolutePriceScheduleType")

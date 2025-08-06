@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 pub struct BatteryDataType {
     /// Required. Slot number where battery is inserted or removed.
     /// Constraints: 0 <= val
-    pub ev_se_id: u32,
+    pub evse_id: i32,
     /// Required. Serial number of battery.
     /// String length: 0..50
     pub serial_number: String,
@@ -31,7 +31,8 @@ impl OcppEntity for BatteryDataType {
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-
+        
+        e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
         e.check_cardinality("serial_number", 0, 50, &self.serial_number.chars());
         e.check_bounds("soc", 0.0, 100.0, self.soc);
         e.check_bounds("soh", 0.0, 100.0, self.soh);
@@ -54,7 +55,7 @@ mod tests {
     #[test]
     fn test_serialization_deserialization() {
         let battery_data = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "BAT-SN-12345".to_string(),
             soc: 85.5,
             soh: 92.1,
@@ -72,7 +73,7 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let battery_data = BatteryDataType {
-            ev_se_id: 0,
+            evse_id: 0,
             serial_number: "SN001".to_string(),
             soc: 50.0,
             soh: 75.0,
@@ -82,7 +83,7 @@ mod tests {
         assert!(battery_data.validate().is_ok());
 
         let battery_data_max_values = BatteryDataType {
-            ev_se_id: 100,
+            evse_id: 100,
             serial_number: "a".repeat(50),
             soc: 100.0,
             soh: 100.0,
@@ -95,7 +96,7 @@ mod tests {
     #[test]
     fn test_validation_serial_number_too_long() {
         let battery_data = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "a".repeat(51), // Too long
             soc: 50.0,
             soh: 75.0,
@@ -108,7 +109,7 @@ mod tests {
     #[test]
     fn test_validation_soc_out_of_range() {
         let battery_data_low = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "SN001".to_string(),
             soc: -0.1, // Out of range
             soh: 75.0,
@@ -118,7 +119,7 @@ mod tests {
         assert!(battery_data_low.validate().is_err());
 
         let battery_data_high = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "SN001".to_string(),
             soc: 100.1, // Out of range
             soh: 75.0,
@@ -131,7 +132,7 @@ mod tests {
     #[test]
     fn test_validation_soh_out_of_range() {
         let battery_data_low = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "SN001".to_string(),
             soc: 50.0,
             soh: -0.1, // Out of range
@@ -141,7 +142,7 @@ mod tests {
         assert!(battery_data_low.validate().is_err());
 
         let battery_data_high = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "SN001".to_string(),
             soc: 50.0,
             soh: 100.1, // Out of range
@@ -154,7 +155,7 @@ mod tests {
     #[test]
     fn test_validation_vendor_info_too_long() {
         let battery_data = BatteryDataType {
-            ev_se_id: 1,
+            evse_id: 1,
             serial_number: "SN001".to_string(),
             soc: 50.0,
             soh: 75.0,

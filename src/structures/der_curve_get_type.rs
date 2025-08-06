@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::der_control_enum_type::DERControlEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_type::DERCurveType;
+use crate::traits::OcppEntity;
 
 /// DERCurveGetType is used by: ReportDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -19,35 +20,14 @@ pub struct DERCurveGetType {
     pub curve: DERCurveType,
 }
 
-impl DERCurveGetType {
+impl OcppEntity for DERCurveGetType {
     /// Validates the fields of DERCurveGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate id length
-        if self.id.len() > 36 {
-            errors.push(OcppError::FieldValidationError {
-                field: "id".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.id.len(),
-                    lower: 0,
-                    upper: 36,
-                }],
-            });
-        }
-
-        // No validation for 'curve_type' or 'curve' without their type definitions.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "DERCurveGetType".to_string(),
-                source: errors,
-            })
-        }
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
+        e.check_cardinality("id", 0, 36, &self.id.chars());
+        e.push_member("curve", &self.curve);
+        e.build("DERCurveGetType")
     }
 }
 

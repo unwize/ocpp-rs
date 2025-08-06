@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_period_type::ChargingPeriodType;
+use crate::traits::OcppEntity;
 
 /// CostDetailsType contains the cost as calculated by Charging Station based on provided TariffType.
 /// Used by: TransactionEventRequest
@@ -26,49 +27,24 @@ pub struct CostDetailsType {
     pub total_usage: TotalUsageType, // TODO: Implement TotalUsageType
 }
 
-impl CostDetailsType {
+impl OcppEntity for CostDetailsType {
     /// Validates the fields of CostDetailsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
+    fn validate(&self) -> Result<(), OcppError> {
+        let mut e = StructureValidationBuilder::new();
 
         // Validate failure_reason length
-        if let Some(reason) = &self.failure_reason {
-            if reason.len() > 500 {
-                errors.push(OcppError::FieldValidationError {
-                    field: "failure_reason".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
-                        cardinality: reason.len(),
-                        lower: 0,
-                        upper: 500,
-                    }],
-                });
-            }
+        if let Some(failure_reason) = &self.failure_reason {
+            e.check_cardinality("failure_reason", 0, 500, &failure_reason.chars());
+        }
+        
+        if let Some(charging_periods) = &self.charging_periods {
+            e.push_iter_member("charging_periods", charging_periods.iter());
         }
 
-        // Validate charging_periods cardinality (0..*) - no specific upper limit, so any Vec is valid.
-        if let Some(periods) = &self.charging_periods {
-             for (i, period) in periods.iter().enumerate() {
-                 if let Err(e) = period.validate() {
-                     errors.push(OcppError::FieldValidationError {
-                         field: format!("charging_periods[{}]", i),
-                         source: vec![e],
-                     });
-                 }
-             }
-        }
+        e.push_member("total_cost", &self.total_cost).push_member("total_usage", &self.total_usage);
 
-        // TODO: No validation for 'total_cost' or 'total_usage' without their type definitions.
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "CostDetailsType".to_string(),
-                source: errors,
-            })
-        }
+        e.build("CostDetailsType")
     }
 }
 

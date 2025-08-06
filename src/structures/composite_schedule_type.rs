@@ -1,8 +1,9 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
-use crate::errors::OcppError;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
+use crate::traits::OcppEntity;
 
 /// CompositeScheduleType is used by: GetCompositeScheduleResponse
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,55 +22,16 @@ pub struct CompositeScheduleType {
     pub charging_schedule_period: Vec<ChargingSchedulePeriodType>,
 }
 
-impl CompositeScheduleType {
+impl OcppEntity for CompositeScheduleType {
     /// Validates the fields of CompositeScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     pub fn validate(&self) -> Result<(), OcppError> {
-        let mut errors: Vec<OcppError> = Vec::new();
-
-        // Validate evse_id
-        if self.evse_id < 0 {
-            errors.push(OcppError::FieldValidationError {
-                field: "evse_id".to_string(),
-                source: vec![OcppError::FieldBoundsError {
-                    value: self.evse_id.to_string(),
-                    lower: "0".to_string(),
-                    upper: "MAX_INT".to_string(), // No upper bound specified
-                }],
-            });
-        }
-
-        // Validate charging_schedule_period cardinality
-        if self.charging_schedule_period.is_empty() {
-            errors.push(OcppError::FieldValidationError {
-                field: "charging_schedule_period".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
-                    cardinality: self.charging_schedule_period.len(),
-                    lower: 1,
-                    upper: usize::MAX, // Represents no upper limit
-                }],
-            });
-        }
-        // TODO: If ChargingSchedulePeriodType had its own validate method, iterate and call it here.
-        // for (i, period) in self.charging_schedule_period.iter().enumerate() {
-        //     if let Err(e) = period.validate() {
-        //         errors.push(OcppError::FieldValidationError {
-        //             field: format!("charging_schedule_period[{}]", i),
-        //             source: vec![e],
-        //         });
-        //     }
-        // }
-
-
-        // Check if any errors occurred
-        if errors.is_empty() {
-            Ok(())
-        } else {
-            Err(OcppError::StructureValidationError {
-                structure: "CompositeScheduleType".to_string(),
-                source: errors,
-            })
-        }
+        let mut e = StructureValidationBuilder::new();
+        
+        e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
+        e.check_cardinality("charging_schedule_period", 1, usize::MAX, &self.charging_schedule_period.iter());
+        e.push_iter_member("charging_schedule_period", &self.charging_schedule_period.iter());
+        e.build("CompositeScheduletype")
     }
 }
 
