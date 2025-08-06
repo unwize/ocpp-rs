@@ -3,10 +3,11 @@ use chrono::{DateTime, Utc};
 use crate::enums::der_unit_enum_type::DERUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_points_type::DERCurvePointsType;
+use crate::structures::hysteresis_type::HysteresisType;
 use crate::traits::OcppEntity;
 
 /// DERCurveType is used by: Common::DERCurveGetType, Common::LimitMaxDischargeType, SetDERControlRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct DERCurveType {
     /// Required. Priority of curve (0=highest).
     /// Constraints: 0 <= val
@@ -25,7 +26,7 @@ pub struct DERCurveType {
     pub duration: Option<f64>, // decimal
     /// Optional. Hysteresis parameters for curve.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub hysteresis: Option<HysteresisType>, // TODO: Implement HysteresisType
+    pub hysteresis: Option<HysteresisType>,
     /// Optional. Additional parameters for voltage curves.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub voltage_params: Option<VoltageParamsType>, // TODO: Implement VoltageParamsType
@@ -89,7 +90,7 @@ mod tests {
             response_time: Some(1.5),
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600.0),
-            hysteresis: Some("hysteresis_placeholder".to_string()), // TODO: Placeholder
+            hysteresis: Some(Default::default()), // TODO: Placeholder
             voltage_params: Some("voltage_params_placeholder".to_string()), // TODO: Placeholder
             reactive_power_params: Some("reactive_power_params_placeholder".to_string()), // TODO: Placeholder
             curve_data: vec![Default::default(), Default::default()],
@@ -123,7 +124,7 @@ mod tests {
             response_time: Some(0.0), // No limit
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(7200.0),
-            hysteresis: Some("hyst".to_string()),
+            hysteresis: Some(Default::default()),
             voltage_params: Some("volt".to_string()),
             reactive_power_params: Some("react".to_string()),
             curve_data: vec![Default::default(); 10], // Max cardinality

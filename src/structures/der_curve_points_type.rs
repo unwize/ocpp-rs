@@ -4,7 +4,7 @@ use crate::errors::OcppError;
 use crate::traits::OcppEntity;
 
 /// DERCurvePointsType is used by: Common::DERCurveType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct DERCurvePointsType {
     /// Required. The data value of the X-axis (independent) variable, depending on the curve type.
     pub x: f64, // decimal

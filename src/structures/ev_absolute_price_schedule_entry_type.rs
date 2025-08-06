@@ -13,6 +13,15 @@ pub struct EVAbsolutePriceScheduleEntryType {
     pub ev_price_rule: Vec<EVPriceRuleType>, // TODO: Implement EVPriceRuleType
 }
 
+impl Default for EVAbsolutePriceScheduleEntryType {
+    fn default() -> EVAbsolutePriceScheduleEntryType {
+        Self {
+            duration: 0,
+            ev_price_rule: vec![],
+        }
+    }
+}
+
 impl OcppEntity for EVAbsolutePriceScheduleEntryType {
     /// Validates the fields of EVAbsolutePriceScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

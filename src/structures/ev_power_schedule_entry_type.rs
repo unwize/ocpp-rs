@@ -6,7 +6,7 @@ use crate::traits::OcppEntity;
 /// A negative value indicates the willingness to discharge under specific conditions,
 /// a positive value indicates that the EV currently is not able to offer energy to discharge.
 /// Used by: Common::EVPowerScheduleType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EVPowerScheduleEntryType {
     /// Required. The duration of this entry.
     pub duration: i32, // integer

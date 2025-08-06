@@ -25,6 +25,16 @@ pub struct ComponentType {
     pub evse: Option<EVSEType>, // TODO: Implement EVSEType
 }
 
+impl Default for ComponentType {
+    fn default() -> ComponentType {
+        Self {
+            name: "".to_string(),
+            instance: None,
+            evse: None,
+        }
+    }
+}
+
 impl OcppEntity for ComponentType {
     /// Validates the fields of ComponentType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
