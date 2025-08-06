@@ -180,7 +180,7 @@ mod tests {
             setpoint_reactive_l3: None,
         };
         let err = update.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "discharge_limit");
@@ -209,7 +209,7 @@ mod tests {
             setpoint_reactive_l3: None,
         };
         let err = update.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "discharge_limit_l2");
@@ -238,7 +238,7 @@ mod tests {
             setpoint_reactive_l3: None,
         };
         let err = update.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "discharge_limit_l3");

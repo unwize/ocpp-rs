@@ -148,7 +148,7 @@ mod tests {
             state_of_charge: None, full_soc: None, bulk_soc: None,
         };
         let err = dc_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_max_current");
@@ -170,7 +170,7 @@ mod tests {
             full_soc: None, bulk_soc: None,
         };
         let err_low = dc_params_low.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err_low {
+        if let OcppError::StructureValidationError { related: source, .. } = err_low {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "state_of_charge");
@@ -189,7 +189,7 @@ mod tests {
             full_soc: None, bulk_soc: None,
         };
         let err_high = dc_params_high.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err_high {
+        if let OcppError::StructureValidationError { related: source, .. } = err_high {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "state_of_charge");

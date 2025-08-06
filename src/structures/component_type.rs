@@ -93,7 +93,7 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "name");
@@ -113,7 +113,7 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "instance");

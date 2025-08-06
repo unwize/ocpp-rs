@@ -62,7 +62,7 @@ impl DERCurveType {
         if self.priority < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "priority".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.priority.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(), // No upper bound specified
@@ -74,7 +74,7 @@ impl DERCurveType {
         if self.curve_data.is_empty() || self.curve_data.len() > 10 {
             errors.push(OcppError::FieldValidationError {
                 field: "curve_data".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.curve_data.len(),
                     lower: 1,
                     upper: 10,
@@ -92,7 +92,7 @@ impl DERCurveType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "DERCurveType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }
@@ -164,7 +164,7 @@ mod tests {
             curve_data: vec![Default::default()],
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "priority");
@@ -186,7 +186,7 @@ mod tests {
             curve_data: vec![], // Invalid cardinality
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "curve_data");
@@ -208,7 +208,7 @@ mod tests {
             curve_data: vec![Default::default(); 11], // Invalid cardinality
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "curve_data");

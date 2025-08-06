@@ -105,7 +105,7 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "serial_number");
@@ -127,7 +127,7 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "model");
@@ -149,7 +149,7 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "vendor_name");
@@ -171,7 +171,7 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "firmware_version");

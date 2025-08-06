@@ -33,7 +33,7 @@ impl EVPowerScheduleType {
         if self.ev_power_schedule_entries.is_empty() || self.ev_power_schedule_entries.len() > 1024 {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_power_schedule_entries".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.ev_power_schedule_entries.len(),
                     lower: 1,
                     upper: 1024,
@@ -44,7 +44,7 @@ impl EVPowerScheduleType {
             if let Err(e) = entry.validate() {
                 errors.push(OcppError::FieldValidationError {
                     field: format!("ev_power_schedule_entries[{}]", i),
-                    source: vec![e],
+                    related: vec![e],
                 });
             }
         }
@@ -56,7 +56,7 @@ impl EVPowerScheduleType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EVPowerScheduleType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }

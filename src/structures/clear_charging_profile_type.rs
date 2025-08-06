@@ -89,7 +89,7 @@ mod tests {
             stack_level: None,
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "evse_id");
@@ -109,7 +109,7 @@ mod tests {
             stack_level: Some(-1), // Invalid
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "stack_level");

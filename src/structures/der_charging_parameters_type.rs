@@ -453,7 +453,7 @@ mod tests {
             ..Default::default() // Use default for other fields
         };
         let err = der_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_inverter_manufacturer");

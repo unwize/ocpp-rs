@@ -25,7 +25,7 @@ impl EVAbsolutePriceScheduleEntryType {
         if self.ev_price_rule.is_empty() || self.ev_price_rule.len() > 8 {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_price_rule".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.ev_price_rule.len(),
                     lower: 1,
                     upper: 8,
@@ -37,7 +37,7 @@ impl EVAbsolutePriceScheduleEntryType {
              if let Err(e) = rule.validate() {
                  errors.push(OcppError::FieldValidationError {
                      field: format!("ev_price_rule[{}]", i),
-                     source: vec![e],
+                     related: vec![e],
                  });
              }
         }
@@ -49,7 +49,7 @@ impl EVAbsolutePriceScheduleEntryType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EVAbsolutePriceScheduleEntryType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }
@@ -96,7 +96,7 @@ mod tests {
             ev_price_rule: vec![], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_price_rule");
@@ -115,7 +115,7 @@ mod tests {
             ev_price_rule: vec!["rule".to_string(); 9], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_price_rule");

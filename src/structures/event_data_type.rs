@@ -65,7 +65,7 @@ impl EventDataType {
         if self.event_id < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "event_id".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.event_id.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(),
@@ -78,7 +78,7 @@ impl EventDataType {
             if c < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "cause".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: c.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(),
@@ -91,7 +91,7 @@ impl EventDataType {
         if self.actual_value.len() > 2500 {
             errors.push(OcppError::FieldValidationError {
                 field: "actual_value".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.actual_value.len(),
                     lower: 0,
                     upper: 2500,
@@ -104,7 +104,7 @@ impl EventDataType {
             if tc.len() > 50 {
                 errors.push(OcppError::FieldValidationError {
                     field: "tech_code".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
+                    related: vec![OcppError::FieldCardinalityError {
                         cardinality: tc.len(),
                         lower: 0,
                         upper: 50,
@@ -118,7 +118,7 @@ impl EventDataType {
             if ti.len() > 500 {
                 errors.push(OcppError::FieldValidationError {
                     field: "tech_info".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
+                    related: vec![OcppError::FieldCardinalityError {
                         cardinality: ti.len(),
                         lower: 0,
                         upper: 500,
@@ -132,7 +132,7 @@ impl EventDataType {
             if tid.len() > 36 {
                 errors.push(OcppError::FieldValidationError {
                     field: "transaction_id".to_string(),
-                    source: vec![OcppError::FieldCardinalityError {
+                    related: vec![OcppError::FieldCardinalityError {
                         cardinality: tid.len(),
                         lower: 0,
                         upper: 36,
@@ -146,7 +146,7 @@ impl EventDataType {
             if vmid < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "variable_monitoring_id".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: vmid.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(),
@@ -160,7 +160,7 @@ impl EventDataType {
             if s < 0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "severity".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: s.to_string(),
                         lower: "0".to_string(),
                         upper: "MAX_INT".to_string(),
@@ -176,7 +176,7 @@ impl EventDataType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EventDataType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }

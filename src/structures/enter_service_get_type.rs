@@ -22,7 +22,7 @@ impl EnterServiceGetType {
         if self.id.len() > 36 {
             errors.push(OcppError::FieldValidationError {
                 field: "id".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.id.len(),
                     lower: 0,
                     upper: 36,
@@ -38,7 +38,7 @@ impl EnterServiceGetType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EnterServiceGetType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }
@@ -85,7 +85,7 @@ mod tests {
             enter_service: EnterServiceType::default(),
         };
         let err = enter_service_get.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "id");

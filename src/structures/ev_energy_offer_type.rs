@@ -39,7 +39,7 @@ impl OcppEntity for EVEnergyOfferType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EVEnergyOfferType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }

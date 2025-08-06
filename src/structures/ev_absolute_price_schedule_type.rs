@@ -31,7 +31,7 @@ impl EVAbsolutePriceScheduleType {
         if !iso::iso_4217::CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
             errors.push(OcppError::FieldValidationError {
                 field: "currency".to_string(),
-                source: vec![OcppError::FieldValueError {
+                related: vec![OcppError::FieldValueError {
                     value: "currency".to_string(),
                 }],
             });
@@ -41,7 +41,7 @@ impl EVAbsolutePriceScheduleType {
         if self.price_algorithm.len() > 2000 {
             errors.push(OcppError::FieldValidationError {
                 field: "price_algorithm".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.price_algorithm.len(),
                     lower: 0,
                     upper: 2000,
@@ -53,7 +53,7 @@ impl EVAbsolutePriceScheduleType {
         if self.ev_absolute_price_schedule_entries.is_empty() || self.ev_absolute_price_schedule_entries.len() > 1024 {
             errors.push(OcppError::FieldValidationError {
                 field: "ev_absolute_price_schedule_entries".to_string(),
-                source: vec![OcppError::FieldCardinalityError {
+                related: vec![OcppError::FieldCardinalityError {
                     cardinality: self.ev_absolute_price_schedule_entries.len(),
                     lower: 1,
                     upper: 1024,
@@ -64,7 +64,7 @@ impl EVAbsolutePriceScheduleType {
             if let Err(e) = entry.validate() {
                 errors.push(OcppError::FieldValidationError {
                     field: format!("ev_absolute_price_schedule_entries[{}]", i),
-                    source: vec![e],
+                    related: vec![e],
                 });
             }
         }
@@ -76,7 +76,7 @@ impl EVAbsolutePriceScheduleType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EVAbsolutePriceScheduleType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }
@@ -134,7 +134,7 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![],
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "price_algorithm");
@@ -155,7 +155,7 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_absolute_price_schedule_entries");
@@ -176,7 +176,7 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![Default::default(); 1025], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_absolute_price_schedule_entries");

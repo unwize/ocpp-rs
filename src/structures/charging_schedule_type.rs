@@ -101,7 +101,7 @@ impl OcppEntity for ChargingScheduleType {
         }
 
         e.check_cardinality("charging_schedule_period", 1, 1024, &self.charging_schedule_period.iter());
-        e.push_iter_member("charging_schedule_period", &self.charging_schedule_period.iter());
+        e.push_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
 
         e.build("ChargingScheduleType")
     }
@@ -183,7 +183,7 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "signature_id");
@@ -215,7 +215,7 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "digest_value");
@@ -247,7 +247,7 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "randomized_delay");
@@ -280,7 +280,7 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_few = schedule_too_few.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err_too_few {
+        if let OcppError::StructureValidationError { related: source, .. } = err_too_few {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");
@@ -310,7 +310,7 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_many = schedule_too_many.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err_too_many {
+        if let OcppError::StructureValidationError { related: source, .. } = err_too_many {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");

@@ -3,7 +3,7 @@ use crate::traits::OcppEntity;
 use miette::Diagnostic;
 use thiserror::Error;
 
-#[derive(Error, Diagnostic, Debug)]
+#[derive(Error, Diagnostic, Debug, Clone)]
 pub enum OcppError {
 
     #[error("Invalid Enum Value: {value} not in {enum_name}")]
@@ -13,13 +13,13 @@ pub enum OcppError {
         value: String,
     },
 
-    #[error("OCPP Structure Validation Error: {structure")]
+    #[error("OCPP Structure Validation Error: {structure}")]
     #[diagnostic()]
     StructureValidationError {
         structure: String,
 
         #[related]
-        source: Vec<OcppError>
+        related: Vec<OcppError>
     },
 
     #[error("OCPP Field Validation Error: {field}")]
@@ -28,7 +28,7 @@ pub enum OcppError {
         field: String,
 
         #[related]
-        source: Vec<OcppError>,
+        related: Vec<OcppError>,
     },
 
     #[error("Field Cardinality Error: {cardinality} not in range {lower}..{upper}")]
@@ -75,7 +75,7 @@ impl OcppError {
     pub fn to_field_validation_error(self, field: &str) -> OcppError {
         FieldValidationError {
             field: field.to_string(),
-            source: vec![self],
+            related: vec![self],
         }
     }
 }
@@ -83,7 +83,7 @@ impl OcppError {
 /// Convenience function to read a StructureValidationError, parse its sources, and verify that the
 /// provided vec of field names appear in the vec of sources. Each field is asserted to appear.
 pub fn assert_invalid_fields(e: OcppError, fields: Vec<String>) {
-    if let StructureValidationError { source, .. } = e {
+    if let StructureValidationError { related: source, .. } = e {
         let field_names: Vec<String> = source.iter().map(|e| {
             if let FieldValidationError { field, .. } = e {
                 field.clone()
@@ -145,16 +145,17 @@ impl StructureValidationBuilder {
             e.push_member(format!("{field}[{count}]").as_str(), e);
             count += 1;
         }
+        self
     }
 
     /// For a given field, check if its value is within the given bounds. If it is not, add a
     /// `OcppError::FieldBoundError` to the list.
-    pub fn check_bounds<T: PartialOrd>(&mut self, field: &str, min: T, max: T, value: T) -> &Self {
+    pub fn check_bounds<T: PartialOrd + ToString>(&mut self, field: &str, min: T, max: T, value: T) -> &Self {
         if value < min || value > max {
             self.errors.push(FieldBoundsError {
-                value,
-                lower: min,
-                upper: max,
+                value: value.to_string(),
+                lower: min.to_string(),
+                upper: max.to_string(),
             }.to_field_validation_error(field));
         }
 
@@ -164,9 +165,10 @@ impl StructureValidationBuilder {
     /// For a given field and its value, check if its length is within the given range. If it is
     /// not, add a `OcppError::FieldCardinalityError` to the list.
     pub fn check_cardinality<T: Iterator>(&mut self, field: &str, lower: usize, upper: usize, o: &T,) -> &Self {
-        if o.len() < lower || o.len() > upper {
+        let len  = o.size_hint().1.expect("Something went wrong while checking an object's cardinality. `Iterator::size_hint` did not work as expected.");
+        if len < lower || len > upper {
             self.errors.push(FieldCardinalityError {
-                cardinality: o.size_hint().1.expect("Something went wrong while checking an object's cardinality. `Iterator::size_hint` did not work as expected."),
+                cardinality: len,
                 lower,
                 upper,
             }.to_field_validation_error(field));
@@ -188,6 +190,6 @@ impl StructureValidationBuilder {
             return Ok(())
         }
 
-        Err(StructureValidationError { structure: structure.to_string(), source: self.errors() })
+        Err(StructureValidationError { structure: structure.to_string(), related: self.errors.clone() })
     }
 }

@@ -30,7 +30,7 @@ impl OcppEntity for CompositeScheduleType {
         
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
         e.check_cardinality("charging_schedule_period", 1, usize::MAX, &self.charging_schedule_period.iter());
-        e.push_iter_member("charging_schedule_period", &self.charging_schedule_period.iter());
+        e.push_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
         e.build("CompositeScheduletype")
     }
 }
@@ -89,7 +89,7 @@ mod tests {
             charging_schedule_period: vec![Default::default()],
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "evse_id");
@@ -111,7 +111,7 @@ mod tests {
             charging_schedule_period: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");

@@ -51,7 +51,7 @@ impl EnterServiceType {
         if self.priority < 0 {
             errors.push(OcppError::FieldValidationError {
                 field: "priority".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.priority.to_string(),
                     lower: "0".to_string(),
                     upper: "MAX_INT".to_string(), // No upper bound specified
@@ -63,7 +63,7 @@ impl EnterServiceType {
         if self.high_voltage <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "high_voltage".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.high_voltage.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -75,7 +75,7 @@ impl EnterServiceType {
         if self.low_voltage <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "low_voltage".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.low_voltage.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -87,7 +87,7 @@ impl EnterServiceType {
         if self.high_voltage < self.low_voltage {
             errors.push(OcppError::FieldValidationError {
                 field: "voltage_range".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: format!("high: {}, low: {}", self.high_voltage, self.low_voltage),
                     lower: "lowVoltage <= highVoltage".to_string(),
                     upper: "".to_string(), // No upper bound for this combined check
@@ -99,7 +99,7 @@ impl EnterServiceType {
         if self.high_freq <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "high_freq".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.high_freq.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -111,7 +111,7 @@ impl EnterServiceType {
         if self.low_freq <= 0.0 {
             errors.push(OcppError::FieldValidationError {
                 field: "low_freq".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: self.low_freq.to_string(),
                     lower: ">0".to_string(),
                     upper: "INF".to_string(),
@@ -123,7 +123,7 @@ impl EnterServiceType {
         if self.high_freq < self.low_freq {
             errors.push(OcppError::FieldValidationError {
                 field: "frequency_range".to_string(),
-                source: vec![OcppError::FieldBoundsError {
+                related: vec![OcppError::FieldBoundsError {
                     value: format!("high: {}, low: {}", self.high_freq, self.low_freq),
                     lower: "lowFreq <= highFreq".to_string(),
                     upper: "".to_string(), // No upper bound for this combined check
@@ -136,7 +136,7 @@ impl EnterServiceType {
             if d < 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "delay".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: d.to_string(),
                         lower: "0".to_string(),
                         upper: "INF".to_string(),
@@ -148,7 +148,7 @@ impl EnterServiceType {
             if rd < 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "random_delay".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: rd.to_string(),
                         lower: "0".to_string(),
                         upper: "INF".to_string(),
@@ -160,7 +160,7 @@ impl EnterServiceType {
             if rr < 0.0 {
                 errors.push(OcppError::FieldValidationError {
                     field: "ramp_rate".to_string(),
-                    source: vec![OcppError::FieldBoundsError {
+                    related: vec![OcppError::FieldBoundsError {
                         value: rr.to_string(),
                         lower: "0".to_string(),
                         upper: "INF".to_string(),
@@ -176,7 +176,7 @@ impl EnterServiceType {
         } else {
             Err(OcppError::StructureValidationError {
                 structure: "EnterServiceType".to_string(),
-                source: errors,
+                related: errors,
             })
         }
     }
@@ -246,7 +246,7 @@ mod tests {
             delay: None, random_delay: None, ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "voltage_range");
@@ -269,7 +269,7 @@ mod tests {
             delay: None, random_delay: None, ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "frequency_range");
@@ -293,7 +293,7 @@ mod tests {
             random_delay: None, ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "delay");

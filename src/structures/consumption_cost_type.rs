@@ -20,7 +20,7 @@ impl OcppEntity for ConsumptionCostType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("cost", 1, 3, &self.cost.iter());
-        e.push_iter_member("cost", &self.cost.iter());
+        e.push_iter_member("cost", self.cost.iter());
         e.build("ConsumptionCostType")
     }
 }
@@ -66,7 +66,7 @@ mod tests {
             cost: vec![], // Invalid cardinality
         };
         let err = consumption_cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "cost");
@@ -85,7 +85,7 @@ mod tests {
             cost: vec![CostType::default(); 4], // Invalid cardinality
         };
         let err = consumption_cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { source, .. } = err {
+        if let OcppError::StructureValidationError { related: source, .. } = err {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "cost");
