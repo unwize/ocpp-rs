@@ -53,7 +53,7 @@ pub enum OcppError {
         value: String,
     },
 
-    #[error("Field ISO Error: {field} does not comply with ISO {iso}")]
+    #[error("Field ISO Error: {value} does not comply with ISO {iso}")]
     #[diagnostic()]
     FieldISOError {
         value: String,
@@ -61,7 +61,7 @@ pub enum OcppError {
     },
 
     #[error("Field Relationship Error: {this} is invalid in relation to {other}")]
-    #[diagnostic("{help}")]
+    #[diagnostic(help("{help}"))]
     FieldRelationshipError {
         this: String,
         other: String,

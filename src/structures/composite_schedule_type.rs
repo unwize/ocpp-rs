@@ -25,7 +25,7 @@ pub struct CompositeScheduleType {
 impl OcppEntity for CompositeScheduleType {
     /// Validates the fields of CompositeScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);

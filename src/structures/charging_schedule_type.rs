@@ -4,6 +4,7 @@ use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
+use crate::traits::OcppEntity;
 
 /// Represents a charging schedule.
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]

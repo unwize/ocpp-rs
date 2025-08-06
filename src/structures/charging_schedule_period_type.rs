@@ -1,7 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::errors::OcppError::{FieldCardinalityError, FieldValidationError, FieldBoundsError};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Charging schedule period structure defines a time period in a charging schedule.
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.

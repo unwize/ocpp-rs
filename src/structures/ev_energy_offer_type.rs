@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::structures::ev_absolute_price_schedule_type::EVAbsolutePriceScheduleType;
 use crate::structures::ev_power_schedule_type::EVPowerScheduleType;
+use crate::traits::OcppEntity;
 
 /// A schedule of the energy amount over time that EV is willing to discharge.
 /// A negative value indicates the willingness to discharge under specific conditions,
@@ -16,10 +17,10 @@ pub struct EVEnergyOfferType {
     pub ev_absolute_price_schedule: Option<EVAbsolutePriceScheduleType>,
 }
 
-impl EVEnergyOfferType {
+impl OcppEntity for EVEnergyOfferType {
     /// Validates the fields of EVEnergyOfferType.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
-    pub fn validate(&self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut errors: Vec<OcppError> = Vec::new();
 
         if let Err(e) = self.ev_power_schedule.validate() {
