@@ -166,7 +166,7 @@ impl StructureValidationBuilder {
     pub fn check_cardinality<T: Iterator>(&mut self, field: &str, lower: usize, upper: usize, o: &T,) -> &Self {
         if o.len() < lower || o.len() > upper {
             self.errors.push(FieldCardinalityError {
-                cardinality: o.size_hint(),
+                cardinality: o.size_hint().1.expect("Something went wrong while checking an object's cardinality. `Iterator::size_hint` did not work as expected."),
                 lower,
                 upper,
             }.to_field_validation_error(field));
