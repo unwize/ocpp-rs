@@ -63,3 +63,5 @@ mod limit_at_soc_type;
 mod limit_max_discharge_get_type;
 mod limit_max_discharge_type;
 mod log_parameters_type;
+mod message_content_type;
+mod message_info_type;
