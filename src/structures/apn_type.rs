@@ -5,8 +5,8 @@ use crate::enums::apn_authentication_enum_type::APNAuthenticationEnumType;
 
 /// Collection of configuration data needed to make a data-connection over a cellular network.
 /// Used by: SetNetworkProfileRequest.NetworkConnectionProfileType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
-pub struct ApnType {
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+pub struct APNType {
     /// Required. The Access Point Name as a URL.
     /// String length: 0..2000
     pub apn: String,
@@ -27,7 +27,21 @@ pub struct ApnType {
     pub apn_authentication: APNAuthenticationEnumType
 }
 
-impl OcppEntity for ApnType {
+impl Default for APNType {
+    fn default() -> APNType {
+        Self {
+            apn: "".to_string(),
+            apn_user_name: None,
+            apn_password: None,
+            sim_pin: None,
+            preferred_network: None,
+            use_only_preferred_network: None,
+            apn_authentication: APNAuthenticationEnumType::Pap,
+        }
+    }
+}
+
+impl OcppEntity for APNType {
     /// Validates the fields of ApnType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
@@ -56,7 +70,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "internet.example.com".to_string(),
             apn_user_name: Some("user123".to_string()),
             apn_password: Some("secure_pass".to_string()),
@@ -69,13 +83,13 @@ mod tests {
         let serialized = serde_json::to_string(&apn_config).unwrap();
         println!("Serialized: {}", serialized);
 
-        let deserialized: ApnType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: APNType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(apn_config, deserialized);
     }
 
     #[test]
     fn test_validation_valid() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "valid.apn".to_string(),
             apn_user_name: None,
             apn_password: None,
@@ -86,7 +100,7 @@ mod tests {
         };
         assert!(apn_config.validate().is_ok());
 
-        let apn_config_full = ApnType {
+        let apn_config_full = APNType {
             apn: "a".repeat(2000),
             apn_user_name: Some("b".repeat(50)),
             apn_password: Some("c".repeat(64)),
@@ -100,7 +114,7 @@ mod tests {
 
     #[test]
     fn test_validation_apn_too_long() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "a".repeat(2001), // Too long
             apn_user_name: None,
             apn_password: None,
@@ -114,7 +128,7 @@ mod tests {
 
     #[test]
     fn test_validation_apn_user_name_too_long() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "valid.apn".to_string(),
             apn_user_name: Some("a".repeat(51)), // Too long
             apn_password: None,
@@ -128,7 +142,7 @@ mod tests {
 
     #[test]
     fn test_validation_apn_password_too_long() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "valid.apn".to_string(),
             apn_user_name: None,
             apn_password: Some("a".repeat(65)), // Too long
@@ -142,7 +156,7 @@ mod tests {
 
     #[test]
     fn test_validation_preferred_network_too_long() {
-        let apn_config = ApnType {
+        let apn_config = APNType {
             apn: "valid.apn".to_string(),
             apn_user_name: None,
             apn_password: None,
