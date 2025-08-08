@@ -16,6 +16,15 @@ pub struct ModemType {
     pub imsi: Option<String>,
 }
 
+impl Default for ModemType {
+    fn default() -> Self {
+        Self {
+            iccid: None,
+            imsi: None,
+        }
+    }
+}
+
 impl OcppEntity for ModemType {
     /// Validates the fields of ModemType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

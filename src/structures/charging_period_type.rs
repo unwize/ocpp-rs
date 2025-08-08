@@ -31,6 +31,7 @@ impl OcppEntity for ChargingPeriodType {
 
         if let Some (dimensions) = &self.dimensions {
             e.check_cardinality("start_period", 0, 60, &dimensions.iter());
+            e.check_iter_member("dimensions", dimensions.iter());
         }
 
 

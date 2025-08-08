@@ -68,7 +68,7 @@ pub struct ChargingScheduleType {
     pub price_level_schedule: Option<String>,
     /// Optional. When present and SoC of EV is greater than or equal to soc, then charging limit or setpoint will be capped to the value of limit.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub limit_at_soc: Option<LimitAtSOCType>, // TODO: Implement LimitAtSOCType
+    pub limit_at_soc: Option<LimitAtSOCType>,
 }
 
 impl OcppEntity for ChargingScheduleType {

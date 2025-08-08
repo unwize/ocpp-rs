@@ -14,6 +14,15 @@ pub struct EVSEType {
     pub connector_id: Option<i32>,
 }
 
+impl Default for EVSEType {
+    fn default() -> Self {
+        Self {
+            id: 0,
+            connector_id: None,
+        }
+    }
+}
+
 impl OcppEntity for EVSEType {
     /// Validates the fields of EVSEType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

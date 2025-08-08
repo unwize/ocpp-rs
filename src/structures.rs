@@ -69,4 +69,3 @@ mod meter_value_type;
 mod modem_type;
 mod monitoring_data_type;
 mod network_connection_profile_type;
-mod update_enum_type;

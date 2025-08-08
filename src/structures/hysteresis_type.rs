@@ -21,6 +21,17 @@ pub struct HysteresisType {
     pub hysteresis_gradient: Option<f64>,
 }
 
+impl Default for HysteresisType {
+    fn default() -> Self {
+        Self {
+            hysteresis_high: None,
+            hysteresis_low: None,
+            hysteresis_delay: None,
+            hysteresis_gradient: None,
+        }
+    }
+}
+
 impl OcppEntity for HysteresisType {
     /// Validates the fields of HysteresisType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

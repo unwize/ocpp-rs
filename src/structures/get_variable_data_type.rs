@@ -23,10 +23,6 @@ impl OcppEntity for GetVariableDataType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        if let Some(attribute_type) = &self.attribute_type {
-            e.check_member("attribute_type", attribute_type);
-        }
-
         e.check_member("component", &self.component);
 
         e.check_member("variable", &self.variable);
@@ -41,7 +37,6 @@ mod tests {
     use serde_json;
     use crate::enums::attribute_enum_type::AttributeEnumType;
     use crate::structures::component_type::ComponentType;
-    use crate::structures::component_type::VariableType;
 
     #[test]
     fn test_validate_success() {

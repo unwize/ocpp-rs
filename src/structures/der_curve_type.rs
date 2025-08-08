@@ -64,13 +64,13 @@ impl OcppEntity for DERCurveType {
         e.check_cardinality("curve_data", 1, 10, &self.curve_data.iter());
 
         if let Some(hysteresis) = &self.hysteresis {
-            e.check_member("hysteresis", &self.hysteresis);
+            e.check_member("hysteresis", hysteresis);
         }
         if let Some(voltage_params) = &self.voltage_params {
-            e.check_member("voltage_params", &self.voltage_params);
+            e.check_member("voltage_params", voltage_params);
         }
         if let Some(reactive_power_params) = &self.reactive_power_params {
-            e.check_member("reactive_power_params", &self.reactive_power_params);
+            e.check_member("reactive_power_params", reactive_power_params);
         }
         e.build("DERCurveType")
     }
@@ -90,7 +90,7 @@ mod tests {
             response_time: Some(1.5),
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600.0),
-            hysteresis: Some(Default::default()), // TODO: Placeholder
+            hysteresis: Some(Default::default()),
             voltage_params: Some("voltage_params_placeholder".to_string()), // TODO: Placeholder
             reactive_power_params: Some("reactive_power_params_placeholder".to_string()), // TODO: Placeholder
             curve_data: vec![Default::default(), Default::default()],

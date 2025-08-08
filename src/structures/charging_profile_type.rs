@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::charging_profile_kind_enum_type::ChargingProfileKindEnumType;
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
+use crate::enums::recurrency_kind_enum_type::RecurrencyKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_schedule_type::ChargingScheduleType;
 use crate::traits::OcppEntity;
@@ -24,7 +25,7 @@ pub struct ChargingProfileType {
     /// Required. Indicates the kind of schedule.
     pub charging_profile_kind: ChargingProfileKindEnumType,
     /// Optional. Indicates start point of a recurrence.
-    pub recurrence_kind: Option<RecurrenceKindEnumType>, // TODO: Implement RecurrenceKindEnumType
+    pub recurrence_kind: Option<RecurrencyKindEnumType>,
     /// Optional. Point in time at which the profile starts to be valid.
     /// If absent, the profile is valid as soon as it is received by the Charging Station.
     pub valid_from: Option<DateTime<Utc>>,

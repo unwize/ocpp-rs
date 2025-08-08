@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use crate::enums::tariff_clear_status_enum_type::TariffClearStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 
@@ -12,7 +13,7 @@ pub struct ClearTariffsResultType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tariff_id: Option<String>,
     /// Required.
-    pub status: TarrifClearStatusEnumType, // TODO: Implement TariffClearStatusEnumType
+    pub status: TariffClearStatusEnumType, 
     /// Optional. Additional info on status.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
@@ -46,7 +47,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let result = ClearTariffsResultType {
             tariff_id: Some("TARIFF_XYZ_789".to_string()),
-            status: "Accepted".to_string(), // Placeholder
+            status: TariffClearStatusEnumType::Accepted,
             status_info: Some("Tariff cleared successfully".to_string()), // Placeholder
         };
 
@@ -61,14 +62,14 @@ mod tests {
     fn test_validation_valid() {
         let result_minimal = ClearTariffsResultType {
             tariff_id: None,
-            status: "NoTariff".to_string(),
+            status: TariffClearStatusEnumType::Accepted,
             status_info: None,
         };
         assert!(result_minimal.validate().is_ok());
 
         let result_with_id = ClearTariffsResultType {
             tariff_id: Some("a".repeat(60)), // Valid length
-            status: "Accepted".to_string(),
+            status: TariffClearStatusEnumType::Accepted,
             status_info: Some("Some info".to_string()),
         };
         assert!(result_with_id.validate().is_ok());
@@ -78,7 +79,7 @@ mod tests {
     fn test_validation_tariff_id_too_long() {
         let result = ClearTariffsResultType {
             tariff_id: Some("a".repeat(61)), // Invalid
-            status: "Rejected".to_string(),
+            status: TariffClearStatusEnumType::Accepted,
             status_info: None,
         };
         let err = result.validate().unwrap_err();

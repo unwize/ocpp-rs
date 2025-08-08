@@ -12,6 +12,15 @@ pub struct LimitAtSOCType {
     pub limit: f64,
 }
 
+impl Default for LimitAtSOCType {
+    fn default() -> Self {
+        Self {
+            soc: 0,
+            limit: 0.0,
+        }
+    }
+}
+
 impl OcppEntity for LimitAtSOCType {
     /// Validates the fields of LimitAtSOCType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
