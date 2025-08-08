@@ -1,8 +1,10 @@
 use serde::{Deserialize, Serialize};
-
+use crate::enums::ocpp_interface_enum_type::OCPPInterfaceEnumType;
+use crate::enums::ocpp_transport_enum_type::OCPPTransportEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::apn_type::APNType;
 use crate::traits::OcppEntity;
+use crate::enums::ocpp_version_enum_type::OCPPVersionEnumType;
 
 /// Defines the functional and technical parameters of a communication link.
 /// Used by: SetNetworkProfileRequest
@@ -68,7 +70,7 @@ mod tests {
     fn test_validate_success_full() {
         let profile = NetworkConnectionProfileType {
             ocpp_version: Some(OCPPVersionEnumType::OCPP20),
-            ocpp_interface: OCPPInterfaceEnumType::Wired,
+            ocpp_interface: OCPPInterfaceEnumType::Any,
             ocpp_transport: OCPPTransportEnumType::JSON,
             message_timeout: 30,
             ocpp_csms_url: "wss://csms.example.com".to_string(),
@@ -85,7 +87,7 @@ mod tests {
     fn test_validate_success_minimal() {
         let profile = NetworkConnectionProfileType {
             ocpp_version: None,
-            ocpp_interface: OCPPInterfaceEnumType::Wired,
+            ocpp_interface: OCPPInterfaceEnumType::Any,
             ocpp_transport: OCPPTransportEnumType::JSON,
             message_timeout: 30,
             ocpp_csms_url: "wss://csms.example.com".to_string(),
@@ -102,7 +104,7 @@ mod tests {
     fn test_validate_failure_ocpp_csms_url_length() {
         let profile = NetworkConnectionProfileType {
             ocpp_version: None,
-            ocpp_interface: OCPPInterfaceEnumType::Wired,
+            ocpp_interface: OCPPInterfaceEnumType::Any,
             ocpp_transport: OCPPTransportEnumType::JSON,
             message_timeout: 30,
             ocpp_csms_url: "a".repeat(2001),
@@ -130,7 +132,7 @@ mod tests {
     fn test_validate_failure_security_profile_bounds() {
         let profile = NetworkConnectionProfileType {
             ocpp_version: None,
-            ocpp_interface: OCPPInterfaceEnumType::Wired,
+            ocpp_interface: OCPPInterfaceEnumType::Any,
             ocpp_transport: OCPPTransportEnumType::JSON,
             message_timeout: 30,
             ocpp_csms_url: "wss://csms.example.com".to_string(),
@@ -158,7 +160,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let original_struct = NetworkConnectionProfileType {
             ocpp_version: Some(OCPPVersionEnumType::OCPP20),
-            ocpp_interface: OCPPInterfaceEnumType::Wired,
+            ocpp_interface: OCPPInterfaceEnumType::Any,
             ocpp_transport: OCPPTransportEnumType::JSON,
             message_timeout: 30,
             ocpp_csms_url: "wss://csms.example.com".to_string(),

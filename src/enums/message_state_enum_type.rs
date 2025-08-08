@@ -4,7 +4,7 @@ use std::fmt;
 use crate::errors::OcppError;
 
 /// State of the Charging Station during which a message SHALL be displayed.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum MessageStateEnumType {
     /// Message only to be shown while the Charging Station is charging.

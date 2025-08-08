@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::structures::freq_droop_get_type::tests::FreqDroopType;
+use crate::structures::freq_droop_type::FreqDroopType;
 use crate::traits::OcppEntity;
 
 /// Used by: ReportDERControlRequest

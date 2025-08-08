@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::modem_type::ModemType;
 use crate::traits::OcppEntity;
 
 /// The physical system where an Electrical Vehicle (EV) can be charged.
@@ -64,7 +65,7 @@ mod tests {
             model: "ModelX".to_string(),
             vendor_name: "VendorCorp".to_string(),
             firmware_version: Some("1.0.0".to_string()),
-            modem: Some("modem_placeholder".to_string()), // Placeholder
+            modem: Some(Default::default()), // Placeholder
         };
 
         let serialized = serde_json::to_string(&cs).unwrap();

@@ -4,7 +4,7 @@ use std::fmt;
 use crate::errors::OcppError;
 
 /// Priority with which a message should be displayed on a Charging Station.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum MessagePriorityEnumType {
     /// Show this message always in front. Highest priority, don't cycle with other messages. When a newer message with this MessagePriority is received, this message is replaced. No Charging Station own message may override this message.

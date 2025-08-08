@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::evse_type::EVSEType;
 use crate::traits::OcppEntity;
 
 /// A physical or logical component.
@@ -68,7 +69,7 @@ mod tests {
         let component = ComponentType {
             name: "Meter".to_string(),
             instance: Some("Main".to_string()),
-            evse: Some("evse_placeholder".to_string()), // Placeholder
+            evse: Some(Default::default()), // Placeholder
         };
 
         let serialized = serde_json::to_string(&component).unwrap();
@@ -90,7 +91,7 @@ mod tests {
         let component_full_lengths = ComponentType {
             name: "a".repeat(50), // Valid length
             instance: Some("b".repeat(50)), // Valid length
-            evse: Some("evse_placeholder".to_string()),
+            evse: Some(Default::default()),
         };
         assert!(component_full_lengths.validate().is_ok());
     }

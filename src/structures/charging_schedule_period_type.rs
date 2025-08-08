@@ -1,6 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
+use crate::enums::operation_mode_enum_type::OperationModeEnumType;
 
 /// Charging schedule period structure defines a time period in a charging schedule.
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.

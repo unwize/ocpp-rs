@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// ISO 15118-20 service parameter for mobility needs mode.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub enum MobilityNeedsModeEnumType {
     /// Only EV determines min/target SOC and departure time.
     EVCC,

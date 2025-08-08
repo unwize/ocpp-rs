@@ -2,6 +2,8 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use crate::enums::authorization_status_enum_type::AuthorizationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::id_token_type::IdTokenType;
+use crate::structures::message_content_type::MessageContentType;
 use crate::traits::OcppEntity;
 
 // TODO: Implement IdTokenType

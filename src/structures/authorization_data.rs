@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
+use crate::structures::id_token_info_type::IdTokenInfoType;
+use crate::structures::id_token_type::IdTokenType;
 use crate::traits::OcppEntity;
 
 /// Contains the identifier to use for authorization.

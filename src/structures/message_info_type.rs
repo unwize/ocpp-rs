@@ -1,6 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-
+use crate::enums::message_priority_enum_type::MessagePriorityEnumType;
+use crate::enums::message_state_enum_type::MessageStateEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::message_content_type::MessageContentType;

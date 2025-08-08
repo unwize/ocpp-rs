@@ -25,6 +25,18 @@ pub struct LimitMaxDischargeType {
     pub power_monitoring_must_trip: Option<DERCurveType>
 }
 
+impl Default for LimitMaxDischargeType {
+    fn default() -> Self {
+        Self {
+            priority: 0,
+            pct_max_discharge_power: None,
+            start_time: None,
+            duration: None,
+            power_monitoring_must_trip: None,
+        }
+    }
+}
+
 impl OcppEntity for LimitMaxDischargeType {
     /// Validates the fields of LimitMaxDischargeType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

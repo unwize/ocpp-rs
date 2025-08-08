@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::limit_max_discharge_type::LimitMaxDischargeType;
 use crate::traits::OcppEntity;
 
 /// Used by: ReportDERControlRequest

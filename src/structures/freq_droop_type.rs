@@ -27,6 +27,21 @@ pub struct FreqDroopType {
     pub duration: Option<f64>,
 }
 
+impl Default for FreqDroopType {
+    fn default() -> Self {
+        Self {
+            priority: 0,
+            over_freq: 0.0,
+            under_freq: 0.0,
+            over_droop: 0.0,
+            under_droop: 0.0,
+            response_time: 0.0,
+            start_time: None,
+            duration: None,
+        }
+    }
+}
+
 impl OcppEntity for FreqDroopType {
     /// Validates the fields of FreqDroopType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration of OCPP transport mechanisms. SOAP is currently not a valid value for OCPP 2.0.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum OCPPTransportEnumType {
     /// Use SOAP for transport of OCPP PDU's

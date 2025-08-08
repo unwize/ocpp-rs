@@ -4,7 +4,7 @@ use std::fmt;
 use crate::errors::OcppError;
 
 /// Format of a message to be displayed on the display of the Charging Station.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum MessageFormatEnumType {
     /// Message content is ASCII formatted, only 7-bit printable ASCII allowed.

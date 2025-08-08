@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 use crate::enums::control_model_enum_type::ControlModeEnumType;
 use crate::enums::energy_transfer_mode_enum_type::EnergyTransferModeEnumType;
+use crate::enums::mobility_needs_mode_enum_type::MobilityNeedsModeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ac_charging_parameters_type::ACChargingParametersType;
 use crate::structures::dc_charging_parameters_type::DCChargingParametersType;

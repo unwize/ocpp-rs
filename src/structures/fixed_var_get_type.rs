@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::fixed_var_type::FixedVarType;
 use crate::traits::OcppEntity;
 
 /// Used by: ReportDERControlRequest

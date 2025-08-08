@@ -19,6 +19,16 @@ pub struct IdTokenType {
     pub additional_info: Vec<AdditionalInfoType>,
 }
 
+impl Default for IdTokenType {
+    fn default() -> Self {
+        Self {
+            id_token: "".to_string(),
+            r#type: "".to_string(),
+            additional_info: vec![],
+        }
+    }
+}
+
 impl OcppEntity for IdTokenType {
     /// Validates the fields of IdTokenType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

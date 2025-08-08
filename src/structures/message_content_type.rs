@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-
+use crate::enums::message_format_enum_type::MessageFormatEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 
@@ -9,7 +9,7 @@ use crate::traits::OcppEntity;
 #[serde(rename_all = "camelCase")]
 pub struct MessageContentType {
     /// Required. Format of the message.
-    pub format: MessageFormatEnumType, // TODO: Implement MessageFormatEnumType
+    pub format: MessageFormatEnumType,
     /// Optional. Message language identifier.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
@@ -20,7 +20,7 @@ pub struct MessageContentType {
 impl Default for MessageContentType {
     fn default() -> Self {
         Self {
-            format: (),
+            format: MessageFormatEnumType::ASCII,
             language: None,
             content: "".to_string(),
         }
@@ -47,6 +47,7 @@ impl OcppEntity for MessageContentType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::enums::message_format_enum_type::MessageFormatEnumType;
 
     #[test]
     fn test_validate_success_full() {

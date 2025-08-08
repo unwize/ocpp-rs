@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration of network interfaces.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum OCPPInterfaceEnumType {
     /// Use wired connection 0

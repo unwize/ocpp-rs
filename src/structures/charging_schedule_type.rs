@@ -4,6 +4,7 @@ use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
+use crate::structures::limit_at_soc_type::LimitAtSOCType;
 use crate::traits::OcppEntity;
 
 /// Represents a charging schedule.
@@ -131,7 +132,7 @@ mod tests {
             charging_schedule_period: vec![], // TODO: Placeholder
             absolute_price_schedule: None, // TODO: Placeholder
             price_level_schedule: Some("price_level_schedule_placeholder".to_string()), // Placeholder
-            limit_at_soc: Some("limit_at_soc_placeholder".to_string()), // Placeholder
+            limit_at_soc: Some(Default::default()), // Placeholder
         };
 
         let serialized = serde_json::to_string(&schedule).unwrap();

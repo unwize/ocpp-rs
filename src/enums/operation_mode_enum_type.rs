@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// (2.1) Operation mode for (bi-)directional charging during a charging schedule period.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum OperationModeEnumType {
     /// Minimize energy consumption by having the EV either on standby or in sleep.

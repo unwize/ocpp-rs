@@ -17,6 +17,15 @@ pub struct AdditionalInfoType {
     pub r#type: String, // 'type' is a Rust keyword, so we use r#type to escape it
 }
 
+impl Default for AdditionalInfoType {
+    fn default() -> Self {
+        Self {
+            additional_id_token: "".to_string(),
+            r#type: "".to_string(),
+        }
+    }
+}
+
 impl OcppEntity for AdditionalInfoType {
     /// Validates the fields of AdditionalInfoType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
