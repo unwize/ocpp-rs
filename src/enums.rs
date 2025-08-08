@@ -102,3 +102,8 @@ pub mod tariff_set_status_enum_type;
 pub mod transaction_event_enum_type;
 pub mod trigger_message_status_enum_type;
 mod triger_reason_enum_type;
+mod unlock_status_enum_type;
+mod unpublish_firmware_status_enum_type;
+mod update_firmware_status_enum_type;
+mod upload_log_status_enum_type;
+mod vpn_enum_type;
