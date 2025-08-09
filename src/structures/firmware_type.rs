@@ -1,7 +1,7 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-use crate::errors::{OcppError, StructureValidationBuilder, validate_string_length};
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 
 /// Represents a copy of the firmware that can be loaded/updated on the Charging Station.

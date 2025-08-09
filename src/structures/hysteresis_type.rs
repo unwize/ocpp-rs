@@ -1,7 +1,6 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::errors::OcppError::FieldRelationshipError;
 use crate::traits::OcppEntity;
 
 /// Used by: Common::DERCurveType
