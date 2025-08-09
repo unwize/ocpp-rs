@@ -4,7 +4,7 @@ use crate::structures::cost_type::CostType;
 use crate::traits::OcppEntity;
 
 /// ConsumptionCostType is used by: Common::SalesTariffEntryType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ConsumptionCostType {
     /// Required. The lowest level of consumption that defines the starting point of this consumption block.
     /// The block interval extends to the start of the next interval.

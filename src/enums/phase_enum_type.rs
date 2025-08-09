@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Phase specifies how a measured value is to be interpreted. Please note that not all values of Phase are applicable to all Measurands.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")] // This handles L1, L2, L3, N, etc. correctly
 pub enum PhaseEnumType {
     /// Measured on L1

@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Values of the context field.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub enum ReadingContextEnumType {
     /// Value taken at start of interruption.
     #[serde(rename = "Interruption.Begin")]
