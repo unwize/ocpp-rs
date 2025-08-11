@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::price_rule_type::PriceRuleType;
 use crate::traits::OcppEntity;
 
 

@@ -3,6 +3,7 @@ use crate::enums::location_enum_type::LocationEnumType;
 use crate::enums::phase_enum_type::PhaseEnumType;
 use crate::enums::reading_context_enum_type::ReadingContextEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::signed_meter_value_type::SignedMeterValueType;
 use crate::traits::OcppEntity;
 
 /// Single sampled value in MeterValues. Each value can be accompanied by optional fields.

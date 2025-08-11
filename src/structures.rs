@@ -91,3 +91,6 @@ mod set_variable_data_type;
 mod set_variable_result_type;
 mod signed_meter_value_type;
 mod status_info_type;
+mod stream_data_element_type;
+mod tariff_assignment_type;
+mod tariff_conditions_fixed_type;
