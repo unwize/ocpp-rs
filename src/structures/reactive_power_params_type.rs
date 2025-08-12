@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::errors::OcppError;
 use crate::traits::OcppEntity;
 
 /// Contains parameters for reactive power control.

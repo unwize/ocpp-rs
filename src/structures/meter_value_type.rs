@@ -2,6 +2,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::sampled_meter_value_type::SampledValueType;
 use crate::traits::OcppEntity;
 
 /// Collection of one or more sampled values in MeterValuesRequest and TransactionEvent.
@@ -13,7 +14,16 @@ pub struct MeterValueType {
     /// Required. Timestamp for measured value(s).
     pub timestamp: DateTime<Utc>,
     /// Required. One or more measured values.
-    pub sampled_value: Vec<SampledValueType>, // TODO: Implement SampledValueType
+    pub sampled_value: Vec<SampledValueType>,
+}
+
+impl Default for MeterValueType {
+    fn default() -> MeterValueType {
+        Self {
+            timestamp: Utc::now(),
+            sampled_value: vec![],
+        }
+    }
 }
 
 impl OcppEntity for MeterValueType {
@@ -23,7 +33,7 @@ impl OcppEntity for MeterValueType {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("sampled_value", 1, usize::MAX, &self.sampled_value.iter());
-        e.check_iter_member("sampled_value", &self.sampled_value.iter());
+        e.check_iter_member("sampled_value", self.sampled_value.iter());
 
         e.build("MeterValueType")
     }

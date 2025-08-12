@@ -59,7 +59,7 @@ mod tests {
 
     #[test]
     fn test_validate_success() {
-        let tariff = Default::default();
+        let tariff = SalesTariffType::default();
         assert!(tariff.validate().is_ok());
     }
 
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_id_negative() {
-        let mut tariff = Default::default();
+        let mut tariff = SalesTariffType::default();
         tariff.id = -1;
         let result = tariff.validate();
         assert!(result.is_err());
@@ -92,7 +92,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_description_too_long() {
-        let mut tariff = Default::default();
+        let mut tariff = SalesTariffType::default();
         tariff.sales_tariff_description = Some("a".repeat(33));
         let result = tariff.validate();
         assert!(result.is_err());
@@ -106,7 +106,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_sales_tariff_entry_too_few() {
-        let mut tariff = Default::default();
+        let mut tariff = SalesTariffType::default();
         tariff.sales_tariff_entry = vec![];
         let result = tariff.validate();
         assert!(result.is_err());
@@ -120,7 +120,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let original_struct = Default::default();
+        let original_struct = SalesTariffType::default();
         let serialized = serde_json::to_string(&original_struct).unwrap();
         let deserialized: SalesTariffType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(original_struct, deserialized);

@@ -4,6 +4,7 @@ use crate::enums::der_unit_enum_type::DERUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_points_type::DERCurvePointsType;
 use crate::structures::hysteresis_type::HysteresisType;
+use crate::structures::reactive_power_params_type::ReactivePowerParamsType;
 use crate::traits::OcppEntity;
 
 /// DERCurveType is used by: Common::DERCurveGetType, Common::LimitMaxDischargeType, SetDERControlRequest
@@ -92,7 +93,7 @@ mod tests {
             duration: Some(3600.0),
             hysteresis: Some(Default::default()),
             voltage_params: Some("voltage_params_placeholder".to_string()), // TODO: Placeholder
-            reactive_power_params: Some("reactive_power_params_placeholder".to_string()), // TODO: Placeholder
+            reactive_power_params: Some(Default::default()), // TODO: Placeholder
             curve_data: vec![Default::default(), Default::default()],
         };
 
@@ -126,7 +127,7 @@ mod tests {
             duration: Some(7200.0),
             hysteresis: Some(Default::default()),
             voltage_params: Some("volt".to_string()),
-            reactive_power_params: Some("react".to_string()),
+            reactive_power_params: Some(Default::default()),
             curve_data: vec![Default::default(); 10], // Max cardinality
         };
         assert!(der_curve_full.validate().is_ok());

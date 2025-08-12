@@ -58,13 +58,13 @@ mod tests {
 
     #[test]
     fn test_validate_success() {
-        let report = Default::default();
+        let report = ReportDataType     ::default();
         assert!(report.validate().is_ok());
     }
 
     #[test]
     fn test_validate_failure_variable_attribute_too_few() {
-        let mut report = Default::default();
+        let mut report = ReportDataType::default();
         report.variable_attribute = vec![];
         let result = report.validate();
         assert!(result.is_err());
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_variable_attribute_too_many() {
-        let mut report = Default::default();
+        let mut report = ReportDataType::default();
         report.variable_attribute = vec![
             VariableAttributeType { value: "1".to_string(), setpoint: None },
             VariableAttributeType { value: "2".to_string(), setpoint: None },
@@ -98,7 +98,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let original_struct = Default::default();
+        let original_struct = ReportDataType::default();
 
         let serialized = serde_json::to_string(&original_struct).unwrap();
         let deserialized: ReportDataType = serde_json::from_str(&serialized).unwrap();

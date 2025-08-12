@@ -3,6 +3,7 @@ use crate::enums::monitor_enum_type::MonitorEnumType;
 use crate::enums::set_monitoring_status_enum_type::SetMonitoringStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
 
 /// Class to hold result of SetVariableMonitoring request.

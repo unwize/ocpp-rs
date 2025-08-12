@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::rational_number_type::RationalNumberType;
 use crate::traits::OcppEntity;
 
 /// Part of ISO 15118-20 price schedule.
@@ -16,7 +17,7 @@ pub struct OverstayRuleType {
     /// Required. Time till overstay will be reapplied.
     pub overstay_fee_period: i32,
     /// Required. Fee that applies to this overstay.
-    pub overstay_fee: RationalNumberType, // TODO: Implement RationalNumberType
+    pub overstay_fee: RationalNumberType,
 }
 
 impl OcppEntity for OverstayRuleType {
@@ -59,7 +60,7 @@ mod tests {
             overstay_rule_description: Some("overstay_rule_1".to_string()),
             start_time: 300,
             overstay_fee_period: 60,
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default(),
         };
         assert!(overstay_rule.validate().is_ok());
     }
@@ -70,7 +71,7 @@ mod tests {
             overstay_rule_description: None,
             start_time: 0,
             overstay_fee_period: 1,
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default(),
         };
         assert!(overstay_rule.validate().is_ok());
     }
@@ -81,7 +82,7 @@ mod tests {
             overstay_rule_description: Some("a".repeat(33)), // Invalid length
             start_time: 300,
             overstay_fee_period: 60,
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default(),
         };
         let result = overstay_rule.validate();
         assert!(result.is_err());
@@ -103,7 +104,7 @@ mod tests {
             overstay_rule_description: None,
             start_time: -1, // Invalid
             overstay_fee_period: 60,
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default(),
         };
         let result = overstay_rule.validate();
         assert!(result.is_err());
@@ -125,7 +126,7 @@ mod tests {
             overstay_rule_description: None,
             start_time: 300,
             overstay_fee_period: 0, // Invalid
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default(),
         };
         let result = overstay_rule.validate();
         assert!(result.is_err());
@@ -148,7 +149,7 @@ mod tests {
             overstay_rule_description: Some("example_rule".to_string()),
             start_time: 300,
             overstay_fee_period: 60,
-            overstay_fee: RationalNumberType,
+            overstay_fee: RationalNumberType::default() ,
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();

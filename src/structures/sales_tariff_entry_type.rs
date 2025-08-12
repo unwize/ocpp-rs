@@ -20,6 +20,16 @@ pub struct SalesTariffEntryType {
     pub consumption_cost: Option<Vec<ConsumptionCostType>>,
 }
 
+impl Default for SalesTariffEntryType {
+    fn default() -> Self {
+        Self {
+            e_price_level: None,
+            relative_time_interval: Default::default(),
+            consumption_cost: None,
+        }
+    }
+}
+
 impl OcppEntity for SalesTariffEntryType {
     /// Validates the fields of SalesTariffEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
@@ -68,7 +78,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_e_price_level_negative() {
-        let mut entry = Default::default();
+        let mut entry = SalesTariffEntryType::default();
         entry.e_price_level = Some(-1);
         let result = entry.validate();
         assert!(result.is_err());
@@ -82,7 +92,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_consumption_cost_too_many() {
-        let mut entry = Default::default();
+        let mut entry = SalesTariffEntryType::default();
         entry.consumption_cost = Some(vec![
            Default::default(); 4
         ]);
@@ -98,7 +108,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let original_struct = Default::default();
+        let original_struct = SalesTariffEntryType::default();
         let serialized = serde_json::to_string(&original_struct).unwrap();
         let deserialized: SalesTariffEntryType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(original_struct, deserialized);

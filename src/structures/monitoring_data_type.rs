@@ -54,7 +54,7 @@ mod tests {
     #[test]
     fn test_validate_success_minimal() {
         let monitoring_data = MonitoringDataType {
-            component: ComponentType,
+            component: ComponentType::default(),
             variable: VariableType,
             variable_monitoring: vec![VariableMonitoringType::default()],
         };

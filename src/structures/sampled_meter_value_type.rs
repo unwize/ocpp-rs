@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::location_enum_type::LocationEnumType;
+use crate::enums::measurand_enum_type::MeasurandEnumType;
 use crate::enums::phase_enum_type::PhaseEnumType;
 use crate::enums::reading_context_enum_type::ReadingContextEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
@@ -33,6 +34,20 @@ pub struct SampledValueType {
     pub unit_of_measure: Option<UnitOfMeasureType>,
 }
 
+impl Default for SampledValueType {
+    fn default() -> SampledValueType {
+        Self {
+            value: 0.0,
+            measurand: None,
+            context: None,
+            phase: None,
+            location: None,
+            signed_meter_value: None,
+            unit_of_measure: None,
+        }
+    }
+}
+
 impl OcppEntity for SampledValueType {
     /// Validates the fields of SampledValueType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
@@ -58,7 +73,7 @@ mod tests {
 
     #[test]
     fn test_validate_success_full() {
-        let sampled_value = Default::default();
+        let sampled_value = SampledValueType::default();
         assert!(sampled_value.validate().is_ok());
     }
 
@@ -78,7 +93,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let original_struct = Default::default();
+        let original_struct = SampledValueType::default();
         let serialized = serde_json::to_string(&original_struct).unwrap();
         let deserialized: SampledValueType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(original_struct, deserialized);

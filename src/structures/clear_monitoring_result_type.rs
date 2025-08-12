@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::clear_monitoring_status_enum_type::ClearMonitoringStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
 
 /// Result of a clear monitoring request.
@@ -14,7 +15,7 @@ pub struct ClearMonitoringResultType {
     pub id: i32,
     /// Optional. Element providing more information about the status.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
+    pub status_info: Option<StatusInfoType>, 
 }
 
 impl OcppEntity for ClearMonitoringResultType {
@@ -43,7 +44,7 @@ mod tests {
         let result = ClearMonitoringResultType {
             status: ClearMonitoringStatusEnumType::Accepted,
             id: 123,
-            status_info: Some("Monitor cleared successfully".to_string()),
+            status_info: Some(Default::default()),
         };
 
         let serialized = serde_json::to_string(&result).unwrap();
@@ -65,7 +66,7 @@ mod tests {
         let result_positive_id = ClearMonitoringResultType {
             status: ClearMonitoringStatusEnumType::Accepted,
             id: 456, // Valid
-            status_info: Some("Some info".to_string()),
+            status_info: Some(Default::default()),
         };
         assert!(result_positive_id.validate().is_ok());
     }

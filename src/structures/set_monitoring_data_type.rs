@@ -32,6 +32,21 @@ pub struct SetMonitoringDataType {
     pub periodic_event_stream: Option<PeriodicEventStreamParamsType>,
 }
 
+impl Default for SetMonitoringDataType {
+    fn default() -> Self {
+        Self {
+            id: None,
+            transaction: None,
+            value: 0.0,
+            monitor_type: MonitorEnumType::UpperThreshold,
+            severity: 0,
+            component: Default::default(),
+            variable: (),
+            periodic_event_stream: None,
+        }
+    }
+}
+
 impl OcppEntity for SetMonitoringDataType {
     /// Validates the fields of SetMonitoringDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
@@ -59,7 +74,7 @@ mod tests {
 
     #[test]
     fn test_validate_success_full() {
-        let monitoring_data = Default::default();
+        let monitoring_data = SetMonitoringDataType::default();
         assert!(monitoring_data.validate().is_ok());
     }
 
@@ -80,7 +95,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_id_negative() {
-        let mut monitoring_data = Default::default();
+        let mut monitoring_data = SetMonitoringDataType::default();
         monitoring_data.id = Some(-1);
         let result = monitoring_data.validate();
         assert!(result.is_err());
@@ -94,7 +109,7 @@ mod tests {
 
     #[test]
     fn test_validate_failure_severity_out_of_bounds() {
-        let mut monitoring_data = Default::default();
+        let mut monitoring_data = SetMonitoringDataType::default();
         monitoring_data.severity = 10;
         let result = monitoring_data.validate();
         assert!(result.is_err());
@@ -108,7 +123,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let original_struct = Default::default();
+        let original_struct = SetMonitoringDataType::default();
         let serialized = serde_json::to_string(&original_struct).unwrap();
         let deserialized: SetMonitoringDataType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(original_struct, deserialized);

@@ -5,6 +5,7 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
 use crate::structures::limit_at_soc_type::LimitAtSOCType;
+use crate::structures::sales_tariff_type::SalesTariffType;
 use crate::traits::OcppEntity;
 
 /// Represents a charging schedule.
@@ -53,7 +54,7 @@ pub struct ChargingScheduleType {
 
     /// Optional. Sales tariff for charging associated with this schedule.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub sales_tariff: Option<SalesTarrifType>, // TODO: Implement SalesTariffType
+    pub sales_tariff: Option<SalesTariffType>,
 
     /// Required. List of ChargingSchedulePeriod elements defining maximum power or current usage over time.
     /// The maximum number of periods, that is supported by the Charging Station, if less than 1024, is set by device model variable SmartCharging.MaxPeriodsPerSchedule.
@@ -121,18 +122,18 @@ mod tests {
             id: 1,
             start_schedule: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600),
-            charging_rate_unit: ChargingRateUnitEnumType::A, // Placeholder
+            charging_rate_unit: ChargingRateUnitEnumType::A, 
             min_charging_rate: Some(6.0),
             power_tolerance: Some(0.05),
             signature_id: Some(123),
             digest_value: Some("some_digest_value".to_string()),
             use_local_time: Some(true),
             randomized_delay: Some(30),
-            sales_tariff: Some("tariff_id_example".to_string()), // Placeholder
-            charging_schedule_period: vec![], // TODO: Placeholder
-            absolute_price_schedule: None, // TODO: Placeholder
-            price_level_schedule: Some("price_level_schedule_placeholder".to_string()), // Placeholder
-            limit_at_soc: Some(Default::default()), // Placeholder
+            sales_tariff: Some(Default::default()), 
+            charging_schedule_period: vec![Default::default()], 
+            absolute_price_schedule: None, 
+            price_level_schedule: Some("price_level_schedule_placeholder".to_string()), 
+            limit_at_soc: Some(Default::default()), 
         };
 
         let serialized = serde_json::to_string(&schedule).unwrap();
@@ -156,7 +157,7 @@ mod tests {
             use_local_time: None,
             randomized_delay: Some(100), // Valid
             sales_tariff: None,
-            charging_schedule_period: vec![], // TODO: Valid cardinality
+            charging_schedule_period: vec![],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,

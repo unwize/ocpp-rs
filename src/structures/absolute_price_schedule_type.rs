@@ -4,9 +4,11 @@ use crate::structures::additional_selected_services_type::AdditionalSelectedServ
 use crate::traits::OcppEntity;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use crate::structures::overstay_rule_list_type::OverstayRuleListType;
+use crate::structures::price_rule_stack_type::PriceRuleStackType;
 
 /// Represents an absolute price schedule with timing and pricing information
-#[derive(Debug, Clone, Serialize, Deserialize, Eq, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AbsolutePriceScheduleType {
     /// Required. Starting point of price schedule.

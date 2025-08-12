@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use crate::enums::tariff_clear_status_enum_type::TariffClearStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
 
 /// Result of a clear tariffs request.
@@ -16,7 +17,7 @@ pub struct ClearTariffsResultType {
     pub status: TariffClearStatusEnumType, 
     /// Optional. Additional info on status.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
+    pub status_info: Option<StatusInfoType>,
 }
 
 impl OcppEntity for ClearTariffsResultType {
@@ -48,7 +49,7 @@ mod tests {
         let result = ClearTariffsResultType {
             tariff_id: Some("TARIFF_XYZ_789".to_string()),
             status: TariffClearStatusEnumType::Accepted,
-            status_info: Some("Tariff cleared successfully".to_string()), // Placeholder
+            status_info: Some(Default::default()), // Placeholder
         };
 
         let serialized = serde_json::to_string(&result).unwrap();
@@ -70,7 +71,7 @@ mod tests {
         let result_with_id = ClearTariffsResultType {
             tariff_id: Some("a".repeat(60)), // Valid length
             status: TariffClearStatusEnumType::Accepted,
-            status_info: Some("Some info".to_string()),
+            status_info: Some(Default::default()),
         };
         assert!(result_with_id.validate().is_ok());
     }

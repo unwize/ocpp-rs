@@ -14,6 +14,15 @@ pub struct ConsumptionCostType {
     pub cost: Vec<CostType>
 }
 
+impl Default for ConsumptionCostType {
+    fn default() -> ConsumptionCostType {
+        Self {
+            start_value: 0.0,
+            cost: vec![],
+        }
+    }
+}
+
 impl OcppEntity for ConsumptionCostType {
     /// Validates the fields of ConsumptionCostType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

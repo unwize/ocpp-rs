@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::periodic_event_stream_params_type::PeriodicEventStreamParamsType;
 use crate::traits::OcppEntity;
 
 /// ConstantStreamDataType is used by: OpenPeriodicEventStreamRequest, GetPeriodicEventStreamResponse
@@ -12,7 +13,7 @@ pub struct ConstantStreamDataType {
     /// Constraints: 0 <= val
     pub variable_monitoring_id: i32,
     /// Required. Max time and items parameters
-    pub params: PeriodicEventStreamParamsType, // TODO: Implement PeriodicEventStreamParamsType
+    pub params: PeriodicEventStreamParamsType, 
 }
 
 impl OcppEntity for ConstantStreamDataType {
@@ -38,7 +39,7 @@ mod tests {
         let stream_data = ConstantStreamDataType {
             id: 1,
             variable_monitoring_id: 101,
-            params: "params_placeholder".to_string(), // Placeholder
+            params: Default::default(), 
         };
 
         let serialized = serde_json::to_string(&stream_data).unwrap();
@@ -53,14 +54,14 @@ mod tests {
         let stream_data = ConstantStreamDataType {
             id: 0, // Valid
             variable_monitoring_id: 0, // Valid
-            params: "some_params".to_string(),
+            params: Default::default(),
         };
         assert!(stream_data.validate().is_ok());
 
         let stream_data_positive = ConstantStreamDataType {
             id: 123,
             variable_monitoring_id: 456,
-            params: "other_params".to_string(),
+            params: Default::default(),
         };
         assert!(stream_data_positive.validate().is_ok());
     }
@@ -70,7 +71,7 @@ mod tests {
         let stream_data = ConstantStreamDataType {
             id: -1, // Invalid
             variable_monitoring_id: 101,
-            params: "params".to_string(),
+            params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
         if let OcppError::StructureValidationError { related: source, .. } = err {
@@ -90,7 +91,7 @@ mod tests {
         let stream_data = ConstantStreamDataType {
             id: 1,
             variable_monitoring_id: -101, // Invalid
-            params: "params".to_string(),
+            params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
         if let OcppError::StructureValidationError { related: source, .. } = err {
@@ -110,7 +111,7 @@ mod tests {
         let stream_data = ConstantStreamDataType {
             id: -1, // Invalid 1
             variable_monitoring_id: -101, // Invalid 2
-            params: "params".to_string(),
+            params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
         assert_invalid_fields(err, vec![

@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::rational_number_type::RationalNumberType;
 use crate::traits::OcppEntity;
 
 /// Part of ISO 15118-20 price schedule.
@@ -24,6 +25,19 @@ pub struct PriceRuleType {
     pub parking_fee: Option<RationalNumberType>,
     /// Required. Power level above which this price rule applies.
     pub power_range_start: RationalNumberType,
+}
+
+impl Default for PriceRuleType {
+    fn default() -> PriceRuleType {
+        Self {
+            parking_fee_period: None,
+            carbon_dioxide_emission: None,
+            renewable_generation_percentage: None,
+            energy_fee: Default::default(),
+            parking_fee: None,
+            power_range_start: Default::default(),
+        }
+    }
 }
 
 impl OcppEntity for PriceRuleType {

@@ -3,6 +3,7 @@ use crate::enums::attribute_enum_type::AttributeEnumType;
 use crate::enums::get_variable_status_enum_type::GetVariableStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
 
 /// Class to hold results of GetVariables request.

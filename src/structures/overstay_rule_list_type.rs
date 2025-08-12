@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::overstay_rule_type::OverstayRuleType;
+use crate::structures::rational_number_type::RationalNumberType;
 use crate::traits::OcppEntity;
 
 /// Part of ISO 15118-20 price schedule.
@@ -14,7 +15,7 @@ pub struct OverstayRuleListType {
     pub overstay_time_threshold: Option<i32>,
     /// Optional. Power threshold in W at which the overstay applies.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub overstay_power_threshold: Option<RationalNumberType>, // TODO: Implement RationalNumberType
+    pub overstay_power_threshold: Option<RationalNumberType>,
     /// Required. Overstay rules that will be applied.
     pub overstay_rule: Vec<OverstayRuleType>, // TODO: Implement OverstayRuleType
 }
@@ -46,7 +47,7 @@ mod tests {
     fn test_validate_success_full() {
         let rule_list = OverstayRuleListType {
             overstay_time_threshold: Some(3600),
-            overstay_power_threshold: Some(RationalNumberType),
+            overstay_power_threshold: Some(RationalNumberType::default()),
             overstay_rule: vec![OverstayRuleType::default(), OverstayRuleType::default()],
         };
         assert!(rule_list.validate().is_ok());
@@ -57,7 +58,7 @@ mod tests {
         let rule_list = OverstayRuleListType {
             overstay_time_threshold: None,
             overstay_power_threshold: None,
-            overstay_rule: vec![OverstayRuleType],
+            overstay_rule: vec![OverstayRuleType::default()],
         };
         assert!(rule_list.validate().is_ok());
     }
@@ -88,7 +89,7 @@ mod tests {
         let rule_list = OverstayRuleListType {
             overstay_time_threshold: None,
             overstay_power_threshold: None,
-            overstay_rule: vec![OverstayRuleType, OverstayRuleType, OverstayRuleType, OverstayRuleType, OverstayRuleType, OverstayRuleType], // Invalid: length 6, max 5
+            overstay_rule: vec![OverstayRuleType::default(); 6], // Invalid: length 6, max 5
         };
         let result = rule_list.validate();
         assert!(result.is_err());
@@ -108,8 +109,8 @@ mod tests {
     fn test_serialization_deserialization() {
         let original_struct = OverstayRuleListType {
             overstay_time_threshold: Some(1800),
-            overstay_power_threshold: Some(RationalNumberType),
-            overstay_rule: vec![OverstayRuleType],
+            overstay_power_threshold: Some(RationalNumberType::default()),
+            overstay_rule: vec![OverstayRuleType::default()],
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();
