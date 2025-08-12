@@ -94,3 +94,8 @@ mod status_info_type;
 mod stream_data_element_type;
 mod tariff_assignment_type;
 mod tariff_conditions_fixed_type;
+mod tariff_conditions_type;
+mod tariff_energy_price_type;
+mod tariff_energy_type;
+mod tariff_fixed_price_type;
+mod tariff_fixed_type;
