@@ -16,7 +16,10 @@ impl TryFrom<String> for GetDisplayMessagesStatusEnumType {
         match s.as_str() {
             "Accepted" => Ok(GetDisplayMessagesStatusEnumType::Accepted),
             "Unknown" => Ok(GetDisplayMessagesStatusEnumType::Unknown),
-            _ => Err(format!("'{}' is not a valid GetDisplayMessagesStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid GetDisplayMessagesStatusEnumType",
+                s
+            )),
         }
     }
 }

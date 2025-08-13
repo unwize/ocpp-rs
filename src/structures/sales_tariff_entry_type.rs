@@ -70,7 +70,10 @@ mod tests {
     fn test_validate_success_minimal() {
         let entry = SalesTariffEntryType {
             e_price_level: None,
-            relative_time_interval: RelativeTimeIntervalType { start: 0, duration: None },
+            relative_time_interval: RelativeTimeIntervalType {
+                start: 0,
+                duration: None,
+            },
             consumption_cost: None,
         };
         assert!(entry.validate().is_ok());
@@ -93,9 +96,7 @@ mod tests {
     #[test]
     fn test_validate_failure_consumption_cost_too_many() {
         let mut entry = SalesTariffEntryType::default();
-        entry.consumption_cost = Some(vec![
-           Default::default(); 4
-        ]);
+        entry.consumption_cost = Some(vec![Default::default(); 4]);
         let result = entry.validate();
         assert!(result.is_err());
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {

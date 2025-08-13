@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// EnterServiceType is used by: Common::EnterServiceGetType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,7 +29,7 @@ pub struct EnterServiceType {
 
 impl Default for EnterServiceType {
     fn default() -> Self {
-        Self  {
+        Self {
             priority: 0,
             high_voltage: 0.0,
             low_voltage: 0.0,
@@ -51,7 +51,11 @@ impl OcppEntity for EnterServiceType {
 
         // high_voltage should be greater than or equal to low_voltage
         if self.high_voltage < self.low_voltage {
-            e.push_relation_error("high_voltage", "low_voltage", "low voltage must be less than high voltage!");
+            e.push_relation_error(
+                "high_voltage",
+                "low_voltage",
+                "low voltage must be less than high voltage!",
+            );
         }
 
         e.check_bounds("high_freq", 0.0, f64::MAX, self.high_freq);
@@ -59,7 +63,11 @@ impl OcppEntity for EnterServiceType {
 
         // high_freq should be greater than or equal to low_freq
         if self.high_freq < self.low_freq {
-            e.push_relation_error("high_freq", "low_freq", "high_freq must be greater than low_freq!");
+            e.push_relation_error(
+                "high_freq",
+                "low_freq",
+                "high_freq must be greater than low_freq!",
+            );
         }
 
         // Validate optional delay, random_delay, ramp_rate (assuming non-negative if present)
@@ -80,8 +88,8 @@ impl OcppEntity for EnterServiceType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
-    use crate::errors::assert_invalid_fields;
     use super::*;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -138,10 +146,15 @@ mod tests {
             low_voltage: 220.0, // Invalid: low > high
             high_freq: 60.0,
             low_freq: 50.0,
-            delay: None, random_delay: None, ramp_rate: None,
+            delay: None,
+            random_delay: None,
+            ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "voltage_range");
@@ -161,10 +174,15 @@ mod tests {
             low_voltage: 220.0,
             high_freq: 50.0,
             low_freq: 60.0, // Invalid: low > high
-            delay: None, random_delay: None, ramp_rate: None,
+            delay: None,
+            random_delay: None,
+            ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "frequency_range");
@@ -185,10 +203,14 @@ mod tests {
             high_freq: 60.0,
             low_freq: 50.0,
             delay: Some(-1.0), // Invalid
-            random_delay: None, ramp_rate: None,
+            random_delay: None,
+            ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "delay");
@@ -207,19 +229,22 @@ mod tests {
             high_voltage: 200.0,
             low_voltage: 220.0, // Invalid 1 (voltage_range)
             high_freq: 50.0,
-            low_freq: 60.0, // Invalid 2 (frequency_range)
-            delay: Some(-1.0), // Invalid 3
+            low_freq: 60.0,           // Invalid 2 (frequency_range)
+            delay: Some(-1.0),        // Invalid 3
             random_delay: Some(-2.0), // Invalid 4
-            ramp_rate: Some(-0.5), // Invalid 5
+            ramp_rate: Some(-0.5),    // Invalid 5
         };
         let err = enter_service.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "priority".to_string(),
-            "voltage_range".to_string(),
-            "frequency_range".to_string(),
-            "delay".to_string(),
-            "random_delay".to_string(),
-            "ramp_rate".to_string(),
-        ]);
+        assert_invalid_fields(
+            err,
+            vec![
+                "priority".to_string(),
+                "voltage_range".to_string(),
+                "frequency_range".to_string(),
+                "delay".to_string(),
+                "random_delay".to_string(),
+                "ramp_rate".to_string(),
+            ],
+        );
     }
 }

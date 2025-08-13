@@ -37,7 +37,9 @@ impl Into<String> for GetVariableStatusEnumType {
             GetVariableStatusEnumType::Rejected => "Rejected".to_string(),
             GetVariableStatusEnumType::UnknownComponent => "UnknownComponent".to_string(),
             GetVariableStatusEnumType::UnknownVariable => "UnknownVariable".to_string(),
-            GetVariableStatusEnumType::NotSupportedAttributeType => "NotSupportedAttributeType".to_string(),
+            GetVariableStatusEnumType::NotSupportedAttributeType => {
+                "NotSupportedAttributeType".to_string()
+            }
         }
     }
 }

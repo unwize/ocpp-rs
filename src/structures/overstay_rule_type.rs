@@ -142,14 +142,13 @@ mod tests {
         }
     }
 
-
     #[test]
     fn test_serialization_deserialization() {
         let original_struct = OverstayRuleType {
             overstay_rule_description: Some("example_rule".to_string()),
             start_time: 300,
             overstay_fee_period: 60,
-            overstay_fee: RationalNumberType::default() ,
+            overstay_fee: RationalNumberType::default(),
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();

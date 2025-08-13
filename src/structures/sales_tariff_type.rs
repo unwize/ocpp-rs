@@ -45,7 +45,12 @@ impl OcppEntity for SalesTariffType {
         if let Some(levels) = self.num_e_price_levels {
             e.check_bounds("num_e_price_levels", 0, i32::MAX, levels);
         }
-        e.check_cardinality("sales_tariff_entry", 1, 1024, &self.sales_tariff_entry.iter());
+        e.check_cardinality(
+            "sales_tariff_entry",
+            1,
+            1024,
+            &self.sales_tariff_entry.iter(),
+        );
         e.check_iter_member("sales_tariff_entry", self.sales_tariff_entry.iter());
 
         e.build("SalesTariffType")
@@ -69,9 +74,7 @@ mod tests {
             id: 1,
             sales_tariff_description: None,
             num_e_price_levels: None,
-            sales_tariff_entry: vec![
-                Default::default(),
-            ],
+            sales_tariff_entry: vec![Default::default()],
         };
         assert!(tariff.validate().is_ok());
     }

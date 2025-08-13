@@ -44,8 +44,8 @@ impl OcppEntity for TariffTimeType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::tariff_time_price_type::TariffTimePriceType;
+    use serde_json;
 
     fn create_test_instance() -> TariffTimeType {
         TariffTimeType {

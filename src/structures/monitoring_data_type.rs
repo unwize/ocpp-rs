@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_monitoring_type::VariableMonitoringType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
 
 /// Class to hold parameters of SetVariableMonitoring request.
@@ -25,10 +27,14 @@ impl OcppEntity for MonitoringDataType {
 
         e.check_member("component", &self.component);
 
-
         e.check_member("variable", &self.variable);
 
-        e.check_cardinality("variable_monitoring", 1, usize::MAX, &self.variable_monitoring.iter());
+        e.check_cardinality(
+            "variable_monitoring",
+            1,
+            usize::MAX,
+            &self.variable_monitoring.iter(),
+        );
         e.check_iter_member("variable_monitoring", self.variable_monitoring.iter());
 
         e.build("MonitoringDataType")
@@ -38,8 +44,9 @@ impl OcppEntity for MonitoringDataType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::component_type::ComponentType;
+    use crate::structures::variable_type::VariableType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {
@@ -55,7 +62,7 @@ mod tests {
     fn test_validate_success_minimal() {
         let monitoring_data = MonitoringDataType {
             component: ComponentType::default(),
-            variable: VariableType,
+            variable: VariableType::default(),
             variable_monitoring: vec![VariableMonitoringType::default()],
         };
         assert!(monitoring_data.validate().is_ok());

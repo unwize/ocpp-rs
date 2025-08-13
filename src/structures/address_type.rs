@@ -45,7 +45,7 @@ impl OcppEntity for AddressType {
             e.check_cardinality("postal_code", 0, 20, &postal_code.chars());
         }
 
-       e.build("AddressType")
+        e.build("AddressType")
     }
 }
 
@@ -85,12 +85,12 @@ mod tests {
         assert!(address.validate().is_ok());
 
         let address_with_all_fields = AddressType {
-            name: "Max Name".repeat(5), // 50 chars
-            address1: "Max Address Line 1".repeat(5), // 100 chars
-            address2: Some("Max Address Line 2".repeat(5)), // 100 chars
-            city: "Max City".repeat(10), // 100 chars
+            name: "Max Name".repeat(5),                            // 50 chars
+            address1: "Max Address Line 1".repeat(5),              // 100 chars
+            address2: Some("Max Address Line 2".repeat(5)),        // 100 chars
+            city: "Max City".repeat(10),                           // 100 chars
             postal_code: Some("12345678901234567890".to_string()), // 20 chars
-            country: "Max Country".repeat(4), // 44 chars
+            country: "Max Country".repeat(4),                      // 44 chars
         };
         assert!(address_with_all_fields.validate().is_ok());
     }

@@ -1,7 +1,7 @@
+use crate::errors::OcppError;
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use std::fmt;
-use crate::errors::OcppError;
 
 /// Priority with which a message should be displayed on a Charging Station.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

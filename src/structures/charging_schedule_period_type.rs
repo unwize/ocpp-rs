@@ -1,7 +1,9 @@
+use crate::enums::operation_mode_enum_type::OperationModeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::v2x_freq_watt_point_type::V2XFreqWattPointType;
+use crate::structures::v2x_signal_watt_point_type::V2XSignalWattPointType;
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
-use crate::enums::operation_mode_enum_type::OperationModeEnumType;
 
 /// Charging schedule period structure defines a time period in a charging schedule.
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.
@@ -9,7 +11,6 @@ use crate::enums::operation_mode_enum_type::OperationModeEnumType;
 /// Used by: Common::ChargingScheduleType, Common::CompositeScheduleType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingSchedulePeriodType {
-
     /// Required. Start of the period, in seconds from the start of schedule.
     /// The value of StartPeriod also defines the stop time of the previous period.
     pub start_period: i32,
@@ -121,7 +122,7 @@ pub struct ChargingSchedulePeriodType {
     /// the value of setpoint power for a given frequency. chargingRateUnit
     /// must be W for LocalFrequency control.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub v2x_freq_watt_curve: Option<Vec<V2xFreqWattPointType>>,
+    pub v2x_freq_watt_curve: Option<Vec<V2XFreqWattPointType>>,
 
     /// Optional. (2.1) Only used, but not required, when
     /// operationMode = LocalFrequency. When used it must
@@ -131,8 +132,7 @@ pub struct ChargingSchedulePeriodType {
     /// chargingRateUnit must be W for LocalFrequency
     /// control.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub v2x_signal_watt_point_type: Option<Vec<V2xSignalWattPointType>>
-
+    pub v2x_signal_watt_point_type: Option<Vec<V2XSignalWattPointType>>,
 }
 
 impl Default for ChargingSchedulePeriodType {
@@ -192,7 +192,12 @@ impl OcppEntity for ChargingSchedulePeriodType {
         }
 
         if let Some(v2x_signal_watt_curve) = &self.v2x_signal_watt_point_type {
-            e.check_cardinality("v2x_signal_watt_curve", 0, 20, &v2x_signal_watt_curve.iter());
+            e.check_cardinality(
+                "v2x_signal_watt_curve",
+                0,
+                20,
+                &v2x_signal_watt_curve.iter(),
+            );
         }
 
         Ok(())
@@ -295,10 +300,18 @@ mod tests {
         let period = ChargingSchedulePeriodType {
             start_period: 0,
             number_phases: Some(-1), // Invalid
-            limit: None, limit_l2: None, limit_l3: None, phase_to_use: None,
-            discharge_limit: None, discharge_limit_l2: None, discharge_limit_l3: None,
-            setpoint: None, setpoint_l2: None, setpoint_l3: None,
-            setpoint_reactive: None, setpoint_reactive_l2: None,
+            limit: None,
+            limit_l2: None,
+            limit_l3: None,
+            phase_to_use: None,
+            discharge_limit: None,
+            discharge_limit_l2: None,
+            discharge_limit_l3: None,
+            setpoint: None,
+            setpoint_l2: None,
+            setpoint_l3: None,
+            setpoint_reactive: None,
+            setpoint_reactive_l2: None,
             setpoint_reactive_l3: None,
             precondition_request: None,
             evse_sleep: None,
@@ -315,10 +328,18 @@ mod tests {
         let period_low = ChargingSchedulePeriodType {
             start_period: 0,
             phase_to_use: Some(0), // Invalid
-            limit: None, limit_l2: None, limit_l3: None, number_phases: None,
-            discharge_limit: None, discharge_limit_l2: None, discharge_limit_l3: None,
-            setpoint: None, setpoint_l2: None, setpoint_l3: None,
-            setpoint_reactive: None, setpoint_reactive_l2: None,
+            limit: None,
+            limit_l2: None,
+            limit_l3: None,
+            number_phases: None,
+            discharge_limit: None,
+            discharge_limit_l2: None,
+            discharge_limit_l3: None,
+            setpoint: None,
+            setpoint_l2: None,
+            setpoint_l3: None,
+            setpoint_reactive: None,
+            setpoint_reactive_l2: None,
             setpoint_reactive_l3: None,
             precondition_request: None,
             evse_sleep: None,
@@ -332,10 +353,18 @@ mod tests {
         let period_high = ChargingSchedulePeriodType {
             start_period: 0,
             phase_to_use: Some(4), // Invalid
-            limit: None, limit_l2: None, limit_l3: None, number_phases: None,
-            discharge_limit: None, discharge_limit_l2: None, discharge_limit_l3: None,
-            setpoint: None, setpoint_l2: None, setpoint_l3: None,
-            setpoint_reactive: None, setpoint_reactive_l2: None,
+            limit: None,
+            limit_l2: None,
+            limit_l3: None,
+            number_phases: None,
+            discharge_limit: None,
+            discharge_limit_l2: None,
+            discharge_limit_l3: None,
+            setpoint: None,
+            setpoint_l2: None,
+            setpoint_l3: None,
+            setpoint_reactive: None,
+            setpoint_reactive_l2: None,
             setpoint_reactive_l3: None,
             precondition_request: None,
             evse_sleep: None,
@@ -352,10 +381,18 @@ mod tests {
         let period = ChargingSchedulePeriodType {
             start_period: 0,
             discharge_limit: Some(1.0), // Invalid (must be <= 0)
-            limit: None, limit_l2: None, limit_l3: None, number_phases: None,
-            phase_to_use: None, discharge_limit_l2: None, discharge_limit_l3: None,
-            setpoint: None, setpoint_l2: None, setpoint_l3: None,
-            setpoint_reactive: None, setpoint_reactive_l2: None,
+            limit: None,
+            limit_l2: None,
+            limit_l3: None,
+            number_phases: None,
+            phase_to_use: None,
+            discharge_limit_l2: None,
+            discharge_limit_l3: None,
+            setpoint: None,
+            setpoint_l2: None,
+            setpoint_l3: None,
+            setpoint_reactive: None,
+            setpoint_reactive_l2: None,
             setpoint_reactive_l3: None,
             precondition_request: None,
             evse_sleep: None,

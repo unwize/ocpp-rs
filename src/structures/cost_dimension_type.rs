@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::cost_dimension_enum_type::CostDimensionEnumType;
 use crate::errors::OcppError;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Volume consumed of cost dimension.
 /// Used by: Common::ChargingPeriodType

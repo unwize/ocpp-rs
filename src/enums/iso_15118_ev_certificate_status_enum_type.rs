@@ -16,7 +16,10 @@ impl TryFrom<String> for Iso15118EVCertificateStatusEnumType {
         match s.as_str() {
             "Accepted" => Ok(Iso15118EVCertificateStatusEnumType::Accepted),
             "Failed" => Ok(Iso15118EVCertificateStatusEnumType::Failed),
-            _ => Err(format!("'{}' is not a valid Iso15118EVCertificateStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid Iso15118EVCertificateStatusEnumType",
+                s
+            )),
         }
     }
 }

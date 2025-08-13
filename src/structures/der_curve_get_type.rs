@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::der_control_enum_type::DERControlEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_type::DERCurveType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// DERCurveGetType is used by: ReportDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -84,7 +84,10 @@ mod tests {
             curve: DERCurveType::default(),
         };
         let err = der_curve_get.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "id");

@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::modem_type::ModemType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// The physical system where an Electrical Vehicle (EV) can be charged.
 /// Used by: BootNotificationRequest
@@ -34,16 +34,15 @@ impl OcppEntity for ChargingStationType {
 
         if let Some(serial_number) = &self.serial_number {
             e.check_cardinality("serial_number", 0, 25, &serial_number.chars());
-        }  
-        
+        }
+
         e.check_cardinality("model", 0, 20, &self.model.chars());
         e.check_cardinality("vendor_name", 0, 50, &self.vendor_name.chars());
-        
+
         if let Some(firmware_version) = &self.firmware_version {
             e.check_cardinality("firmware_version", 0, 50, &firmware_version.chars());
         }
-       
-        
+
         if let Some(modem) = &self.modem {
             e.check_member("modem", modem);
         }
@@ -55,8 +54,8 @@ impl OcppEntity for ChargingStationType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
-    use crate::errors::assert_invalid_fields;
     use super::*;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -106,7 +105,10 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "serial_number");
@@ -128,7 +130,10 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "model");
@@ -150,7 +155,10 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "vendor_name");
@@ -172,7 +180,10 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "firmware_version");
@@ -187,18 +198,21 @@ mod tests {
     #[test]
     fn test_validation_multiple_errors() {
         let cs = ChargingStationType {
-            serial_number: Some("a".repeat(26)), // Invalid 1
-            model: "b".repeat(21), // Invalid 2
-            vendor_name: "c".repeat(51), // Invalid 3
+            serial_number: Some("a".repeat(26)),    // Invalid 1
+            model: "b".repeat(21),                  // Invalid 2
+            vendor_name: "c".repeat(51),            // Invalid 3
             firmware_version: Some("d".repeat(51)), // Invalid 4
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "serial_number".to_string(),
-            "model".to_string(),
-            "vendor_name".to_string(),
-            "firmware_version".to_string(),
-        ]);
+        assert_invalid_fields(
+            err,
+            vec![
+                "serial_number".to_string(),
+                "model".to_string(),
+                "vendor_name".to_string(),
+                "firmware_version".to_string(),
+            ],
+        );
     }
 }

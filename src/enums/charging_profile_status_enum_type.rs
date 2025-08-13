@@ -16,7 +16,10 @@ impl TryFrom<String> for ChargingProfileStatusEnumType {
         match s.as_str() {
             "Accepted" => Ok(ChargingProfileStatusEnumType::Accepted),
             "Rejected" => Ok(ChargingProfileStatusEnumType::Rejected),
-            _ => Err(format!("'{}' is not a valid ChargingProfileStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid ChargingProfileStatusEnumType",
+                s
+            )),
         }
     }
 }

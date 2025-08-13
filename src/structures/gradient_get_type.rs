@@ -30,8 +30,8 @@ impl OcppEntity for GradientGetType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::gradient_type::GradientType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

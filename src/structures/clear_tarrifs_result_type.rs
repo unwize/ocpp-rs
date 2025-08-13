@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::tariff_clear_status_enum_type::TariffClearStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Result of a clear tariffs request.
 /// Used by: ClearTariffsResponse
@@ -14,7 +14,7 @@ pub struct ClearTariffsResultType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tariff_id: Option<String>,
     /// Required.
-    pub status: TariffClearStatusEnumType, 
+    pub status: TariffClearStatusEnumType,
     /// Optional. Additional info on status.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status_info: Option<StatusInfoType>,
@@ -31,11 +31,11 @@ impl OcppEntity for ClearTariffsResultType {
             e.check_cardinality("tariff_id", 0, 60, &tariff_id.chars());
         }
 
-       if let Some(status_info) = &self.status_info {
+        if let Some(status_info) = &self.status_info {
             e.check_member("status_info", status_info);
-       }
+        }
 
-       e.build("ClearTariffsResultType")
+        e.build("ClearTariffsResultType")
     }
 }
 
@@ -84,7 +84,10 @@ mod tests {
             status_info: None,
         };
         let err = result.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "tariff_id");

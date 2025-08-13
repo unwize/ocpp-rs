@@ -37,7 +37,12 @@ impl OcppEntity for SignedMeterValueType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("signed_meter_data", 0, 32768, &self.signed_meter_data.chars());
+        e.check_cardinality(
+            "signed_meter_data",
+            0,
+            32768,
+            &self.signed_meter_data.chars(),
+        );
         e.check_cardinality("encoding_method", 0, 50, &self.encoding_method.chars());
 
         if let Some(signing_method) = &self.signing_method {

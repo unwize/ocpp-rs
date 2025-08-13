@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::price_level_schedule_entry_type::PriceLevelScheduleEntryType;
@@ -35,9 +35,22 @@ impl OcppEntity for PriceLevelScheduleType {
             e.check_cardinality("price_schedule_description", 0, 32, &desc.chars());
         }
 
-        e.check_bounds("number_of_price_levels", 0, i32::MAX, self.number_of_price_levels);
-        e.check_cardinality("price_level_schedule_entries", 1, 100, &self.price_level_schedule_entries.iter());
-        e.check_iter_member("price_level_schedule_entries", self.price_level_schedule_entries.iter());
+        e.check_bounds(
+            "number_of_price_levels",
+            0,
+            i32::MAX,
+            self.number_of_price_levels,
+        );
+        e.check_cardinality(
+            "price_level_schedule_entries",
+            1,
+            100,
+            &self.price_level_schedule_entries.iter(),
+        );
+        e.check_iter_member(
+            "price_level_schedule_entries",
+            self.price_level_schedule_entries.iter(),
+        );
 
         e.build("PriceLevelScheduleType")
     }
@@ -46,9 +59,9 @@ impl OcppEntity for PriceLevelScheduleType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use chrono::{TimeZone, Utc};
-    
+    use serde_json;
+
     #[test]
     fn test_validate_success_full() {
         let schedule = PriceLevelScheduleType {

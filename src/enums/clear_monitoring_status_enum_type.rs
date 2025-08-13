@@ -19,7 +19,10 @@ impl TryFrom<String> for ClearMonitoringStatusEnumType {
             "Accepted" => Ok(ClearMonitoringStatusEnumType::Accepted),
             "Rejected" => Ok(ClearMonitoringStatusEnumType::Rejected),
             "NotFound" => Ok(ClearMonitoringStatusEnumType::NotFound),
-            _ => Err(format!("'{}' is not a valid ClearMonitoringStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid ClearMonitoringStatusEnumType",
+                s
+            )),
         }
     }
 }

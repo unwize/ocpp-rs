@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::hash_algorithm_enum_type::HashAlgorithmEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Information about a certificate for an OCSP check.
 /// Used by: AuthorizeRequest, GetCertificateStatusRequest

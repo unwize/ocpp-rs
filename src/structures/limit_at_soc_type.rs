@@ -14,10 +14,7 @@ pub struct LimitAtSOCType {
 
 impl Default for LimitAtSOCType {
     fn default() -> Self {
-        Self {
-            soc: 0,
-            limit: 0.0,
-        }
+        Self { soc: 0, limit: 0.0 }
     }
 }
 

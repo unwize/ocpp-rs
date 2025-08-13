@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::hash_algorithm_enum_type::HashAlgorithmEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Represents information to identify a certificate.
 /// Used by: Common::CertificateHashDataChainType, Common::CertificateStatusRequestInfoType,

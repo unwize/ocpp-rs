@@ -22,7 +22,7 @@ pub struct LimitMaxDischargeType {
     pub duration: Option<f64>,
     /// Optional. The curve is an interpolation of data points.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub power_monitoring_must_trip: Option<DERCurveType>
+    pub power_monitoring_must_trip: Option<DERCurveType>,
 }
 
 impl Default for LimitMaxDischargeType {

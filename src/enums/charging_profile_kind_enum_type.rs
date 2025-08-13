@@ -22,7 +22,10 @@ impl TryFrom<String> for ChargingProfileKindEnumType {
             "Recurring" => Ok(ChargingProfileKindEnumType::Recurring),
             "Relative" => Ok(ChargingProfileKindEnumType::Relative),
             "Dynamic" => Ok(ChargingProfileKindEnumType::Dynamic),
-            _ => Err(format!("'{}' is not a valid ChargingProfileKindEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid ChargingProfileKindEnumType",
+                s
+            )),
         }
     }
 }

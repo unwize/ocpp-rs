@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::enums::event_notification_enum_type::EventNotificationEnumType;
 use crate::enums::event_trigger_enum_type::EventTriggerEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Class to report an event notification for a component-variable.
 /// Used by: NotifyEventRequest
@@ -53,10 +54,10 @@ pub struct EventDataType {
     /// Required. Component for which event is notified.
     pub component: ComponentType,
     /// Required. Variable for which event is notified.
-    pub variable: VariableType, // TODO: Implement VariableType
+    pub variable: VariableType,
 }
 
-impl OcppEntity for  EventDataType {
+impl OcppEntity for EventDataType {
     /// Validates the fields of EventDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
@@ -66,7 +67,7 @@ impl OcppEntity for  EventDataType {
 
         // Validate cause
         if let Some(cause) = self.cause {
-           e.check_bounds("cause", 0, i32::MAX, cause);
+            e.check_bounds("cause", 0, i32::MAX, cause);
         }
 
         e.check_cardinality("actual_value", 0, 2500, &self.actual_value.chars());
@@ -88,7 +89,12 @@ impl OcppEntity for  EventDataType {
 
         // Validate variable_monitoring_id
         if let Some(variable_monitoring_id) = self.variable_monitoring_id {
-            e.check_bounds("variable_monitoring_id", 0, i32::MAX, variable_monitoring_id);
+            e.check_bounds(
+                "variable_monitoring_id",
+                0,
+                i32::MAX,
+                variable_monitoring_id,
+            );
         }
 
         // Validate severity
@@ -96,7 +102,8 @@ impl OcppEntity for  EventDataType {
             e.check_bounds("severity", 0, i32::MAX, severity);
         }
 
-        e.check_member("component", &self.component).check_member("variable", &self.variable);
+        e.check_member("component", &self.component);
+        e.check_member("variable", &self.variable);
 
         e.build("EventDataType")
     }
@@ -106,8 +113,8 @@ impl OcppEntity for  EventDataType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::TimeZone;
     use crate::errors::assert_invalid_fields;
+    use chrono::TimeZone;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -129,7 +136,7 @@ mod tests {
                 instance: None,
                 evse: None,
             },
-            variable: "VoltageL1".to_string(), // Placeholder
+            variable: Default::default(), // Placeholder
         };
 
         let serialized = serde_json::to_string(&event_data).unwrap();
@@ -159,7 +166,7 @@ mod tests {
                 instance: None,
                 evse: None,
             },
-            variable: "Current".to_string(),
+            variable: Default::default(),
         };
         assert!(event_data_minimal.validate().is_ok());
 
@@ -168,8 +175,8 @@ mod tests {
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Alerting,
             cause: Some(10),
-            actual_value: "a".repeat(2500), // Max length
-            tech_code: Some("b".repeat(50)), // Max length
+            actual_value: "a".repeat(2500),   // Max length
+            tech_code: Some("b".repeat(50)),  // Max length
             tech_info: Some("c".repeat(500)), // Max length
             cleared: Some(true),
             transaction_id: Some("d".repeat(36)), // Max length
@@ -181,7 +188,7 @@ mod tests {
                 instance: None,
                 evse: None,
             },
-            variable: "VariableB".to_string(),
+            variable: Default::default(),
         };
         assert!(event_data_full_lengths.validate().is_ok());
     }
@@ -192,13 +199,21 @@ mod tests {
             event_id: -1, // Invalid
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Alerting,
-            cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            cause: None,
+            actual_value: "val".to_string(),
+            tech_code: None,
+            tech_info: None,
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["event_id".to_string()]);
@@ -211,13 +226,20 @@ mod tests {
             timestamp: Utc.with_ymd_and_hms(1998, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Delta,
             cause: Some(-5), // Invalid
-            actual_value: "val".to_string(), tech_code: None, tech_info: None,
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            actual_value: "val".to_string(),
+            tech_code: None,
+            tech_info: None,
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["cause".to_string()]);
@@ -227,17 +249,23 @@ mod tests {
     fn test_validation_actual_value_too_long() {
         let event_data = EventDataType {
             event_id: 1,
-            timestamp: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Periodic,
             cause: None,
             actual_value: "a".repeat(2501), // Invalid
-            tech_code: None, tech_info: None,
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            tech_code: None,
+            tech_info: None,
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["actual_value".to_string()]);
@@ -249,15 +277,21 @@ mod tests {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Periodic,
-            cause: None, actual_value: "val".to_string(),
+            cause: None,
+            actual_value: "val".to_string(),
             tech_code: Some("a".repeat(51)), // Invalid
             tech_info: None,
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["tech_code".to_string()]);
@@ -269,14 +303,21 @@ mod tests {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Delta,
-            cause: None, actual_value: "val".to_string(), tech_code: None,
+            cause: None,
+            actual_value: "val".to_string(),
+            tech_code: None,
             tech_info: Some("a".repeat(501)), // Invalid
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["tech_info".to_string()]);
@@ -288,15 +329,21 @@ mod tests {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Alerting,
-            cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
+            cause: None,
+            actual_value: "val".to_string(),
+            tech_code: None,
+            tech_info: None,
             cleared: None,
             transaction_id: Some("a".repeat(37)), // Invalid
             variable_monitoring_id: None,
-            event_notification_type: None, severity: None, component: ComponentType {
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["transaction_id".to_string()]);
@@ -308,14 +355,21 @@ mod tests {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Periodic,
-            cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
-            cleared: None, transaction_id: None,
+            cause: None,
+            actual_value: "val".to_string(),
+            tech_code: None,
+            tech_info: None,
+            cleared: None,
+            transaction_id: None,
             variable_monitoring_id: Some(-10), // Invalid
-            event_notification_type: None, severity: None, component: ComponentType {
+            event_notification_type: None,
+            severity: None,
+            component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["variable_monitoring_id".to_string()]);
@@ -327,15 +381,21 @@ mod tests {
             event_id: 1,
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Periodic,
-            cause: None, actual_value: "val".to_string(), tech_code: None, tech_info: None,
-            cleared: None, transaction_id: None, variable_monitoring_id: None,
+            cause: None,
+            actual_value: "val".to_string(),
+            tech_code: None,
+            tech_info: None,
+            cleared: None,
+            transaction_id: None,
+            variable_monitoring_id: None,
             event_notification_type: None,
             severity: Some(-1), // Invalid
             component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(err, vec!["severity".to_string()]);
@@ -347,31 +407,35 @@ mod tests {
             event_id: -1, // Invalid 1
             timestamp: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             trigger: EventTriggerEnumType::Alerting,
-            cause: Some(-5), // Invalid 2
-            actual_value: "a".repeat(2501), // Invalid 3
-            tech_code: Some("b".repeat(51)), // Invalid 4
+            cause: Some(-5),                  // Invalid 2
+            actual_value: "a".repeat(2501),   // Invalid 3
+            tech_code: Some("b".repeat(51)),  // Invalid 4
             tech_info: Some("c".repeat(501)), // Invalid 5
             cleared: Some(false),
             transaction_id: Some("d".repeat(37)), // Invalid 6
-            variable_monitoring_id: Some(-10), // Invalid 7
+            variable_monitoring_id: Some(-10),    // Invalid 7
             event_notification_type: None,
             severity: Some(-1), // Invalid 8
             component: ComponentType {
                 name: "EVSE".to_string(),
                 instance: None,
                 evse: None,
-            }, variable: "Var".to_string(),
+            },
+            variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "event_id".to_string(),
-            "cause".to_string(),
-            "actual_value".to_string(),
-            "tech_code".to_string(),
-            "tech_info".to_string(),
-            "transaction_id".to_string(),
-            "variable_monitoring_id".to_string(),
-            "severity".to_string(),
-        ]);
+        assert_invalid_fields(
+            err,
+            vec![
+                "event_id".to_string(),
+                "cause".to_string(),
+                "actual_value".to_string(),
+                "tech_code".to_string(),
+                "tech_info".to_string(),
+                "transaction_id".to_string(),
+                "variable_monitoring_id".to_string(),
+                "severity".to_string(),
+            ],
+        );
     }
 }

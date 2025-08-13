@@ -1,9 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::day_of_week_enum_type::DayOfWeekEnumType;
 use crate::enums::evse_kind_enum_type::EvseKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::iso::rfc_3339::{validate_rfc3339_24hr_time, validate_rfc3339_date};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -57,13 +57,11 @@ impl OcppEntity for TariffConditionsFixedType {
             if let Err(err) = validate_rfc3339_24hr_time(start_time_of_day) {
                 e.push(err.to_field_validation_error("start_time_of_day"));
             }
-
         }
         if let Some(end_time_of_day) = &self.end_time_of_day {
             if let Err(err) = validate_rfc3339_24hr_time(end_time_of_day) {
                 e.push(err.to_field_validation_error("end_time_of_day"));
             }
-
         }
         if let Some(days) = &self.day_of_week {
             e.check_cardinality("dayOfWeek", 0, 7, &days.iter());
@@ -88,8 +86,6 @@ impl OcppEntity for TariffConditionsFixedType {
         e.build("TariffConditionsFixedType")
     }
 }
-
-
 
 #[cfg(test)]
 mod tests {

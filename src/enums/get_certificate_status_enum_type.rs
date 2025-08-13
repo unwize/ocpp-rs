@@ -16,7 +16,10 @@ impl TryFrom<String> for GetCertificateStatusEnumType {
         match s.as_str() {
             "Accepted" => Ok(GetCertificateStatusEnumType::Accepted),
             "Failed" => Ok(GetCertificateStatusEnumType::Failed),
-            _ => Err(format!("'{}' is not a valid GetCertificateStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid GetCertificateStatusEnumType",
+                s
+            )),
         }
     }
 }

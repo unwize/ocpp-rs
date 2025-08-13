@@ -31,7 +31,7 @@ impl OcppEntity for BatteryDataType {
     /// Returns `true` if all values are valid, `false` otherwise.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
         e.check_cardinality("serial_number", 0, 50, &self.serial_number.chars());
         e.check_bounds("soc", 0.0, 100.0, self.soc);
@@ -59,7 +59,7 @@ mod tests {
             serial_number: "BAT-SN-12345".to_string(),
             soc: 85.5,
             soh: 92.1,
-            production_date: Some(Utc.with_ymd_and_hms(2023, 1, 15 ,10, 0, 0).unwrap()),
+            production_date: Some(Utc.with_ymd_and_hms(2023, 1, 15, 10, 0, 0).unwrap()),
             vendor_info: Some("Vendor specific data here.".to_string()),
         };
 

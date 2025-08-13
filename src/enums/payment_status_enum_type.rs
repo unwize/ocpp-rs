@@ -10,7 +10,7 @@ pub enum PaymentStatusEnumType {
     /// Settled successfully by the PSP.
     Settled,
     /// No billable part of the OCPP transaction, cancellation sent to the PSP.
-    Canceled,  // sic
+    Canceled, // sic
     /// Rejected by the PSP.
     Rejected,
     /// Sent after the final attempt that fails due to communication problems.

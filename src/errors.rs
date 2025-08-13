@@ -1,17 +1,16 @@
-use crate::errors::OcppError::{FieldBoundsError, FieldCardinalityError, FieldRelationshipError, FieldValidationError, StructureValidationError};
+use crate::errors::OcppError::{
+    FieldBoundsError, FieldCardinalityError, FieldRelationshipError, FieldValidationError,
+    StructureValidationError,
+};
 use crate::traits::OcppEntity;
 use miette::Diagnostic;
 use thiserror::Error;
 
 #[derive(Error, Diagnostic, Debug, Clone)]
 pub enum OcppError {
-
     #[error("Invalid Enum Value: {value} not in {enum_name}")]
     #[diagnostic()]
-    InvalidEnumValueError {
-        enum_name: String,
-        value: String,
-    },
+    InvalidEnumValueError { enum_name: String, value: String },
 
     #[error("OCPP Structure Validation Error: {structure}")]
     #[diagnostic()]
@@ -19,12 +18,12 @@ pub enum OcppError {
         structure: String,
 
         #[related]
-        related: Vec<OcppError>
+        related: Vec<OcppError>,
     },
 
     #[error("OCPP Field Validation Error: {field}")]
     #[diagnostic()]
-    FieldValidationError  {
+    FieldValidationError {
         field: String,
 
         #[related]
@@ -49,16 +48,11 @@ pub enum OcppError {
 
     #[error("Field Value Error: {value} is not a valid value")]
     #[diagnostic()]
-    FieldValueError {
-        value: String,
-    },
+    FieldValueError { value: String },
 
     #[error("Field ISO Error: {value} does not comply with ISO {iso}")]
     #[diagnostic()]
-    FieldISOError {
-        value: String,
-        iso: String,
-    },
+    FieldISOError { value: String, iso: String },
 
     #[error("Field Relationship Error: {this} is invalid in relation to {other}")]
     #[diagnostic(help("{help}"))]
@@ -66,11 +60,10 @@ pub enum OcppError {
         this: String,
         other: String,
         help: String,
-    }
+    },
 }
 
 impl OcppError {
-
     /// A convenience function that consumes any OcppError and returns it wrapped in a FieldValidationError
     pub fn to_field_validation_error(self, field: &str) -> OcppError {
         FieldValidationError {
@@ -83,14 +76,20 @@ impl OcppError {
 /// Convenience function to read a StructureValidationError, parse its sources, and verify that the
 /// provided vec of field names appear in the vec of sources. Each field is asserted to appear.
 pub fn assert_invalid_fields(e: OcppError, fields: Vec<String>) {
-    if let StructureValidationError { related: source, .. } = e {
-        let field_names: Vec<String> = source.iter().map(|e| {
-            if let FieldValidationError { field, .. } = e {
-                field.clone()
-            } else {
-                "".to_string()
-            }
-        }).collect();
+    if let StructureValidationError {
+        related: source, ..
+    } = e
+    {
+        let field_names: Vec<String> = source
+            .iter()
+            .map(|e| {
+                if let FieldValidationError { field, .. } = e {
+                    field.clone()
+                } else {
+                    "".to_string()
+                }
+            })
+            .collect();
 
         for field in &fields {
             assert!(field_names.contains(field))
@@ -107,7 +106,7 @@ pub fn validate_string_length(s: &str, min_len: usize, max_len: usize) -> Result
             value: s.to_string(),
             lower: min_len.to_string(),
             upper: max_len.to_string(),
-        })
+        });
     }
 
     Ok(())
@@ -139,7 +138,11 @@ impl StructureValidationBuilder {
     }
 
     /// For a given Iterator of OcppEntity objects, call its yielded items' validate functions and add any errors from it to the list.
-    pub fn check_iter_member<'a, T: OcppEntity + 'a>(&mut self, field: &str, iter: impl Iterator<Item=&'a T>) -> &Self {
+    pub fn check_iter_member<'a, T: OcppEntity + 'a>(
+        &mut self,
+        field: &str,
+        iter: impl Iterator<Item = &'a T>,
+    ) -> &Self {
         let mut count = 0;
         for e in iter {
             self.check_member(format!("{field}[{count}]").as_str(), e);
@@ -150,13 +153,22 @@ impl StructureValidationBuilder {
 
     /// For a given field, check if its value is within the given bounds. If it is not, add a
     /// `OcppError::FieldBoundError` to the list.
-    pub fn check_bounds<T: PartialOrd + ToString>(&mut self, field: &str, min: T, max: T, value: T) -> &Self {
+    pub fn check_bounds<T: PartialOrd + ToString>(
+        &mut self,
+        field: &str,
+        min: T,
+        max: T,
+        value: T,
+    ) -> &Self {
         if value < min || value > max {
-            self.errors.push(FieldBoundsError {
-                value: value.to_string(),
-                lower: min.to_string(),
-                upper: max.to_string(),
-            }.to_field_validation_error(field));
+            self.errors.push(
+                FieldBoundsError {
+                    value: value.to_string(),
+                    lower: min.to_string(),
+                    upper: max.to_string(),
+                }
+                .to_field_validation_error(field),
+            );
         }
 
         self
@@ -164,14 +176,23 @@ impl StructureValidationBuilder {
 
     /// For a given field and its value, check if its length is within the given range. If it is
     /// not, add a `OcppError::FieldCardinalityError` to the list.
-    pub fn check_cardinality<T: Iterator>(&mut self, field: &str, lower: usize, upper: usize, o: &T,) -> &Self {
+    pub fn check_cardinality<T: Iterator>(
+        &mut self,
+        field: &str,
+        lower: usize,
+        upper: usize,
+        o: &T,
+    ) -> &Self {
         let len  = o.size_hint().1.expect("Something went wrong while checking an object's cardinality. `Iterator::size_hint` did not work as expected.");
         if len < lower || len > upper {
-            self.errors.push(FieldCardinalityError {
-                cardinality: len,
-                lower,
-                upper,
-            }.to_field_validation_error(field));
+            self.errors.push(
+                FieldCardinalityError {
+                    cardinality: len,
+                    lower,
+                    upper,
+                }
+                .to_field_validation_error(field),
+            );
         }
 
         self
@@ -187,9 +208,12 @@ impl StructureValidationBuilder {
 
     pub fn build(&self, structure: &str) -> Result<(), OcppError> {
         if self.errors.is_empty() {
-            return Ok(())
+            return Ok(());
         }
 
-        Err(StructureValidationError { structure: structure.to_string(), related: self.errors.clone() })
+        Err(StructureValidationError {
+            structure: structure.to_string(),
+            related: self.errors.clone(),
+        })
     }
 }

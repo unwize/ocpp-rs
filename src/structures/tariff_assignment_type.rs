@@ -1,8 +1,8 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::tariff_kind_enum_type::TariffKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Shows assignment of tariffs to EVSE or IdToken.
 /// Used by: GetTariffsResponse
@@ -46,16 +46,21 @@ impl OcppEntity for TariffAssignmentType {
         // Manually check bounds for each i32 since that type does not implement OcppEntity and has no `validate` function
         // for use with `check_iter_member`.
         if let Some(evse_ids) = &self.evse_ids {
-            for  i in 0..evse_ids.len() {
+            for i in 0..evse_ids.len() {
                 e.check_bounds(format!("evse_ids[{i}]").as_str(), 0, i32::MAX, evse_ids[i]);
             }
         }
-        
-        // Manually check String length since it does not implement OcppEntity and has no `validate` function for use 
+
+        // Manually check String length since it does not implement OcppEntity and has no `validate` function for use
         // with `check_iter_member`
         if let Some(id_tokens) = &self.id_tokens {
             for i in 0..id_tokens.len() {
-                e.check_cardinality(format!("id_tokens[{i}]").as_str(), 0, 255, &id_tokens[i].chars());
+                e.check_cardinality(
+                    format!("id_tokens[{i}]").as_str(),
+                    0,
+                    255,
+                    &id_tokens[i].chars(),
+                );
             }
         }
 
@@ -66,8 +71,8 @@ impl OcppEntity for TariffAssignmentType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::enums::tariff_kind_enum_type::TariffKindEnumType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

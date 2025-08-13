@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// EV DC charging parameters for ISO 15118-2
 /// Used by: Common::ChargingNeedsType
@@ -50,7 +50,6 @@ impl OcppEntity for DCChargingParametersType {
         // Assuming positive value is implied for maximums in current/voltage/power
         e.check_bounds("ev_max_current", 0.0, f64::MAX, self.ev_max_current);
         e.check_bounds("ev_max_voltage", 0.0, f64::MAX, self.ev_max_voltage);
-        
 
         // Validate ev_max_power (optional, typically > 0 if present)
         if let Some(ev_max_power) = self.ev_max_power {
@@ -64,12 +63,12 @@ impl OcppEntity for DCChargingParametersType {
 
         // Validate energy_amount (optional, typically >= 0 if present)
         if let Some(energy_amount) = self.energy_amount {
-           e.check_bounds("energy_amount", 0.0, f64::MAX, energy_amount);
+            e.check_bounds("energy_amount", 0.0, f64::MAX, energy_amount);
         }
 
         // Validate state_of_charge
         if let Some(state_of_charge) = self.state_of_charge {
-           e.check_bounds("state_of_charge", 0, 100, state_of_charge);
+            e.check_bounds("state_of_charge", 0, 100, state_of_charge);
         }
 
         // Validate full_soc
@@ -79,18 +78,18 @@ impl OcppEntity for DCChargingParametersType {
 
         // Validate bulk_soc
         if let Some(bulk_soc) = self.bulk_soc {
-           e.check_bounds("bulk_soc", 0, 100, bulk_soc);
+            e.check_bounds("bulk_soc", 0, 100, bulk_soc);
         }
 
-       e.build("DCChargingParametersType")
+        e.build("DCChargingParametersType")
     }
 }
 
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
-    use crate::errors::assert_invalid_fields;
     use super::*;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -144,11 +143,18 @@ mod tests {
         let dc_params = DCChargingParametersType {
             ev_max_current: 0.0, // Invalid
             ev_max_voltage: 500.0,
-            ev_max_power: None, ev_energy_capacity: None, energy_amount: None,
-            state_of_charge: None, full_soc: None, bulk_soc: None,
+            ev_max_power: None,
+            ev_energy_capacity: None,
+            energy_amount: None,
+            state_of_charge: None,
+            full_soc: None,
+            bulk_soc: None,
         };
         let err = dc_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_max_current");
@@ -166,11 +172,17 @@ mod tests {
             ev_max_current: 200.0,
             ev_max_voltage: 500.0,
             state_of_charge: Some(-1), // Invalid
-            ev_max_power: None, ev_energy_capacity: None, energy_amount: None,
-            full_soc: None, bulk_soc: None,
+            ev_max_power: None,
+            ev_energy_capacity: None,
+            energy_amount: None,
+            full_soc: None,
+            bulk_soc: None,
         };
         let err_low = dc_params_low.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err_low {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err_low
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "state_of_charge");
@@ -185,11 +197,17 @@ mod tests {
             ev_max_current: 200.0,
             ev_max_voltage: 500.0,
             state_of_charge: Some(101), // Invalid
-            ev_max_power: None, ev_energy_capacity: None, energy_amount: None,
-            full_soc: None, bulk_soc: None,
+            ev_max_power: None,
+            ev_energy_capacity: None,
+            energy_amount: None,
+            full_soc: None,
+            bulk_soc: None,
         };
         let err_high = dc_params_high.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err_high {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err_high
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "state_of_charge");
@@ -204,25 +222,28 @@ mod tests {
     #[test]
     fn test_validation_multiple_errors() {
         let dc_params = DCChargingParametersType {
-            ev_max_current: 0.0, // Invalid 1
-            ev_max_voltage: 0.0, // Invalid 2
-            ev_max_power: Some(-10.0), // Invalid 3
+            ev_max_current: 0.0,            // Invalid 1
+            ev_max_voltage: 0.0,            // Invalid 2
+            ev_max_power: Some(-10.0),      // Invalid 3
             ev_energy_capacity: Some(-5.0), // Invalid 4
-            energy_amount: Some(-1.0), // Invalid 5
-            state_of_charge: Some(101), // Invalid 6
-            full_soc: Some(-5), // Invalid 7
-            bulk_soc: Some(105), // Invalid 8
+            energy_amount: Some(-1.0),      // Invalid 5
+            state_of_charge: Some(101),     // Invalid 6
+            full_soc: Some(-5),             // Invalid 7
+            bulk_soc: Some(105),            // Invalid 8
         };
         let err = dc_params.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "ev_max_current".to_string(),
-            "ev_max_voltage".to_string(),
-            "ev_max_power".to_string(),
-            "ev_energy_capacity".to_string(),
-            "energy_amount".to_string(),
-            "state_of_charge".to_string(),
-            "full_soc".to_string(),
-            "bulk_soc".to_string(),
-        ]);
+        assert_invalid_fields(
+            err,
+            vec![
+                "ev_max_current".to_string(),
+                "ev_max_voltage".to_string(),
+                "ev_max_power".to_string(),
+                "ev_energy_capacity".to_string(),
+                "energy_amount".to_string(),
+                "state_of_charge".to_string(),
+                "full_soc".to_string(),
+                "bulk_soc".to_string(),
+            ],
+        );
     }
 }

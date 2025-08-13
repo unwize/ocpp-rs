@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::enter_service_type::EnterServiceType;
+use serde::{Deserialize, Serialize};
 
 /// EnterServiceGetType is used by: ReportDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -64,7 +64,10 @@ mod tests {
             enter_service: EnterServiceType::default(),
         };
         let err = enter_service_get.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "id");

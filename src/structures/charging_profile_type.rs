@@ -1,11 +1,11 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::enums::charging_profile_kind_enum_type::ChargingProfileKindEnumType;
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
 use crate::enums::recurrency_kind_enum_type::RecurrencyKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_schedule_type::ChargingScheduleType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Represents a charging profile.
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -79,7 +79,7 @@ impl OcppEntity for ChargingProfileType {
         if let Some(transaction_id) = &self.transaction_id {
             e.check_cardinality("transaction_id", 0, 36, &transaction_id.chars());
 
-            if self.charging_profile_purpose != ChargingProfilePurposeEnumType::TxProfile  {
+            if self.charging_profile_purpose != ChargingProfilePurposeEnumType::TxProfile {
                 e.push_relation_error(
                     "transaction_id",
                     "charging_profile_purpose",
@@ -93,7 +93,12 @@ impl OcppEntity for ChargingProfileType {
         }
 
         if let Some(price_schedule_signature) = &self.price_schedule_signature {
-            e.check_cardinality("price_schedule_signature", 0, 256, &price_schedule_signature.chars());
+            e.check_cardinality(
+                "price_schedule_signature",
+                0,
+                256,
+                &price_schedule_signature.chars(),
+            );
         }
 
         e.check_member("charging_schedule", &self.charging_schedule);

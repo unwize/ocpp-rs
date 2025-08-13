@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::message_format_enum_type::MessageFormatEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Contains message details, for a message to be displayed on a Charging Station.
 /// Used by: Common::IdTokenInfoType, Common::MessageInfoType, Common::TariffType, TransactionEventResponse
@@ -46,8 +46,8 @@ impl OcppEntity for MessageContentType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::enums::message_format_enum_type::MessageFormatEnumType;
+    use serde_json;
 
     #[test]
     fn test_validate_success_full() {

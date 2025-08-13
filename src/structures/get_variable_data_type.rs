@@ -1,8 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::attribute_enum_type::AttributeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Class to hold parameters for GetVariables request.
 /// Used by: GetVariablesRequest
@@ -14,7 +15,7 @@ pub struct GetVariableDataType {
     /// Required. Component for which the Variable is requested.
     pub component: ComponentType,
     /// Required. Variable for which the attribute value is requested.
-    pub variable: VariableType, // TODO: Implement VariableType
+    pub variable: VariableType,
 }
 
 impl OcppEntity for GetVariableDataType {
@@ -34,9 +35,9 @@ impl OcppEntity for GetVariableDataType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::enums::attribute_enum_type::AttributeEnumType;
     use crate::structures::component_type::ComponentType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {
@@ -74,7 +75,8 @@ mod tests {
         };
 
         let serialized_none = serde_json::to_string(&original_struct_none).unwrap();
-        let deserialized_none: GetVariableDataType = serde_json::from_str(&serialized_none).unwrap();
+        let deserialized_none: GetVariableDataType =
+            serde_json::from_str(&serialized_none).unwrap();
         assert_eq!(original_struct_none, deserialized_none);
     }
 }

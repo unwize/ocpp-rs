@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::tax_rate_type::TaxRateType;
 use crate::traits::OcppEntity;
 
 /// Price with and without tax. At least one of exclTax, inclTax must be present.
@@ -37,12 +38,16 @@ impl OcppEntity for PriceType {
 
         // At least one of exclTax or inclTax must be present.
         if self.excl_tax.is_none() && self.incl_tax.is_none() {
-            e.push_relation_error("excl_tax", "incl_tax","At least one of 'exclTax' or 'inclTax' must be present");
+            e.push_relation_error(
+                "excl_tax",
+                "incl_tax",
+                "At least one of 'exclTax' or 'inclTax' must be present",
+            );
         }
 
-        if let Some(rates) = &self.tax_rates {
-            e.check_cardinality("tax_rates", 0, 5, &rates.iter());
-            e.check_iter_member("tax_rates", self.tax_rates.iter());
+        if let Some(tax_rates) = &self.tax_rates {
+            e.check_cardinality("tax_rates", 0, 5, &tax_rates.iter());
+            e.check_iter_member("tax_rates", tax_rates.iter());
         }
 
         e.build("PriceType")

@@ -32,9 +32,14 @@ impl OcppEntity for AdditionalInfoType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        e.check_cardinality("additional_id_token", 0, 255, &self.additional_id_token.chars());
+        e.check_cardinality(
+            "additional_id_token",
+            0,
+            255,
+            &self.additional_id_token.chars(),
+        );
         e.check_cardinality("type", 0, 50, &self.r#type.chars());
 
-       e.build("AdditionalInfoType")
+        e.build("AdditionalInfoType")
     }
 }

@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::attribute_enum_type::AttributeEnumType;
 use crate::enums::get_variable_status_enum_type::GetVariableStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Class to hold results of GetVariables request.
 /// Used by: GetVariablesResponse
@@ -21,7 +22,7 @@ pub struct GetVariableResultType {
     /// Required. Component for which the Variable is requested.
     pub component: ComponentType,
     /// Required. Variable for which the attribute value is requested.
-    pub variable: VariableType, // TODO: Implement VariableType
+    pub variable: VariableType,
     /// Optional. Detailed attribute status information.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub attribute_status_info: Option<StatusInfoType>, // TODO: Implement StatusInfoType
@@ -51,11 +52,11 @@ impl OcppEntity for GetVariableResultType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::enums::attribute_enum_type::AttributeEnumType;
     use crate::enums::get_variable_status_enum_type::GetVariableStatusEnumType;
     use crate::structures::component_type::ComponentType;
     use crate::structures::variable_type::VariableType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

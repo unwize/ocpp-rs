@@ -1,7 +1,7 @@
-use std::fmt::{Display, Formatter};
-use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 
 /// DERCurvePointsType is used by: Common::DERCurveType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -42,10 +42,7 @@ impl Display for DERCurvePointsType {
 
 impl Default for DERCurvePointsType {
     fn default() -> Self {
-        Self {
-            x: 0.0,
-            y: 0.0
-        }
+        Self { x: 0.0, y: 0.0 }
     }
 }
 
@@ -56,10 +53,7 @@ mod tests {
 
     #[test]
     fn test_serialization_deserialization() {
-        let curve_point = DERCurvePointsType {
-            x: 10.5,
-            y: 20.7,
-        };
+        let curve_point = DERCurvePointsType { x: 10.5, y: 20.7 };
 
         let serialized = serde_json::to_string(&curve_point).unwrap();
         println!("Serialized: {}", serialized);
@@ -70,10 +64,7 @@ mod tests {
 
     #[test]
     fn test_validation_valid() {
-        let curve_point_positive = DERCurvePointsType {
-            x: 1.0,
-            y: 2.0,
-        };
+        let curve_point_positive = DERCurvePointsType { x: 1.0, y: 2.0 };
         assert!(curve_point_positive.validate().is_ok());
 
         let curve_point_negative_y = DERCurvePointsType {
@@ -82,10 +73,7 @@ mod tests {
         };
         assert!(curve_point_negative_y.validate().is_ok());
 
-        let curve_point_zero = DERCurvePointsType {
-            x: 0.0,
-            y: 0.0,
-        };
+        let curve_point_zero = DERCurvePointsType { x: 0.0, y: 0.0 };
         assert!(curve_point_zero.validate().is_ok());
     }
 }

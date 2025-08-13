@@ -42,8 +42,8 @@ impl OcppEntity for TariffFixedPriceType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::tariff_conditions_fixed_type::TariffConditionsFixedType;
+    use serde_json;
 
     fn create_test_instance() -> TariffFixedPriceType {
         TariffFixedPriceType {

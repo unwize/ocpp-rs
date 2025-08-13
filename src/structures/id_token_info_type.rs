@@ -1,10 +1,10 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::authorization_status_enum_type::AuthorizationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::message_content_type::MessageContentType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 // TODO: Implement IdTokenType
 // TODO: Implement MessageContentType
@@ -212,7 +212,8 @@ mod tests {
             personal_message: None,
         };
         let serialized_minimal = serde_json::to_string(&original_struct_minimal).unwrap();
-        let deserialized_minimal: IdTokenInfoType = serde_json::from_str(&serialized_minimal).unwrap();
+        let deserialized_minimal: IdTokenInfoType =
+            serde_json::from_str(&serialized_minimal).unwrap();
         assert_eq!(original_struct_minimal, deserialized_minimal);
     }
 }

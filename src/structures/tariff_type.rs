@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::message_content_type::MessageContentType;

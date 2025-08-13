@@ -1,5 +1,3 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::enums::control_model_enum_type::ControlModeEnumType;
 use crate::enums::energy_transfer_mode_enum_type::EnergyTransferModeEnumType;
 use crate::enums::mobility_needs_mode_enum_type::MobilityNeedsModeEnumType;
@@ -8,7 +6,10 @@ use crate::structures::ac_charging_parameters_type::ACChargingParametersType;
 use crate::structures::dc_charging_parameters_type::DCChargingParametersType;
 use crate::structures::der_charging_parameters_type::DERChargingParametersType;
 use crate::structures::ev_energy_offer_type::EVEnergyOfferType;
+use crate::structures::v2x_charging_parameters_type::V2XChargingParametersType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Represents the charging needs of an EV.
 /// Used by: NotifyEVChargingNeedsRequest
@@ -29,7 +30,7 @@ pub struct ChargingNeedsType {
     /// A value of EVCC.SECC indicates that charging station or CSMS may also update min/target SOC and departure time.
     /// ISO 15118-20: ServiceSelectionReq(SelectedEnergyTransferService)
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub mobility_needs_mode: Option<MobilityNeedsModeEnumType>, // TODO: Implement MobilityNeedsModeEnumType
+    pub mobility_needs_mode: Option<MobilityNeedsModeEnumType>,
     /// Optional. Estimated departure time of the EV.
     /// ISO 15118-2: AC_EVChargeParameterType: DepartureTime
     /// ISO 15118-20: Dynamic/Scheduled_SEReqControlModeType: DepartureTime
@@ -38,7 +39,7 @@ pub struct ChargingNeedsType {
     /// Optional. The list of charging parameters that apply to an ISO 15118-20 session
     /// or any other session that supports bidirectional charging.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub v2x_charging_parameters: Option<V2XChargingParametersType>, // TODO: Implement V2XChargingParametersType
+    pub v2x_charging_parameters: Option<V2XChargingParametersType>,
     /// Optional. EV DC charging parameters.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub dc_charging_parameters: Option<DCChargingParametersType>,

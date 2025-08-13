@@ -71,7 +71,9 @@ impl Into<String> for FirmwareStatusEnumType {
             FirmwareStatusEnumType::Installed => "Installed".to_string(),
             FirmwareStatusEnumType::InstallRebooting => "InstallRebooting".to_string(),
             FirmwareStatusEnumType::InstallScheduled => "InstallScheduled".to_string(),
-            FirmwareStatusEnumType::InstallVerificationFailed => "InstallVerificationFailed".to_string(),
+            FirmwareStatusEnumType::InstallVerificationFailed => {
+                "InstallVerificationFailed".to_string()
+            }
             FirmwareStatusEnumType::InvalidSignature => "InvalidSignature".to_string(),
             FirmwareStatusEnumType::SignatureVerified => "SignatureVerified".to_string(),
         }

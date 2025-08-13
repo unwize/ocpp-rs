@@ -1,8 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::attribute_enum_type::AttributeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Class to set components, variables and variable attributes and characteristics.
 /// Used by: SetVariablesRequest

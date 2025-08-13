@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// An entry in schedule of the energy amount over time that EV is willing to discharge.
 /// A negative value indicates the willingness to discharge under specific conditions,

@@ -134,9 +134,13 @@ impl fmt::Display for MeasurandEnumType {
             Self::DisplayMinimumSoc => write!(f, "Display.MinimumSOC"),
             Self::DisplayTargetSoc => write!(f, "Display.TargetSOC"),
             Self::DisplayMaximumSoc => write!(f, "Display.MaximumSOC"),
-            Self::DisplayRemainingTimeToMinimumSoc => write!(f, "Display.RemainingTimeToMinimumSOC"),
+            Self::DisplayRemainingTimeToMinimumSoc => {
+                write!(f, "Display.RemainingTimeToMinimumSOC")
+            }
             Self::DisplayRemainingTimeToTargetSoc => write!(f, "Display.RemainingTimeToTargetSOC"),
-            Self::DisplayRemainingTimeToMaximumSoc => write!(f, "Display.RemainingTimeToMaximumSOC"),
+            Self::DisplayRemainingTimeToMaximumSoc => {
+                write!(f, "Display.RemainingTimeToMaximumSOC")
+            }
             Self::DisplayChargingComplete => write!(f, "Display.ChargingComplete"),
             Self::DisplayBatteryEnergyCapacity => write!(f, "Display.BatteryEnergyCapacity"),
             Self::DisplayInletHot => write!(f, "Display.InletHot"),
@@ -145,7 +149,9 @@ impl fmt::Display for MeasurandEnumType {
             Self::EnergyActiveImportInterval => write!(f, "Energy.Active.Import.Interval"),
             Self::EnergyActiveImportRegister => write!(f, "Energy.Active.Import.Register"),
             Self::EnergyActiveImportCableLoss => write!(f, "Energy.Active.Import.CableLoss"),
-            Self::EnergyActiveImportLocalGenerationRegister => write!(f, "Energy.Active.Import.LocalGeneration.Register"),
+            Self::EnergyActiveImportLocalGenerationRegister => {
+                write!(f, "Energy.Active.Import.LocalGeneration.Register")
+            }
             Self::EnergyActiveNet => write!(f, "Energy.Active.Net"),
             Self::EnergyActiveSetpointInterval => write!(f, "Energy.Active.Setpoint.Interval"),
             Self::EnergyApparentExport => write!(f, "Energy.Apparent.Export"),
@@ -216,7 +222,9 @@ impl TryFrom<&str> for MeasurandEnumType {
             "Energy.Active.Import.Interval" => Ok(Self::EnergyActiveImportInterval),
             "Energy.Active.Import.Register" => Ok(Self::EnergyActiveImportRegister),
             "Energy.Active.Import.CableLoss" => Ok(Self::EnergyActiveImportCableLoss),
-            "Energy.Active.Import.LocalGeneration.Register" => Ok(Self::EnergyActiveImportLocalGenerationRegister),
+            "Energy.Active.Import.LocalGeneration.Register" => {
+                Ok(Self::EnergyActiveImportLocalGenerationRegister)
+            }
             "Energy.Active.Net" => Ok(Self::EnergyActiveNet),
             "Energy.Active.Setpoint.Interval" => Ok(Self::EnergyActiveSetpointInterval),
             "Energy.Apparent.Export" => Ok(Self::EnergyApparentExport),

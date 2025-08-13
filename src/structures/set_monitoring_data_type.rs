@@ -1,9 +1,10 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::monitor_enum_type::MonitorEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::periodic_event_stream_params_type::PeriodicEventStreamParamsType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// [Context for description not available in source image]
 /// This struct is used by: SetVariableMonitoringRequest
@@ -41,7 +42,7 @@ impl Default for SetMonitoringDataType {
             monitor_type: MonitorEnumType::UpperThreshold,
             severity: 0,
             component: Default::default(),
-            variable: (),
+            variable: Default::default(),
             periodic_event_stream: None,
         }
     }

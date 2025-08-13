@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::cost_type::CostType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// ConsumptionCostType is used by: Common::SalesTariffEntryType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -11,7 +11,7 @@ pub struct ConsumptionCostType {
     pub start_value: f64, // decimal
     /// Required. This field contains the cost details.
     /// Cardinality 1..3
-    pub cost: Vec<CostType>
+    pub cost: Vec<CostType>,
 }
 
 impl Default for ConsumptionCostType {
@@ -63,7 +63,7 @@ mod tests {
 
         let consumption_cost_max_cardinality = ConsumptionCostType {
             start_value: 100.0,
-            cost: vec![CostType::default();3],
+            cost: vec![CostType::default(); 3],
         };
         assert!(consumption_cost_max_cardinality.validate().is_ok());
     }
@@ -75,7 +75,10 @@ mod tests {
             cost: vec![], // Invalid cardinality
         };
         let err = consumption_cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "cost");
@@ -94,7 +97,10 @@ mod tests {
             cost: vec![CostType::default(); 4], // Invalid cardinality
         };
         let err = consumption_cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "cost");

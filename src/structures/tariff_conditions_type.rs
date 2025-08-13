@@ -1,9 +1,9 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::day_of_week_enum_type::DayOfWeekEnumType;
 use crate::enums::evse_kind_enum_type::EvseKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::iso::rfc_3339::{validate_rfc3339_24hr_time, validate_rfc3339_date};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -120,15 +120,12 @@ impl OcppEntity for TariffConditionsType {
         // Negative value checks (fields are non-negative)
         if let Some(min_energy) = self.min_energy {
             e.check_bounds("min_energy", 0.0, f64::MAX, min_energy);
-
         }
         if let Some(max_energy) = self.max_energy {
             e.check_bounds("max_energy", 0.0, f64::MAX, max_energy);
-
         }
         if let Some(min_current) = self.min_current {
-          e.check_bounds("min_current", 0.0, f64::MAX, min_current);
-
+            e.check_bounds("min_current", 0.0, f64::MAX, min_current);
         }
         if let Some(max_current) = self.max_current {
             e.check_bounds("max_current", 0.0, f64::MAX, max_current);
@@ -162,13 +159,12 @@ impl OcppEntity for TariffConditionsType {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::enums::day_of_week_enum_type::DayOfWeekEnumType;
     use crate::enums::evse_kind_enum_type::EvseKindEnumType;
+    use serde_json;
 
     #[test]
     fn test_validate_success_minimal() {

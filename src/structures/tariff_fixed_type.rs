@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::tariff_fixed_price_type::TariffFixedPriceType;
+use crate::structures::tax_rate_type::TaxRateType;
 use crate::traits::OcppEntity;
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -75,7 +76,7 @@ mod tests {
     #[test]
     fn test_validate_tax_rates_cardinality_fail_max() {
         let mut data = create_test_instance();
-        data.tax_rates = Some(vec![TaxRateType {}; 6]);
+        data.tax_rates = Some(vec![TaxRateType::default(); 6]);
         assert!(data.validate().is_err());
     }
 

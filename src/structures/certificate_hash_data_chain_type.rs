@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::get_certificate_id_use_enum_type::GetCertificateIdUseEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Represents a chain of certificate hash data.
 /// Used by: GetInstalledCertificateIdsResponse

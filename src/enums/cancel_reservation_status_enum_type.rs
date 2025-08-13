@@ -16,7 +16,10 @@ impl TryFrom<String> for CancelReservationStatusEnumType {
         match s.as_str() {
             "Accepted" => Ok(CancelReservationStatusEnumType::Accepted),
             "Rejected" => Ok(CancelReservationStatusEnumType::Rejected),
-            _ => Err(format!("'{}' is not a valid CancelReservationStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid CancelReservationStatusEnumType",
+                s
+            )),
         }
     }
 }

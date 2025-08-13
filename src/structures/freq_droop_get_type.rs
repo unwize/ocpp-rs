@@ -34,8 +34,8 @@ impl OcppEntity for FreqDroopGetType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::freq_droop_get_type::FreqDroopType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

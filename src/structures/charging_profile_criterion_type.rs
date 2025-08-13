@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// A ChargingProfileCriterionType is a filter for charging profiles to be selected by a GetChargingProfilesRequest.
 /// Used by: GetChargingProfilesRequest
@@ -29,16 +29,21 @@ pub struct ChargingProfileCriterionType {
 impl OcppEntity for ChargingProfileCriterionType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         if let Some(stack_level) = self.stack_level {
             e.check_bounds("stack_level", 0, i32::MAX, stack_level);
         }
 
         if let Some(charging_limit_source) = &self.charging_limit_source {
-            e.check_cardinality("charging_limit_source",0, 4, &charging_limit_source.iter());
+            e.check_cardinality("charging_limit_source", 0, 4, &charging_limit_source.iter());
 
             for i in 0..charging_limit_source.len() {
-                e.check_cardinality(format!("charging_limit_source[{i}").as_str(),0, 20, &charging_limit_source[i].chars());
+                e.check_cardinality(
+                    format!("charging_limit_source[{i}").as_str(),
+                    0,
+                    20,
+                    &charging_limit_source[i].chars(),
+                );
             }
         }
 

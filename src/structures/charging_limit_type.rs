@@ -20,7 +20,12 @@ pub struct ChargingLimitType {
 impl OcppEntity for ChargingLimitType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        e.check_cardinality("charging_limit_source", 0, 20, &self.charging_limit_source.chars());
+        e.check_cardinality(
+            "charging_limit_source",
+            0,
+            20,
+            &self.charging_limit_source.chars(),
+        );
         e.build("ChargingLimitType")
     }
 }

@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::attribute_enum_type::AttributeEnumType;
 use crate::enums::set_variable_status_enum_type::SetVariableStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Used by: SetVariablesResponse
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -30,7 +31,7 @@ impl Default for SetVariableResultType {
             attribute_type: Some(AttributeEnumType::Actual),
             attribute_status: SetVariableStatusEnumType::Accepted,
             component: Default::default(),
-            variable: (),
+            variable: Default::default(),
             attribute_status_info: None,
         }
     }

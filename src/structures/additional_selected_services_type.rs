@@ -39,7 +39,8 @@ mod tests {
         let serialized = serde_json::to_string(&service).unwrap();
         println!("Serialized: {}", serialized);
 
-        let deserialized: AdditionalSelectedServicesType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: AdditionalSelectedServicesType =
+            serde_json::from_str(&serialized).unwrap();
         assert_eq!(service, deserialized);
     }
 

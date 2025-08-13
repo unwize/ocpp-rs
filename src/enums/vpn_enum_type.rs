@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration of VPN Types.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 pub enum VPNEnumType {
     #[serde(rename = "IKEv2")]
     Ikev2,

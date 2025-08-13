@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::clear_monitoring_status_enum_type::ClearMonitoringStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Result of a clear monitoring request.
 /// Used by: ClearVariableMonitoringResponse
@@ -15,7 +15,7 @@ pub struct ClearMonitoringResultType {
     pub id: i32,
     /// Optional. Element providing more information about the status.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub status_info: Option<StatusInfoType>, 
+    pub status_info: Option<StatusInfoType>,
 }
 
 impl OcppEntity for ClearMonitoringResultType {
@@ -23,9 +23,9 @@ impl OcppEntity for ClearMonitoringResultType {
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         e.check_bounds("id", 0, i32::MAX, self.id);
-        
+
         if let Some(status_info) = &self.status_info {
             e.check_member("status_info", status_info);
         }
@@ -79,7 +79,10 @@ mod tests {
             status_info: None,
         };
         let err = result.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "id");

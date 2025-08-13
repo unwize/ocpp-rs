@@ -29,7 +29,9 @@ impl Into<String> for CostKindEnumType {
         match self {
             CostKindEnumType::CarbonDioxideEmission => "CarbonDioxideEmission".to_string(),
             CostKindEnumType::RelativePricePercentage => "RelativePricePercentage".to_string(),
-            CostKindEnumType::RenewableGenerationPercentage => "RenewableGenerationPercentage".to_string(),
+            CostKindEnumType::RenewableGenerationPercentage => {
+                "RenewableGenerationPercentage".to_string()
+            }
         }
     }
 }

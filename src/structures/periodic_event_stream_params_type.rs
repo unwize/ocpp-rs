@@ -16,6 +16,15 @@ pub struct PeriodicEventStreamParamsType {
     pub values: Option<i32>,
 }
 
+impl Default for PeriodicEventStreamParamsType {
+    fn default() -> Self {
+        Self {
+            interval: None,
+            values: None,
+        }
+    }
+}
+
 impl OcppEntity for PeriodicEventStreamParamsType {
     /// Validates the fields of PeriodicEventStreamParamsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
@@ -114,7 +123,8 @@ mod tests {
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();
-        let deserialized: PeriodicEventStreamParamsType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: PeriodicEventStreamParamsType =
+            serde_json::from_str(&serialized).unwrap();
 
         assert_eq!(original_struct, deserialized);
 
@@ -123,7 +133,8 @@ mod tests {
             values: None,
         };
         let serialized_minimal = serde_json::to_string(&original_struct_minimal).unwrap();
-        let deserialized_minimal: PeriodicEventStreamParamsType = serde_json::from_str(&serialized_minimal).unwrap();
+        let deserialized_minimal: PeriodicEventStreamParamsType =
+            serde_json::from_str(&serialized_minimal).unwrap();
         assert_eq!(original_struct_minimal, deserialized_minimal);
     }
 }

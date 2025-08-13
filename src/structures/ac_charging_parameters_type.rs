@@ -1,6 +1,6 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Represents AC charging parameters for ISO 15118-2.
 /// Used by: Common::ChargingNeedsType

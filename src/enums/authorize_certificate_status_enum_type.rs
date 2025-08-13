@@ -28,10 +28,15 @@ impl TryFrom<String> for AuthorizeCertificateStatusEnumType {
             "SignatureError" => Ok(AuthorizeCertificateStatusEnumType::SignatureError),
             "CertificateExpired" => Ok(AuthorizeCertificateStatusEnumType::CertificateExpired),
             "CertificateRevoked" => Ok(AuthorizeCertificateStatusEnumType::CertificateRevoked),
-            "NoCertificateAvailable" => Ok(AuthorizeCertificateStatusEnumType::NoCertificateAvailable),
+            "NoCertificateAvailable" => {
+                Ok(AuthorizeCertificateStatusEnumType::NoCertificateAvailable)
+            }
             "CertChainError" => Ok(AuthorizeCertificateStatusEnumType::CertChainError),
             "ContractCancelled" => Ok(AuthorizeCertificateStatusEnumType::ContractCancelled),
-            _ => Err(format!("'{}' is not a valid AuthorizeCertificateStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid AuthorizeCertificateStatusEnumType",
+                s
+            )),
         }
     }
 }
@@ -41,11 +46,19 @@ impl Into<String> for AuthorizeCertificateStatusEnumType {
         match self {
             AuthorizeCertificateStatusEnumType::Accepted => "Accepted".to_string(),
             AuthorizeCertificateStatusEnumType::SignatureError => "SignatureError".to_string(),
-            AuthorizeCertificateStatusEnumType::CertificateExpired => "CertificateExpired".to_string(),
-            AuthorizeCertificateStatusEnumType::CertificateRevoked => "CertificateRevoked".to_string(),
-            AuthorizeCertificateStatusEnumType::NoCertificateAvailable => "NoCertificateAvailable".to_string(),
+            AuthorizeCertificateStatusEnumType::CertificateExpired => {
+                "CertificateExpired".to_string()
+            }
+            AuthorizeCertificateStatusEnumType::CertificateRevoked => {
+                "CertificateRevoked".to_string()
+            }
+            AuthorizeCertificateStatusEnumType::NoCertificateAvailable => {
+                "NoCertificateAvailable".to_string()
+            }
             AuthorizeCertificateStatusEnumType::CertChainError => "CertChainError".to_string(),
-            AuthorizeCertificateStatusEnumType::ContractCancelled => "ContractCancelled".to_string(),
+            AuthorizeCertificateStatusEnumType::ContractCancelled => {
+                "ContractCancelled".to_string()
+            }
         }
     }
 }

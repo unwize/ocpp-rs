@@ -1,5 +1,3 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::absolute_price_schedule_type::AbsolutePriceScheduleType;
@@ -7,6 +5,8 @@ use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType
 use crate::structures::limit_at_soc_type::LimitAtSOCType;
 use crate::structures::sales_tariff_type::SalesTariffType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Represents a charging schedule.
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -102,8 +102,16 @@ impl OcppEntity for ChargingScheduleType {
             e.check_member("limit_at_soc", limit_at_soc);
         }
 
-        e.check_cardinality("charging_schedule_period", 1, 1024, &self.charging_schedule_period.iter());
-        e.check_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
+        e.check_cardinality(
+            "charging_schedule_period",
+            1,
+            1024,
+            &self.charging_schedule_period.iter(),
+        );
+        e.check_iter_member(
+            "charging_schedule_period",
+            self.charging_schedule_period.iter(),
+        );
 
         e.build("ChargingScheduleType")
     }
@@ -113,8 +121,8 @@ impl OcppEntity for ChargingScheduleType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::TimeZone;
     use crate::errors::assert_invalid_fields;
+    use chrono::TimeZone;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -122,18 +130,18 @@ mod tests {
             id: 1,
             start_schedule: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600),
-            charging_rate_unit: ChargingRateUnitEnumType::A, 
+            charging_rate_unit: ChargingRateUnitEnumType::A,
             min_charging_rate: Some(6.0),
             power_tolerance: Some(0.05),
             signature_id: Some(123),
             digest_value: Some("some_digest_value".to_string()),
             use_local_time: Some(true),
             randomized_delay: Some(30),
-            sales_tariff: Some(Default::default()), 
-            charging_schedule_period: vec![Default::default()], 
-            absolute_price_schedule: None, 
-            price_level_schedule: Some("price_level_schedule_placeholder".to_string()), 
-            limit_at_soc: Some(Default::default()), 
+            sales_tariff: Some(Default::default()),
+            charging_schedule_period: vec![Default::default()],
+            absolute_price_schedule: None,
+            price_level_schedule: Some("price_level_schedule_placeholder".to_string()),
+            limit_at_soc: Some(Default::default()),
         };
 
         let serialized = serde_json::to_string(&schedule).unwrap();
@@ -152,7 +160,7 @@ mod tests {
             charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
-            signature_id: Some(0), // Valid
+            signature_id: Some(0),              // Valid
             digest_value: Some("a".repeat(88)), // Valid length
             use_local_time: None,
             randomized_delay: Some(100), // Valid
@@ -185,7 +193,10 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "signature_id");
@@ -217,7 +228,10 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "digest_value");
@@ -249,7 +263,10 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "randomized_delay");
@@ -282,7 +299,10 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_few = schedule_too_few.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err_too_few {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err_too_few
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");
@@ -312,7 +332,10 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_many = schedule_too_many.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err_too_many {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err_too_many
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");
@@ -333,7 +356,7 @@ mod tests {
             charging_rate_unit: ChargingRateUnitEnumType::W,
             min_charging_rate: None,
             power_tolerance: None,
-            signature_id: Some(-5), // Invalid 1
+            signature_id: Some(-5),             // Invalid 1
             digest_value: Some("a".repeat(89)), // Invalid 2
             use_local_time: None,
             randomized_delay: Some(-1), // Invalid 3
@@ -344,11 +367,14 @@ mod tests {
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "signature_id".to_string(),
-            "digest_value".to_string(),
-            "randomized_delay".to_string(),
-            "charging_schedule_period".to_string(),
-        ]);
+        assert_invalid_fields(
+            err,
+            vec![
+                "signature_id".to_string(),
+                "digest_value".to_string(),
+                "randomized_delay".to_string(),
+                "charging_schedule_period".to_string(),
+            ],
+        );
     }
 }

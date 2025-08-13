@@ -1,7 +1,7 @@
+use crate::enums::apn_authentication_enum_type::APNAuthenticationEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
-use crate::enums::apn_authentication_enum_type::APNAuthenticationEnumType;
 
 /// Collection of configuration data needed to make a data-connection over a cellular network.
 /// Used by: SetNetworkProfileRequest.NetworkConnectionProfileType
@@ -24,7 +24,7 @@ pub struct APNType {
     /// Optional. Default: false. Use only the preferred Network, do not dial in when not available.
     pub use_only_preferred_network: Option<bool>,
     /// Required. Authentication method.
-    pub apn_authentication: APNAuthenticationEnumType
+    pub apn_authentication: APNAuthenticationEnumType,
 }
 
 impl Default for APNType {
@@ -59,7 +59,7 @@ impl OcppEntity for APNType {
             e.check_cardinality("preferred_network", 0, 6, &preferred_net.chars());
         }
 
-       e.build("ApnType")
+        e.build("ApnType")
     }
 }
 

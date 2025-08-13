@@ -19,7 +19,10 @@ impl TryFrom<String> for CustomerInformationStatusEnumType {
             "Accepted" => Ok(CustomerInformationStatusEnumType::Accepted),
             "Rejected" => Ok(CustomerInformationStatusEnumType::Rejected),
             "Invalid" => Ok(CustomerInformationStatusEnumType::Invalid),
-            _ => Err(format!("'{}' is not a valid CustomerInformationStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid CustomerInformationStatusEnumType",
+                s
+            )),
         }
     }
 }

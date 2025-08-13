@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::ocpp_interface_enum_type::OCPPInterfaceEnumType;
 use crate::enums::ocpp_transport_enum_type::OCPPTransportEnumType;
+use crate::enums::ocpp_version_enum_type::OCPPVersionEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::apn_type::APNType;
+use crate::structures::vpn_type::VPNType;
 use crate::traits::OcppEntity;
-use crate::enums::ocpp_version_enum_type::OCPPVersionEnumType;
+use serde::{Deserialize, Serialize};
 
 /// Defines the functional and technical parameters of a communication link.
 /// Used by: SetNetworkProfileRequest
@@ -32,7 +33,7 @@ pub struct NetworkConnectionProfileType {
     pub basic_auth_password: Option<String>,
     /// Optional. Settings to be used to set up the VPN connection.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub vpn: Option<VPNType>, // TODO: Implement VPNType
+    pub vpn: Option<VPNType>,
     /// Optional. Configuration data needed to make a data-connection over a cellular network.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub apn: Option<APNType>, // TODO: Implement APNType
@@ -63,8 +64,8 @@ impl OcppEntity for NetworkConnectionProfileType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::apn_type::APNType;
+    use serde_json;
 
     #[test]
     fn test_validate_success_full() {

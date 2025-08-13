@@ -22,7 +22,10 @@ impl TryFrom<String> for GenericDeviceModelStatusEnumType {
             "Rejected" => Ok(GenericDeviceModelStatusEnumType::Rejected),
             "NotSupported" => Ok(GenericDeviceModelStatusEnumType::NotSupported),
             "EmptyResultSet" => Ok(GenericDeviceModelStatusEnumType::EmptyResultSet),
-            _ => Err(format!("'{}' is not a valid GenericDeviceModelStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid GenericDeviceModelStatusEnumType",
+                s
+            )),
         }
     }
 }

@@ -1,9 +1,9 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::charging_rate_unit_enum_type::ChargingRateUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_schedule_period_type::ChargingSchedulePeriodType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// CompositeScheduleType is used by: GetCompositeScheduleResponse
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -27,10 +27,18 @@ impl OcppEntity for CompositeScheduleType {
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
-        e.check_cardinality("charging_schedule_period", 1, usize::MAX, &self.charging_schedule_period.iter());
-        e.check_iter_member("charging_schedule_period", self.charging_schedule_period.iter());
+        e.check_cardinality(
+            "charging_schedule_period",
+            1,
+            usize::MAX,
+            &self.charging_schedule_period.iter(),
+        );
+        e.check_iter_member(
+            "charging_schedule_period",
+            self.charging_schedule_period.iter(),
+        );
         e.build("CompositeScheduletype")
     }
 }
@@ -63,7 +71,7 @@ mod tests {
         let schedule = CompositeScheduleType {
             evse_id: 0, // Valid
             duration: 1800,
-            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             charging_rate_unit: ChargingRateUnitEnumType::W,
             charging_schedule_period: vec![Default::default()], // Valid cardinality
         };
@@ -74,7 +82,11 @@ mod tests {
             duration: 7200,
             schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             charging_rate_unit: ChargingRateUnitEnumType::A,
-            charging_schedule_period: vec![Default::default(), Default::default(), Default::default()],
+            charging_schedule_period: vec![
+                Default::default(),
+                Default::default(),
+                Default::default(),
+            ],
         };
         assert!(schedule_multiple_periods.validate().is_ok());
     }
@@ -89,7 +101,10 @@ mod tests {
             charging_schedule_period: vec![Default::default()],
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "evse_id");
@@ -106,12 +121,15 @@ mod tests {
         let schedule = CompositeScheduleType {
             evse_id: 1,
             duration: 1800,
-            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            schedule_start: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             charging_rate_unit: ChargingRateUnitEnumType::W,
             charging_schedule_period: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "charging_schedule_period");

@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::tariff_energy_price_type::TariffEnergyPriceType;
+use crate::structures::tax_rate_type::TaxRateType;
 use crate::traits::OcppEntity;
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -43,8 +44,8 @@ impl OcppEntity for TariffEnergyType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::tariff_energy_price_type::TariffEnergyPriceType;
+    use serde_json;
 
     fn create_test_instance() -> TariffEnergyType {
         TariffEnergyType {

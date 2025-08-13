@@ -49,7 +49,9 @@ impl fmt::Display for MessageTriggerEnumType {
             Self::StatusNotification => write!(f, "StatusNotification"),
             Self::TransactionEvent => write!(f, "TransactionEvent"),
             Self::SignCombinedCertificate => write!(f, "SignCombinedCertificate"),
-            Self::PublishFirmwareStatusNotification => write!(f, "PublishFirmwareStatusNotification"),
+            Self::PublishFirmwareStatusNotification => {
+                write!(f, "PublishFirmwareStatusNotification")
+            }
             Self::CustomTrigger => write!(f, "CustomTrigger"),
         }
     }

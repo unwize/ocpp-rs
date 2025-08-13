@@ -19,7 +19,10 @@ impl TryFrom<String> for DeleteCertificateStatusEnumType {
             "Accepted" => Ok(DeleteCertificateStatusEnumType::Accepted),
             "Failed" => Ok(DeleteCertificateStatusEnumType::Failed),
             "NotFound" => Ok(DeleteCertificateStatusEnumType::NotFound),
-            _ => Err(format!("'{}' is not a valid DeleteCertificateStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid DeleteCertificateStatusEnumType",
+                s
+            )),
         }
     }
 }

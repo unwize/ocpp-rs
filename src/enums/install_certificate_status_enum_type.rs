@@ -19,7 +19,10 @@ impl TryFrom<String> for InstallCertificateStatusEnumType {
             "Accepted" => Ok(InstallCertificateStatusEnumType::Accepted),
             "Rejected" => Ok(InstallCertificateStatusEnumType::Rejected),
             "Failed" => Ok(InstallCertificateStatusEnumType::Failed),
-            _ => Err(format!("'{}' is not a valid InstallCertificateStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid InstallCertificateStatusEnumType",
+                s
+            )),
         }
     }
 }

@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::charging_profile_purpose_enum_type::ChargingProfilePurposeEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// A ClearChargingProfileType is a filter for charging profiles to be cleared by ClearChargingProfileRequest.
 /// Used by: ClearChargingProfileRequest
@@ -46,8 +46,8 @@ impl OcppEntity for ClearChargingProfileType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
-    use crate::errors::assert_invalid_fields;
     use super::*;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -75,7 +75,9 @@ mod tests {
 
         let clear_profile_full = ClearChargingProfileType {
             evse_id: Some(0), // Valid
-            charging_profile_purpose: Some(ChargingProfilePurposeEnumType::ChargingStationMaxProfile),
+            charging_profile_purpose: Some(
+                ChargingProfilePurposeEnumType::ChargingStationMaxProfile,
+            ),
             stack_level: Some(10), // Valid
         };
         assert!(clear_profile_full.validate().is_ok());
@@ -89,7 +91,10 @@ mod tests {
             stack_level: None,
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "evse_id");
@@ -109,7 +114,10 @@ mod tests {
             stack_level: Some(-1), // Invalid
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "stack_level");
@@ -129,9 +137,6 @@ mod tests {
             stack_level: Some(-2), // Invalid 2
         };
         let err = clear_profile.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "evse_id".to_string(),
-            "stack_level".to_string(),
-        ]);
+        assert_invalid_fields(err, vec!["evse_id".to_string(), "stack_level".to_string()]);
     }
 }

@@ -63,16 +63,22 @@ impl TryFrom<String> for IslandingDetectionEnumType {
 impl Into<String> for IslandingDetectionEnumType {
     fn into(self) -> String {
         match self {
-            IslandingDetectionEnumType::NoAntiIslandingSupport => "NoAntiIslandingSupport".to_string(),
+            IslandingDetectionEnumType::NoAntiIslandingSupport => {
+                "NoAntiIslandingSupport".to_string()
+            }
             IslandingDetectionEnumType::RoCoF => "RoCoF".to_string(),
             IslandingDetectionEnumType::UVP_OVP => "UVP_OVP".to_string(),
             IslandingDetectionEnumType::UFP_OFP => "UFP_OFP".to_string(),
             IslandingDetectionEnumType::VoltageVectorShift => "VoltageVectorShift".to_string(),
-            IslandingDetectionEnumType::ZeroCrossingDetection => "ZeroCrossingDetection".to_string(),
+            IslandingDetectionEnumType::ZeroCrossingDetection => {
+                "ZeroCrossingDetection".to_string()
+            }
             IslandingDetectionEnumType::OtherPassive => "OtherPassive".to_string(),
             IslandingDetectionEnumType::ImpedanceMeasurement => "ImpedanceMeasurement".to_string(),
             IslandingDetectionEnumType::ImpedanceAtFrequency => "ImpedanceAtFrequency".to_string(),
-            IslandingDetectionEnumType::SlipModeFrequencyShift => "SlipModeFrequencyShift".to_string(),
+            IslandingDetectionEnumType::SlipModeFrequencyShift => {
+                "SlipModeFrequencyShift".to_string()
+            }
             IslandingDetectionEnumType::SandiaFrequencyShift => "SandiaFrequencyShift".to_string(),
             IslandingDetectionEnumType::SandiaVoltageShift => "SandiaVoltageShift".to_string(),
             IslandingDetectionEnumType::FrequencyJump => "FrequencyJump".to_string(),

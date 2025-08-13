@@ -40,7 +40,11 @@ impl OcppEntity for HysteresisType {
         if let Some(high) = self.hysteresis_high {
             if let Some(low) = self.hysteresis_low {
                 if low > high {
-                    e.push_relation_error("high", "low", "hysteresis_high must be greater than hysteresis_low!");
+                    e.push_relation_error(
+                        "high",
+                        "low",
+                        "hysteresis_high must be greater than hysteresis_low!",
+                    );
                 }
             }
         }
@@ -93,7 +97,8 @@ mod tests {
             hysteresis_gradient: None,
         };
         let serialized_minimal = serde_json::to_string(&original_struct_minimal).unwrap();
-        let deserialized_minimal: HysteresisType = serde_json::from_str(&serialized_minimal).unwrap();
+        let deserialized_minimal: HysteresisType =
+            serde_json::from_str(&serialized_minimal).unwrap();
         assert_eq!(original_struct_minimal, deserialized_minimal);
     }
 }

@@ -1,5 +1,6 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
@@ -7,7 +8,7 @@ use serde::{Deserialize, Serialize};
 pub struct ComponentVariableType {
     pub component: ComponentType,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub variable: Option<VariableType>, // TODO: Implement VariableType
+    pub variable: Option<VariableType>,
 }
 
 impl OcppEntity for ComponentVariableType {
@@ -17,7 +18,7 @@ impl OcppEntity for ComponentVariableType {
         if let Some(variable) = &self.variable {
             e.check_member("variable", variable);
         }
-        
+
         e.build("ComponentVariableType")
     }
 }

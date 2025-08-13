@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ev_power_schedule_entry_type::EVPowerScheduleEntryType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Schedule of EV energy offer.
 /// Used by: Common::EVEnergyOfferType
@@ -12,7 +12,7 @@ pub struct EVPowerScheduleType {
     pub time_anchor: DateTime<Utc>,
     /// Required. List of EVPowerScheduleEntries.
     /// Cardinality 1..1024
-    pub ev_power_schedule_entries: Vec<EVPowerScheduleEntryType>
+    pub ev_power_schedule_entries: Vec<EVPowerScheduleEntryType>,
 }
 
 impl Default for EVPowerScheduleType {
@@ -29,8 +29,16 @@ impl OcppEntity for EVPowerScheduleType {
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        e.check_cardinality("ev_power_schedule_entries", 1, 1024, &self.ev_power_schedule_entries.iter());
-        e.check_iter_member("ev_power_schedule_entries", self.ev_power_schedule_entries.iter());
+        e.check_cardinality(
+            "ev_power_schedule_entries",
+            1,
+            1024,
+            &self.ev_power_schedule_entries.iter(),
+        );
+        e.check_iter_member(
+            "ev_power_schedule_entries",
+            self.ev_power_schedule_entries.iter(),
+        );
         e.build("EVPowerScheduleType")
     }
 }
@@ -39,13 +47,13 @@ impl OcppEntity for EVPowerScheduleType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::TimeZone;
     use crate::errors::assert_invalid_fields;
+    use chrono::TimeZone;
 
     #[test]
     fn test_serialization_deserialization() {
         let schedule = EVPowerScheduleType {
-            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             ev_power_schedule_entries: vec![Default::default()],
         };
 
@@ -59,7 +67,7 @@ mod tests {
     #[test]
     fn test_validation_valid() {
         let schedule = EVPowerScheduleType {
-            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1,10, 0, 0).unwrap(),
+            time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             ev_power_schedule_entries: vec![Default::default()],
         };
         assert!(schedule.validate().is_ok());
@@ -89,6 +97,5 @@ mod tests {
         };
         let err = schedule.validate().unwrap_err();
         assert_invalid_fields(err, vec!["ev_power_schedule_entries".to_string()]);
-
     }
 }

@@ -1,7 +1,7 @@
+use crate::errors::OcppError;
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 use std::fmt;
-use crate::errors::OcppError;
 
 /// State of the Charging Station during which a message SHALL be displayed.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

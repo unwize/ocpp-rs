@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::certificate_status_source_enum_type::CertificateStatusSourceEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Data necessary to request the revocation status of a certificate.
 /// Used by: GetCertificateChainStatusRequest
@@ -15,7 +15,7 @@ pub struct CertificateStatusRequestInfoType {
     /// Cardinality 1..5, so represented as a Vec.
     pub urls: Vec<String>,
     /// Required. Hash data of certificate.
-    pub certificate_hash_data: CertificateHashDataType
+    pub certificate_hash_data: CertificateHashDataType,
 }
 
 impl OcppEntity for CertificateStatusRequestInfoType {
@@ -54,7 +54,8 @@ mod tests {
         let serialized = serde_json::to_string(&cert_status_req).unwrap();
         println!("Serialized: {}", serialized);
 
-        let deserialized: CertificateStatusRequestInfoType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: CertificateStatusRequestInfoType =
+            serde_json::from_str(&serialized).unwrap();
         assert_eq!(cert_status_req, deserialized);
     }
 

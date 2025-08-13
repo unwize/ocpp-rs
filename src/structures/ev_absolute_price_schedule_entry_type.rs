@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ev_price_rule_type::EVPriceRuleType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// An entry in price schedule over time for which EV is willing to discharge.
 /// Used by: Common::EVAbsolutePriceScheduleType
@@ -50,7 +50,8 @@ mod tests {
         let serialized = serde_json::to_string(&entry).unwrap();
         println!("Serialized: {}", serialized);
 
-        let deserialized: EVAbsolutePriceScheduleEntryType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: EVAbsolutePriceScheduleEntryType =
+            serde_json::from_str(&serialized).unwrap();
         assert_eq!(entry, deserialized);
     }
 
@@ -76,7 +77,10 @@ mod tests {
             ev_price_rule: vec![], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_price_rule");
@@ -95,7 +99,10 @@ mod tests {
             ev_price_rule: vec![Default::default(); 9], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "ev_price_rule");

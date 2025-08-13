@@ -2,6 +2,9 @@ use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
+use crate::structures::variable_attribute_type::VariableAttributeType;
+use crate::structures::variable_characteristics_type::VariableCharacteristicsType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
 
 /// Class to report components, variables and variable attributes and characteristics.
@@ -44,7 +47,7 @@ impl Default for ReportDataType {
     fn default() -> Self {
         Self {
             component: Default::default(),
-            variable: (),
+            variable: Default::default(),
             variable_attribute: vec![Default::default()],
             variable_characteristics: None,
         }
@@ -58,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_validate_success() {
-        let report = ReportDataType     ::default();
+        let report = ReportDataType::default();
         assert!(report.validate().is_ok());
     }
 
@@ -79,13 +82,7 @@ mod tests {
     #[test]
     fn test_validate_failure_variable_attribute_too_many() {
         let mut report = ReportDataType::default();
-        report.variable_attribute = vec![
-            VariableAttributeType { value: "1".to_string(), setpoint: None },
-            VariableAttributeType { value: "2".to_string(), setpoint: None },
-            VariableAttributeType { value: "3".to_string(), setpoint: None },
-            VariableAttributeType { value: "4".to_string(), setpoint: None },
-            VariableAttributeType { value: "5".to_string(), setpoint: None },
-        ]; // 5 elements, max is 4
+        report.variable_attribute = vec![VariableAttributeType::default(); 5]; // 5 elements, max is 4
         let result = report.validate();
         assert!(result.is_err());
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {

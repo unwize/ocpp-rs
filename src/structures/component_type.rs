@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::evse_type::EVSEType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// A physical or logical component.
 /// Used by: Common::ComponentVariableType, Common::MessageInfoType,
@@ -41,18 +41,17 @@ impl OcppEntity for ComponentType {
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         e.check_cardinality("name", 0, 50, &self.name.chars());
-        
 
         // Validate instance length
         if let Some(instance) = &self.instance {
             e.check_cardinality("instance", 0, 50, &instance.chars());
         }
 
-       if let Some(evse) = &self.evse {
-           e.check_member("evse", evse);
-       }
+        if let Some(evse) = &self.evse {
+            e.check_member("evse", evse);
+        }
 
         e.build("ComponentType")
     }
@@ -61,8 +60,8 @@ impl OcppEntity for ComponentType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
-    use crate::errors::assert_invalid_fields;
     use super::*;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_serialization_deserialization() {
@@ -89,7 +88,7 @@ mod tests {
         assert!(component_minimal.validate().is_ok());
 
         let component_full_lengths = ComponentType {
-            name: "a".repeat(50), // Valid length
+            name: "a".repeat(50),           // Valid length
             instance: Some("b".repeat(50)), // Valid length
             evse: Some(Default::default()),
         };
@@ -104,7 +103,10 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "name");
@@ -124,7 +126,10 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "instance");
@@ -139,14 +144,11 @@ mod tests {
     #[test]
     fn test_validation_multiple_errors() {
         let component = ComponentType {
-            name: "a".repeat(51), // Invalid 1
+            name: "a".repeat(51),           // Invalid 1
             instance: Some("b".repeat(51)), // Invalid 2
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        assert_invalid_fields(err, vec![
-            "name".to_string(),
-            "instance".to_string(),
-        ]);
+        assert_invalid_fields(err, vec!["name".to_string(), "instance".to_string()]);
     }
 }

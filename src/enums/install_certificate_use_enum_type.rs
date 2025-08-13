@@ -22,10 +22,15 @@ impl TryFrom<String> for InstallCertificateUseEnumType {
         match s.as_str() {
             "V2GRootCertificate" => Ok(InstallCertificateUseEnumType::V2GRootCertificate),
             "MORootCertificate" => Ok(InstallCertificateUseEnumType::MORootCertificate),
-            "ManufacturerRootCertificate" => Ok(InstallCertificateUseEnumType::ManufacturerRootCertificate),
+            "ManufacturerRootCertificate" => {
+                Ok(InstallCertificateUseEnumType::ManufacturerRootCertificate)
+            }
             "CSMSRootCertificate" => Ok(InstallCertificateUseEnumType::CSMSRootCertificate),
             "OEMRootCertificate" => Ok(InstallCertificateUseEnumType::OEMRootCertificate),
-            _ => Err(format!("'{}' is not a valid InstallCertificateUseEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid InstallCertificateUseEnumType",
+                s
+            )),
         }
     }
 }
@@ -35,7 +40,9 @@ impl Into<String> for InstallCertificateUseEnumType {
         match self {
             InstallCertificateUseEnumType::V2GRootCertificate => "V2GRootCertificate".to_string(),
             InstallCertificateUseEnumType::MORootCertificate => "MORootCertificate".to_string(),
-            InstallCertificateUseEnumType::ManufacturerRootCertificate => "ManufacturerRootCertificate".to_string(),
+            InstallCertificateUseEnumType::ManufacturerRootCertificate => {
+                "ManufacturerRootCertificate".to_string()
+            }
             InstallCertificateUseEnumType::CSMSRootCertificate => "CSMSRootCertificate".to_string(),
             InstallCertificateUseEnumType::OEMRootCertificate => "OEMRootCertificate".to_string(),
         }

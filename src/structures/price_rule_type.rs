@@ -61,9 +61,13 @@ impl OcppEntity for PriceRuleType {
         e.check_member("energy_fee", &self.energy_fee);
 
         if self.parking_fee_period.is_some() && self.parking_fee.is_none() {
-            e.push_relation_error("parking_fee", "parking_fee_period","parking_fee is mandatory if parkingFeePeriod is present");
+            e.push_relation_error(
+                "parking_fee",
+                "parking_fee_period",
+                "parking_fee is mandatory if parkingFeePeriod is present",
+            );
         }
-        
+
         if let Some(fee) = &self.parking_fee {
             e.check_member("parking_fee", fee);
         }

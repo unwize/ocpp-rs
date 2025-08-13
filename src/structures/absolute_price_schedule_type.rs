@@ -1,11 +1,12 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
+use crate::structures::overstay_rule_list_type::OverstayRuleListType;
+use crate::structures::price_rule_stack_type::PriceRuleStackType;
+use crate::structures::tax_rule_type::TaxRuleType;
 use crate::traits::OcppEntity;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
-use crate::structures::overstay_rule_list_type::OverstayRuleListType;
-use crate::structures::price_rule_stack_type::PriceRuleStackType;
 
 /// Represents an absolute price schedule with timing and pricing information
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -52,7 +53,7 @@ pub struct AbsolutePriceScheduleType {
     minimum_cost: Option<u32>,
 
     ///  Optional. Maximum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
-    maximum_cost: Option<u32>
+    maximum_cost: Option<u32>,
 }
 
 impl OcppEntity for AbsolutePriceScheduleType {
@@ -60,27 +61,35 @@ impl OcppEntity for AbsolutePriceScheduleType {
     /// data.
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-        
+
         e.check_bounds("price_schedule_id", 0, i32::MAX, self.price_schedule_id);
-        
+
         if let Some(price_schedule_description) = &self.price_schedule_description {
-            e.check_cardinality("price_schedule_description", 0, 160, &price_schedule_description.chars());
+            e.check_cardinality(
+                "price_schedule_description",
+                0,
+                160,
+                &price_schedule_description.chars(),
+            );
         }
 
         // Validate ISO compliance for currency
         if !CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
-            e.push(OcppError::FieldISOError {
-                value: "currency".to_string(),
-                iso: "4217".to_string(),
-            }.to_field_validation_error("currency"));
+            e.push(
+                OcppError::FieldISOError {
+                    value: "currency".to_string(),
+                    iso: "4217".to_string(),
+                }
+                .to_field_validation_error("currency"),
+            );
         }
 
-        e.check_cardinality("language", 0, 8, self.language.as_ref());
-        e.check_cardinality("price_algorithm", 0, 2000, self.price_algorithm.as_ref());
+        e.check_cardinality("language", 0, 8, &self.language.chars());
+        e.check_cardinality("price_algorithm", 0, 2000, &self.price_algorithm.chars());
         e.check_member("price_rule_stacks", &self.price_rule_stacks);
 
         if let Some(tax_rules) = &self.tax_rules {
-            e.check_member("tax_rules", &tax_rules);
+            e.check_member("tax_rules", tax_rules);
         }
 
         if let Some(additional_selected_services) = &self.additional_selected_services {

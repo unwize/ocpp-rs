@@ -1,11 +1,12 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::location_enum_type::LocationEnumType;
 use crate::enums::measurand_enum_type::MeasurandEnumType;
 use crate::enums::phase_enum_type::PhaseEnumType;
 use crate::enums::reading_context_enum_type::ReadingContextEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::signed_meter_value_type::SignedMeterValueType;
+use crate::structures::unit_of_measure_type::UnitOfMeasureType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Single sampled value in MeterValues. Each value can be accompanied by optional fields.
 /// Used by: Common:MeterValueType
@@ -69,7 +70,6 @@ impl OcppEntity for SampledValueType {
 mod tests {
     use super::*;
     use serde_json;
-
 
     #[test]
     fn test_validate_success_full() {

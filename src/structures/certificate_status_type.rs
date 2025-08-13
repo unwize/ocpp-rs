@@ -1,10 +1,10 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::enums::certificate_status_enum_type::CertificateStatusEnumType;
 use crate::enums::certificate_status_source_enum_type::CertificateStatusSourceEnumType;
 use crate::errors::OcppError;
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Revocation status of certificate
 /// Used by: GetCertificateChainStatusResponse
@@ -17,7 +17,7 @@ pub struct CertificateStatusType {
     /// Required.
     pub next_update: DateTime<Utc>,
     /// Required. Hash data of the certificate.
-    pub certificate_hash_data: CertificateHashDataType
+    pub certificate_hash_data: CertificateHashDataType,
 }
 
 impl OcppEntity for CertificateStatusType {
@@ -36,7 +36,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let cert_status = CertificateStatusType {
             source: CertificateStatusSourceEnumType::Ocsp, // Placeholder
-            status: CertificateStatusEnumType::Good, // Placeholder
+            status: CertificateStatusEnumType::Good,       // Placeholder
             next_update: Utc.with_ymd_and_hms(2025, 8, 1, 0, 0, 0).unwrap(),
             certificate_hash_data: CertificateHashDataType::default(), // Placeholder
         };
@@ -53,7 +53,7 @@ mod tests {
         let cert_status = CertificateStatusType {
             source: CertificateStatusSourceEnumType::Crl,
             status: CertificateStatusEnumType::Revoked,
-            next_update: Utc.with_ymd_and_hms(2025, 9, 1,0, 0, 0).unwrap(),
+            next_update: Utc.with_ymd_and_hms(2025, 9, 1, 0, 0, 0).unwrap(),
             certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(cert_status.validate().is_ok());

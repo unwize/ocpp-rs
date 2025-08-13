@@ -1,11 +1,11 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::message_priority_enum_type::MessagePriorityEnumType;
 use crate::enums::message_state_enum_type::MessageStateEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::message_content_type::MessageContentType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Contains message details for a message to be displayed on a Charging Station.
 /// Used by: SetDisplayMessageRequest, NotifyDisplayMessagesRequest
@@ -48,7 +48,11 @@ impl OcppEntity for MessageInfoType {
 
         if let (Some(start), Some(end)) = (&self.start_date_time, &self.end_date_time) {
             if start > end {
-                e.push_relation_error("start_date_time", "end_date_time","must be before or equal to end_date_time");
+                e.push_relation_error(
+                    "start_date_time",
+                    "end_date_time",
+                    "must be before or equal to end_date_time",
+                );
             }
         }
 
@@ -86,10 +90,7 @@ mod tests {
             transaction_id: Some("tx-12345".to_string()),
             message: MessageContentType::default(),
             display: Some(ComponentType::default()),
-            message_extra: vec![
-                MessageContentType::default(),
-                MessageContentType::default(),
-            ],
+            message_extra: vec![MessageContentType::default(), MessageContentType::default()],
         };
         assert!(message_info.validate().is_ok());
     }
@@ -175,9 +176,7 @@ mod tests {
             transaction_id: Some("tx-12345".to_string()),
             message: MessageContentType::default(),
             display: Some(ComponentType::default()),
-            message_extra: vec![
-               Default::default(); 2
-            ],
+            message_extra: vec![Default::default(); 2],
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();

@@ -16,7 +16,10 @@ impl TryFrom<String> for CertificateStatusSourceEnumType {
         match s.as_str() {
             "CRL" => Ok(CertificateStatusSourceEnumType::Crl),
             "OCSP" => Ok(CertificateStatusSourceEnumType::Ocsp),
-            _ => Err(format!("'{}' is not a valid CertificateStatusSourceEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid CertificateStatusSourceEnumType",
+                s
+            )),
         }
     }
 }

@@ -16,10 +16,15 @@ impl TryFrom<String> for CertificateSigningUseEnumType {
 
     fn try_from(s: String) -> Result<Self, Self::Error> {
         match s.as_str() {
-            "ChargingStationCertificate" => Ok(CertificateSigningUseEnumType::ChargingStationCertificate),
+            "ChargingStationCertificate" => {
+                Ok(CertificateSigningUseEnumType::ChargingStationCertificate)
+            }
             "V2GCertificate" => Ok(CertificateSigningUseEnumType::V2GCertificate),
             "V2G20Certificate" => Ok(CertificateSigningUseEnumType::V2G20Certificate),
-            _ => Err(format!("'{}' is not a valid CertificateSigningUseEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid CertificateSigningUseEnumType",
+                s
+            )),
         }
     }
 }
@@ -27,7 +32,9 @@ impl TryFrom<String> for CertificateSigningUseEnumType {
 impl Into<String> for CertificateSigningUseEnumType {
     fn into(self) -> String {
         match self {
-            CertificateSigningUseEnumType::ChargingStationCertificate => "ChargingStationCertificate".to_string(),
+            CertificateSigningUseEnumType::ChargingStationCertificate => {
+                "ChargingStationCertificate".to_string()
+            }
             CertificateSigningUseEnumType::V2GCertificate => "V2GCertificate".to_string(),
             CertificateSigningUseEnumType::V2G20Certificate => "V2G20Certificate".to_string(),
         }

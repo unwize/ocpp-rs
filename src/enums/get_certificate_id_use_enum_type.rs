@@ -26,9 +26,14 @@ impl TryFrom<String> for GetCertificateIdUseEnumType {
             "MORootCertificate" => Ok(GetCertificateIdUseEnumType::MORootCertificate),
             "CSMSRootCertificate" => Ok(GetCertificateIdUseEnumType::CSMSRootCertificate),
             "V2GCertificateChain" => Ok(GetCertificateIdUseEnumType::V2GCertificateChain),
-            "ManufacturerRootCertificate" => Ok(GetCertificateIdUseEnumType::ManufacturerRootCertificate),
+            "ManufacturerRootCertificate" => {
+                Ok(GetCertificateIdUseEnumType::ManufacturerRootCertificate)
+            }
             "OEMRootCertificate" => Ok(GetCertificateIdUseEnumType::OEMRootCertificate),
-            _ => Err(format!("'{}' is not a valid GetCertificateIdUseEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid GetCertificateIdUseEnumType",
+                s
+            )),
         }
     }
 }
@@ -40,7 +45,9 @@ impl Into<String> for GetCertificateIdUseEnumType {
             GetCertificateIdUseEnumType::MORootCertificate => "MORootCertificate".to_string(),
             GetCertificateIdUseEnumType::CSMSRootCertificate => "CSMSRootCertificate".to_string(),
             GetCertificateIdUseEnumType::V2GCertificateChain => "V2GCertificateChain".to_string(),
-            GetCertificateIdUseEnumType::ManufacturerRootCertificate => "ManufacturerRootCertificate".to_string(),
+            GetCertificateIdUseEnumType::ManufacturerRootCertificate => {
+                "ManufacturerRootCertificate".to_string()
+            }
             GetCertificateIdUseEnumType::OEMRootCertificate => "OEMRootCertificate".to_string(),
         }
     }

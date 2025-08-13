@@ -22,13 +22,20 @@ impl TryFrom<String> for ChargingProfilePurposeEnumType {
 
     fn try_from(s: String) -> Result<Self, Self::Error> {
         match s.as_str() {
-            "ChargingStationExternalConstraints" => Ok(ChargingProfilePurposeEnumType::ChargingStationExternalConstraints),
-            "ChargingStationMaxProfile" => Ok(ChargingProfilePurposeEnumType::ChargingStationMaxProfile),
+            "ChargingStationExternalConstraints" => {
+                Ok(ChargingProfilePurposeEnumType::ChargingStationExternalConstraints)
+            }
+            "ChargingStationMaxProfile" => {
+                Ok(ChargingProfilePurposeEnumType::ChargingStationMaxProfile)
+            }
             "TxDefaultProfile" => Ok(ChargingProfilePurposeEnumType::TxDefaultProfile),
             "TxProfile" => Ok(ChargingProfilePurposeEnumType::TxProfile),
             "PriorityCharging" => Ok(ChargingProfilePurposeEnumType::PriorityCharging),
             "LocalGeneration" => Ok(ChargingProfilePurposeEnumType::LocalGeneration),
-            _ => Err(format!("'{}' is not a valid ChargingProfilePurposeEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid ChargingProfilePurposeEnumType",
+                s
+            )),
         }
     }
 }
@@ -36,8 +43,12 @@ impl TryFrom<String> for ChargingProfilePurposeEnumType {
 impl Into<String> for ChargingProfilePurposeEnumType {
     fn into(self) -> String {
         match self {
-            ChargingProfilePurposeEnumType::ChargingStationExternalConstraints => "ChargingStationExternalConstraints".to_string(),
-            ChargingProfilePurposeEnumType::ChargingStationMaxProfile => "ChargingStationMaxProfile".to_string(),
+            ChargingProfilePurposeEnumType::ChargingStationExternalConstraints => {
+                "ChargingStationExternalConstraints".to_string()
+            }
+            ChargingProfilePurposeEnumType::ChargingStationMaxProfile => {
+                "ChargingStationMaxProfile".to_string()
+            }
             ChargingProfilePurposeEnumType::TxDefaultProfile => "TxDefaultProfile".to_string(),
             ChargingProfilePurposeEnumType::TxProfile => "TxProfile".to_string(),
             ChargingProfilePurposeEnumType::PriorityCharging => "PriorityCharging".to_string(),

@@ -1,8 +1,8 @@
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
 use crate::enums::der_unit_enum_type::DERUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// Used by: Common::FixedVarGetType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -41,9 +41,9 @@ impl OcppEntity for FixedVarType {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::enums::der_unit_enum_type::DERUnitEnumType;
     use chrono::{TimeZone, Utc};
     use serde_json;
-    use crate::enums::der_unit_enum_type::DERUnitEnumType;
 
     #[test]
     fn test_validate_success() {

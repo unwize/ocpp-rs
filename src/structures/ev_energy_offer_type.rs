@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
 use crate::errors::OcppError;
 use crate::structures::ev_absolute_price_schedule_type::EVAbsolutePriceScheduleType;
 use crate::structures::ev_power_schedule_type::EVPowerScheduleType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// A schedule of the energy amount over time that EV is willing to discharge.
 /// A negative value indicates the willingness to discharge under specific conditions,
@@ -59,7 +59,7 @@ mod tests {
                 currency: "USD".to_string(),
                 price_algorithm: "".to_string(),
                 ev_absolute_price_schedule_entries: vec![],
-            })
+            }),
         };
 
         let serialized = serde_json::to_string(&energy_offer).unwrap();

@@ -19,7 +19,10 @@ impl TryFrom<String> for ChangeAvailabilityStatusEnumType {
             "Accepted" => Ok(ChangeAvailabilityStatusEnumType::Accepted),
             "Rejected" => Ok(ChangeAvailabilityStatusEnumType::Rejected),
             "Scheduled" => Ok(ChangeAvailabilityStatusEnumType::Scheduled),
-            _ => Err(format!("'{}' is not a valid ChangeAvailabilityStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid ChangeAvailabilityStatusEnumType",
+                s
+            )),
         }
     }
 }

@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Reason for stopping a transaction.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum ReasonEnumType {
     /// The transaction was stopped because of the authorization status in the response to a TransactionEventRequest. (Failed)

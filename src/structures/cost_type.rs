@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::cost_kind_enum_type::CostKindEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// CostType is used by: Common::ConsumptionCostType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -93,7 +93,10 @@ mod tests {
             amount_multiplier: Some(-4), // Invalid
         };
         let err = cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "amount_multiplier");
@@ -113,7 +116,10 @@ mod tests {
             amount_multiplier: Some(4), // Invalid
         };
         let err = cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "amount_multiplier");

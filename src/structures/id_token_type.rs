@@ -49,8 +49,8 @@ impl OcppEntity for IdTokenType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::additional_info_type::AdditionalInfoType;
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

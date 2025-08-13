@@ -4,7 +4,6 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::price_rule_type::PriceRuleType;
 use crate::traits::OcppEntity;
 
-
 /// Part of ISO 15118-20 price schedule.
 /// Used by: Common:AbsolutePriceScheduleType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -35,7 +34,6 @@ impl OcppEntity for PriceRuleStackType {
 mod tests {
     use super::*;
     use serde_json;
-
 
     #[test]
     fn test_validate_success() {

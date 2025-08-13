@@ -40,8 +40,8 @@ impl OcppEntity for OverstayRuleListType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::structures::overstay_rule_type::OverstayRuleType;
+    use serde_json;
 
     #[test]
     fn test_validate_success_full() {

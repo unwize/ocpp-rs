@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
 use crate::enums::monitor_enum_type::MonitorEnumType;
 use crate::enums::set_monitoring_status_enum_type::SetMonitoringStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_type::ComponentType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Class to hold result of SetVariableMonitoring request.
 /// Used by: SetVariableMonitoringResponse
@@ -54,7 +55,7 @@ impl Default for SetMonitoringResultType {
     fn default() -> SetMonitoringResultType {
         Self {
             id: None,
-            status: SetMonitoringStatusEnumType::default(),
+            status: SetMonitoringStatusEnumType::Accepted,
             monitor_type: MonitorEnumType::Periodic,
             severity: 0,
             component: Default::default(),

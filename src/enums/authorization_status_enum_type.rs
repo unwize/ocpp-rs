@@ -40,7 +40,10 @@ impl TryFrom<String> for AuthorizationStatusEnumType {
             "NotAtThisLocation" => Ok(AuthorizationStatusEnumType::NotAtThisLocation),
             "NotAtThisTime" => Ok(AuthorizationStatusEnumType::NotAtThisTime),
             "Unknown" => Ok(AuthorizationStatusEnumType::Unknown),
-            _ => Err(format!("'{}' is not a valid AuthorizationStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid AuthorizationStatusEnumType",
+                s
+            )),
         }
     }
 }

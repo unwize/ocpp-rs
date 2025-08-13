@@ -4,7 +4,7 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum PowerDuringCessationEnumType {
     /// Active power

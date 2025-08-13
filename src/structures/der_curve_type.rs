@@ -1,11 +1,12 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::enums::der_unit_enum_type::DERUnitEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::der_curve_points_type::DERCurvePointsType;
 use crate::structures::hysteresis_type::HysteresisType;
 use crate::structures::reactive_power_params_type::ReactivePowerParamsType;
+use crate::structures::voltage_params_type::VoltageParamsType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// DERCurveType is used by: Common::DERCurveGetType, Common::LimitMaxDischargeType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -30,13 +31,13 @@ pub struct DERCurveType {
     pub hysteresis: Option<HysteresisType>,
     /// Optional. Additional parameters for voltage curves.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub voltage_params: Option<VoltageParamsType>, // TODO: Implement VoltageParamsType
+    pub voltage_params: Option<VoltageParamsType>,
     /// Optional. Additional parameters for VoltVar curve.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub reactive_power_params: Option<ReactivePowerParamsType>, // TODO: Implement ReactivePowerParamsType
+    pub reactive_power_params: Option<ReactivePowerParamsType>,
     /// Required. Coordinates of the DER curve. X-axis is determined by curveType. Y-axis is determined by yUnit.
     /// Cardinality 1..10
-    pub curve_data: Vec<DERCurvePointsType>
+    pub curve_data: Vec<DERCurvePointsType>,
 }
 
 impl Default for DERCurveType {
@@ -92,8 +93,8 @@ mod tests {
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(3600.0),
             hysteresis: Some(Default::default()),
-            voltage_params: Some("voltage_params_placeholder".to_string()), // TODO: Placeholder
-            reactive_power_params: Some(Default::default()), // TODO: Placeholder
+            voltage_params: Some(Default::default()),
+            reactive_power_params: Some(Default::default()),
             curve_data: vec![Default::default(), Default::default()],
         };
 
@@ -126,7 +127,7 @@ mod tests {
             start_time: Some(Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap()),
             duration: Some(7200.0),
             hysteresis: Some(Default::default()),
-            voltage_params: Some("volt".to_string()),
+            voltage_params: Some(Default::default()),
             reactive_power_params: Some(Default::default()),
             curve_data: vec![Default::default(); 10], // Max cardinality
         };
@@ -138,12 +139,19 @@ mod tests {
         let der_curve = DERCurveType {
             priority: -1, // Invalid
             y_unit: DERUnitEnumType::Not_Applicable,
-            response_time: None, start_time: None, duration: None, hysteresis: None,
-            voltage_params: None, reactive_power_params: None,
+            response_time: None,
+            start_time: None,
+            duration: None,
+            hysteresis: None,
+            voltage_params: None,
+            reactive_power_params: None,
             curve_data: vec![Default::default()],
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "priority");
@@ -160,12 +168,19 @@ mod tests {
         let der_curve = DERCurveType {
             priority: 0,
             y_unit: DERUnitEnumType::PctVarAvail,
-            response_time: None, start_time: None, duration: None, hysteresis: None,
-            voltage_params: None, reactive_power_params: None,
+            response_time: None,
+            start_time: None,
+            duration: None,
+            hysteresis: None,
+            voltage_params: None,
+            reactive_power_params: None,
             curve_data: vec![], // Invalid cardinality
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "curve_data");
@@ -182,12 +197,19 @@ mod tests {
         let der_curve = DERCurveType {
             priority: 0,
             y_unit: DERUnitEnumType::PctWAvail,
-            response_time: None, start_time: None, duration: None, hysteresis: None,
-            voltage_params: None, reactive_power_params: None,
+            response_time: None,
+            start_time: None,
+            duration: None,
+            hysteresis: None,
+            voltage_params: None,
+            reactive_power_params: None,
             curve_data: vec![Default::default(); 11], // Invalid cardinality
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError { related: source, .. } = err {
+        if let OcppError::StructureValidationError {
+            related: source, ..
+        } = err
+        {
             assert_eq!(source.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &source[0] {
                 assert_eq!(field, "curve_data");

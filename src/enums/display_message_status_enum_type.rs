@@ -25,13 +25,18 @@ impl TryFrom<String> for DisplayMessageStatusEnumType {
     fn try_from(s: String) -> Result<Self, Self::Error> {
         match s.as_str() {
             "Accepted" => Ok(DisplayMessageStatusEnumType::Accepted),
-            "NotSupportedMessageFormat" => Ok(DisplayMessageStatusEnumType::NotSupportedMessageFormat),
+            "NotSupportedMessageFormat" => {
+                Ok(DisplayMessageStatusEnumType::NotSupportedMessageFormat)
+            }
             "Rejected" => Ok(DisplayMessageStatusEnumType::Rejected),
             "NotSupportedPriority" => Ok(DisplayMessageStatusEnumType::NotSupportedPriority),
             "NotSupportedState" => Ok(DisplayMessageStatusEnumType::NotSupportedState),
             "UnknownTransaction" => Ok(DisplayMessageStatusEnumType::UnknownTransaction),
             "LanguageNotSupported" => Ok(DisplayMessageStatusEnumType::LanguageNotSupported),
-            _ => Err(format!("'{}' is not a valid DisplayMessageStatusEnumType", s)),
+            _ => Err(format!(
+                "'{}' is not a valid DisplayMessageStatusEnumType",
+                s
+            )),
         }
     }
 }
@@ -40,12 +45,18 @@ impl Into<String> for DisplayMessageStatusEnumType {
     fn into(self) -> String {
         match self {
             DisplayMessageStatusEnumType::Accepted => "Accepted".to_string(),
-            DisplayMessageStatusEnumType::NotSupportedMessageFormat => "NotSupportedMessageFormat".to_string(),
+            DisplayMessageStatusEnumType::NotSupportedMessageFormat => {
+                "NotSupportedMessageFormat".to_string()
+            }
             DisplayMessageStatusEnumType::Rejected => "Rejected".to_string(),
-            DisplayMessageStatusEnumType::NotSupportedPriority => "NotSupportedPriority".to_string(),
+            DisplayMessageStatusEnumType::NotSupportedPriority => {
+                "NotSupportedPriority".to_string()
+            }
             DisplayMessageStatusEnumType::NotSupportedState => "NotSupportedState".to_string(),
             DisplayMessageStatusEnumType::UnknownTransaction => "UnknownTransaction".to_string(),
-            DisplayMessageStatusEnumType::LanguageNotSupported => "LanguageNotSupported".to_string(),
+            DisplayMessageStatusEnumType::LanguageNotSupported => {
+                "LanguageNotSupported".to_string()
+            }
         }
     }
 }

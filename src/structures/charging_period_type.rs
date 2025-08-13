@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
-use chrono::{DateTime, Utc};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::cost_dimension_type::CostDimensionType;
 use crate::traits::OcppEntity;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
 
 /// A ChargingPeriodType consists of a start time, and a list of possible values that influence this period,
 /// for example: amount of energy charged this period, maximum current during this period etc.
@@ -21,6 +21,16 @@ pub struct ChargingPeriodType {
     pub dimensions: Option<Vec<CostDimensionType>>,
 }
 
+impl Default for ChargingPeriodType {
+    fn default() -> ChargingPeriodType {
+        Self {
+            tariff_id: None,
+            start_period: Utc::now(),
+            dimensions: None,
+        }
+    }
+}
+
 impl OcppEntity for ChargingPeriodType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
@@ -29,11 +39,10 @@ impl OcppEntity for ChargingPeriodType {
             e.check_cardinality("tariff_id", 0, 60, &tariff_id.chars());
         }
 
-        if let Some (dimensions) = &self.dimensions {
+        if let Some(dimensions) = &self.dimensions {
             e.check_cardinality("start_period", 0, 60, &dimensions.iter());
             e.check_iter_member("dimensions", dimensions.iter());
         }
-
 
         e.build("ChargingPeriodType")
     }
