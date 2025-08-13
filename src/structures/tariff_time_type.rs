@@ -1,21 +1,22 @@
 use serde::{Deserialize, Serialize};
 
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::structures::tariff_fixed_price_type::TariffFixedPriceType;
+use crate::structures::tariff_time_price_type::TariffTimePriceType;
+use crate::structures::tax_rate_type::TaxRateType;
 use crate::traits::OcppEntity;
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
-pub struct TariffFixedType {
-    /// Required. Contains the fixed prices for this tariff.
-    pub prices: Vec<TariffFixedPriceType>,
+pub struct TariffTimeType {
+    /// Required. Element tariff price and conditions.
+    pub prices: Vec<TariffTimePriceType>,
     /// Optional. Applicable tax percentages for this tariff dimension. If omitted, no tax is applicable.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tax_rates: Option<Vec<TaxRateType>>,
 }
 
-impl Default for TariffFixedType {
-    fn default() -> TariffFixedType {
+impl Default for TariffTimeType {
+    fn default() -> TariffTimeType {
         Self {
             prices: vec![],
             tax_rates: None,
@@ -23,8 +24,8 @@ impl Default for TariffFixedType {
     }
 }
 
-impl OcppEntity for TariffFixedType {
-    /// Validates the fields of TariffFixedType based on specified constraints.
+impl OcppEntity for TariffTimeType {
+    /// Validates the fields of TariffTimeType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
@@ -36,7 +37,7 @@ impl OcppEntity for TariffFixedType {
             e.check_iter_member("tax_rates", tax_rates.iter());
         }
 
-        e.build("TariffFixedType")
+        e.build("TariffTimeType")
     }
 }
 
@@ -44,10 +45,11 @@ impl OcppEntity for TariffFixedType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::structures::tariff_time_price_type::TariffTimePriceType;
 
-    fn create_test_instance() -> TariffFixedType {
-        TariffFixedType {
-            prices: vec![TariffFixedPriceType::default()],
+    fn create_test_instance() -> TariffTimeType {
+        TariffTimeType {
+            prices: vec![TariffTimePriceType::default()],
             tax_rates: Some(vec![TaxRateType::default()]),
         }
     }
@@ -75,7 +77,7 @@ mod tests {
     #[test]
     fn test_validate_tax_rates_cardinality_fail_max() {
         let mut data = create_test_instance();
-        data.tax_rates = Some(vec![TaxRateType {}; 6]);
+        data.tax_rates = Some(vec![TaxRateType::default(); 6]);
         assert!(data.validate().is_err());
     }
 
@@ -83,7 +85,7 @@ mod tests {
     fn test_serialization_deserialization() {
         let original_struct = create_test_instance();
         let serialized = serde_json::to_string(&original_struct).unwrap();
-        let deserialized: TariffFixedType = serde_json::from_str(&serialized).unwrap();
+        let deserialized: TariffTimeType = serde_json::from_str(&serialized).unwrap();
         assert_eq!(original_struct, deserialized);
     }
 }

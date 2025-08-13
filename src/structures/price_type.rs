@@ -19,6 +19,16 @@ pub struct PriceType {
     pub tax_rates: Option<Vec<TaxRateType>>,
 }
 
+impl Default for PriceType {
+    fn default() -> PriceType {
+        Self {
+            excl_tax: Some(1.0),
+            incl_tax: None,
+            tax_rates: None,
+        }
+    }
+}
+
 impl OcppEntity for PriceType {
     /// Validates the fields of PriceType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
