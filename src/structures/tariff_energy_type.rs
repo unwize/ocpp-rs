@@ -19,7 +19,7 @@ impl Default for TariffEnergyType {
     fn default() -> TariffEnergyType {
         Self {
             tax_rates: None,
-            prices: vec![],
+            prices: vec![TariffEnergyPriceType::default()],
         }
     }
 }

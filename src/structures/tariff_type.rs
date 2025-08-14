@@ -118,6 +118,7 @@ impl OcppEntity for TariffType {
 
 #[cfg(test)]
 mod tests {
+    use std::error::Error;
     use super::*;
     use serde_json;
 
@@ -161,6 +162,17 @@ mod tests {
             reservation_time: Some(TariffTimeType::default()),
             reservation_fixed: Some(TariffFixedType::default()),
         };
+        
+        if let Err(e) = data.validate() {
+            match e {
+                OcppError::StructureValidationError {related, ..} => {
+                    println!("{:#?}", related);
+                }
+                
+                _ => {}
+            }
+        }
+        
         assert!(data.validate().is_ok());
     }
 

@@ -18,7 +18,7 @@ pub struct TariffFixedType {
 impl Default for TariffFixedType {
     fn default() -> TariffFixedType {
         Self {
-            prices: vec![],
+            prices: vec![TariffFixedPriceType::default()],
             tax_rates: None,
         }
     }

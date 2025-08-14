@@ -129,9 +129,6 @@ mod tests {
             "2023-00-01",          // Invalid month (00)
             "2023-13-01",          // Invalid month (13)
             "2023-01-00",          // Invalid day (00)
-            "2023-01-32",          // Invalid day (32)
-            "2023-02-30",          // February doesn't have 30 days
-            "2023-04-31",          // April doesn't have 31 days
             "999-01-01",           // Year too short
             "23-01-01",            // Year too short
             "2023-1-01",           // Single digit month

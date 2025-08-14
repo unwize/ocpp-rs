@@ -18,7 +18,7 @@ impl Default for ConsumptionCostType {
     fn default() -> ConsumptionCostType {
         Self {
             start_value: 0.0,
-            cost: vec![],
+            cost: vec![CostType::default()],
         }
     }
 }

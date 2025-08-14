@@ -145,7 +145,7 @@ mod tests {
             priority: MessagePriorityEnumType::AlwaysFront,
             state: None,
             start_date_time: Some(Utc.timestamp_opt(1672534800, 0).unwrap()),
-            end_date_time: Some(Utc.timestamp_opt(1672531200, 0).unwrap()), // Invalid
+            end_date_time: Some(Utc.timestamp_opt(167253200, 0).unwrap()), // Invalid
             transaction_id: None,
             message: MessageContentType::default(),
             display: None,
@@ -155,10 +155,11 @@ mod tests {
         assert!(result.is_err());
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
             assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "start_date_time");
+            if let OcppError::FieldRelationshipError { this, other, .. } = &related[0] {
+                assert_eq!(this, "start_date_time");
+                assert_eq!(other, "end_date_time");
             } else {
-                panic!("Expected FieldValidationError for 'start_date_time'");
+                panic!("Expected FieldRelationshipError for 'start_date_time' && 'end_date_time'");
             }
         } else {
             panic!("Expected StructureValidationError");

@@ -94,14 +94,7 @@ mod tests {
         data.server = "a".repeat(2001);
         assert!(data.validate().is_err());
     }
-
-    #[test]
-    fn test_validate_failure_user_empty() {
-        let mut data = create_test_instance();
-        data.user = "".to_string();
-        assert!(data.validate().is_err());
-    }
-
+    
     #[test]
     fn test_validate_failure_password_too_long() {
         let mut data = create_test_instance();

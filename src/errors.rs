@@ -1,3 +1,4 @@
+use std::fmt::{Display, Write};
 use crate::errors::OcppError::{
     FieldBoundsError, FieldCardinalityError, FieldRelationshipError, FieldValidationError,
     StructureValidationError,

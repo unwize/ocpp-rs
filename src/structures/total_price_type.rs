@@ -51,6 +51,7 @@ impl OcppEntity for TotalPriceType {
 
 #[cfg(test)]
 mod tests {
+    use std::error::Error;
     use super::*;
     use miette::Diagnostic;
     use serde_json;
@@ -81,10 +82,18 @@ mod tests {
             excl_tax: Some(-1.0),
             incl_tax: Some(-1.0),
         };
-
-        let result = data.validate();
-        assert!(result.is_err());
-        assert_eq!(result.err().unwrap().related().iter().len(), 2)
+        assert!(data.validate().is_err());
+        
+        if let Err(e) = data.validate() {
+            match e {
+                OcppError::StructureValidationError {related, .. } => {
+                    assert_eq!(related.len(), 2);
+                }
+                _ => assert!(false),
+            }
+        }
+        
+        
     }
 
     #[test]

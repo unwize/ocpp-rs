@@ -39,7 +39,7 @@ pub struct TotalCostType {
 impl Default for TotalCostType {
     fn default() -> TotalCostType {
         Self {
-            currency: "".to_string(),
+            currency: "USD".to_string(),
             type_of_cost: TariffCostEnumType::NormalCost,
             fixed: None,
             energy: None,

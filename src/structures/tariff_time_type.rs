@@ -18,7 +18,7 @@ pub struct TariffTimeType {
 impl Default for TariffTimeType {
     fn default() -> TariffTimeType {
         Self {
-            prices: vec![],
+            prices: vec![TariffTimePriceType::default()],
             tax_rates: None,
         }
     }

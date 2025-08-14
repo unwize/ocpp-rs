@@ -100,6 +100,7 @@ mod tests {
         let result = entry.validate();
         assert!(result.is_err());
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
+            println!("{:#?}", related);
             assert_eq!(related.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &related[0] {
                 assert_eq!(field, "consumption_cost");

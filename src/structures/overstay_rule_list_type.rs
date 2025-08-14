@@ -60,6 +60,11 @@ mod tests {
             overstay_power_threshold: None,
             overstay_rule: vec![OverstayRuleType::default()],
         };
+       
+        if let Err(e) = rule_list.validate() {
+            println!("{:#?}", e);
+        }
+        
         assert!(rule_list.validate().is_ok());
     }
 

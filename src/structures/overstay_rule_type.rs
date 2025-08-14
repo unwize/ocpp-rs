@@ -43,7 +43,7 @@ impl Default for OverstayRuleType {
         Self {
             overstay_rule_description: None,
             start_time: 0,
-            overstay_fee_period: 0,
+            overstay_fee_period: 1,
             overstay_fee: Default::default(),
         }
     }
