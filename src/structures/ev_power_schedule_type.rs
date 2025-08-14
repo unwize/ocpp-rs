@@ -86,7 +86,7 @@ mod tests {
             ev_power_schedule_entries: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        assert_invalid_fields(err, &["ev_power_schedule_entries"]);
+        assert_invalid_fields(&err, &["ev_power_schedule_entries"]);
     }
 
     #[test]
@@ -96,6 +96,6 @@ mod tests {
             ev_power_schedule_entries: vec![Default::default(); 1025], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        assert_invalid_fields(err, &["ev_power_schedule_entries"]);
+        assert_invalid_fields(&err, &["ev_power_schedule_entries"]);
     }
 }

@@ -84,6 +84,7 @@ impl OcppEntity for DERCurveType {
 mod tests {
     use super::*;
     use chrono::TimeZone;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -149,19 +150,8 @@ mod tests {
             curve_data: vec![Default::default()],
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "priority");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["priority"]);
     }
 
     #[test]
@@ -178,19 +168,8 @@ mod tests {
             curve_data: vec![], // Invalid cardinality
         };
         let err = der_curve.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "curve_data");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["curve_data"]);
     }
 
     #[test]

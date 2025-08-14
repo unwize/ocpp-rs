@@ -42,6 +42,7 @@ impl OcppEntity for ClearTariffsResultType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use super::*;
 
     #[test]
@@ -84,18 +85,7 @@ mod tests {
             status_info: None,
         };
         let err = result.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "tariff_id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["tariff_id"]);
     }
 }

@@ -500,7 +500,7 @@ mod tests {
         };
         let err = der_params.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &[
                 "ev_inverter_manufacturer",
                 "ev_inverter_model",

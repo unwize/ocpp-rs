@@ -160,11 +160,9 @@ mod tests {
             parking_fee: None,
             power_range_start: Default::default(),
         };
-        let result = rule.validate();
-        assert!(result.is_err());
-        let err = result.unwrap_err();
-        assert_invalid_fields(err.clone(), &["parking_fee_period", "parking_fee"]);
-        assert_num_field_errors(err, 2);
+        let err = rule.validate().unwrap_err();
+        assert_num_field_errors(&err, 2);
+        assert_invalid_fields(&err, &["parking_fee_period", "parking_fee"]);
     }
 
     #[test]

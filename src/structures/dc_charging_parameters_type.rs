@@ -48,12 +48,12 @@ impl OcppEntity for DCChargingParametersType {
         let mut e = StructureValidationBuilder::new();
 
         // Assuming positive value is implied for maximums in current/voltage/power
-        e.check_bounds("ev_max_current", 0.0, f64::MAX, self.ev_max_current);
-        e.check_bounds("ev_max_voltage", 0.0, f64::MAX, self.ev_max_voltage);
+        e.check_bounds("ev_max_current", f64::EPSILON, f64::MAX, self.ev_max_current);
+        e.check_bounds("ev_max_voltage", f64::EPSILON, f64::MAX, self.ev_max_voltage);
 
         // Validate ev_max_power (optional, typically > 0 if present)
         if let Some(ev_max_power) = self.ev_max_power {
-            e.check_bounds("ev_max_power", 0.0, f64::MAX, ev_max_power);
+            e.check_bounds("ev_max_power", f64::EPSILON, f64::MAX, ev_max_power);
         }
 
         // Validate ev_energy_capacity (optional, typically >= 0 if present)
@@ -89,7 +89,7 @@ impl OcppEntity for DCChargingParametersType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -151,19 +151,8 @@ mod tests {
             bulk_soc: None,
         };
         let err = dc_params.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "ev_max_current");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["ev_max_current"]);
     }
 
     #[test]
@@ -179,6 +168,8 @@ mod tests {
             bulk_soc: None,
         };
         let err_low = dc_params_low.validate().unwrap_err();
+        assert_num_field_errors(&err_low, 1);
+        assert_invalid_fields(&err_low, &[]);
         if let OcppError::StructureValidationError {
             related: source, ..
         } = err_low
@@ -233,7 +224,7 @@ mod tests {
         };
         let err = dc_params.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &[
                 "ev_max_current",
                 "ev_max_voltage",

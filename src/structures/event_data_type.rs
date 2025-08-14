@@ -216,7 +216,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["event_id"]);
+        assert_invalid_fields(&err, &["event_id"]);
     }
 
     #[test]
@@ -242,7 +242,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["cause"]);
+        assert_invalid_fields(&err, &["cause"]);
     }
 
     #[test]
@@ -268,7 +268,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["actual_value"]);
+        assert_invalid_fields(&err, &["actual_value"]);
     }
 
     #[test]
@@ -294,7 +294,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["tech_code"]);
+        assert_invalid_fields(&err, &["tech_code"]);
     }
 
     #[test]
@@ -320,7 +320,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["tech_info"]);
+        assert_invalid_fields(&err, &["tech_info"]);
     }
 
     #[test]
@@ -346,7 +346,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["transaction_id"]);
+        assert_invalid_fields(&err, &["transaction_id"]);
     }
 
     #[test]
@@ -372,7 +372,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["variable_monitoring_id"]);
+        assert_invalid_fields(&err, &["variable_monitoring_id"]);
     }
 
     #[test]
@@ -398,7 +398,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, &["severity"]);
+        assert_invalid_fields(&err, &["severity"]);
     }
 
     #[test]
@@ -425,7 +425,7 @@ mod tests {
         };
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
                 &[
                 "event_id",
                 "cause",

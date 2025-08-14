@@ -37,7 +37,7 @@ impl OcppEntity for ConstantStreamDataType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -79,19 +79,8 @@ mod tests {
             params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["id"]);
     }
 
     #[test]
@@ -102,19 +91,8 @@ mod tests {
             params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "variable_monitoring_id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["variable_monitoring_id"]);
     }
 
     #[test]
@@ -126,7 +104,7 @@ mod tests {
         };
         let err = stream_data.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &["id", "variable_monitoring_id"],
         );
     }

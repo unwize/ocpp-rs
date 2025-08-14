@@ -55,7 +55,7 @@ impl OcppEntity for ChargingStationType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -105,19 +105,8 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "serial_number");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["serial_number"]);
     }
 
     #[test]
@@ -130,19 +119,8 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "model");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["model"]);
     }
 
     #[test]
@@ -155,19 +133,8 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "vendor_name");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["vendor_name"]);
     }
 
     #[test]
@@ -180,19 +147,8 @@ mod tests {
             modem: None,
         };
         let err = cs.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "firmware_version");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["firmware_version"]);
     }
 
     #[test]
@@ -206,7 +162,7 @@ mod tests {
         };
         let err = cs.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &[
                 "serial_number",
                 "model" ,

@@ -121,7 +121,7 @@ impl OcppEntity for ChargingScheduleType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use chrono::TimeZone;
 
     #[test]
@@ -165,11 +165,12 @@ mod tests {
             use_local_time: None,
             randomized_delay: Some(100), // Valid
             sales_tariff: None,
-            charging_schedule_period: vec![],
+            charging_schedule_period: vec![Default::default()],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
         };
+        if let Err(error) = schedule.validate() { println!("{:#?}", error)}
         assert!(schedule.validate().is_ok());
     }
 
@@ -187,25 +188,14 @@ mod tests {
             use_local_time: None,
             randomized_delay: None,
             sales_tariff: None,
-            charging_schedule_period: vec![],
+            charging_schedule_period: vec![Default::default()],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "signature_id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["signature_id"]);
     }
 
     #[test]
@@ -222,25 +212,14 @@ mod tests {
             use_local_time: None,
             randomized_delay: None,
             sales_tariff: None,
-            charging_schedule_period: vec![],
+            charging_schedule_period: vec![Default::default()],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "digest_value");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["digest_value"]);
     }
 
     #[test]
@@ -257,25 +236,14 @@ mod tests {
             use_local_time: None,
             randomized_delay: Some(-1), // Invalid
             sales_tariff: None,
-            charging_schedule_period: vec![],
+            charging_schedule_period: vec![Default::default()],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "randomized_delay");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["randomized_delay"]);
     }
 
     #[test]
@@ -299,19 +267,8 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_few = schedule_too_few.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err_too_few
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "charging_schedule_period");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err_too_few, 1);
+        assert_invalid_fields(&err_too_few, &["charging_schedule_period"]);
 
         // Too many
         let schedule_too_many = ChargingScheduleType {
@@ -326,25 +283,14 @@ mod tests {
             use_local_time: None,
             randomized_delay: None,
             sales_tariff: None,
-            charging_schedule_period: vec![ChargingSchedulePeriodType::default(); 1025], // TODO: Invalid cardinality
+            charging_schedule_period: vec![ChargingSchedulePeriodType::default(); 1025],
             absolute_price_schedule: None,
             price_level_schedule: None,
             limit_at_soc: None,
         };
         let err_too_many = schedule_too_many.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err_too_many
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "charging_schedule_period");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err_too_few, 1);
+        assert_invalid_fields(&err_too_few, &["charging_schedule_period"]);
     }
 
     #[test]
@@ -368,7 +314,7 @@ mod tests {
         };
         let err = schedule.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &[
                 "signature_id",
                 "digest_value",

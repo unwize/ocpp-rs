@@ -58,7 +58,7 @@ impl OcppEntity for PriceType {
 mod tests {
     use super::*;
     use serde_json;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_excl_tax_only() {
@@ -97,13 +97,9 @@ mod tests {
             incl_tax: None,
             tax_rates: None,
         };
-        let result = price.validate();
-        assert!(result.is_err());
-        let error = result.err().unwrap();
-        if let OcppError::StructureValidationError { related, .. } = error.clone() {
-            assert_eq!(related.len(), 2);
-        }
-        assert_invalid_fields(error, &["excl_tax", "incl_tax"]);
+        let err = price.validate().unwrap_err();
+        assert_invalid_fields(&err, &["excl_tax", "incl_tax"]);
+        assert_num_field_errors(&err, 2)
 
     }
 

@@ -61,7 +61,7 @@ impl OcppEntity for ComponentType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -92,6 +92,7 @@ mod tests {
             instance: Some("b".repeat(50)), // Valid length
             evse: Some(Default::default()),
         };
+        println!("{:#?}", component_full_lengths.validate());
         assert!(component_full_lengths.validate().is_ok());
     }
 
@@ -103,19 +104,8 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "name");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["name"]);
     }
 
     #[test]
@@ -126,19 +116,8 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "instance");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["instance"]);
     }
 
     #[test]
@@ -149,6 +128,6 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        assert_invalid_fields(err, &["name", "instance"]);
+        assert_invalid_fields(&err, &["name", "instance"]);
     }
 }

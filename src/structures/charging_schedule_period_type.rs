@@ -200,7 +200,7 @@ impl OcppEntity for ChargingSchedulePeriodType {
             );
         }
 
-        Ok(())
+        e.build("ChargingSchedulePeriodType")
     }
 }
 

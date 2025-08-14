@@ -44,6 +44,7 @@ impl OcppEntity for CostType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use super::*;
 
     #[test]
@@ -93,19 +94,8 @@ mod tests {
             amount_multiplier: Some(-4), // Invalid
         };
         let err = cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "amount_multiplier");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["amount_multiplier"]);
     }
 
     #[test]
@@ -116,18 +106,7 @@ mod tests {
             amount_multiplier: Some(4), // Invalid
         };
         let err = cost.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "amount_multiplier");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["amount_multiplier"]);
     }
 }

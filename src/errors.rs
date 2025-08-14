@@ -76,12 +76,12 @@ impl OcppError {
 
 /// Convenience function to read a StructureValidationError, parse its sources, and verify that the
 /// provided vec of field names appear in the vec of sources. Each field is asserted to appear.
-pub fn assert_invalid_fields(e: OcppError, fields: &[&str]) {
+pub fn assert_invalid_fields(e: &OcppError, fields: &[&str]) {
     match e {
         StructureValidationError { related, .. } => {
             let related_fields: Vec<String> = related.iter().map(| e | {match e {FieldValidationError {field, ..} => {field.clone()}, _ => {"".to_string()}}}).collect();
             for field in fields {
-                assert!(related_fields.contains(&field.to_string()))
+                assert!(related_fields.contains(&field.to_string()), "Expected field {} to throw an error!", field);
             }
         }
 
@@ -89,7 +89,7 @@ pub fn assert_invalid_fields(e: OcppError, fields: &[&str]) {
     }
 }
 
-pub fn assert_num_field_errors(e: OcppError, count: usize) {
+pub fn assert_num_field_errors(e: &OcppError, count: usize) {
     match e {
         StructureValidationError { related, .. } => {
             assert_eq!(related.len(), count)

@@ -17,7 +17,7 @@ pub struct EVSEType {
 impl Default for EVSEType {
     fn default() -> Self {
         Self {
-            id: 0,
+            id: 1,
             connector_id: None,
         }
     }

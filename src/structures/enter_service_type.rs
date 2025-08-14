@@ -89,7 +89,7 @@ impl OcppEntity for EnterServiceType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -151,15 +151,8 @@ mod tests {
             ramp_rate: None,
         };
         let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 2);
-            assert_invalid_fields(enter_service.validate().unwrap_err(), &["high_volatage", "low_voltage"]);
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 2);
+        assert_invalid_fields(&err, &["high_voltage", "low_voltage"]);
     }
 
     #[test]
@@ -175,7 +168,7 @@ mod tests {
             ramp_rate: None,
         };
        if let Err(err) = enter_service.validate() {
-           assert_invalid_fields(err, &["high_freq", "low_freq"]);
+           assert_invalid_fields(&err, &["high_freq", "low_freq"]);
        }
     }
 
@@ -222,7 +215,7 @@ mod tests {
         assert!(enter_service.validate().is_err());
         if let Err(err) = enter_service.validate() {
             assert_invalid_fields(
-                err,
+                &err,
                 &[
                     "low_voltage",
                     "high_voltage",

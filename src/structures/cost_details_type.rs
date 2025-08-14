@@ -54,6 +54,7 @@ impl OcppEntity for CostDetailsType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use super::*;
 
     #[test]
@@ -104,18 +105,7 @@ mod tests {
             total_usage: Default::default(),
         };
         let err = cost_details.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "failure_reason");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["failure_reason"]);
     }
 }

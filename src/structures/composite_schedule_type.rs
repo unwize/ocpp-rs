@@ -48,6 +48,7 @@ impl OcppEntity for CompositeScheduleType {
 mod tests {
     use super::*;
     use chrono::TimeZone;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -101,19 +102,8 @@ mod tests {
             charging_schedule_period: vec![Default::default()],
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "evse_id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["evse_id"]);
     }
 
     #[test]
@@ -126,18 +116,7 @@ mod tests {
             charging_schedule_period: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "charging_schedule_period");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["charging_schedule_period"]);
     }
 }

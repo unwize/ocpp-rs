@@ -47,7 +47,7 @@ impl OcppEntity for ClearChargingProfileType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {
@@ -91,19 +91,8 @@ mod tests {
             stack_level: None,
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "evse_id");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["evse_id"]);
     }
 
     #[test]
@@ -114,19 +103,8 @@ mod tests {
             stack_level: Some(-1), // Invalid
         };
         let err = clear_profile.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "stack_level");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["stack_level"]);
     }
 
     #[test]
@@ -137,6 +115,6 @@ mod tests {
             stack_level: Some(-2), // Invalid 2
         };
         let err = clear_profile.validate().unwrap_err();
-        assert_invalid_fields(err, &["evse_id", "stack_level"]);
+        assert_invalid_fields(&err, &["evse_id", "stack_level"]);
     }
 }

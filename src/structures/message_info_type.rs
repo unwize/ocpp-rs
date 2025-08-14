@@ -78,7 +78,7 @@ mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
     use serde_json;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -152,14 +152,9 @@ mod tests {
             display: None,
             message_extra: vec![],
         };
-        let result = message_info.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 2);
-            assert_invalid_fields(message_info.validate().unwrap_err(), &["end_date_time", "start_date_time"]);
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = message_info.validate().unwrap_err();
+        assert_num_field_errors(&err, 2);
+        assert_invalid_fields(&err, &["end_date_time", "start_date_time"]);
     }
 
     #[test]

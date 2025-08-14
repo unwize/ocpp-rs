@@ -193,7 +193,7 @@ mod tests {
         };
         let err = schedule.validate().unwrap_err();
         assert_invalid_fields(
-            err,
+            &err,
             &[
                 "currency",
                 "price_algorithm",
