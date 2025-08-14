@@ -61,6 +61,7 @@ impl OcppEntity for LimitMaxDischargeType {
 mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
+    use miette::Diagnostic;
     use serde_json;
 
     #[test]
@@ -72,7 +73,17 @@ mod tests {
             duration: Some(3600.0),
             power_monitoring_must_trip: Some(DERCurveType::default()),
         };
-        assert!(limit_max_discharge_type.validate().is_ok());
+
+        if let Err(e) = limit_max_discharge_type.validate() {
+            match e {
+                OcppError::StructureValidationError {related, ..} => {
+                    println!("{:#?}", related);
+                }
+                _ => {}
+            }
+        }
+
+        assert!(limit_max_discharge_type.validate().is_ok())
     }
 
     #[test]

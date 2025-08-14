@@ -278,10 +278,10 @@ mod tests {
         let err = update.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "discharge_limit".to_string(),
-                "discharge_limit_l2".to_string(),
-                "discharge_limit_l3".to_string(),
+            &[
+                "discharge_limit" ,
+                "discharge_limit_l2",
+                "discharge_limit_l3",
             ],
         );
     }

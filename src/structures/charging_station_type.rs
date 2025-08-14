@@ -207,11 +207,11 @@ mod tests {
         let err = cs.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "serial_number".to_string(),
-                "model".to_string(),
-                "vendor_name".to_string(),
-                "firmware_version".to_string(),
+            &[
+                "serial_number",
+                "model" ,
+                "vendor_name" ,
+                "firmware_version" ,
             ],
         );
     }

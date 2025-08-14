@@ -82,6 +82,7 @@ impl OcppEntity for PriceRuleType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -161,12 +162,9 @@ mod tests {
         };
         let result = rule.validate();
         assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "parking_fee");
-            }
-        }
+        let err = result.unwrap_err();
+        assert_invalid_fields(err.clone(), &["parking_fee_period", "parking_fee"]);
+        assert_num_field_errors(err, 2);
     }
 
     #[test]

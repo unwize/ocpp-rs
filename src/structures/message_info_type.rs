@@ -78,6 +78,7 @@ mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
     use serde_json;
+    use crate::errors::assert_invalid_fields;
 
     #[test]
     fn test_validate_success_full() {
@@ -154,13 +155,8 @@ mod tests {
         let result = message_info.validate();
         assert!(result.is_err());
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldRelationshipError { this, other, .. } = &related[0] {
-                assert_eq!(this, "start_date_time");
-                assert_eq!(other, "end_date_time");
-            } else {
-                panic!("Expected FieldRelationshipError for 'start_date_time' && 'end_date_time'");
-            }
+            assert_eq!(related.len(), 2);
+            assert_invalid_fields(message_info.validate().unwrap_err(), &["end_date_time", "start_date_time"]);
         } else {
             panic!("Expected StructureValidationError");
         }

@@ -501,12 +501,12 @@ mod tests {
         let err = der_params.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "ev_inverter_manufacturer".to_string(),
-                "ev_inverter_model".to_string(),
-                "ev_inverter_serial_number".to_string(),
-                "ev_inverter_sw_version".to_string(),
-                "ev_inverter_hw_version".to_string(),
+            &[
+                "ev_inverter_manufacturer",
+                "ev_inverter_model",
+                "ev_inverter_serial_number",
+                "ev_inverter_sw_version",
+                "ev_inverter_hw_version",
             ],
         );
     }

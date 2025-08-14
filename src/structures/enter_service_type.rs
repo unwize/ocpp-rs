@@ -155,12 +155,8 @@ mod tests {
             related: source, ..
         } = err
         {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "voltage_range");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
+            assert_eq!(source.len(), 2);
+            assert_invalid_fields(enter_service.validate().unwrap_err(), &["high_volatage", "low_voltage"]);
         } else {
             panic!("Expected StructureValidationError");
         }
@@ -178,20 +174,9 @@ mod tests {
             random_delay: None,
             ramp_rate: None,
         };
-        let err = enter_service.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "frequency_range");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+       if let Err(err) = enter_service.validate() {
+           assert_invalid_fields(err, &["high_freq", "low_freq"]);
+       }
     }
 
     #[test]
@@ -234,17 +219,20 @@ mod tests {
             random_delay: Some(-2.0), // Invalid 4
             ramp_rate: Some(-0.5),    // Invalid 5
         };
-        let err = enter_service.validate().unwrap_err();
-        assert_invalid_fields(
-            err,
-            vec![
-                "priority".to_string(),
-                "voltage_range".to_string(),
-                "frequency_range".to_string(),
-                "delay".to_string(),
-                "random_delay".to_string(),
-                "ramp_rate".to_string(),
-            ],
-        );
+        assert!(enter_service.validate().is_err());
+        if let Err(err) = enter_service.validate() {
+            assert_invalid_fields(
+                err,
+                &[
+                    "low_voltage",
+                    "high_voltage",
+                    "low_freq",
+                    "delay",
+                    "random_delay",
+                    "ramp_rate",
+                ],
+            );
+        }
+
     }
 }

@@ -75,6 +75,11 @@ mod tests {
             ev_power_schedule: EVPowerScheduleType::default(),
             ev_absolute_price_schedule: None,
         };
+
+        if let Err(e) = energy_offer_minimal.validate() {
+            println!("Error: {:#?}", e);
+        }
+
         assert!(energy_offer_minimal.validate().is_ok());
 
         let energy_offer_full = EVEnergyOfferType {
@@ -83,9 +88,10 @@ mod tests {
                 time_anchor: Default::default(),
                 currency: "USD".to_string(),
                 price_algorithm: "".to_string(),
-                ev_absolute_price_schedule_entries: vec![],
+                ev_absolute_price_schedule_entries: vec![Default::default()],
             }),
         };
+        println!("{:#?}", energy_offer_full.validate());
         assert!(energy_offer_full.validate().is_ok());
     }
 }

@@ -23,6 +23,17 @@ pub struct EVAbsolutePriceScheduleType {
     pub ev_absolute_price_schedule_entries: Vec<EVAbsolutePriceScheduleEntryType>,
 }
 
+impl Default for EVAbsolutePriceScheduleType {
+    fn default() -> EVAbsolutePriceScheduleType {
+        Self {
+            time_anchor: Default::default(),
+            currency: "".to_string(),
+            price_algorithm: "".to_string(),
+            ev_absolute_price_schedule_entries: vec![Default::default()],
+        }
+    }
+}
+
 impl OcppEntity for EVAbsolutePriceScheduleType {
     /// Validates the fields of EVAbsolutePriceScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
@@ -70,7 +81,7 @@ mod tests {
             time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "EUR".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:Power".to_string(),
-            ev_absolute_price_schedule_entries: vec![], // TODO:  Placeholder
+            ev_absolute_price_schedule_entries: vec![Default::default()],
         };
 
         let serialized = serde_json::to_string(&schedule).unwrap();
@@ -86,16 +97,17 @@ mod tests {
             time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "urn:iso:15118:20:2022:PeakPower".to_string(),
-            ev_absolute_price_schedule_entries: vec![],
+            ev_absolute_price_schedule_entries: vec![Default::default()],
         };
         assert!(schedule.validate().is_ok());
 
         let schedule_max_lengths_and_cardinality = EVAbsolutePriceScheduleType {
             time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
-            currency: "ABC".to_string(),       // Max length
+            currency: "USD".to_string(),       // Max length
             price_algorithm: "a".repeat(2000), // Max length
             ev_absolute_price_schedule_entries: vec![Default::default(); 1024], // Max cardinality
         };
+        println!("{:#?}", schedule_max_lengths_and_cardinality.validate());
         assert!(schedule_max_lengths_and_cardinality.validate().is_ok());
     }
 
@@ -105,7 +117,7 @@ mod tests {
             time_anchor: Utc.with_ymd_and_hms(2025, 8, 1, 10, 0, 0).unwrap(),
             currency: "USD".to_string(),
             price_algorithm: "a".repeat(2001), // Invalid
-            ev_absolute_price_schedule_entries: vec![],
+            ev_absolute_price_schedule_entries: vec![Default::default(); 33],
         };
         let err = schedule.validate().unwrap_err();
         if let OcppError::StructureValidationError {
@@ -182,10 +194,10 @@ mod tests {
         let err = schedule.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "currency".to_string(),
-                "price_algorithm".to_string(),
-                "ev_absolute_price_schedule_entries".to_string(),
+            &[
+                "currency",
+                "price_algorithm",
+                "ev_absolute_price_schedule_entries",
             ],
         );
     }

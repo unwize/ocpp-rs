@@ -51,7 +51,7 @@ impl Default for DERCurveType {
             hysteresis: None,
             voltage_params: None,
             reactive_power_params: None,
-            curve_data: vec![],
+            curve_data: vec![Default::default(); 1],
         }
     }
 }
@@ -64,6 +64,7 @@ impl OcppEntity for DERCurveType {
 
         e.check_bounds("priority", 0, i32::MAX, self.priority);
         e.check_cardinality("curve_data", 1, 10, &self.curve_data.iter());
+        e.check_iter_member("curve_data", self.curve_data.iter());
 
         if let Some(hysteresis) = &self.hysteresis {
             e.check_member("hysteresis", hysteresis);

@@ -149,6 +149,6 @@ mod tests {
             evse: None,
         };
         let err = component.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["name".to_string(), "instance".to_string()]);
+        assert_invalid_fields(err, &["name", "instance"]);
     }
 }

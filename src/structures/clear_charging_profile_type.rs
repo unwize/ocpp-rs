@@ -137,6 +137,6 @@ mod tests {
             stack_level: Some(-2), // Invalid 2
         };
         let err = clear_profile.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["evse_id".to_string(), "stack_level".to_string()]);
+        assert_invalid_fields(err, &["evse_id", "stack_level"]);
     }
 }

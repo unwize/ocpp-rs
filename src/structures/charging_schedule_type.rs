@@ -369,11 +369,11 @@ mod tests {
         let err = schedule.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "signature_id".to_string(),
-                "digest_value".to_string(),
-                "randomized_delay".to_string(),
-                "charging_schedule_period".to_string(),
+            &[
+                "signature_id",
+                "digest_value",
+                "randomized_delay",
+                "charging_schedule_period",
             ],
         );
     }

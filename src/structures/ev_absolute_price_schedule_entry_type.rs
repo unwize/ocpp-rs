@@ -11,14 +11,14 @@ pub struct EVAbsolutePriceScheduleEntryType {
     pub duration: i32, // integer
     /// Required. A set of pricing rules for energy costs.
     /// Cardinality 1..8
-    pub ev_price_rule: Vec<EVPriceRuleType>, // TODO: Implement EVPriceRuleType
+    pub ev_price_rule: Vec<EVPriceRuleType>,
 }
 
 impl Default for EVAbsolutePriceScheduleEntryType {
     fn default() -> EVAbsolutePriceScheduleEntryType {
         Self {
             duration: 0,
-            ev_price_rule: vec![],
+            ev_price_rule: vec![Default::default()],
         }
     }
 }

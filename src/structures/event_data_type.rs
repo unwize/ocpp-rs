@@ -216,7 +216,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["event_id".to_string()]);
+        assert_invalid_fields(err, &["event_id"]);
     }
 
     #[test]
@@ -242,7 +242,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["cause".to_string()]);
+        assert_invalid_fields(err, &["cause"]);
     }
 
     #[test]
@@ -268,7 +268,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["actual_value".to_string()]);
+        assert_invalid_fields(err, &["actual_value"]);
     }
 
     #[test]
@@ -294,7 +294,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["tech_code".to_string()]);
+        assert_invalid_fields(err, &["tech_code"]);
     }
 
     #[test]
@@ -320,7 +320,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["tech_info".to_string()]);
+        assert_invalid_fields(err, &["tech_info"]);
     }
 
     #[test]
@@ -346,7 +346,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["transaction_id".to_string()]);
+        assert_invalid_fields(err, &["transaction_id"]);
     }
 
     #[test]
@@ -372,7 +372,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["variable_monitoring_id".to_string()]);
+        assert_invalid_fields(err, &["variable_monitoring_id"]);
     }
 
     #[test]
@@ -398,7 +398,7 @@ mod tests {
             variable: Default::default(),
         };
         let err = event_data.validate().unwrap_err();
-        assert_invalid_fields(err, vec!["severity".to_string()]);
+        assert_invalid_fields(err, &["severity"]);
     }
 
     #[test]
@@ -426,15 +426,15 @@ mod tests {
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "event_id".to_string(),
-                "cause".to_string(),
-                "actual_value".to_string(),
-                "tech_code".to_string(),
-                "tech_info".to_string(),
-                "transaction_id".to_string(),
-                "variable_monitoring_id".to_string(),
-                "severity".to_string(),
+                &[
+                "event_id",
+                "cause",
+                "actual_value",
+                "tech_code",
+                "tech_info",
+                "transaction_id",
+                "variable_monitoring_id",
+                "severity",
             ],
         );
     }

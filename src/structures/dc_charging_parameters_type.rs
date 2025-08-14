@@ -234,15 +234,15 @@ mod tests {
         let err = dc_params.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec![
-                "ev_max_current".to_string(),
-                "ev_max_voltage".to_string(),
-                "ev_max_power".to_string(),
-                "ev_energy_capacity".to_string(),
-                "energy_amount".to_string(),
-                "state_of_charge".to_string(),
-                "full_soc".to_string(),
-                "bulk_soc".to_string(),
+            &[
+                "ev_max_current",
+                "ev_max_voltage",
+                "ev_max_power",
+                "ev_energy_capacity",
+                "energy_amount",
+                "state_of_charge",
+                "full_soc",
+                "bulk_soc",
             ],
         );
     }

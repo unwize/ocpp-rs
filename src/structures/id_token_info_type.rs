@@ -29,14 +29,14 @@ pub struct IdTokenInfoType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language2: Option<String>,
     /// Optional. Only used when the IdToken is only valid for one or more specific EVSEs.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
-    pub evse_id: Vec<i32>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub evse_id: Option<Vec<i32>>,
     /// Optional. This contains the group identifier.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub group_id_token: Option<IdTokenType>, // TODO: Implement IdTokenType
+    pub group_id_token: Option<IdTokenType>,
     /// Optional. Personal message that can be shown to the EV Driver.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub personal_message: Option<MessageContentType>, // TODO: Implement MessageContentType
+    pub personal_message: Option<MessageContentType>,
 }
 
 impl OcppEntity for IdTokenInfoType {
@@ -55,11 +55,15 @@ impl OcppEntity for IdTokenInfoType {
 
         if let Some(lang2) = &self.language2 {
             e.check_cardinality("language2", 0, 8, &lang2.chars());
-            // TODO: Add conditional validation: "Don't use when language1 is omitted, has to be different from language1."
         }
 
-        for evse in &self.evse_id {
-            e.check_bounds("evse_id", 0, i32::MAX, *evse);
+        if let Some(evse_id) = &self.evse_id {
+            e.check_cardinality("evse_id", 0, 8, &evse_id.iter());
+
+            // Manually check bounds for each ID as we cannot directly call `validate` on i32
+            for i in 0..evse_id.len() {
+                e.check_bounds(format!("evse_id[{i}]").as_str(), 0, i32::MAX, evse_id[i]);
+            }
         }
 
         if let Some(id_token) = &self.group_id_token {
@@ -87,7 +91,7 @@ mod tests {
             charging_priority: Some(5),
             language1: Some("en-US".to_string()),
             language2: Some("fr-CA".to_string()),
-            evse_id: vec![1, 3],
+            evse_id: Some(vec![1, 3]),
             group_id_token: Some(IdTokenType::default()),
             personal_message: Some(MessageContentType::default()),
         };
@@ -99,7 +103,7 @@ mod tests {
             charging_priority: None,
             language1: None,
             language2: None,
-            evse_id: vec![],
+            evse_id: None,
             group_id_token: None,
             personal_message: None,
         };
@@ -114,7 +118,7 @@ mod tests {
             cache_expiry_date_time: None,
             language1: None,
             language2: None,
-            evse_id: vec![],
+            evse_id: None,
             group_id_token: None,
             personal_message: None,
         };
@@ -140,7 +144,7 @@ mod tests {
             cache_expiry_date_time: None,
             charging_priority: None,
             language2: None,
-            evse_id: vec![],
+            evse_id: None,
             group_id_token: None,
             personal_message: None,
         };
@@ -162,7 +166,7 @@ mod tests {
     fn test_validate_failure_evse_id_bound() {
         let id_token_info_type = IdTokenInfoType {
             status: AuthorizationStatusEnumType::Accepted,
-            evse_id: vec![1, -1, 3], // Invalid bound
+            evse_id: Some(vec![1, -1, 3]), // Invalid bound
             cache_expiry_date_time: None,
             charging_priority: None,
             language1: None,
@@ -175,9 +179,9 @@ mod tests {
         if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
             assert_eq!(related.len(), 1);
             if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "evse_id");
+                assert_eq!(field, "evse_id[1]");
             } else {
-                panic!("Expected FieldValidationError for 'evse_id'");
+                panic!("Expected FieldValidationError for 'evse_id[1]'");
             }
         } else {
             panic!("Expected StructureValidationError");
@@ -192,7 +196,7 @@ mod tests {
             charging_priority: Some(5),
             language1: Some("en-US".to_string()),
             language2: Some("fr-CA".to_string()),
-            evse_id: vec![1, 3],
+            evse_id: Some(vec![1, 3]),
             group_id_token: Some(IdTokenType::default()),
             personal_message: Some(MessageContentType::default()),
         };
@@ -207,7 +211,7 @@ mod tests {
             charging_priority: None,
             language1: None,
             language2: None,
-            evse_id: vec![],
+            evse_id: None,
             group_id_token: None,
             personal_message: None,
         };

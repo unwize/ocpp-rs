@@ -15,8 +15,8 @@ pub struct IdTokenType {
     #[serde(rename = "type")]
     pub r#type: String,
     /// Optional. AdditionalInfo can be used to send extra information.
-    #[serde(skip_serializing_if = "Vec::is_empty")]
-    pub additional_info: Vec<AdditionalInfoType>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub additional_info: Option<Vec<AdditionalInfoType>>,
 }
 
 impl Default for IdTokenType {
@@ -24,7 +24,7 @@ impl Default for IdTokenType {
         Self {
             id_token: "".to_string(),
             r#type: "".to_string(),
-            additional_info: vec![],
+            additional_info: None,
         }
     }
 }
@@ -38,8 +38,8 @@ impl OcppEntity for IdTokenType {
         e.check_cardinality("id_token", 0, 255, &self.id_token.chars());
         e.check_cardinality("type", 0, 20, &self.r#type.chars());
 
-        for info in &self.additional_info {
-            e.check_member("additional_info", info);
+        if let Some(additional_info) = &self.additional_info {
+            e.check_iter_member("additional_info", additional_info.iter());
         }
 
         e.build("IdTokenType")
@@ -57,14 +57,14 @@ mod tests {
         let id_token_type = IdTokenType {
             id_token: "my_token_123".to_string(),
             r#type: "RFID".to_string(),
-            additional_info: vec![AdditionalInfoType::default()],
+            additional_info: Some(vec![AdditionalInfoType::default()]),
         };
         assert!(id_token_type.validate().is_ok());
 
         let id_token_type_minimal = IdTokenType {
             id_token: "my_token_123".to_string(),
             r#type: "RFID".to_string(),
-            additional_info: vec![],
+            additional_info: None,
         };
         assert!(id_token_type_minimal.validate().is_ok());
     }
@@ -74,7 +74,7 @@ mod tests {
         let id_token_type = IdTokenType {
             id_token: "a".repeat(256), // Invalid length
             r#type: "RFID".to_string(),
-            additional_info: vec![],
+            additional_info: None,
         };
         let result = id_token_type.validate();
         assert!(result.is_err());
@@ -95,7 +95,7 @@ mod tests {
         let id_token_type = IdTokenType {
             id_token: "my_token_123".to_string(),
             r#type: "a".repeat(21), // Invalid length
-            additional_info: vec![],
+            additional_info: None,
         };
         let result = id_token_type.validate();
         assert!(result.is_err());
@@ -116,7 +116,7 @@ mod tests {
         let original_struct = IdTokenType {
             id_token: "my_token_123".to_string(),
             r#type: "RFID".to_string(),
-            additional_info: vec![AdditionalInfoType::default()],
+            additional_info: Some(vec![AdditionalInfoType::default()]),
         };
 
         let serialized = serde_json::to_string(&original_struct).unwrap();

@@ -127,7 +127,7 @@ mod tests {
         let err = stream_data.validate().unwrap_err();
         assert_invalid_fields(
             err,
-            vec!["id".to_string(), "variable_monitoring_id".to_string()],
+            &["id", "variable_monitoring_id"],
         );
     }
 }
