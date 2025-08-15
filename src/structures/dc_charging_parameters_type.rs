@@ -169,20 +169,7 @@ mod tests {
         };
         let err_low = dc_params_low.validate().unwrap_err();
         assert_num_field_errors(&err_low, 1);
-        assert_invalid_fields(&err_low, &[]);
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err_low
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "state_of_charge");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(&err_low, &["state_of_charge"]);
 
         let dc_params_high = DCChargingParametersType {
             ev_max_current: 200.0,
@@ -195,19 +182,8 @@ mod tests {
             bulk_soc: None,
         };
         let err_high = dc_params_high.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err_high
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "state_of_charge");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err_high, 1);
+        assert_invalid_fields(&err_high, &["state_of_charge"]);
     }
 
     #[test]

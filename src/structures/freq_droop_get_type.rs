@@ -36,6 +36,7 @@ mod tests {
     use super::*;
     use crate::structures::freq_droop_get_type::FreqDroopType;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
@@ -56,18 +57,9 @@ mod tests {
             is_superseded: false,
             freq_droop: FreqDroopType::default(),
         };
-        let result = freq_droop_get_type.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "id");
-            } else {
-                panic!("Expected FieldValidationError for 'id'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = freq_droop_get_type.validate().unwrap_err();
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["id"]);
     }
 
     #[test]

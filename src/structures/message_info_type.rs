@@ -125,18 +125,9 @@ mod tests {
             display: None,
             message_extra: vec![],
         };
-        let result = message_info.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "id");
-            } else {
-                panic!("Expected FieldValidationError for 'id'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = message_info.validate().unwrap_err();
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["id"]);
     }
 
     #[test]

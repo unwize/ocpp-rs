@@ -15,7 +15,7 @@ pub struct LimitMaxDischargeGetType {
     /// Required. True if this setting is superseded by a higher priority setting.
     pub is_superseded: bool,
     /// Required. Maximum discharge power as percentage or rated capability
-    pub limit_max_discharge: LimitMaxDischargeType, // TODO: Implement LimitMaxDischargeType
+    pub limit_max_discharge: LimitMaxDischargeType,
 }
 
 impl OcppEntity for LimitMaxDischargeGetType {
@@ -36,6 +36,7 @@ impl OcppEntity for LimitMaxDischargeGetType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
@@ -56,18 +57,9 @@ mod tests {
             is_superseded: false,
             limit_max_discharge: LimitMaxDischargeType::default(),
         };
-        let result = limit_max_discharge_get_type.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "id");
-            } else {
-                panic!("Expected FieldValidationError for 'id'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = limit_max_discharge_get_type.validate().unwrap_err();
+        assert_invalid_fields(&err, &["id"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]

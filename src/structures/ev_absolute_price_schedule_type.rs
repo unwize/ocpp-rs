@@ -72,7 +72,7 @@ impl OcppEntity for EVAbsolutePriceScheduleType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::errors::assert_invalid_fields;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use chrono::TimeZone;
 
     #[test]
@@ -144,19 +144,8 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "ev_absolute_price_schedule_entries");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["ev_absolute_price_schedule_entries"]);
     }
 
     #[test]
@@ -168,19 +157,8 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![Default::default(); 1025], // Invalid cardinality
         };
         let err = schedule.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "ev_absolute_price_schedule_entries");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_num_field_errors(&err, 1);
+        assert_invalid_fields(&err, &["ev_absolute_price_schedule_entries"]);
     }
 
     #[test]
@@ -192,6 +170,7 @@ mod tests {
             ev_absolute_price_schedule_entries: vec![], // Invalid 3
         };
         let err = schedule.validate().unwrap_err();
+        assert_num_field_errors(&err, 3);
         assert_invalid_fields(
             &err,
             &[

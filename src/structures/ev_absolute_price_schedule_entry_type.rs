@@ -38,6 +38,7 @@ impl OcppEntity for EVAbsolutePriceScheduleEntryType {
 // Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use super::*;
 
     #[test]
@@ -77,19 +78,8 @@ mod tests {
             ev_price_rule: vec![], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "ev_price_rule");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(&err, &["ev_price_rule"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -99,18 +89,7 @@ mod tests {
             ev_price_rule: vec![Default::default(); 9], // Invalid cardinality
         };
         let err = entry.validate().unwrap_err();
-        if let OcppError::StructureValidationError {
-            related: source, ..
-        } = err
-        {
-            assert_eq!(source.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &source[0] {
-                assert_eq!(field, "ev_price_rule");
-            } else {
-                panic!("Expected FieldValidationError");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(&err, &["ev_price_rule"]);
+        assert_num_field_errors(&err, 1);
     }
 }
