@@ -118,7 +118,6 @@ impl OcppEntity for TariffType {
 
 #[cfg(test)]
 mod tests {
-    use std::error::Error;
     use super::*;
     use serde_json;
 

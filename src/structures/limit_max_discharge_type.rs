@@ -61,7 +61,6 @@ impl OcppEntity for LimitMaxDischargeType {
 mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
-    use miette::Diagnostic;
     use serde_json;
 
     #[test]

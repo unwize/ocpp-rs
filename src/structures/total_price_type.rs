@@ -51,9 +51,7 @@ impl OcppEntity for TotalPriceType {
 
 #[cfg(test)]
 mod tests {
-    use std::error::Error;
     use super::*;
-    use miette::Diagnostic;
     use serde_json;
 
     #[test]
