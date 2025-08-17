@@ -289,8 +289,8 @@ mod tests {
             limit_at_soc: None,
         };
         let err_too_many = schedule_too_many.validate().unwrap_err();
-        assert_num_field_errors(&err_too_few, 1);
-        assert_invalid_fields(&err_too_few, &["charging_schedule_period"]);
+        assert_num_field_errors(&err_too_many, 1);
+        assert_invalid_fields(&err_too_many, &["charging_schedule_period"]);
     }
 
     #[test]
