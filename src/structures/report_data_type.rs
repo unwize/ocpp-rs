@@ -58,6 +58,7 @@ impl Default for ReportDataType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
@@ -70,13 +71,9 @@ mod tests {
         let mut report = ReportDataType::default();
         report.variable_attribute = vec![];
         let result = report.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "variable_attribute");
-            }
-        }
+        let err = report.validate().unwrap_err();
+        assert_invalid_fields(&err, &["variable_attribute"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -84,13 +81,9 @@ mod tests {
         let mut report = ReportDataType::default();
         report.variable_attribute = vec![VariableAttributeType::default(); 5]; // 5 elements, max is 4
         let result = report.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "variable_attribute");
-            }
-        }
+        let err = report.validate().unwrap_err();
+        assert_invalid_fields(&err, &["variable_attribute"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
