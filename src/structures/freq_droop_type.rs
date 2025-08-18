@@ -63,6 +63,7 @@ mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
@@ -94,16 +95,7 @@ mod tests {
         let result = freq_droop_type.validate();
         assert!(result.is_err());
         let err = result.unwrap_err();
-        if let OcppError::StructureValidationError { related, .. } = err {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "priority");
-            } else {
-                panic!("Expected FieldValidationError for 'priority'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(&err, &["priority"]);
     }
 
     #[test]
@@ -118,19 +110,9 @@ mod tests {
             start_time: None,
             duration: Some(-1.0),
         };
-        let result = freq_droop_type.validate();
-        assert!(result.is_err());
-        let err = result.unwrap_err();
-        if let OcppError::StructureValidationError { related, .. } = err {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "duration");
-            } else {
-                panic!("Expected FieldValidationError for 'duration'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = freq_droop_type.validate().unwrap_err();
+        assert_invalid_fields(&err, &["duration"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
