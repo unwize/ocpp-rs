@@ -81,17 +81,15 @@ mod tests {
             incl_tax: Some(-1.0),
         };
         assert!(data.validate().is_err());
-        
+
         if let Err(e) = data.validate() {
             match e {
-                OcppError::StructureValidationError {related, .. } => {
+                OcppError::StructureValidationError { related, .. } => {
                     assert_eq!(related.len(), 2);
                 }
                 _ => assert!(false),
             }
         }
-        
-        
     }
 
     #[test]

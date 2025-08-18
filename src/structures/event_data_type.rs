@@ -425,7 +425,7 @@ mod tests {
         let err = event_data.validate().unwrap_err();
         assert_invalid_fields(
             &err,
-                &[
+            &[
                 "event_id",
                 "cause",
                 "actual_value",

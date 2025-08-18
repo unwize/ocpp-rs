@@ -245,7 +245,7 @@ mod tests {
         assert_invalid_fields(
             &err,
             &[
-                "discharge_limit" ,
+                "discharge_limit",
                 "discharge_limit_l2",
                 "discharge_limit_l3",
             ],

@@ -169,7 +169,9 @@ mod tests {
             price_level_schedule: None,
             limit_at_soc: None,
         };
-        if let Err(error) = schedule.validate() { println!("{:#?}", error)}
+        if let Err(error) = schedule.validate() {
+            println!("{:#?}", error)
+        }
         assert!(schedule.validate().is_ok());
     }
 

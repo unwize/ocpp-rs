@@ -1,10 +1,10 @@
-use std::fmt::{Display, Write};
 use crate::errors::OcppError::{
     FieldBoundsError, FieldCardinalityError, FieldRelationshipError, FieldValidationError,
     StructureValidationError,
 };
 use crate::traits::OcppEntity;
 use miette::Diagnostic;
+use std::fmt::{Display, Write};
 use thiserror::Error;
 
 #[derive(Error, Diagnostic, Debug, Clone)]
@@ -62,13 +62,10 @@ pub enum OcppError {
         other: String,
         help: String,
     },
-    
+
     #[error("Builder Error: {builder_type} encountered an error while building!")]
     #[diagnostic(help("{help}"))]
-    BuilderError {
-        builder_type: String,
-        help: String
-    }
+    BuilderError { builder_type: String, help: String },
 }
 
 impl OcppError {
@@ -86,9 +83,19 @@ impl OcppError {
 pub fn assert_invalid_fields(e: &OcppError, fields: &[&str]) {
     match e {
         StructureValidationError { related, .. } => {
-            let related_fields: Vec<String> = related.iter().map(| e | {match e {FieldValidationError {field, ..} => {field.clone()}, _ => {"".to_string()}}}).collect();
+            let related_fields: Vec<String> = related
+                .iter()
+                .map(|e| match e {
+                    FieldValidationError { field, .. } => field.clone(),
+                    _ => "".to_string(),
+                })
+                .collect();
             for field in fields {
-                assert!(related_fields.contains(&field.to_string()), "Expected field {} to throw an error!", field);
+                assert!(
+                    related_fields.contains(&field.to_string()),
+                    "Expected field {} to throw an error!",
+                    field
+                );
             }
         }
 
@@ -102,10 +109,9 @@ pub fn assert_num_field_errors(e: &OcppError, count: usize) {
             assert_eq!(related.len(), count)
         }
 
-        _ => {// TODO: Handle
-             }
+        _ => { // TODO: Handle
+        }
     }
-
 }
 
 /// Convenience function to check the length of a string and throw an error if it is out of range.
@@ -213,7 +219,8 @@ impl StructureValidationBuilder {
             other: other.to_string(),
             help: help.to_string(),
         };
-        self.errors.push(fre.clone().to_field_validation_error(this));
+        self.errors
+            .push(fre.clone().to_field_validation_error(this));
         self.errors.push(fre.to_field_validation_error(other));
     }
 

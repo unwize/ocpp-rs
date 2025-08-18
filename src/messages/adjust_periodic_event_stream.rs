@@ -1,9 +1,9 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity};
-use serde::{Deserialize, Serialize};
 use crate::enums::generic_status_enum_type::GenericStatusEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::periodic_event_stream_params_type::PeriodicEventStreamParamsType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
 
 /// Represents the `AdjustPeriodicEventStreamRequest` message.
 ///
@@ -34,8 +34,6 @@ impl OcppEntity for AdjustPeriodicEventStreamRequest {
         builder.build("AdjustPeriodicEventStreamRequest")
     }
 }
-
-
 
 /// Represents the `AdjustPeriodicEventStreamResponse` message.
 ///
@@ -95,7 +93,10 @@ mod tests {
 
     #[test]
     fn test_response_new_ok() {
-        let resp = AdjustPeriodicEventStreamResponse::new(GenericStatusEnumType::Accepted, Default::default());
+        let resp = AdjustPeriodicEventStreamResponse::new(
+            GenericStatusEnumType::Accepted,
+            Default::default(),
+        );
         assert!(resp.validate().is_ok());
     }
 
@@ -107,7 +108,13 @@ mod tests {
 
     #[test]
     fn test_response_invalid_member() {
-        let resp = AdjustPeriodicEventStreamResponse::new(GenericStatusEnumType::Accepted, Some(StatusInfoType {reason_code: "a".repeat(21), additional_info: None }));
+        let resp = AdjustPeriodicEventStreamResponse::new(
+            GenericStatusEnumType::Accepted,
+            Some(StatusInfoType {
+                reason_code: "a".repeat(21),
+                additional_info: None,
+            }),
+        );
         assert!(resp.validate().is_err());
     }
 }

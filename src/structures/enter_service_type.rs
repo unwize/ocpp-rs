@@ -166,9 +166,9 @@ mod tests {
             random_delay: None,
             ramp_rate: None,
         };
-       if let Err(err) = enter_service.validate() {
-           assert_invalid_fields(&err, &["high_freq", "low_freq"]);
-       }
+        if let Err(err) = enter_service.validate() {
+            assert_invalid_fields(&err, &["high_freq", "low_freq"]);
+        }
     }
 
     #[test]
@@ -225,6 +225,5 @@ mod tests {
                 ],
             );
         }
-
     }
 }

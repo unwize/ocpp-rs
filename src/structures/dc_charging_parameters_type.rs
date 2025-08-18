@@ -48,8 +48,18 @@ impl OcppEntity for DCChargingParametersType {
         let mut e = StructureValidationBuilder::new();
 
         // Assuming positive value is implied for maximums in current/voltage/power
-        e.check_bounds("ev_max_current", f64::EPSILON, f64::MAX, self.ev_max_current);
-        e.check_bounds("ev_max_voltage", f64::EPSILON, f64::MAX, self.ev_max_voltage);
+        e.check_bounds(
+            "ev_max_current",
+            f64::EPSILON,
+            f64::MAX,
+            self.ev_max_current,
+        );
+        e.check_bounds(
+            "ev_max_voltage",
+            f64::EPSILON,
+            f64::MAX,
+            self.ev_max_voltage,
+        );
 
         // Validate ev_max_power (optional, typically > 0 if present)
         if let Some(ev_max_power) = self.ev_max_power {

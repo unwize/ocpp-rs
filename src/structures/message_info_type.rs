@@ -76,9 +76,9 @@ impl OcppEntity for MessageInfoType {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use chrono::{TimeZone, Utc};
     use serde_json;
-    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {

@@ -25,8 +25,8 @@ impl EnterServiceGetType {
 
 #[cfg(test)]
 mod tests {
-    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use super::*;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_serialization_deserialization() {

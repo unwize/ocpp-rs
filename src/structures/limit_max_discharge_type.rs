@@ -75,7 +75,7 @@ mod tests {
 
         if let Err(e) = limit_max_discharge_type.validate() {
             match e {
-                OcppError::StructureValidationError {related, ..} => {
+                OcppError::StructureValidationError { related, .. } => {
                     println!("{:#?}", related);
                 }
                 _ => {}

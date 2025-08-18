@@ -33,8 +33,8 @@ impl OcppEntity for LimitAtSOCType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::errors::{assert_invalid_fields, assert_num_field_errors};
+    use serde_json;
 
     #[test]
     fn test_validate_success() {

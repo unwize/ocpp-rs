@@ -48,8 +48,8 @@ impl OcppEntity for GradientType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json;
     use crate::errors::{assert_invalid_fields, assert_num_field_errors};
+    use serde_json;
 
     #[test]
     fn test_validate_success() {
@@ -94,7 +94,7 @@ mod tests {
             gradient: 10.0,
             soft_gradient: -1.0, // Invalid
         };
-       let err = gradient_type.validate().unwrap_err();
+        let err = gradient_type.validate().unwrap_err();
         assert_invalid_fields(&err, &["soft_gradient"]);
         assert_num_field_errors(&err, 1);
     }

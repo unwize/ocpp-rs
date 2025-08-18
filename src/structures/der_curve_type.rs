@@ -82,8 +82,8 @@ impl OcppEntity for DERCurveType {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::TimeZone;
     use crate::errors::{assert_invalid_fields, assert_num_field_errors};
+    use chrono::TimeZone;
 
     #[test]
     fn test_serialization_deserialization() {

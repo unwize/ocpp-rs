@@ -162,12 +162,7 @@ mod tests {
         let err = cs.validate().unwrap_err();
         assert_invalid_fields(
             &err,
-            &[
-                "serial_number",
-                "model" ,
-                "vendor_name" ,
-                "firmware_version" ,
-            ],
+            &["serial_number", "model", "vendor_name", "firmware_version"],
         );
     }
 }

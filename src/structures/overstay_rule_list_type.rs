@@ -40,9 +40,9 @@ impl OcppEntity for OverstayRuleListType {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use crate::structures::overstay_rule_type::OverstayRuleType;
     use serde_json;
-    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -61,11 +61,11 @@ mod tests {
             overstay_power_threshold: None,
             overstay_rule: vec![OverstayRuleType::default()],
         };
-       
+
         if let Err(e) = rule_list.validate() {
             println!("{:#?}", e);
         }
-        
+
         assert!(rule_list.validate().is_ok());
     }
 

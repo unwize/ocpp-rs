@@ -161,17 +161,17 @@ mod tests {
             reservation_time: Some(TariffTimeType::default()),
             reservation_fixed: Some(TariffFixedType::default()),
         };
-        
+
         if let Err(e) = data.validate() {
             match e {
-                OcppError::StructureValidationError {related, ..} => {
+                OcppError::StructureValidationError { related, .. } => {
                     println!("{:#?}", related);
                 }
-                
+
                 _ => {}
             }
         }
-        
+
         assert!(data.validate().is_ok());
     }
 

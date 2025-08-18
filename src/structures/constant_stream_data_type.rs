@@ -102,9 +102,6 @@ mod tests {
             params: Default::default(),
         };
         let err = stream_data.validate().unwrap_err();
-        assert_invalid_fields(
-            &err,
-            &["id", "variable_monitoring_id"],
-        );
+        assert_invalid_fields(&err, &["id", "variable_monitoring_id"]);
     }
 }

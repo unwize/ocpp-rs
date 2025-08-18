@@ -34,9 +34,9 @@ impl OcppEntity for FreqDroopGetType {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
     use crate::structures::freq_droop_get_type::FreqDroopType;
     use serde_json;
-    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
