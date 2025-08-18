@@ -49,6 +49,7 @@ impl OcppEntity for GradientType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success() {
@@ -70,16 +71,8 @@ mod tests {
         let result = gradient_type.validate();
         assert!(result.is_err());
         let err = result.unwrap_err();
-        if let OcppError::StructureValidationError { related, .. } = err {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "priority");
-            } else {
-                panic!("Expected FieldValidationError for 'priority'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        assert_invalid_fields(&err, &["priority"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -89,19 +82,9 @@ mod tests {
             gradient: -1.0, // Invalid
             soft_gradient: 5.0,
         };
-        let result = gradient_type.validate();
-        assert!(result.is_err());
-        let err = result.unwrap_err();
-        if let OcppError::StructureValidationError { related, .. } = err {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "gradient");
-            } else {
-                panic!("Expected FieldValidationError for 'gradient'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = gradient_type.validate().unwrap_err();
+        assert_invalid_fields(&err, &["gradient"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -111,19 +94,9 @@ mod tests {
             gradient: 10.0,
             soft_gradient: -1.0, // Invalid
         };
-        let result = gradient_type.validate();
-        assert!(result.is_err());
-        let err = result.unwrap_err();
-        if let OcppError::StructureValidationError { related, .. } = err {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "soft_gradient");
-            } else {
-                panic!("Expected FieldValidationError for 'soft_gradient'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+       let err = gradient_type.validate().unwrap_err();
+        assert_invalid_fields(&err, &["soft_gradient"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
