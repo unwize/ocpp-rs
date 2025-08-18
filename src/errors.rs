@@ -62,6 +62,13 @@ pub enum OcppError {
         other: String,
         help: String,
     },
+    
+    #[error("Builder Error: {builder_type} encountered an error while building!")]
+    #[diagnostic(help("{help}"))]
+    BuilderError {
+        builder_type: String,
+        help: String
+    }
 }
 
 impl OcppError {
