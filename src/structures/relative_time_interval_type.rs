@@ -43,6 +43,7 @@ impl OcppEntity for RelativeTimeIntervalType {
 mod tests {
     use super::*;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -68,14 +69,9 @@ mod tests {
             start: -1,
             duration: Some(3600),
         };
-        let result = interval.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "start");
-            }
-        }
+        let err = interval.validate().unwrap_err();
+        assert_invalid_fields(&err, &["start"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -84,14 +80,9 @@ mod tests {
             start: 60,
             duration: Some(-1),
         };
-        let result = interval.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "duration");
-            }
-        }
+        let err = interval.validate().unwrap_err();
+        assert_invalid_fields(&err, &["duration"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
