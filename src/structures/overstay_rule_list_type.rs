@@ -42,6 +42,7 @@ mod tests {
     use super::*;
     use crate::structures::overstay_rule_type::OverstayRuleType;
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -75,18 +76,9 @@ mod tests {
             overstay_power_threshold: None,
             overstay_rule: vec![], // Invalid: length 0, min 1
         };
-        let result = rule_list.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "overstay_rule");
-            } else {
-                panic!("Expected FieldValidationError for 'overstay_rule'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = rule_list.validate().unwrap_err();
+        assert_invalid_fields(&err, &["overstay_rule"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -96,18 +88,9 @@ mod tests {
             overstay_power_threshold: None,
             overstay_rule: vec![OverstayRuleType::default(); 6], // Invalid: length 6, max 5
         };
-        let result = rule_list.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "overstay_rule");
-            } else {
-                panic!("Expected FieldValidationError for 'overstay_rule'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = rule_list.validate().unwrap_err();
+        assert_invalid_fields(&err, &["overstay_rule"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
