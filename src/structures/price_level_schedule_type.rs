@@ -61,6 +61,7 @@ mod tests {
     use super::*;
     use chrono::{TimeZone, Utc};
     use serde_json;
+    use crate::errors::{assert_invalid_fields, assert_num_field_errors};
 
     #[test]
     fn test_validate_success_full() {
@@ -95,18 +96,9 @@ mod tests {
             number_of_price_levels: 10,
             price_level_schedule_entries: vec![Default::default()],
         };
-        let result = schedule.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "price_schedule_description");
-            } else {
-                panic!("Expected FieldValidationError for 'price_schedule_description'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = schedule.validate().unwrap_err();
+        assert_invalid_fields(&err, &["price_schedule_description"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -118,18 +110,9 @@ mod tests {
             number_of_price_levels: 10,
             price_level_schedule_entries: vec![Default::default()],
         };
-        let result = schedule.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "price_schedule_id");
-            } else {
-                panic!("Expected FieldValidationError for 'price_schedule_id'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = schedule.validate().unwrap_err();
+        assert_invalid_fields(&err, &["price_schedule_id"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -141,18 +124,9 @@ mod tests {
             number_of_price_levels: -1, // Invalid: must be >= 0
             price_level_schedule_entries: vec![Default::default()],
         };
-        let result = schedule.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "number_of_price_levels");
-            } else {
-                panic!("Expected FieldValidationError for 'number_of_price_levels'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = schedule.validate().unwrap_err();
+        assert_invalid_fields(&err, &["number_of_price_levels"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -164,18 +138,9 @@ mod tests {
             number_of_price_levels: 10,
             price_level_schedule_entries: vec![], // Invalid: min 1
         };
-        let result = schedule.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "price_level_schedule_entries");
-            } else {
-                panic!("Expected FieldValidationError for 'price_level_schedule_entries'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = schedule.validate().unwrap_err();
+        assert_invalid_fields(&err, &["price_level_schedule_entries"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
@@ -187,18 +152,9 @@ mod tests {
             number_of_price_levels: 10,
             price_level_schedule_entries: vec![Default::default(); 101], // Invalid: max 100
         };
-        let result = schedule.validate();
-        assert!(result.is_err());
-        if let OcppError::StructureValidationError { related, .. } = result.unwrap_err() {
-            assert_eq!(related.len(), 1);
-            if let OcppError::FieldValidationError { field, .. } = &related[0] {
-                assert_eq!(field, "price_level_schedule_entries");
-            } else {
-                panic!("Expected FieldValidationError for 'price_level_schedule_entries'");
-            }
-        } else {
-            panic!("Expected StructureValidationError");
-        }
+        let err = schedule.validate().unwrap_err();
+        assert_invalid_fields(&err, &["price_level_schedule_entries"]);
+        assert_num_field_errors(&err, 1);
     }
 
     #[test]
