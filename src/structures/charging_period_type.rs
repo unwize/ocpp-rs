@@ -48,7 +48,6 @@ impl OcppEntity for ChargingPeriodType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use super::*;

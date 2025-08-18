@@ -79,7 +79,6 @@ impl OcppEntity for DERCurveType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use super::*;

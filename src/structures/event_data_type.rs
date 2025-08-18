@@ -109,7 +109,6 @@ impl OcppEntity for EventDataType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use super::*;

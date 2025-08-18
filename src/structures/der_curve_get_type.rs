@@ -31,7 +31,6 @@ impl OcppEntity for DERCurveGetType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use crate::errors::{assert_invalid_fields, assert_num_field_errors};

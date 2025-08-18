@@ -51,8 +51,6 @@ impl OcppEntity for ChargingProfileCriterionType {
     }
 }
 
-// Example usage (optional, for demonstration)
-// TODO: Fix placeholders for charging_profile_purpose
 #[cfg(test)]
 mod tests {
     use super::*;

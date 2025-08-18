@@ -51,7 +51,6 @@ impl OcppEntity for ChargingStationType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use super::*;

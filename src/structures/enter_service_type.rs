@@ -85,7 +85,6 @@ impl OcppEntity for EnterServiceType {
     }
 }
 
-// Example usage (optional, for demonstration)
 #[cfg(test)]
 mod tests {
     use super::*;
