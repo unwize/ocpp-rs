@@ -2,8 +2,15 @@ use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::periodic_event_stream_params_type::PeriodicEventStreamParamsType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::OcppEntity;
+use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
+
+pub struct AdjustPeriodicEventStream;
+
+impl OcppMessage for AdjustPeriodicEventStream {
+    type Request = AdjustPeriodicEventStreamRequest;
+    type Response = AdjustPeriodicEventStreamResponse;
+}
 
 /// Represents the `AdjustPeriodicEventStreamRequest` message.
 ///
@@ -26,12 +33,12 @@ impl AdjustPeriodicEventStreamRequest {
 
 impl OcppEntity for AdjustPeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
-        let mut builder = StructureValidationBuilder::new();
+        let mut err = StructureValidationBuilder::new();
 
-        builder.check_bounds("id", 0, i32::MAX, self.id);
-        builder.check_member("params", &self.params);
+        err.check_bounds("id", 0, i32::MAX, self.id);
+        err.check_member("params", &self.params);
 
-        builder.build("AdjustPeriodicEventStreamRequest")
+        err.build("AdjustPeriodicEventStreamRequest")
     }
 }
 
