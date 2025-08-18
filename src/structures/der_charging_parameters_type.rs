@@ -374,49 +374,7 @@ mod tests {
 
     #[test]
     fn test_validation_valid() {
-        let der_params_minimal = DERChargingParametersType {
-            ev_supported_der_control: None,
-            ev_over_excited_max_discharge_power: None,
-            ev_over_excited_power_factor: None,
-            ev_under_excited_max_discharge_power: None,
-            ev_under_excited_power_factor: None,
-            max_apparent_power: None,
-            max_charge_apparent_power: None,
-            max_charge_apparent_power_l2: None,
-            max_charge_apparent_power_l3: None,
-            max_discharge_apparent_power: None,
-            max_discharge_apparent_power_l2: None,
-            max_discharge_apparent_power_l3: None,
-            max_charge_reactive_power: None,
-            max_charge_reactive_power_l2: None,
-            max_charge_reactive_power_l3: None,
-            min_charge_reactive_power: None,
-            min_charge_reactive_power_l2: None,
-            min_charge_reactive_power_l3: None,
-            max_discharge_reactive_power: None,
-            max_discharge_reactive_power_l2: None,
-            max_discharge_reactive_power_l3: None,
-            min_discharge_reactive_power: None,
-            min_discharge_reactive_power_l2: None,
-            min_discharge_reactive_power_l3: None,
-            nominal_voltage: None,
-            nominal_voltage_offset: None,
-            max_nominal_voltage: None,
-            min_nominal_voltage: None,
-            ev_inverter_manufacturer: None,
-            ev_inverter_model: None,
-            ev_inverter_serial_number: None,
-            ev_inverter_sw_version: None,
-            ev_inverter_hw_version: None,
-            ev_islanding_detection_method: None,
-            ev_islanding_trip_time: None,
-            ev_maximum_level1_dc_injection: None,
-            ev_duration_level1_dc_injection: None,
-            ev_maximum_level2_dc_injection: None,
-            ev_duration_level2_dc_injection: None,
-            ev_reactive_susceptance: None,
-            ev_session_total_discharge_energy_available: None,
-        };
+        let der_params_minimal = DERChargingParametersType::default();
         assert!(der_params_minimal.validate().is_ok());
 
         let der_params_max_lengths = DERChargingParametersType {
