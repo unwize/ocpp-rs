@@ -91,7 +91,6 @@ mod tests {
             instance: Some("b".repeat(50)), // Valid length
             evse: Some(Default::default()),
         };
-        println!("{:#?}", component_full_lengths.validate());
         assert!(component_full_lengths.validate().is_ok());
     }
 
