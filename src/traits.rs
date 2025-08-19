@@ -8,10 +8,10 @@ pub trait OcppMessage {
     type Request: Default;
     type Response: Default;
 
-    fn request(&self) -> &Self::Request {
+    fn request() -> Self::Request {
         Self::Request::default()
     }
-    fn response(&self) -> &Self::Response {
+    fn response() -> Self::Response {
         Self::Response::default()
     }
 }

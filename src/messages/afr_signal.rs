@@ -48,7 +48,6 @@ impl OcppEntity for AFRRSignalResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_member("status", &self.status);
         if let Some(status_info) = &self.status_info {
             b.check_member("statusInfo", status_info);
         }
