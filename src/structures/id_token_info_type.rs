@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 
 /// Contains status information about an identifier.
 /// Used by: Common::AuthorizationData, AuthorizeResponse, TransactionEventResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct IdTokenInfoType {
     /// Required. Current status of the ID Token.
