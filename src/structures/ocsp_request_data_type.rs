@@ -20,6 +20,18 @@ pub struct OCSPRequestDataType {
     pub responder_url: String,
 }
 
+impl Default for OCSPRequestDataType {
+    fn default() -> OCSPRequestDataType {
+        Self {
+            hash_algorithm: HashAlgorithmEnumType::SHA256,
+            issuer_name_hash: "".to_string(),
+            issuer_key_hash: "".to_string(),
+            serial_number: "".to_string(),
+            responder_url: "".to_string(),
+        }
+    }
+}
+
 impl OcppEntity for OCSPRequestDataType {
     /// Validates the fields of OCSPRequestDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
