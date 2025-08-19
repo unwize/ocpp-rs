@@ -6,9 +6,6 @@ use crate::traits::OcppEntity;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-// TODO: Implement IdTokenType
-// TODO: Implement MessageContentType
-
 /// Contains status information about an identifier.
 /// Used by: Common::AuthorizationData, AuthorizeResponse, TransactionEventResponse
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]

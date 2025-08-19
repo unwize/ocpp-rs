@@ -14,11 +14,11 @@ use serde::{Deserialize, Serialize};
 pub struct NetworkConnectionProfileType {
     /// Optional. This field is ignored, since the OCPP version to use is determined during the websocket handshake.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub ocpp_version: Option<OCPPVersionEnumType>, // TODO: Implement OCPPVersionEnumType
+    pub ocpp_version: Option<OCPPVersionEnumType>, 
     /// Required. Applicable Network Interface.
-    pub ocpp_interface: OCPPInterfaceEnumType, // TODO: Implement OCPPInterfaceEnumType
+    pub ocpp_interface: OCPPInterfaceEnumType, 
     /// Required. Defines the transport protocol.
-    pub ocpp_transport: OCPPTransportEnumType, // TODO: Implement OCPPTransportEnumType
+    pub ocpp_transport: OCPPTransportEnumType, 
     /// Required. Duration in seconds before a message sent by the Charging Station via this network connection times out.
     pub message_timeout: i32,
     /// Required. URL of the CSMS.
@@ -36,7 +36,7 @@ pub struct NetworkConnectionProfileType {
     pub vpn: Option<VPNType>,
     /// Optional. Configuration data needed to make a data-connection over a cellular network.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub apn: Option<APNType>, // TODO: Implement APNType
+    pub apn: Option<APNType>, 
 }
 
 impl OcppEntity for NetworkConnectionProfileType {

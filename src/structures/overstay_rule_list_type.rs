@@ -17,7 +17,7 @@ pub struct OverstayRuleListType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub overstay_power_threshold: Option<RationalNumberType>,
     /// Required. Overstay rules that will be applied.
-    pub overstay_rule: Vec<OverstayRuleType>, // TODO: Implement OverstayRuleType
+    pub overstay_rule: Vec<OverstayRuleType>, 
 }
 
 impl OcppEntity for OverstayRuleListType {

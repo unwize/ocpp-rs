@@ -15,10 +15,10 @@ pub struct MessageInfoType {
     /// Required. Unique id within an exchange context. It is defined within the OCPP context as a positive integer value (greater or equal to zero).
     pub id: i32,
     /// Required. With what priority should this message be shown.
-    pub priority: MessagePriorityEnumType, // TODO: Implement MessagePriorityEnumType
+    pub priority: MessagePriorityEnumType, 
     /// Optional. During what state should this message be shown. When omitted this message should be shown in any state of the Charging Station.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub state: Option<MessageStateEnumType>, // TODO: Implement MessageStateEnumType
+    pub state: Option<MessageStateEnumType>, 
     /// Optional. From what date-time should this message be shown. If omitted: directly.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub start_date_time: Option<DateTime<Utc>>,

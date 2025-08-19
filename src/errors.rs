@@ -99,7 +99,7 @@ pub fn assert_invalid_fields(e: &OcppError, fields: &[&str]) {
             }
         }
 
-        _ => {}
+        _ => {panic!("Expected a StructureValidationError. Got {e} instead.")}
     }
 }
 
@@ -109,8 +109,7 @@ pub fn assert_num_field_errors(e: &OcppError, count: usize) {
             assert_eq!(related.len(), count)
         }
 
-        _ => { // TODO: Handle
-        }
+        _ => {panic!("Expected a StructureValidationError. Got {e} instead.")}
     }
 }
 

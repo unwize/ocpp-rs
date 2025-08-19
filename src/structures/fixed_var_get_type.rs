@@ -14,7 +14,7 @@ pub struct FixedVarGetType {
     /// Required. True if this setting is superseded by a lower priority setting.
     pub is_superseded: bool,
     /// Required. Fixed Var setpoint
-    pub fixed_var: FixedVarType, // TODO: Implement FixedVarType
+    pub fixed_var: FixedVarType, 
 }
 
 impl OcppEntity for FixedVarGetType {

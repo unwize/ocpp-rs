@@ -23,7 +23,7 @@ pub struct ChargingStationType {
     pub firmware_version: Option<String>,
     /// Optional. Defines the functional parameters of a communication link.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub modem: Option<ModemType>, // TODO: Implement ModemType
+    pub modem: Option<ModemType>, 
 }
 
 impl OcppEntity for ChargingStationType {

@@ -14,7 +14,7 @@ pub struct FixedPFGetType {
     /// Required. True if this setting is superseded by a lower priority setting.
     pub is_superseded: bool,
     /// Required. FixedPF for AbsorbW or InjectW
-    pub fixed_pf: FixedPFType, // TODO: Implement FixedPFType
+    pub fixed_pf: FixedPFType, 
 }
 
 impl OcppEntity for FixedPFGetType {

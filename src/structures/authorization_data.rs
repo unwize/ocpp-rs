@@ -12,9 +12,9 @@ pub struct AuthorizationData {
     /// expiry and group id. For a Differential update the following applies: If this element is present,
     /// then this entry SHALL be added or updated in the Local Authorization List. If this element is absent,
     /// the entry for this IdToken in the Local Authorization List SHALL be deleted.
-    pub id_token_info: IdTokenInfoType, // TODO: Implement IdTokenInfoType
+    pub id_token_info: IdTokenInfoType, 
     /// Required. This contains the identifier which needs to be stored for authorization.
-    pub id_token: IdTokenType, // TODO: Implement IdTokenType
+    pub id_token: IdTokenType, 
 }
 
 impl OcppEntity for AuthorizationData {
