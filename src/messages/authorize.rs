@@ -1,13 +1,13 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
-use serde::{Deserialize, Serialize};
-use std::default::Default;
 use crate::enums::authorize_certificate_status_enum_type::AuthorizeCertificateStatusEnumType;
 use crate::enums::energy_transfer_mode_enum_type::EnergyTransferModeEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::id_token_info_type::IdTokenInfoType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
 use crate::structures::tariff_type::TariffType;
+use crate::traits::{OcppEntity, OcppMessage};
+use serde::{Deserialize, Serialize};
+use std::default::Default;
 
 /// 1.3. Authorize
 pub struct Authorize;
@@ -44,8 +44,16 @@ impl OcppEntity for AuthorizeRequest {
         b.check_member("id_token", &self.id_token);
 
         if let Some(iso15118_certificate_hash_data) = &self.iso15118_certificate_hash_data {
-            b.check_cardinality("iso15118_certificate_hash_data", 0, 4, &iso15118_certificate_hash_data.iter());
-            b.check_iter_member("iso15118_certificate_hash_data", iso15118_certificate_hash_data.iter());
+            b.check_cardinality(
+                "iso15118_certificate_hash_data",
+                0,
+                4,
+                &iso15118_certificate_hash_data.iter(),
+            );
+            b.check_iter_member(
+                "iso15118_certificate_hash_data",
+                iso15118_certificate_hash_data.iter(),
+            );
         }
 
         b.build("AuthorizeRequest")

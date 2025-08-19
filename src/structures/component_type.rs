@@ -23,7 +23,7 @@ pub struct ComponentType {
     /// Optional. Specifies the EVSE when component is located at EVSE level, also specifies the connector when
     /// component is located at Connector level.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub evse: Option<EVSEType>, 
+    pub evse: Option<EVSEType>,
 }
 
 impl Default for ComponentType {

@@ -1,10 +1,10 @@
+use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::generic_status_enum_type::GenericStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.2. AFRRSignal
 pub struct AFRRSignal;

@@ -1,10 +1,10 @@
+use crate::enums::battery_swap_event_enum_types::BatterySwapEventEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::battery_data_type::BatteryDataType;
+use crate::structures::id_token_type::IdTokenType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::battery_swap_event_enum_types::BatterySwapEventEnumType;
-use crate::structures::battery_data_type::BatteryDataType;
-use crate::structures::id_token_type::IdTokenType;
 
 /// 1.4. BatterySwap
 pub struct BatterySwap;

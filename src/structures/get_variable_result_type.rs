@@ -25,7 +25,7 @@ pub struct GetVariableResultType {
     pub variable: VariableType,
     /// Optional. Detailed attribute status information.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub attribute_status_info: Option<StatusInfoType>, 
+    pub attribute_status_info: Option<StatusInfoType>,
 }
 
 impl OcppEntity for GetVariableResultType {

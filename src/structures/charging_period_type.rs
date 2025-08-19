@@ -80,7 +80,7 @@ mod tests {
         let charging_period_full = ChargingPeriodType {
             tariff_id: Some("a".repeat(60)),
             start_period: Utc.with_ymd_and_hms(2025, 7, 31, 18, 0, 0).unwrap(),
-            dimensions: Some(vec![]), 
+            dimensions: Some(vec![]),
         };
         assert!(charging_period_full.validate().is_ok());
     }
