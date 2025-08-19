@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum AuthorizationStatusEnumType {
     /// Identifier is allowed for charging.
+    #[default]
     Accepted,
     /// Identifier has been blocked. Not allowed for charging.
     Blocked,
