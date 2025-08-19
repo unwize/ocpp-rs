@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum BatterySwapEventEnumType {
     /// Battery (or set of batteries) is inserted.
+    #[default]
     BatteryIn,
     /// Battery (or set of batteries) is removed.
     BatteryOut,
