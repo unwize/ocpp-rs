@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents battery data.
 /// Used by: BatterySwapRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct BatteryDataType {
     /// Required. Slot number where battery is inserted or removed.
     /// Constraints: 0 <= val
@@ -24,6 +24,19 @@ pub struct BatteryDataType {
     /// Optional. Vendor-specific info from battery in undefined format.
     /// String length: 0..500
     pub vendor_info: Option<String>,
+}
+
+impl Default for BatteryDataType {
+    fn default() -> BatteryDataType {
+        Self {
+            evse_id: 0,
+            serial_number: "".to_string(),
+            soc: 0.0,
+            soh: 0.0,
+            production_date: None,
+            vendor_info: None,
+        }
+    }
 }
 
 impl OcppEntity for BatteryDataType {
