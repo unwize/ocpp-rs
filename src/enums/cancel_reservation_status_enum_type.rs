@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum CancelReservationStatusEnumType {
     /// Reservation for the identifier has been canceled.
+    #[default]
     Accepted,
     /// Reservation could not be canceled, because there is no reservation active for the identifier.
     Rejected,

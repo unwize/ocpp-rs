@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 /// The physical system where an Electrical Vehicle (EV) can be charged.
 /// Used by: BootNotificationRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingStationType {
     /// Optional. Vendor-specific device identifier.
     /// String length: 0..25
@@ -24,6 +24,18 @@ pub struct ChargingStationType {
     /// Optional. Defines the functional parameters of a communication link.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub modem: Option<ModemType>,
+}
+
+impl Default for ChargingStationType {
+    fn default() -> ChargingStationType {
+        Self {
+            serial_number: None,
+            model: "".to_string(),
+            vendor_name: "".to_string(),
+            firmware_version: None,
+            modem: None,
+        }
+    }
 }
 
 impl OcppEntity for ChargingStationType {

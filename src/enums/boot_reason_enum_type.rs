@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum BootReasonEnumType {
     /// The Charging Station rebooted due to an application error.
+    #[default]
     ApplicationReset,
     /// The Charging Station rebooted due to a firmware update.
     FirmwareUpdate,

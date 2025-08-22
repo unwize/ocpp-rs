@@ -2,3 +2,6 @@ mod adjust_periodic_event_stream;
 mod afr_signal;
 mod authorize;
 mod battery_swap;
+mod boot_notification;
+mod cancel_reservation;
+mod certificate_signed;

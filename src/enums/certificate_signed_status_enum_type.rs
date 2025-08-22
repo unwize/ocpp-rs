@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum CertificateSignedStatusEnumType {
     /// Signed certificate is valid.
+    #[default]
     Accepted,
     /// Signed certificate is invalid or requestId is unknown.
     Rejected,

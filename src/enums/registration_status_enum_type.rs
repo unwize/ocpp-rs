@@ -4,10 +4,11 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Result of registration in response to BootNotificationRequest.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Default, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum RegistrationStatusEnumType {
     /// Charging Station is accepted by the CSMS.
+    #[default]
     Accepted,
     /// CSMS is not yet ready to accept the Charging Station. CSMS may send messages to retrieve information or prepare the Charging Station.
     Pending,
