@@ -5,3 +5,4 @@ mod battery_swap;
 mod boot_notification;
 mod cancel_reservation;
 mod certificate_signed;
+mod change_availability;
