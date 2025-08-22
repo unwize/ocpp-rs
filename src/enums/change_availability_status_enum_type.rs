@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum ChangeAvailabilityStatusEnumType {
     /// Request has been accepted and will be executed.
+    #[default]
     Accepted,
     /// Request has not been accepted and will not be executed.
     Rejected,

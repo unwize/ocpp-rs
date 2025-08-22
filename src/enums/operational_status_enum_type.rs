@@ -4,10 +4,11 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Requested availability change.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Default, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum OperationalStatusEnumType {
     /// Charging Station is not available for charging.
+    #[default]
     Inoperative,
     /// Charging Station is available for charging.
     Operative,
