@@ -4,7 +4,6 @@ use crate::errors::OcppError::{
 };
 use crate::traits::OcppEntity;
 use miette::Diagnostic;
-use std::fmt::{Display, Write};
 use thiserror::Error;
 
 #[derive(Error, Diagnostic, Debug, Clone)]
