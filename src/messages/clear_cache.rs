@@ -41,7 +41,6 @@ impl OcppEntity for ClearCacheResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        // `status` is an enum, so no validation is needed.
         if let Some(status_info) = &self.status_info {
             b.check_member("status_info", status_info);
         }
