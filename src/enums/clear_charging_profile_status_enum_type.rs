@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum ClearChargingProfileStatusEnumType {
     /// Request has been accepted.
+    #[default]
     Accepted,
     /// No Charging Profile(s) were found matching the request.
     Unknown,
