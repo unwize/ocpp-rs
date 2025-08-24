@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 /// A ClearChargingProfileType is a filter for charging profiles to be cleared by ClearChargingProfileRequest.
 /// Used by: ClearChargingProfileRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ClearChargingProfileType {
     /// Optional. Specifies the id of the EVSE for which to clear charging profiles.
     /// An evseId of zero (0) specifies the charging profile for the overall Charging Station.

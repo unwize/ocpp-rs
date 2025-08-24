@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// Contains the identifier to use for authorization.
 /// Used by: SendLocalListRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct AuthorizationData {
     /// Optional. Required when UpdateType is Full. This contains information about authorization status,
     /// expiry and group id. For a Differential update the following applies: If this element is present,

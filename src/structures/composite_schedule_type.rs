@@ -6,7 +6,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 /// CompositeScheduleType is used by: GetCompositeScheduleResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CompositeScheduleType {
     /// Required.
     /// Constraints: 0 <= val

@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 /// A negative value indicates the willingness to discharge under specific conditions,
 /// a positive value indicates that the EV currently is not able to offer energy to discharge.
 /// Used by: Common::ChargingNeedsType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EVEnergyOfferType {
     /// Required. Power schedule offered for discharging.
     pub ev_power_schedule: EVPowerScheduleType,

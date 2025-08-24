@@ -4,7 +4,7 @@ use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
 /// ConstantStreamDataType is used by: OpenPeriodicEventStreamRequest, GetPeriodicEventStreamResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ConstantStreamDataType {
     /// Required. Uniquely identifies the stream
     /// Constraints: 0 <= val

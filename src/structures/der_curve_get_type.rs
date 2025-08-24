@@ -5,7 +5,7 @@ use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
 /// DERCurveGetType is used by: ReportDERControlRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct DERCurveGetType {
     /// Required. Id of DER curve
     /// String length: 0..36

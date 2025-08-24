@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents the charging needs of an EV.
 /// Used by: NotifyEVChargingNeedsRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingNeedsType {
     /// Required. Mode of energy transfer requested by the EV.
     pub requested_energy_transfer: EnergyTransferModeEnumType,

@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// DER DC charging parameters for ISO 15118-2
 /// Used by: Common::ChargingNeedsType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct DERChargingParametersType {
     /// Optional. DER control functions supported by EV.
     /// ISO 15118-20: DER_BPT_AC_CPDReqEnergyTransferModeType:DERControlFunctions (bitmap)

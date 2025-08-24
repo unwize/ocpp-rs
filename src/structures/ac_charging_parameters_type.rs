@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents AC charging parameters for ISO 15118-2.
 /// Used by: Common::ChargingNeedsType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ACChargingParametersType {
     /// Required. Amount of energy requested (in Wh). This includes energy required for preconditioning.
     /// Relates to: ISO 15118-2: AC_EVChargeParameterType: EAmount

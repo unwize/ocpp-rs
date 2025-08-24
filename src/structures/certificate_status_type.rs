@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 
 /// Revocation status of certificate
 /// Used by: GetCertificateChainStatusResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CertificateStatusType {
     /// Required. Source of status: OCSP, CRL
     pub source: CertificateStatusSourceEnumType,

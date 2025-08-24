@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 /// Represents information to identify a certificate.
 /// Used by: Common::CertificateHashDataChainType, Common::CertificateStatusRequestInfoType,
 /// Common::CertificateStatusType, SignCertificateRequest, DeleteCertificateRequest, CustomerInformationRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CertificateHashDataType {
     /// Required. Used algorithms for the hashes provided.
     pub hash_algorithm: HashAlgorithmEnumType,

@@ -3,7 +3,7 @@ use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
 /// EnterServiceType is used by: Common::EnterServiceGetType, SetDERControlRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EnterServiceType {
     /// Required. Priority of setting (0=highest).
     /// Constraints: 0 <= val

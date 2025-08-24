@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents a chain of certificate hash data.
 /// Used by: GetInstalledCertificateIdsResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CertificateHashDataChainType {
     /// Required. Indicates the type of the requested certificate(s).
     pub certificate_type: GetCertificateIdUseEnumType,

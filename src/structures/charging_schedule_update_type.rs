@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// Updates to a ChargingSchedulePeriodType for dynamic charging profiles.
 /// Used by: PullDynamicScheduleUpdateResponse, UpdateDynamicScheduleRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingScheduleUpdateType {
     /// Optional. Only when not required by the ChargingRateUnit or ChargingRateUnit.Setpoint.
     /// Internal.evse.LocalFrequency, Local.GridBalancing, Local.LoadBalancing.

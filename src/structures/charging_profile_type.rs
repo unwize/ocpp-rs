@@ -8,7 +8,7 @@ use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 /// Represents a charging profile.
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingProfileType {
     /// Required. Id of ChargingProfile. Unique within Charging Station.
     /// Id can have a negative value. This is used to reference charging profiles from an external actor

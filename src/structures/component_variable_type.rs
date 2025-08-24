@@ -4,7 +4,7 @@ use crate::structures::variable_type::VariableType;
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ComponentVariableType {
     pub component: ComponentType,
     #[serde(skip_serializing_if = "Option::is_none")]

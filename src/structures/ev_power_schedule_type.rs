@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// Schedule of EV energy offer.
 /// Used by: Common::EVEnergyOfferType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EVPowerScheduleType {
     /// Required. The time that defines the starting point for the EVEnergyOffer.
     pub time_anchor: DateTime<Utc>,

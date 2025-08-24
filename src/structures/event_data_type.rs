@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 /// Class to report an event notification for a component-variable.
 /// Used by: NotifyEventRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EventDataType {
     /// Required. Identifies the event. This field can be referred to as a cause by other events.
     /// Constraints: 0 <= val

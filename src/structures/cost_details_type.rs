@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 
 /// CostDetailsType contains the cost as calculated by Charging Station based on provided TariffType.
 /// Used by: TransactionEventRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CostDetailsType {
     /// Optional. If set to true, then Charging Station has failed to calculate the cost.
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// Represents a charging limit.
 /// Used by: NotifyChargingLimitRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ChargingLimitType {
     /// Required. Represents the source of the charging limit.
     /// Values defined in appendix as ChargingLimitSourceEnumStringType.

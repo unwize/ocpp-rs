@@ -3,7 +3,7 @@ use crate::structures::enter_service_type::EnterServiceType;
 use serde::{Deserialize, Serialize};
 
 /// EnterServiceGetType is used by: ReportDERControlRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct EnterServiceGetType {
     /// Required. Id of setting
     /// String length: 0..36

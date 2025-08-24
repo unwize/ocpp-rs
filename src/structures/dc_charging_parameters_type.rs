@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// EV DC charging parameters for ISO 15118-2
 /// Used by: Common::ChargingNeedsType
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct DCChargingParametersType {
     /// Required. Maximum current (in A) supported by the electric vehicle. Includes cable capacity.
     /// Relates to: ISO 15118-2: DC_EVChargeParameterType:EVMaximumCurrentLimit

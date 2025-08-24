@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 /// Result of a clear monitoring request.
 /// Used by: ClearVariableMonitoringResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ClearMonitoringResultType {
     /// Required. Result of the clear request for this monitor, identified by its id.
     pub status: ClearMonitoringStatusEnumType,

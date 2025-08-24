@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// A generic address format.
 /// Used by: NotifySettlementRequest, VatNumberValidationResponse
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct AddressType {
     /// Required. Name of person/company.
     /// String length: 0..50
