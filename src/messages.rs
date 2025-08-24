@@ -8,3 +8,4 @@ mod certificate_signed;
 mod change_availability;
 mod change_transaction_tariff;
 mod clear_cache;
+mod clear_charging_profile;
