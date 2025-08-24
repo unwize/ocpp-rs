@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum ClearCacheStatusEnumType {
     /// Command has been executed.
+    #[default]
     Accepted,
     /// Command has not been executed.
     Rejected,
