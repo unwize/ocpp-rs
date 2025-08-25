@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum ClearMessageStatusEnumType {
     /// Request successfully executed: message cleared.
+    #[default]
     Accepted,
     /// Given message (based on the id) not known.
     Unknown,
