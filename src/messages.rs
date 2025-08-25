@@ -10,3 +10,4 @@ mod change_transaction_tariff;
 mod clear_cache;
 mod clear_charging_profile;
 mod clear_der_control;
+mod clear_display_message;
