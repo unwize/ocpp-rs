@@ -91,4 +91,11 @@ mod tests {
     fn test_response_validate() {
         assert!(ClearDisplayMessage::response().validate().is_ok());
     }
+
+    #[test]
+    fn test_request_invalid_id() {
+        let mut req = ClearDisplayMessage::request();
+        req.id = -1;
+        assert!(req.validate().is_err());
+    }
 }
