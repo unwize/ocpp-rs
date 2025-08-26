@@ -20,6 +20,16 @@ pub struct ClearTariffsResultType {
     pub status_info: Option<StatusInfoType>,
 }
 
+impl Default for ClearTariffsResultType {
+    fn default() -> ClearTariffsResultType {
+        Self {
+            tariff_id: None,
+            status: TariffClearStatusEnumType::Accepted,
+            status_info: None,
+        }
+    }
+}
+
 impl OcppEntity for ClearTariffsResultType {
     /// Validates the fields of ClearTariffsResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

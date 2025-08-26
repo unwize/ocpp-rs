@@ -34,6 +34,16 @@ impl OcppEntity for ClearMonitoringResultType {
     }
 }
 
+impl Default for ClearMonitoringResultType {
+    fn default() -> ClearMonitoringResultType {
+        Self {
+            status: ClearMonitoringStatusEnumType::Accepted,
+            id: 0,
+            status_info: None,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
