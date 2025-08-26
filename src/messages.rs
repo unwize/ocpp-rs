@@ -11,3 +11,6 @@ mod clear_cache;
 mod clear_charging_profile;
 mod clear_der_control;
 mod clear_display_message;
+mod cleared_charging_limit;
+mod clear_tariffs;
+mod clear_variable_monitoring;
