@@ -15,3 +15,4 @@ mod cleared_charging_limit;
 mod clear_tariffs;
 mod clear_variable_monitoring;
 mod close_periodic_event_stream;
+mod cost_updated;
