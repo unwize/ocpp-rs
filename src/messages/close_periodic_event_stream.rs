@@ -13,7 +13,7 @@ impl OcppMessage for ClosePeriodicEventStream {
 
 /// 1.17.1. ClosePeriodicEventStreamRequest
 /// This contains the field definition of the ClosePeriodicEventStreamRequest PDU sent by the CSMS to the Charging Station.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ClosePeriodicEventStreamRequest {
     /// Required. Id of stream to close.
     pub id: i32,
@@ -31,7 +31,7 @@ impl OcppEntity for ClosePeriodicEventStreamRequest {
 
 /// 1.17.2. ClosePeriodicEventStreamResponse
 /// This contains the field definition of the ClosePeriodicEventStreamResponse PDU sent by the Charging Station to the CSMS. No fields are defined in the visible part of the specification.
-#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ClosePeriodicEventStreamResponse {}
 
 impl OcppEntity for ClosePeriodicEventStreamResponse {
