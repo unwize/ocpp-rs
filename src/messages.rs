@@ -14,3 +14,4 @@ mod clear_display_message;
 mod cleared_charging_limit;
 mod clear_tariffs;
 mod clear_variable_monitoring;
+mod close_periodic_event_stream;
