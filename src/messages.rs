@@ -18,3 +18,4 @@ mod close_periodic_event_stream;
 mod cost_updated;
 mod customer_information;
 mod data_transfer;
+mod delete_certificate;
