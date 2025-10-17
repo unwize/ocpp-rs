@@ -19,3 +19,5 @@ mod cost_updated;
 mod customer_information;
 mod data_transfer;
 mod delete_certificate;
+mod firmware_status_notification;
+mod get_15118_ev_certificate;
