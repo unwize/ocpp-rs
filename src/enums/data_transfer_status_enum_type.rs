@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum DataTransferStatusEnumType {
     /// Message has been accepted and the contained request is accepted.
+    #[default]
     Accepted,
     /// Message has been accepted but the contained request is rejected.
     Rejected,
