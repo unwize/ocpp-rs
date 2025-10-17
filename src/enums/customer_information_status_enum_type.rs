@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum CustomerInformationStatusEnumType {
     /// The Charging Station accepted the message.
+    #[default]
     Accepted,
     /// When the Charging Station is in a state where it cannot process this request.
     Rejected,
