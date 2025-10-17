@@ -1,11 +1,12 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum FirmwareStatusEnumType {
     /// Intermediate state. New firmware has been downloaded by Charging Station.
     Downloaded,
     /// Failure end state. Charging Station failed to download firmware.
+    #[default]
     DownloadFailed,
     /// Intermediate state. Firmware is being downloaded.
     Downloading,
