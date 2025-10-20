@@ -22,3 +22,5 @@ mod delete_certificate;
 mod firmware_status_notification;
 mod get_15118_ev_certificate;
 mod get_base_report;
+mod get_certificate_chain_status;
+mod get_certificate_status;
