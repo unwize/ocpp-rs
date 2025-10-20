@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 /// A ChargingProfileCriterionType is a filter for charging profiles to be selected by a GetChargingProfilesRequest.
 /// Used by: GetChargingProfilesRequest
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 pub struct ChargingProfileCriterionType {
     /// Optional. Defines the purpose of the schedule transferred by this profile.
     pub charging_profile_purpose: Option<ChargingProfilePurposeEnumType>,
