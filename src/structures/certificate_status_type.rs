@@ -20,6 +20,17 @@ pub struct CertificateStatusType {
     pub certificate_hash_data: CertificateHashDataType,
 }
 
+impl Default for CertificateStatusType {
+    fn default() -> CertificateStatusType {
+        Self {
+            source: CertificateStatusSourceEnumType::Crl,
+            status: CertificateStatusEnumType::Good,
+            next_update: Default::default(),
+            certificate_hash_data: Default::default(),
+        }
+    }
+}
+
 impl OcppEntity for CertificateStatusType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         self.certificate_hash_data.validate()

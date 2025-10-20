@@ -18,6 +18,16 @@ pub struct CertificateStatusRequestInfoType {
     pub certificate_hash_data: CertificateHashDataType,
 }
 
+impl Default for CertificateStatusRequestInfoType {
+    fn default() -> CertificateStatusRequestInfoType {
+        Self {
+            source: CertificateStatusSourceEnumType::Crl,
+            urls: vec![Default::default()],
+            certificate_hash_data: Default::default(),
+        }
+    }
+}
+
 impl OcppEntity for CertificateStatusRequestInfoType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
@@ -116,5 +126,10 @@ mod tests {
             certificate_hash_data: CertificateHashDataType::default(),
         };
         assert!(cert_status_req.validate().is_err());
+    }
+
+    #[test]
+    fn test_validation_default() {
+        assert!(CertificateStatusRequestInfoType::default().validate().is_ok());
     }
 }
