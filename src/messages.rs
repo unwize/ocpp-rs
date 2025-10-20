@@ -24,3 +24,5 @@ mod get_15118_ev_certificate;
 mod get_base_report;
 mod get_certificate_chain_status;
 mod get_certificate_status;
+mod get_charging_profiles;
+mod get_composite_schedule;
