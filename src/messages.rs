@@ -26,3 +26,4 @@ mod get_certificate_chain_status;
 mod get_certificate_status;
 mod get_charging_profiles;
 mod get_composite_schedule;
+mod get_der_control;
