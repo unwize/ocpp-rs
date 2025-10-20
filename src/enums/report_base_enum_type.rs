@@ -4,10 +4,11 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize, Default, PartialEq)]
 #[serde(rename_all = "PascalCase")]
 pub enum ReportBaseEnumType {
     /// Required. A (configuration) report that lists all Components/Variables that can be set by the operator.
+    #[default]
     ConfigurationInventory,
     /// Required. A (full) report that lists everything except monitoring settings.
     FullInventory,
