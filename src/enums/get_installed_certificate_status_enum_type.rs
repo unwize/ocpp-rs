@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum GetInstalledCertificateStatusEnumType {
     /// Normal successful completion (no errors).
+    #[default]
     Accepted,
     /// Requested resource not found.
     NotFound,
