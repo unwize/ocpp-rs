@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum LogStatusEnumType {
     /// Accepted this log upload. This does not mean the log file is uploaded is successfully, the Charging Station will now start the log file upload.
+    #[default]
     Accepted,
     /// Log update request rejected.
     Rejected,
