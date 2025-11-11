@@ -32,3 +32,5 @@ mod get_installed_certificate_ids;
 mod get_local_list_version;
 mod get_log;
 mod get_monitoring_report;
+mod get_periodic_event_stream;
+mod get_report;
