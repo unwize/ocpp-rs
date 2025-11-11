@@ -19,6 +19,16 @@ pub struct LogParametersType {
     pub latest_timestamp: Option<DateTime<Utc>>,
 }
 
+impl Default for LogParametersType {
+    fn default() -> LogParametersType {
+        Self {
+            remote_location: "".to_string(),
+            oldest_timestamp: None,
+            latest_timestamp: None,
+        }
+    }
+}
+
 impl OcppEntity for LogParametersType {
     /// Validates the fields of LogParametersType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

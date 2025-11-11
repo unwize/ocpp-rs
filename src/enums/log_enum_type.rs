@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::convert::TryFrom;
 
-#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize)]
+#[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 pub enum LogEnumType {
     /// This contains the field definition of a diagnostics log file
+    #[default]
     DiagnosticsLog,
     /// Sent by the CSMS to the Charging Station to request that the Charging Station uploads the security log.
     SecurityLog,
