@@ -1,8 +1,8 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::clear_monitoring_result_type::ClearMonitoringResultType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::structures::clear_monitoring_result_type::ClearMonitoringResultType;
 
 /// 1.16. ClearVariableMonitoring
 pub struct ClearVariableMonitoring;
@@ -36,9 +36,7 @@ impl OcppEntity for ClearVariableMonitoringRequest {
 
 impl Default for ClearVariableMonitoringRequest {
     fn default() -> ClearVariableMonitoringRequest {
-        Self {
-            id: vec![0],
-        }
+        Self { id: vec![0] }
     }
 }
 
@@ -55,8 +53,16 @@ impl OcppEntity for ClearVariableMonitoringResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_cardinality("clear_monitoring_result", 1, usize::MAX, &self.clear_monitoring_result.iter());
-        b.check_iter_member("clear_monitoring_result", self.clear_monitoring_result.iter());
+        b.check_cardinality(
+            "clear_monitoring_result",
+            1,
+            usize::MAX,
+            &self.clear_monitoring_result.iter(),
+        );
+        b.check_iter_member(
+            "clear_monitoring_result",
+            self.clear_monitoring_result.iter(),
+        );
 
         b.build("ClearVariableMonitoringResponse")
     }

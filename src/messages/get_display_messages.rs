@@ -1,11 +1,11 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
-use serde::{Deserialize, Serialize};
-use std::default::Default;
 use crate::enums::get_display_messages_status_enum_type::GetDisplayMessagesStatusEnumType;
 use crate::enums::message_priority_enum_type::MessagePriorityEnumType;
 use crate::enums::message_state_enum_type::MessageStateEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
+use crate::traits::{OcppEntity, OcppMessage};
+use serde::{Deserialize, Serialize};
+use std::default::Default;
 
 /// 1.30. GetDisplayMessages
 pub struct GetDisplayMessages;

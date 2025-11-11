@@ -130,6 +130,10 @@ mod tests {
 
     #[test]
     fn test_validation_default() {
-        assert!(CertificateStatusRequestInfoType::default().validate().is_ok());
+        assert!(
+            CertificateStatusRequestInfoType::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

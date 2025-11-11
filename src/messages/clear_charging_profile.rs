@@ -1,10 +1,10 @@
+use crate::enums::clear_charging_profile_status_enum_type::ClearChargingProfileStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::clear_charging_profile_type::ClearChargingProfileType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::clear_charging_profile_status_enum_type::ClearChargingProfileStatusEnumType;
-use crate::structures::clear_charging_profile_type::ClearChargingProfileType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.11. ClearChargingProfile
 pub struct ClearChargingProfile;

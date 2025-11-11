@@ -1,10 +1,10 @@
+use crate::enums::der_control_enum_type::DERControlEnumType;
+use crate::enums::der_control_status_enum_type::DERControlStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::der_control_enum_type::DERControlEnumType;
-use crate::enums::der_control_status_enum_type::DERControlStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.29. GetDERControl
 pub struct GetDERControl;

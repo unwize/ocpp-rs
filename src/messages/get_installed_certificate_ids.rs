@@ -1,11 +1,11 @@
+use crate::enums::get_certificate_id_use_enum_type::GetCertificateIdUseEnumType;
+use crate::enums::get_installed_certificate_status_enum_type::GetInstalledCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::certificate_hash_data_chain_type::CertificateHashDataChainType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::get_certificate_id_use_enum_type::GetCertificateIdUseEnumType;
-use crate::enums::get_installed_certificate_status_enum_type::GetInstalledCertificateStatusEnumType;
-use crate::structures::certificate_hash_data_chain_type::CertificateHashDataChainType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.31. GetInstalledCertificateIds
 pub struct GetInstalledCertificateIds;
@@ -67,5 +67,42 @@ impl OcppEntity for GetInstalledCertificateIdsResponse {
         }
 
         b.build("GetInstalledCertificateIdsResponse")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_msg() {
+        let req = GetInstalledCertificateIds::request();
+        let resp = GetInstalledCertificateIds::response();
+    }
+
+    #[test]
+    fn test_request_serialize_deserialize() {
+        let req = GetInstalledCertificateIdsRequest::default();
+        let json = serde_json::to_string(&req).unwrap();
+        let deserialized: GetInstalledCertificateIdsRequest = serde_json::from_str(&json).unwrap();
+        assert_eq!(req, deserialized);
+    }
+
+    #[test]
+    fn test_response_serialize_deserialize() {
+        let resp = GetInstalledCertificateIdsResponse::default();
+        let json = serde_json::to_string(&resp).unwrap();
+        let deserialized: GetInstalledCertificateIdsResponse = serde_json::from_str(&json).unwrap();
+        assert_eq!(resp, deserialized);
+    }
+
+    #[test]
+    fn test_request_validate() {
+        assert!(GetInstalledCertificateIds::request().validate().is_ok());
+    }
+
+    #[test]
+    fn test_response_validate() {
+        assert!(GetInstalledCertificateIds::response().validate().is_ok());
     }
 }

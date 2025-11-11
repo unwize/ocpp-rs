@@ -1,10 +1,10 @@
+use crate::enums::delete_certificate_status_enum_type::DeleteCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::certificate_hash_data_type::CertificateHashDataType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::delete_certificate_status_enum_type::DeleteCertificateStatusEnumType;
-use crate::structures::certificate_hash_data_type::CertificateHashDataType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.21. DeleteCertificate
 pub struct DeleteCertificate;

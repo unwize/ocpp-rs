@@ -54,7 +54,12 @@ impl OcppEntity for ClearTariffsResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_cardinality("clear_tariffs_result", 1, usize::MAX, &self.clear_tariffs_result.iter());
+        b.check_cardinality(
+            "clear_tariffs_result",
+            1,
+            usize::MAX,
+            &self.clear_tariffs_result.iter(),
+        );
         b.check_iter_member("clear_tariffs_result", self.clear_tariffs_result.iter());
 
         b.build("ClearTariffsResponse")

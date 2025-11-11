@@ -1,10 +1,10 @@
+use crate::enums::get_certificate_status_enum_type::GetCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::get_certificate_status_enum_type::GetCertificateStatusEnumType;
-use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.26. GetCertificateStatus
 pub struct GetCertificateStatus;

@@ -1,9 +1,9 @@
+use crate::enums::firmware_status_enum_type::FirmwareStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::firmware_status_enum_type::FirmwareStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.22. FirmwareStatusNotification
 pub struct FirmwareStatusNotification;

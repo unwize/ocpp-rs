@@ -1,9 +1,9 @@
+use crate::enums::clear_message_status_enum_type::ClearMessageStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::clear_message_status_enum_type::ClearMessageStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.13. ClearDisplayMessage
 pub struct ClearDisplayMessage;

@@ -1,10 +1,10 @@
+use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
+use crate::enums::report_base_enum_type::ReportBaseEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
-use crate::enums::report_base_enum_type::ReportBaseEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.24. GetBaseReport
 pub struct GetBaseReport;

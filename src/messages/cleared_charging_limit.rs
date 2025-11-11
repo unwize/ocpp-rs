@@ -26,7 +26,12 @@ impl OcppEntity for ClearedChargingLimitRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_cardinality("charging_limit_source", 0, 20, &self.charging_limit_source.chars());
+        b.check_cardinality(
+            "charging_limit_source",
+            0,
+            20,
+            &self.charging_limit_source.chars(),
+        );
 
         if let Some(evse_id) = self.evse_id {
             b.check_bounds("evse_id", 0, i32::MAX, evse_id);

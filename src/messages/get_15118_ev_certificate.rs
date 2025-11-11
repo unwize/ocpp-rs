@@ -1,10 +1,10 @@
+use crate::enums::certificate_action_enum_type::CertificateActionEnumType;
+use crate::enums::iso_15118_ev_certificate_status_enum_type::Iso15118EVCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::certificate_action_enum_type::CertificateActionEnumType;
-use crate::enums::iso_15118_ev_certificate_status_enum_type::Iso15118EVCertificateStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.23. Get15118EVCertificate
 pub struct Get15118EVCertificate;
@@ -35,11 +35,21 @@ impl OcppEntity for Get15118EVCertificateRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_cardinality("iso15118_schema_version", 0, 50, &self.iso15118_schema_version.chars());
+        b.check_cardinality(
+            "iso15118_schema_version",
+            0,
+            50,
+            &self.iso15118_schema_version.chars(),
+        );
         b.check_cardinality("exi_request", 0, 11000, &self.exi_request.chars());
 
         if let Some(max_chains) = self.maximum_contract_certificate_chains {
-            b.check_bounds("maximum_contract_certificate_chains", 0, i32::MAX, max_chains);
+            b.check_bounds(
+                "maximum_contract_certificate_chains",
+                0,
+                i32::MAX,
+                max_chains,
+            );
         }
 
         if let Some(prioritized_em_aids) = &self.prioritized_em_aids {

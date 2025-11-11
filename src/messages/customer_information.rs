@@ -1,11 +1,11 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
-use serde::{Deserialize, Serialize};
-use std::default::Default;
 use crate::enums::customer_information_status_enum_type::CustomerInformationStatusEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::traits::{OcppEntity, OcppMessage};
+use serde::{Deserialize, Serialize};
+use std::default::Default;
 
 /// 1.19. CustomerInformation
 pub struct CustomerInformation;

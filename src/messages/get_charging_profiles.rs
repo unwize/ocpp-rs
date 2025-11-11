@@ -1,10 +1,10 @@
+use crate::enums::get_charging_profile_status_enum_type::GetChargingProfileStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::charging_profile_criterion_type::ChargingProfileCriterionType;
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::get_charging_profile_status_enum_type::GetChargingProfileStatusEnumType;
-use crate::structures::charging_profile_criterion_type::ChargingProfileCriterionType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.27. GetChargingProfiles
 pub struct GetChargingProfiles;

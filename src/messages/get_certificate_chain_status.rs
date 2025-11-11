@@ -1,9 +1,9 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::certificate_status_request_info_type::CertificateStatusRequestInfoType;
+use crate::structures::certificate_status_type::CertificateStatusType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::structures::certificate_status_request_info_type::CertificateStatusRequestInfoType;
-use crate::structures::certificate_status_type::CertificateStatusType;
 
 /// 1.25. GetCertificateChainStatus
 pub struct GetCertificateChainStatus;
@@ -26,8 +26,16 @@ impl OcppEntity for GetCertificateChainStatusRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
 
-        b.check_cardinality("certificate_status_requests", 1, 4, &self.certificate_status_requests.iter());
-        b.check_iter_member("certificate_status_requests", self.certificate_status_requests.iter());
+        b.check_cardinality(
+            "certificate_status_requests",
+            1,
+            4,
+            &self.certificate_status_requests.iter(),
+        );
+        b.check_iter_member(
+            "certificate_status_requests",
+            self.certificate_status_requests.iter(),
+        );
 
         b.build("GetCertificateChainStatusRequest")
     }

@@ -1,9 +1,9 @@
+use crate::enums::clear_cache_status_enum_type::ClearCacheStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
+use crate::structures::status_info_type::StatusInfoType;
 use crate::traits::{OcppEntity, OcppMessage};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::enums::clear_cache_status_enum_type::ClearCacheStatusEnumType;
-use crate::structures::status_info_type::StatusInfoType;
 
 /// 1.10. ClearCache
 pub struct ClearCache;
