@@ -34,3 +34,4 @@ mod get_log;
 mod get_monitoring_report;
 mod get_periodic_event_stream;
 mod get_report;
+mod get_tariffs;

@@ -4,10 +4,11 @@ use std::convert::TryFrom;
 use std::fmt;
 
 /// Enumeration
-#[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Serialize, Deserialize, PartialEq, Default)]
 #[serde(rename_all = "PascalCase")]
 pub enum TariffGetStatusEnumType {
     /// Tariff has been accepted.
+    #[default]
     Accepted,
     /// Tariff has been rejected. More info in statusInfo.
     Rejected,
