@@ -1,8 +1,10 @@
+use std::fmt::Debug;
 use crate::errors::OcppError;
 
-pub trait OcppEntity {
+pub trait OcppEntity: Debug {
     fn validate(self: &Self) -> Result<(), OcppError>;
 }
+
 
 pub trait OcppMessage {
     type Request: Default;
