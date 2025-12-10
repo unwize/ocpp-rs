@@ -1,7 +1,7 @@
 use std::fmt::Debug;
 use crate::errors::OcppError;
 
-pub trait OcppEntity: Debug {
+pub trait OcppEntity {
     fn validate(self: &Self) -> Result<(), OcppError>;
 }
 
