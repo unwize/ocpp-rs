@@ -88,7 +88,7 @@ impl Default for TariffConditionsType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffConditionsType {
     /// Validates the fields of TariffConditionsType.
     fn validate(&self) -> Result<(), OcppError> {

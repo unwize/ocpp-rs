@@ -70,7 +70,7 @@ pub struct ChargingProfileType {
     /// For ISO 15118 Dynamic Control Mode (AC_EVSECC), only one ChargingSchedule is allowed.
     pub charging_schedule: ChargingScheduleType,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingProfileType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

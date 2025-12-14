@@ -25,7 +25,7 @@ pub struct ChargingProfileCriterionType {
     /// Cardinality 0..4
     pub charging_limit_source: Option<Vec<String>>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingProfileCriterionType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

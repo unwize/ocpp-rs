@@ -26,7 +26,7 @@ impl Default for VoltageParamsType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for VoltageParamsType {
     /// Validates the fields of VoltageParamsType.
     fn validate(&self) -> Result<(), OcppError> {

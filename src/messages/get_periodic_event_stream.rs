@@ -17,7 +17,7 @@ impl OcppMessage for GetPeriodicEventStream {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct GetPeriodicEventStreamRequest {}
-
+#[typetag::serde]
 impl OcppEntity for GetPeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
@@ -32,7 +32,7 @@ pub struct GetPeriodicEventStreamResponse {
     /// Optional. List of constant part of streams
     pub constant_stream_data: Option<Vec<ConstantStreamDataType>>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetPeriodicEventStreamResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

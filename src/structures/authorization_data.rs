@@ -16,7 +16,7 @@ pub struct AuthorizationData {
     /// Required. This contains the identifier which needs to be stored for authorization.
     pub id_token: IdTokenType,
 }
-
+#[typetag::serde]
 impl OcppEntity for AuthorizationData {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut errors: Vec<OcppError> = Vec::new();

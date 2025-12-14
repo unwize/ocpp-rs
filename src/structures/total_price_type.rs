@@ -22,7 +22,7 @@ impl Default for TotalPriceType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TotalPriceType {
     /// Validates the fields of TotalPriceType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

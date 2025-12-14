@@ -31,7 +31,7 @@ impl Default for SetVariableDataType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SetVariableDataType {
     /// Validates the fields of SetVariableDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

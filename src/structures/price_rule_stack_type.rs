@@ -14,7 +14,7 @@ pub struct PriceRuleStackType {
     /// Required. Contains the price rules.
     pub price_rule: Vec<PriceRuleType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for PriceRuleStackType {
     /// Validates the fields of PriceRuleStackType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

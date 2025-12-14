@@ -14,7 +14,7 @@ pub struct EVPowerScheduleEntryType {
     /// from the EV battery through EVSE power outlet. Negative values are used for discharging.
     pub power: f64, // decimal
 }
-
+#[typetag::serde]
 impl OcppEntity for EVPowerScheduleEntryType {
     /// Validates the fields of EVPowerScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -26,7 +26,7 @@ pub struct DataTransferRequest {
     /// Required. This identifies the Vendor specific implementation.
     pub vendor_id: String,
 }
-
+#[typetag::serde]
 impl OcppEntity for DataTransferRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -56,7 +56,7 @@ pub struct DataTransferResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for DataTransferResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

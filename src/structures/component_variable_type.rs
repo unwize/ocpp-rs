@@ -10,7 +10,7 @@ pub struct ComponentVariableType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub variable: Option<VariableType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ComponentVariableType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

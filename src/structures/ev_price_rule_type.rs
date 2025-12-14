@@ -21,7 +21,7 @@ impl Default for EVPriceRuleType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for EVPriceRuleType {
     /// Validates the fields of EVPriceRuleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

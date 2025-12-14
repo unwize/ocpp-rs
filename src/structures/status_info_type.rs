@@ -22,7 +22,7 @@ impl Default for StatusInfoType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for StatusInfoType {
     /// Validates the fields of StatusInfoType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

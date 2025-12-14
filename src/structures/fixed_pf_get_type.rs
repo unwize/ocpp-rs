@@ -16,7 +16,7 @@ pub struct FixedPFGetType {
     /// Required. FixedPF for AbsorbW or InjectW
     pub fixed_pf: FixedPFType,
 }
-
+#[typetag::serde]
 impl OcppEntity for FixedPFGetType {
     /// Validates the fields of FixedPFGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

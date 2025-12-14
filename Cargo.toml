@@ -11,3 +11,4 @@ miette = { version = "7.6.0", features = ["serde", "fancy"] }
 thiserror = "2.0.12"
 regex = "1.11.1"
 typetag = "0.2.21"
+dyn-clone = "1.0.20"

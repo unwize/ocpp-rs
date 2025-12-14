@@ -12,7 +12,7 @@ pub struct CostDimensionType {
     /// Required. Volume of the dimension consumed, measured according to the dimension type.
     pub volume: f64, // decimal
 }
-
+#[typetag::serde]
 impl OcppEntity for CostDimensionType {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())

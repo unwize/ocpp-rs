@@ -21,7 +21,7 @@ pub struct CancelReservationRequest {
     /// Required. Id of the reservation to cancel.
     pub reservation_id: i32,
 }
-
+#[typetag::serde]
 impl OcppEntity for CancelReservationRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -42,7 +42,7 @@ pub struct CancelReservationResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CancelReservationResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

@@ -25,7 +25,7 @@ pub struct AFRRSignalRequest {
     /// Required. Value of signal in v2xSignalWattCurve.
     pub signal: i32,
 }
-
+#[typetag::serde]
 impl OcppEntity for AFRRSignalRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
@@ -43,7 +43,7 @@ pub struct AFRRSignalResponse {
     /// Optional. Additional information on status.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for AFRRSignalResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

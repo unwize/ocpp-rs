@@ -264,7 +264,7 @@ pub struct DERChargingParametersType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ev_session_total_discharge_energy_available: Option<f64>, // decimal
 }
-
+#[typetag::serde]
 impl OcppEntity for DERChargingParametersType {
     /// Validates the fields of DERChargingParametersType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

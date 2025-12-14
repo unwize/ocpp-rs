@@ -28,7 +28,7 @@ pub struct CostDetailsType {
     /// Required. Total usage of energy and time.
     pub total_usage: TotalUsageType,
 }
-
+#[typetag::serde]
 impl OcppEntity for CostDetailsType {
     /// Validates the fields of CostDetailsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

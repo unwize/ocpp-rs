@@ -16,7 +16,7 @@ impl OcppMessage for AdjustPeriodicEventStream {
 ///
 /// This message is used by the CSMS to tell the Charging Station that it wants to change the reporting
 /// rate of a Periodic Event Stream.
-#[derive(Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct AdjustPeriodicEventStreamRequest {
     /// The ID of the event stream to be adjusted.
     pub id: i32,
@@ -30,7 +30,7 @@ impl AdjustPeriodicEventStreamRequest {
         Self { id, params }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for AdjustPeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut err = StructureValidationBuilder::new();
@@ -46,7 +46,7 @@ impl OcppEntity for AdjustPeriodicEventStreamRequest {
 ///
 /// This message is sent by the Charging Station to the CSMS to indicate the success or failure of the
 /// `AdjustPeriodicEventStreamRequest`.
-#[derive(Debug, Default, Deserialize, Serialize)]
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
 pub struct AdjustPeriodicEventStreamResponse {
     /// The status of the operation.
     pub status: GenericStatusEnumType,
@@ -64,7 +64,7 @@ impl AdjustPeriodicEventStreamResponse {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for AdjustPeriodicEventStreamResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut builder = StructureValidationBuilder::new();

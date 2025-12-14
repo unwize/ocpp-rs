@@ -34,7 +34,7 @@ impl Default for VariableMonitoringType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for VariableMonitoringType {
     /// Validates the fields of VariableMonitoringType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

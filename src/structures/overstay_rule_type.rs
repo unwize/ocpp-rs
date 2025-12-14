@@ -19,7 +19,7 @@ pub struct OverstayRuleType {
     /// Required. Fee that applies to this overstay.
     pub overstay_fee: RationalNumberType,
 }
-
+#[typetag::serde]
 impl OcppEntity for OverstayRuleType {
     /// Validates the fields of OverstayRuleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

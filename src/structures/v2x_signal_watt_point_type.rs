@@ -20,7 +20,7 @@ impl Default for V2XSignalWattPointType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for V2XSignalWattPointType {
     /// Validates the fields of V2XSignalWattPointType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

@@ -12,7 +12,7 @@ pub struct GradientGetType {
     /// Required. Gradient setting
     pub gradient: GradientType,
 }
-
+#[typetag::serde]
 impl OcppEntity for GradientGetType {
     /// Validates the fields of GradientGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

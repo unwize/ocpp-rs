@@ -21,7 +21,7 @@ impl Default for VariableType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for VariableType {
     /// Validates the fields of VariableType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

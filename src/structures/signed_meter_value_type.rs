@@ -30,7 +30,7 @@ impl Default for SignedMeterValueType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SignedMeterValueType {
     /// Validates the fields of SignedMeterValueType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

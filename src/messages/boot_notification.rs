@@ -26,7 +26,7 @@ pub struct BootNotificationRequest {
     /// Required. Identifies the Charging Station
     pub charging_station: ChargingStationType,
 }
-
+#[typetag::serde]
 impl OcppEntity for BootNotificationRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -52,7 +52,7 @@ pub struct BootNotificationResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for BootNotificationResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

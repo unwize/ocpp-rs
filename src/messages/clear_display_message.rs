@@ -21,7 +21,7 @@ pub struct ClearDisplayMessageRequest {
     /// Required. Id of the message that SHALL be removed from the Charging Station.
     pub id: i32,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearDisplayMessageRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -42,7 +42,7 @@ pub struct ClearDisplayMessageResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearDisplayMessageResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

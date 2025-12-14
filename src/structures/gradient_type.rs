@@ -30,7 +30,7 @@ impl Display for GradientType {
         write!(f, "{:?}", self)
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for GradientType {
     /// Validates the fields of GradientType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

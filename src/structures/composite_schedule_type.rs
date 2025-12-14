@@ -21,7 +21,7 @@ pub struct CompositeScheduleType {
     /// Cardinality 1..*
     pub charging_schedule_period: Vec<ChargingSchedulePeriodType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CompositeScheduleType {
     /// Validates the fields of CompositeScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -35,7 +35,7 @@ impl Default for TariffAssignmentType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffAssignmentType {
     /// Validates the fields of TariffAssignmentType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

@@ -20,7 +20,7 @@ pub struct FixedVarType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<f64>,
 }
-
+#[typetag::serde]
 impl OcppEntity for FixedVarType {
     /// Validates the fields of FixedVarType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -51,7 +51,7 @@ impl Default for TotalCostType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TotalCostType {
     /// Validates the fields of TotalCostType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

@@ -40,7 +40,7 @@ impl Default for APNType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for APNType {
     /// Validates the fields of ApnType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

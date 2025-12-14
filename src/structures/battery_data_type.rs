@@ -38,7 +38,7 @@ impl Default for BatteryDataType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for BatteryDataType {
     /// Validates the fields of BatteryDataType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

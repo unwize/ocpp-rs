@@ -26,7 +26,7 @@ pub struct CertificateSignedRequest {
     /// Optional. (2.1) RequestId to correlate this message with the `SignCertificateRequest`.
     pub request_id: Option<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CertificateSignedRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -52,7 +52,7 @@ pub struct CertificateSignedResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CertificateSignedResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

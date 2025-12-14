@@ -25,7 +25,7 @@ pub struct FirmwareStatusNotificationRequest {
     /// Optional. Detailed status info.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for FirmwareStatusNotificationRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -47,7 +47,7 @@ impl OcppEntity for FirmwareStatusNotificationRequest {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct FirmwareStatusNotificationResponse {}
-
+#[typetag::serde]
 impl OcppEntity for FirmwareStatusNotificationResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let b = StructureValidationBuilder::new();

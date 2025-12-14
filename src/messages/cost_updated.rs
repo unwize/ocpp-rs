@@ -21,7 +21,7 @@ pub struct CostUpdatedRequest {
     /// Required. Transaction Id of the transaction the current cost are asked for.
     pub transaction_id: String,
 }
-
+#[typetag::serde]
 impl OcppEntity for CostUpdatedRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -37,7 +37,7 @@ impl OcppEntity for CostUpdatedRequest {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct CostUpdatedResponse {}
-
+#[typetag::serde]
 impl OcppEntity for CostUpdatedResponse {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())

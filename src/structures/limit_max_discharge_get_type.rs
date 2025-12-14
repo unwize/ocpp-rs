@@ -17,7 +17,7 @@ pub struct LimitMaxDischargeGetType {
     /// Required. Maximum discharge power as percentage or rated capability
     pub limit_max_discharge: LimitMaxDischargeType,
 }
-
+#[typetag::serde]
 impl OcppEntity for LimitMaxDischargeGetType {
     /// Validates the fields of LimitMaxDischargeGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

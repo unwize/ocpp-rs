@@ -15,7 +15,7 @@ pub struct ConstantStreamDataType {
     /// Required. Max time and items parameters
     pub params: PeriodicEventStreamParamsType,
 }
-
+#[typetag::serde]
 impl OcppEntity for ConstantStreamDataType {
     /// Validates the fields of ConstantStreamDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

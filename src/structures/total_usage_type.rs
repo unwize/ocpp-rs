@@ -27,7 +27,7 @@ impl Default for TotalUsageType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TotalUsageType {
     /// Validates the fields of TotalUsageType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

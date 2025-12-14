@@ -17,7 +17,7 @@ impl Default for LimitAtSOCType {
         Self { soc: 0, limit: 0.0 }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for LimitAtSOCType {
     /// Validates the fields of LimitAtSOCType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

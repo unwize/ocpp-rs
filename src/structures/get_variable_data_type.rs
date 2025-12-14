@@ -17,7 +17,7 @@ pub struct GetVariableDataType {
     /// Required. Variable for which the attribute value is requested.
     pub variable: VariableType,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetVariableDataType {
     /// Validates the fields of GetVariableDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

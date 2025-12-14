@@ -27,7 +27,7 @@ pub struct GetCompositeScheduleRequest {
     /// Required. The ID of the EVSE for which the schedule is requested. When evseId=0, the Charging Station will calculate the expected consumption for the grid connection.
     pub evse_id: i32,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetCompositeScheduleRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -55,7 +55,7 @@ pub struct GetCompositeScheduleResponse {
     /// Optional. This field contains the calculated composite schedule. It may only be omitted when this message contains status Rejected.
     pub schedule: Option<CompositeScheduleType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetCompositeScheduleResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

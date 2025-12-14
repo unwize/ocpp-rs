@@ -40,7 +40,7 @@ pub struct DCChargingParametersType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bulk_soc: Option<i32>, // integer
 }
-
+#[typetag::serde]
 impl OcppEntity for DCChargingParametersType {
     /// Validates the fields of DCChargingParametersType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

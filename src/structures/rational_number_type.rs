@@ -23,7 +23,7 @@ impl Default for RationalNumberType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for RationalNumberType {
     /// Validates the fields of RationalNumberType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -71,7 +71,7 @@ pub struct ChargingScheduleType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit_at_soc: Option<LimitAtSOCType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingScheduleType {
     /// Validates the fields of ChargingScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

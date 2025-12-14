@@ -79,7 +79,7 @@ pub struct V2XChargingParametersType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub target_soc: Option<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for V2XChargingParametersType {
     /// Validates the fields of V2XChargingParametersType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

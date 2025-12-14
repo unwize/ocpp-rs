@@ -22,7 +22,7 @@ pub struct DeleteCertificateRequest {
     /// Required. Indicates the certificate of which deletion is requested.
     pub certificate_hash_data: CertificateHashDataType,
 }
-
+#[typetag::serde]
 impl OcppEntity for DeleteCertificateRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -43,7 +43,7 @@ pub struct DeleteCertificateResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for DeleteCertificateResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

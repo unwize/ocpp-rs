@@ -28,7 +28,7 @@ pub struct GetDERControlRequest {
     /// Optional. Id of setting to get. When omitted all settings for `controlType` are retrieved.
     pub control_id: Option<String>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetDERControlRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -54,7 +54,7 @@ pub struct GetDERControlResponse {
     /// Optional. Detailed status info.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetDERControlResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

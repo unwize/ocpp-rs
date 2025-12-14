@@ -25,7 +25,7 @@ pub struct AddressType {
     /// String length: 0..50
     pub country: String,
 }
-
+#[typetag::serde]
 impl OcppEntity for AddressType {
     /// Validates the fields of AddressType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

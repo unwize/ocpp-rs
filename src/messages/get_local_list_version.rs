@@ -16,7 +16,7 @@ impl OcppMessage for GetLocalListVersion {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct GetLocalListVersionRequest {}
-
+#[typetag::serde]
 impl OcppEntity for GetLocalListVersionRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
@@ -31,7 +31,7 @@ pub struct GetLocalListVersionResponse {
     /// Required. This contains the current version number of the local authorization list in the Charging Station.
     pub version_number: i32,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetLocalListVersionResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

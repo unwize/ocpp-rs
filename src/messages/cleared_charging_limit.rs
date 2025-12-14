@@ -21,7 +21,7 @@ pub struct ClearedChargingLimitRequest {
     /// Optional. EVSE Identifier.
     pub evse_id: Option<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearedChargingLimitRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -46,7 +46,7 @@ impl OcppEntity for ClearedChargingLimitRequest {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearedChargingLimitResponse {}
-
+#[typetag::serde]
 impl OcppEntity for ClearedChargingLimitResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let b = StructureValidationBuilder::new();

@@ -22,7 +22,7 @@ impl Default for EVSEType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for EVSEType {
     /// Validates the fields of EVSEType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -30,7 +30,7 @@ pub struct SetMonitoringResultType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for SetMonitoringResultType {
     /// Validates the fields of SetMonitoringResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

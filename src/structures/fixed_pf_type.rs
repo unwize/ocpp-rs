@@ -20,7 +20,7 @@ pub struct FixedPFType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub duration: Option<f64>,
 }
-
+#[typetag::serde]
 impl OcppEntity for FixedPFType {
     /// Validates the fields of FixedPFType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

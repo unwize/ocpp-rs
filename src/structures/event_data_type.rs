@@ -56,7 +56,7 @@ pub struct EventDataType {
     /// Required. Variable for which event is notified.
     pub variable: VariableType,
 }
-
+#[typetag::serde]
 impl OcppEntity for EventDataType {
     /// Validates the fields of EventDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

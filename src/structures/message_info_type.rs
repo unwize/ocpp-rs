@@ -37,7 +37,7 @@ pub struct MessageInfoType {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub message_extra: Vec<MessageContentType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for MessageInfoType {
     /// Validates the fields of MessageInfoType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

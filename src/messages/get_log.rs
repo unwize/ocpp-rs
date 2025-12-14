@@ -31,7 +31,7 @@ pub struct GetLogRequest {
     /// Required. This field specifies the requested log and the location to which the log should be sent.
     pub log: LogParametersType,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetLogRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -64,7 +64,7 @@ pub struct GetLogResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetLogResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

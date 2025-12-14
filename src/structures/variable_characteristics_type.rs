@@ -40,7 +40,7 @@ impl Default for VariableCharacteristicsType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for VariableCharacteristicsType {
     /// Validates the fields of VariableCharacteristicsType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

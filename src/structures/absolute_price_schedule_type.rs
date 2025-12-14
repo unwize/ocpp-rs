@@ -55,7 +55,7 @@ pub struct AbsolutePriceScheduleType {
     ///  Optional. Maximum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
     maximum_cost: Option<u32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for AbsolutePriceScheduleType {
     /// Naively validate the values within the struct. Does not cross-validate against external
     /// data.

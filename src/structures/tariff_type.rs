@@ -66,7 +66,7 @@ impl Default for TariffType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffType {
     /// Validates the fields of TariffType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

@@ -72,7 +72,7 @@ pub struct ChargingScheduleUpdateType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setpoint_reactive_l3: Option<f64>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingScheduleUpdateType {
     /// Validates the fields of ChargingScheduleUpdateType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

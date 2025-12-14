@@ -29,7 +29,7 @@ impl Default for PriceType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for PriceType {
     /// Validates the fields of PriceType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

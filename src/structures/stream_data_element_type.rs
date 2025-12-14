@@ -22,7 +22,7 @@ impl Default for StreamDataElementType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for StreamDataElementType {
     /// Validates the fields of StreamDataElementType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -35,6 +35,7 @@ impl Default for VPNType {
     }
 }
 
+#[typetag::serde]
 impl OcppEntity for VPNType {
     /// Validates the fields of VPNType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

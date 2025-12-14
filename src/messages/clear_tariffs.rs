@@ -22,7 +22,7 @@ pub struct ClearTariffsRequest {
     /// Optional. When present only clear tariffs matching `tariffIds` at EVSE `evseId`.
     pub evse_id: Option<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearTariffsRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -49,7 +49,7 @@ pub struct ClearTariffsResponse {
     /// Required. Result per tariff.
     pub clear_tariffs_result: Vec<ClearTariffsResultType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearTariffsResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

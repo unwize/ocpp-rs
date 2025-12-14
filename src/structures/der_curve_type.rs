@@ -55,7 +55,7 @@ impl Default for DERCurveType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for DERCurveType {
     /// Validates the fields of DERCurveType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -54,7 +54,7 @@ pub struct ChargingNeedsType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub der_charging_parameters: Option<DERChargingParametersType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingNeedsType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

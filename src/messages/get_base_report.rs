@@ -24,7 +24,7 @@ pub struct GetBaseReportRequest {
     /// Required. This field specifies the report base.
     pub report_base: ReportBaseEnumType,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetBaseReportRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -47,7 +47,7 @@ pub struct GetBaseReportResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetBaseReportResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

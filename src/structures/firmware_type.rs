@@ -22,7 +22,7 @@ pub struct FirmwareType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub signature: Option<String>,
 }
-
+#[typetag::serde]
 impl OcppEntity for FirmwareType {
     /// Validates the fields of FirmwareType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

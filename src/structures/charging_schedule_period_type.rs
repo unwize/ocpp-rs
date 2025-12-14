@@ -162,7 +162,7 @@ impl Default for ChargingSchedulePeriodType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

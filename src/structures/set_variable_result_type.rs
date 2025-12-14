@@ -36,7 +36,7 @@ impl Default for SetVariableResultType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SetVariableResultType {
     /// Validates the fields of SetVariableResultType.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

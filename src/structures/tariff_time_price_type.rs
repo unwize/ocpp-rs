@@ -22,7 +22,7 @@ impl Default for TariffTimePriceType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffTimePriceType {
     /// Validates the fields of TariffTimePriceType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

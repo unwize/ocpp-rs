@@ -24,7 +24,7 @@ impl Default for ModemType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ModemType {
     /// Validates the fields of ModemType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -27,7 +27,7 @@ pub struct GetReportRequest {
     /// Optional. This field specifies the components and variables for which a report is requested.
     pub component_variable: Option<Vec<ComponentVariableType>>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetReportRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -58,7 +58,7 @@ pub struct GetReportResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetReportResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

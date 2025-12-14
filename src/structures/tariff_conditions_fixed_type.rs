@@ -48,7 +48,7 @@ impl Default for TariffConditionsFixedType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffConditionsFixedType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

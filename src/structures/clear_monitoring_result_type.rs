@@ -17,7 +17,7 @@ pub struct ClearMonitoringResultType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearMonitoringResultType {
     /// Validates the fields of ClearMonitoringResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

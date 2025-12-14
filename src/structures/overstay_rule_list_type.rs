@@ -19,7 +19,7 @@ pub struct OverstayRuleListType {
     /// Required. Overstay rules that will be applied.
     pub overstay_rule: Vec<OverstayRuleType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for OverstayRuleListType {
     /// Validates the fields of OverstayRuleListType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

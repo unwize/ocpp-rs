@@ -30,7 +30,7 @@ pub struct Get15118EVCertificateRequest {
     /// Optional. (2.1) Absent during ISO 15118-2 session. Optional during ISO 15118-20 session. List of email IDs for which contract certificates must be requested first, in case there are more certificates than allowed by `maximumContractCertificateChains`.
     pub prioritized_em_aids: Option<Vec<String>>,
 }
-
+#[typetag::serde]
 impl OcppEntity for Get15118EVCertificateRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -77,7 +77,7 @@ pub struct Get15118EVCertificateResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for Get15118EVCertificateResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

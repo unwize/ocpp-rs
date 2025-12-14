@@ -27,7 +27,7 @@ pub struct GetVariableResultType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub attribute_status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetVariableResultType {
     /// Validates the fields of GetVariableResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

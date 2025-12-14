@@ -28,7 +28,7 @@ impl Default for LogParametersType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for LogParametersType {
     /// Validates the fields of LogParametersType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -31,7 +31,7 @@ impl Default for ACChargingParametersType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ACChargingParametersType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         Ok(())

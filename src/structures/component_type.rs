@@ -35,7 +35,7 @@ impl Default for ComponentType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ComponentType {
     /// Validates the fields of ComponentType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

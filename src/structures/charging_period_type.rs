@@ -30,7 +30,7 @@ impl Default for ChargingPeriodType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingPeriodType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

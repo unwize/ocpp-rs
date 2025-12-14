@@ -33,7 +33,7 @@ pub struct TransactionType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub transaction_limit: Option<TransactionLimitType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for TransactionType {
     /// Validates the fields of TransactionType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

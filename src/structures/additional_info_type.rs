@@ -25,7 +25,7 @@ impl Default for AdditionalInfoType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for AdditionalInfoType {
     /// Validates the fields of AdditionalInfoType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

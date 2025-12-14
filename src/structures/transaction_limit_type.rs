@@ -30,7 +30,7 @@ impl Default for TransactionLimitType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TransactionLimitType {
     /// Validates the fields of TransactionLimitType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

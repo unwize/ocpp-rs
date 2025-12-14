@@ -24,7 +24,7 @@ pub struct ClearChargingProfileType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stack_level: Option<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearChargingProfileType {
     /// Validates the fields of ClearChargingProfileType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

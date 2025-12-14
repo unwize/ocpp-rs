@@ -13,7 +13,7 @@ pub struct AdditionalSelectedServicesType {
     /// Adapted from RationalNumberType, considered as u32.
     pub service_fee: u32,
 }
-
+#[typetag::serde]
 impl OcppEntity for AdditionalSelectedServicesType {
     /// Validates the fields of AdditionalSelectedServicesType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

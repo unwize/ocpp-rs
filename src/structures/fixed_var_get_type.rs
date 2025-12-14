@@ -16,7 +16,7 @@ pub struct FixedVarGetType {
     /// Required. Fixed Var setpoint
     pub fixed_var: FixedVarType,
 }
-
+#[typetag::serde]
 impl OcppEntity for FixedVarGetType {
     /// Validates the fields of FixedVarGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -29,7 +29,7 @@ pub struct GetDisplayMessagesRequest {
     /// Optional. If provided the Charging Station shall return Display Messages with the given state only.
     pub state: Option<MessageStateEnumType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetDisplayMessagesRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -56,7 +56,7 @@ pub struct GetDisplayMessagesResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for GetDisplayMessagesResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

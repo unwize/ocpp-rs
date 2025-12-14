@@ -38,7 +38,7 @@ pub struct NetworkConnectionProfileType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub apn: Option<APNType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for NetworkConnectionProfileType {
     /// Validates the fields of NetworkConnectionProfileType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

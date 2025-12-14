@@ -20,7 +20,7 @@ impl Default for V2XFreqWattPointType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for V2XFreqWattPointType {
     /// Validates the fields of V2XFreqWattPointType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

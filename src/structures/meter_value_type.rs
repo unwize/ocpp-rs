@@ -25,7 +25,7 @@ impl Default for MeterValueType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for MeterValueType {
     /// Validates the fields of MeterValueType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

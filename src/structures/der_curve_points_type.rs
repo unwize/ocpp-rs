@@ -13,7 +13,7 @@ pub struct DERCurvePointsType {
     /// a negative value when DER is injecting reactive power (over-excited).
     pub y: f64, // decimal
 }
-
+#[typetag::serde]
 impl OcppEntity for DERCurvePointsType {
     /// Validates the fields of DERCurvePointsType.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

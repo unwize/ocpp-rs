@@ -23,7 +23,7 @@ impl Default for EVPowerScheduleType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for EVPowerScheduleType {
     /// Validates the fields of EVPowerScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

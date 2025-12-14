@@ -35,7 +35,7 @@ pub struct IdTokenInfoType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub personal_message: Option<MessageContentType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for IdTokenInfoType {
     /// Validates the fields of IdTokenInfoType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

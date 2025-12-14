@@ -33,7 +33,7 @@ impl Default for EVAbsolutePriceScheduleType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for EVAbsolutePriceScheduleType {
     /// Validates the fields of EVAbsolutePriceScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

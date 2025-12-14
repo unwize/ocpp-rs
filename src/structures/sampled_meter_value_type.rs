@@ -48,7 +48,7 @@ impl Default for SampledValueType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SampledValueType {
     /// Validates the fields of SampledValueType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

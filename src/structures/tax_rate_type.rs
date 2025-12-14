@@ -25,7 +25,7 @@ impl Default for TaxRateType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TaxRateType {
     /// Validates the fields of TaxRateType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

@@ -15,7 +15,7 @@ pub struct CertificateHashDataChainType {
     /// Optional. Information to identify the child certificate(s).
     pub child_certificate_hash_data: Option<Vec<CertificateHashDataType>>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CertificateHashDataChainType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

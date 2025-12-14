@@ -31,7 +31,7 @@ impl Default for OCSPRequestDataType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for OCSPRequestDataType {
     /// Validates the fields of OCSPRequestDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

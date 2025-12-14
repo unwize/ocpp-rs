@@ -22,7 +22,7 @@ pub struct ReportDataType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub variable_characteristics: Option<VariableCharacteristicsType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ReportDataType {
     /// Validates the fields of ReportDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -20,7 +20,7 @@ pub struct ClearVariableMonitoringRequest {
     /// Required. List of the monitors to be cleared, identified by their Id.
     pub id: Vec<i32>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearVariableMonitoringRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -48,7 +48,7 @@ pub struct ClearVariableMonitoringResponse {
     /// Required. List of status per monitor.
     pub clear_monitoring_result: Vec<ClearMonitoringResultType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearVariableMonitoringResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

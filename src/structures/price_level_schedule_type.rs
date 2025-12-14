@@ -22,7 +22,7 @@ pub struct PriceLevelScheduleType {
     /// Required. List of entries of the schedule.
     pub price_level_schedule_entries: Vec<PriceLevelScheduleEntryType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for PriceLevelScheduleType {
     /// Validates the fields of PriceLevelScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

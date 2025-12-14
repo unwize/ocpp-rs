@@ -33,7 +33,7 @@ pub struct CustomerInformationRequest {
     /// Optional. The Certificate of the customer this request refers to. One of the possible identifiers (`customerIdentifier`, `idToken` or `customerCertificate`) should be in the request message.
     pub customer_certificate: Option<CertificateHashDataType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CustomerInformationRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -66,7 +66,7 @@ pub struct CustomerInformationResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for CustomerInformationResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

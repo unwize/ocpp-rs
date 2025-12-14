@@ -37,7 +37,7 @@ impl Default for ChargingStationType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingStationType {
     /// Validates the fields of ChargingStationType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -41,7 +41,7 @@ impl Default for EnterServiceType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for EnterServiceType {
     /// Validates the fields of EnterServiceType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

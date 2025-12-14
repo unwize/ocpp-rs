@@ -26,7 +26,7 @@ pub struct TaxRuleType {
     /// Required. Percentage of the total amount of applying fee (energy, parking, overstay, MinimumCost and/or MaximumCost).
     pub tax_rate: RationalNumberType,
 }
-
+#[typetag::serde]
 impl OcppEntity for TaxRuleType {
     /// Validates the fields of TaxRuleType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

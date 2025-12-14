@@ -24,7 +24,7 @@ impl Default for PeriodicEventStreamParamsType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for PeriodicEventStreamParamsType {
     /// Validates the fields of PeriodicEventStreamParamsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

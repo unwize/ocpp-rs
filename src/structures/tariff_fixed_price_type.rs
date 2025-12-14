@@ -22,7 +22,7 @@ impl Default for TariffFixedPriceType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for TariffFixedPriceType {
     /// Validates the fields of TariffFixedPriceType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

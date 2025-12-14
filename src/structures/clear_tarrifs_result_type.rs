@@ -29,7 +29,7 @@ impl Default for ClearTariffsResultType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ClearTariffsResultType {
     /// Validates the fields of ClearTariffsResultType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

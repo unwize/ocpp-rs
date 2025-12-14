@@ -34,7 +34,7 @@ impl Default for CertificateHashDataType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for CertificateHashDataType {
     /// Validates the fields of CertificateHashDataType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

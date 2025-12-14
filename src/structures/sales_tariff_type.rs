@@ -31,7 +31,7 @@ impl Default for SalesTariffType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SalesTariffType {
     /// Validates the fields of SalesTariffType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

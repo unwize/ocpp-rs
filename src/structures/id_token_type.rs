@@ -28,7 +28,7 @@ impl Default for IdTokenType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for IdTokenType {
     /// Validates the fields of IdTokenType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

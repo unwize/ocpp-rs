@@ -16,7 +16,7 @@ pub struct ChargingLimitType {
     /// Optional. Indicates whether the charging limit is critical for the grid.
     pub is_grid_critical: Option<bool>,
 }
-
+#[typetag::serde]
 impl OcppEntity for ChargingLimitType {
     fn validate(self: &Self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

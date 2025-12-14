@@ -18,7 +18,7 @@ pub struct MonitoringDataType {
     /// Required. List of monitors for this Component-Variable pair.
     pub variable_monitoring: Vec<VariableMonitoringType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for MonitoringDataType {
     /// Validates the fields of MonitoringDataType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -22,7 +22,7 @@ impl Default for ConsumptionCostType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for ConsumptionCostType {
     /// Validates the fields of ConsumptionCostType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

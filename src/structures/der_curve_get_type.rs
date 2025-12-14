@@ -19,7 +19,7 @@ pub struct DERCurveGetType {
     /// Required. Parameters defining the DER curve
     pub curve: DERCurveType,
 }
-
+#[typetag::serde]
 impl OcppEntity for DERCurveGetType {
     /// Validates the fields of DERCurveGetType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -22,7 +22,7 @@ impl Default for PriceLevelScheduleEntryType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for PriceLevelScheduleEntryType {
     /// Validates the fields of PriceLevelScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

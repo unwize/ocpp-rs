@@ -26,7 +26,7 @@ impl Default for MessageContentType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for MessageContentType {
     /// Validates the fields of MessageContentType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -22,7 +22,7 @@ impl Default for UnitOfMeasureType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for UnitOfMeasureType {
     /// Validates the fields of UnitOfMeasureType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

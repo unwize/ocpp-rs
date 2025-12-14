@@ -16,7 +16,7 @@ pub struct EVEnergyOfferType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ev_absolute_price_schedule: Option<EVAbsolutePriceScheduleType>,
 }
-
+#[typetag::serde]
 impl OcppEntity for EVEnergyOfferType {
     /// Validates the fields of EVEnergyOfferType.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

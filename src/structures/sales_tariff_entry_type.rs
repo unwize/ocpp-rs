@@ -29,7 +29,7 @@ impl Default for SalesTariffEntryType {
         }
     }
 }
-
+#[typetag::serde]
 impl OcppEntity for SalesTariffEntryType {
     /// Validates the fields of SalesTariffEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
