@@ -3,6 +3,7 @@ use serde_json::Value;
 use crate::traits::OcppEntity;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
+#[serde(into="i32")]
 enum MessageTypeId {
     #[default]
     Call = 2,
@@ -75,20 +76,22 @@ impl Into<i32> for MessageTypeId {
 /// OCPP-J. Messages strictly adhere to RCP standards.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RcpCall {
-    message_type_id: i32,
+    message_type_id: MessageTypeId,
     message_id: String,
     action: String,
     payload: Box<dyn OcppEntity>
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RcpCallResult {
-    message_type_id: i32,
+    message_type_id: MessageTypeId,
     message_id: String,
     payload: Box<dyn OcppEntity>
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RcpCallError{
-    message_type_id: i32,
+    message_type_id: MessageTypeId,
     message_id: String,
     error_code: String,
     error_description: String,
