@@ -48,9 +48,9 @@ impl TryFrom<i32> for MessageTypeId {
     }
 }
 
-impl Into<String> for MessageTypeId {
-    fn into(self) -> String {
-        match self {
+impl From<MessageTypeId> for String {
+    fn from(val: MessageTypeId) -> Self {
+        match val {
             MessageTypeId::Call => "CALL".to_string(),
             MessageTypeId::CallResult => "CALLRESULT".to_string(),
             MessageTypeId::CallError => "CALLERROR".to_string(),
@@ -60,9 +60,9 @@ impl Into<String> for MessageTypeId {
     }
 }
 
-impl Into<i32> for MessageTypeId {
-    fn into(self) -> i32 {
-        match self {
+impl From<MessageTypeId> for i32 {
+    fn from(val: MessageTypeId) -> Self {
+        match val {
             MessageTypeId::Call => 2,
             MessageTypeId::CallResult => 3,
             MessageTypeId::CallError => 4,
