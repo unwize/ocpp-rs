@@ -59,7 +59,7 @@ pub struct AbsolutePriceScheduleType {
 impl OcppEntity for AbsolutePriceScheduleType {
     /// Naively validate the values within the struct. Does not cross-validate against external
     /// data.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_bounds("price_schedule_id", 0, i32::MAX, self.price_schedule_id);
