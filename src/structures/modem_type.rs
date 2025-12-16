@@ -7,6 +7,7 @@ use crate::traits::OcppEntity;
 /// Used by: BootNotificationRequest.ChargingStationType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct ModemType {
     /// Optional. This contains the ICCID of the modem's SIM card.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -16,14 +17,6 @@ pub struct ModemType {
     pub imsi: Option<String>,
 }
 
-impl Default for ModemType {
-    fn default() -> Self {
-        Self {
-            iccid: None,
-            imsi: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for ModemType {
     /// Validates the fields of ModemType based on specified constraints.
