@@ -22,9 +22,9 @@ impl OcppEntity for DERCurvePointsType {
     }
 }
 
-impl Into<String> for DERCurvePointsType {
-    fn into(self) -> String {
-        format!("x: {}, y: {}", self.x, self.y)
+impl From<DERCurvePointsType> for String {
+    fn from(val: DERCurvePointsType) -> Self {
+        format!("x: {}, y: {}", val.x, val.y)
     }
 }
 
