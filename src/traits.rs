@@ -4,7 +4,7 @@ use std::fmt::Debug;
 
 #[typetag::serde(tag = "type")] // Permit serde-ing of `dyn OcppEntity`
 pub trait OcppEntity: Debug + DynClone {
-    fn validate(self: &Self) -> Result<(), OcppError>;
+    fn validate(&self) -> Result<(), OcppError>;
 }
 
 dyn_clone::clone_trait_object!(OcppEntity); // Permit impl Clone of `dyn OcppEntity`
