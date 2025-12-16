@@ -27,11 +27,10 @@ impl OcppEntity for EVEnergyOfferType {
             errors.push(e);
         }
 
-        if let Some(ev_absolute_price_schedule) = &self.ev_absolute_price_schedule {
-            if let Err(e) = ev_absolute_price_schedule.validate() {
+        if let Some(ev_absolute_price_schedule) = &self.ev_absolute_price_schedule
+            && let Err(e) = ev_absolute_price_schedule.validate() {
                 errors.push(e);
             }
-        }
 
         // Check if any errors occurred
         if errors.is_empty() {
