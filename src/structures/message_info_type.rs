@@ -46,15 +46,14 @@ impl OcppEntity for MessageInfoType {
 
         e.check_bounds("id", 0, i32::MAX, self.id);
 
-        if let (Some(start), Some(end)) = (&self.start_date_time, &self.end_date_time) {
-            if start > end {
+        if let (Some(start), Some(end)) = (&self.start_date_time, &self.end_date_time)
+            && start > end {
                 e.push_relation_error(
                     "start_date_time",
                     "end_date_time",
                     "must be before or equal to end_date_time",
                 );
             }
-        }
 
         if let Some(id) = &self.transaction_id {
             e.check_cardinality("transaction_id", 0, 36, &id.chars());
