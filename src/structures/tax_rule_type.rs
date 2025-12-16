@@ -4,7 +4,7 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::rational_number_type::RationalNumberType;
 use crate::traits::OcppEntity;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct TaxRuleType {
     /// Required. ID for the tax rule.
@@ -41,21 +41,6 @@ impl OcppEntity for TaxRuleType {
         e.check_member("tax_rate", &self.tax_rate);
 
         e.build("TaxRuleType")
-    }
-}
-
-impl Default for TaxRuleType {
-    fn default() -> Self {
-        Self {
-            tax_rule_id: 0,
-            tax_rule_name: None,
-            tax_included_in_price: None,
-            applies_to_energy_fee: false,
-            applies_to_parking_fee: false,
-            applies_to_overstay_fee: false,
-            applies_to_minimum_maximum_cost: false,
-            tax_rate: Default::default(),
-        }
     }
 }
 

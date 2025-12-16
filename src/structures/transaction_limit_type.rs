@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct TransactionLimitType {
     /// Optional. Maximum allowed cost of transaction in the currency of the tariff.
@@ -18,17 +18,6 @@ pub struct TransactionLimitType {
     /// Optional. Maximum State of Charge of the EV in percentage.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_soc: Option<i32>,
-}
-
-impl Default for TransactionLimitType {
-    fn default() -> TransactionLimitType {
-        Self {
-            max_cost: None,
-            max_energy: None,
-            max_time: None,
-            max_soc: None,
-        }
-    }
 }
 #[typetag::serde]
 impl OcppEntity for TransactionLimitType {

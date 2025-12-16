@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct UnitOfMeasureType {
     /// Optional. Unit of the value. Default is "Wh" if the measurand is an "Energy" type.
@@ -12,15 +12,6 @@ pub struct UnitOfMeasureType {
     /// Optional. Multiplier, representing the exponent to base 10. Default is 0.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub multiplier: Option<i32>,
-}
-
-impl Default for UnitOfMeasureType {
-    fn default() -> UnitOfMeasureType {
-        Self {
-            unit: None,
-            multiplier: None,
-        }
-    }
 }
 #[typetag::serde]
 impl OcppEntity for UnitOfMeasureType {
