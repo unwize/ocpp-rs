@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 /// When used in a NotifyEVChargingScheduleRequest only startPeriod, limit, limit_L2, limit_L3 are relevant.
 /// Used by: Common::ChargingScheduleType, Common::CompositeScheduleType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Default)]
 pub struct ChargingSchedulePeriodType {
     /// Required. Start of the period, in seconds from the start of schedule.
     /// The value of StartPeriod also defines the stop time of the previous period.
@@ -135,33 +136,6 @@ pub struct ChargingSchedulePeriodType {
     pub v2x_signal_watt_point_type: Option<Vec<V2XSignalWattPointType>>,
 }
 
-impl Default for ChargingSchedulePeriodType {
-    fn default() -> ChargingSchedulePeriodType {
-        Self {
-            start_period: 0,
-            limit: None,
-            limit_l2: None,
-            limit_l3: None,
-            number_phases: None,
-            phase_to_use: None,
-            discharge_limit: None,
-            discharge_limit_l2: None,
-            discharge_limit_l3: None,
-            setpoint: None,
-            setpoint_l2: None,
-            setpoint_l3: None,
-            setpoint_reactive: None,
-            setpoint_reactive_l2: None,
-            setpoint_reactive_l3: None,
-            precondition_request: None,
-            evse_sleep: None,
-            v2x_baseline: None,
-            operation_mode: None,
-            v2x_freq_watt_curve: None,
-            v2x_signal_watt_point_type: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
