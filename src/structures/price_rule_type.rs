@@ -8,6 +8,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:PriceRuleStackType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct PriceRuleType {
     /// Optional. The duration of the parking fee period (in seconds).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -27,18 +28,6 @@ pub struct PriceRuleType {
     pub power_range_start: RationalNumberType,
 }
 
-impl Default for PriceRuleType {
-    fn default() -> PriceRuleType {
-        Self {
-            parking_fee_period: None,
-            carbon_dioxide_emission: None,
-            renewable_generation_percentage: None,
-            energy_fee: Default::default(),
-            parking_fee: None,
-            power_range_start: Default::default(),
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for PriceRuleType {
     /// Validates the fields of PriceRuleType based on specified constraints.

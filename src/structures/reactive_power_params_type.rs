@@ -7,6 +7,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:DERCurveType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct ReactivePowerParamsType {
     /// Optional. The nominal ac voltage (rms) adjustment to the voltage curve points for Volt-Var curves (percentage).
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -19,15 +20,6 @@ pub struct ReactivePowerParamsType {
     pub autonomous_v_ref_time_constant: Option<f64>,
 }
 
-impl Default for ReactivePowerParamsType {
-    fn default() -> ReactivePowerParamsType {
-        Self {
-            v_ref: None,
-            autonomous_v_ref_enable: None,
-            autonomous_v_ref_time_constant: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for ReactivePowerParamsType {
     /// Validates the fields of ReactivePowerParamsType based on specified constraints.

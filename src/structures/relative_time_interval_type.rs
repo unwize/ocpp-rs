@@ -7,6 +7,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:SalesTariffEntryType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct RelativeTimeIntervalType {
     /// Required. Start of the interval, in seconds from NOW.
     pub start: i32,
@@ -15,14 +16,6 @@ pub struct RelativeTimeIntervalType {
     pub duration: Option<i32>,
 }
 
-impl Default for RelativeTimeIntervalType {
-    fn default() -> RelativeTimeIntervalType {
-        Self {
-            start: 0,
-            duration: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for RelativeTimeIntervalType {
     /// Validates the fields of RelativeTimeIntervalType based on specified constraints.

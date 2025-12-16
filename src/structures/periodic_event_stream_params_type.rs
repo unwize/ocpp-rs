@@ -7,6 +7,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:ConstantStreamDataType, AdjustPeriodicEventStreamRequest, SetVariableMonitoringRequest, SetMonitoringDataRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct PeriodicEventStreamParamsType {
     /// Optional. Time in seconds after which stream data is sent.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -16,14 +17,6 @@ pub struct PeriodicEventStreamParamsType {
     pub values: Option<i32>,
 }
 
-impl Default for PeriodicEventStreamParamsType {
-    fn default() -> Self {
-        Self {
-            interval: None,
-            values: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for PeriodicEventStreamParamsType {
     /// Validates the fields of PeriodicEventStreamParamsType based on specified constraints.

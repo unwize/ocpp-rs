@@ -7,6 +7,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:PriceLevelScheduleType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct PriceLevelScheduleEntryType {
     /// Required. The amount of seconds that define the duration of this given PriceLevelScheduleEntry.
     pub duration: i32,
@@ -14,14 +15,6 @@ pub struct PriceLevelScheduleEntryType {
     pub price_level: i32,
 }
 
-impl Default for PriceLevelScheduleEntryType {
-    fn default() -> PriceLevelScheduleEntryType {
-        Self {
-            duration: 0,
-            price_level: 0,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for PriceLevelScheduleEntryType {
     /// Validates the fields of PriceLevelScheduleEntryType based on specified constraints.

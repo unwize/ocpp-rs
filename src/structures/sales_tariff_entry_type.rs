@@ -9,6 +9,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common:SalesTariffType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct SalesTariffEntryType {
     /// Optional. Defines the price level of this SalesTariffEntry (referring to NumPriceLevels). Small values for the ePriceLevel represent a cheaper TariffEntry. Large values for the ePriceLevel represent a more expensive TariffEntry.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -20,15 +21,6 @@ pub struct SalesTariffEntryType {
     pub consumption_cost: Option<Vec<ConsumptionCostType>>,
 }
 
-impl Default for SalesTariffEntryType {
-    fn default() -> Self {
-        Self {
-            e_price_level: None,
-            relative_time_interval: Default::default(),
-            consumption_cost: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for SalesTariffEntryType {
     /// Validates the fields of SalesTariffEntryType based on specified constraints.
