@@ -8,6 +8,7 @@ use crate::traits::OcppEntity;
 /// Used by: Common::LimitMaxDischargeGetType, SetDERControlRequest
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct LimitMaxDischargeType {
     /// Required. Priority of setting (0=highest)
     pub priority: i32,
@@ -25,17 +26,6 @@ pub struct LimitMaxDischargeType {
     pub power_monitoring_must_trip: Option<DERCurveType>,
 }
 
-impl Default for LimitMaxDischargeType {
-    fn default() -> Self {
-        Self {
-            priority: 0,
-            pct_max_discharge_power: None,
-            start_time: None,
-            duration: None,
-            power_monitoring_must_trip: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for LimitMaxDischargeType {
     /// Validates the fields of LimitMaxDischargeType based on specified constraints.

@@ -5,6 +5,7 @@ use crate::traits::OcppEntity;
 
 /// Used by: Common::DERCurveType
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Default)]
 pub struct HysteresisType {
     /// Optional. High value for return to normal operation after a grid event, in absolute value. This value adopts the same unit as defined by yUnit
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -20,16 +21,6 @@ pub struct HysteresisType {
     pub hysteresis_gradient: Option<f64>,
 }
 
-impl Default for HysteresisType {
-    fn default() -> Self {
-        Self {
-            hysteresis_high: None,
-            hysteresis_low: None,
-            hysteresis_delay: None,
-            hysteresis_gradient: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for HysteresisType {
     /// Validates the fields of HysteresisType based on specified constraints.
@@ -37,17 +28,15 @@ impl OcppEntity for HysteresisType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        if let Some(high) = self.hysteresis_high {
-            if let Some(low) = self.hysteresis_low {
-                if low > high {
+        if let Some(high) = self.hysteresis_high
+            && let Some(low) = self.hysteresis_low
+                && low > high {
                     e.push_relation_error(
                         "high",
                         "low",
                         "hysteresis_high must be greater than hysteresis_low!",
                     );
                 }
-            }
-        }
 
         e.build("HysteresisType")
     }
