@@ -1,11 +1,11 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
-use serde::{Deserialize, Serialize};
-use std::default::Default;
 use crate::enums::component_criterion_enum_type::ComponentCriterionEnumType;
 use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_variable_type::ComponentVariableType;
 use crate::structures::status_info_type::StatusInfoType;
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use serde::{Deserialize, Serialize};
+use std::default::Default;
 
 /// 1.36. GetReport
 pub struct GetReport;
@@ -45,6 +45,12 @@ impl OcppEntity for GetReportRequest {
         }
 
         b.build("GetReportRequest")
+    }
+}
+
+impl OcppRequest for GetReportRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetReport")
     }
 }
 

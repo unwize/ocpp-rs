@@ -3,7 +3,7 @@ use crate::enums::monitoring_criterion_enum_type::MonitoringCriterionEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_variable_type::ComponentVariableType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -45,6 +45,12 @@ impl OcppEntity for GetMonitoringReportRequest {
         }
 
         b.build("GetMonitoringReportRequest")
+    }
+}
+
+impl OcppRequest for GetMonitoringReportRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetMonitoringReport")
     }
 }
 

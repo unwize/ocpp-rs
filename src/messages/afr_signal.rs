@@ -1,7 +1,7 @@
 use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
@@ -29,6 +29,11 @@ pub struct AFRRSignalRequest {
 impl OcppEntity for AFRRSignalRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
+    }
+}
+impl OcppRequest for AFRRSignalRequest {
+    fn get_message_type(&self) -> String {
+        String::from("AFRRSignal")
     }
 }
 

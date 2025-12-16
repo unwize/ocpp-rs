@@ -1,5 +1,5 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -29,6 +29,12 @@ impl OcppEntity for CostUpdatedRequest {
         b.check_cardinality("transaction_id", 0, 36, &self.transaction_id.chars());
 
         b.build("CostUpdatedRequest")
+    }
+}
+
+impl OcppRequest for CostUpdatedRequest {
+    fn get_message_type(&self) -> String {
+        String::from("CostUpdated")
     }
 }
 

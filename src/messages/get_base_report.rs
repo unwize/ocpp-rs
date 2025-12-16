@@ -2,7 +2,7 @@ use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
 use crate::enums::report_base_enum_type::ReportBaseEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -34,6 +34,12 @@ impl OcppEntity for GetBaseReportRequest {
         // `report_base` is an enum, no validation needed.
 
         b.build("GetBaseReportRequest")
+    }
+}
+
+impl OcppRequest for GetBaseReportRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetBaseReport")
     }
 }
 

@@ -1,10 +1,10 @@
-use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
-use serde::{Deserialize, Serialize};
-use std::default::Default;
 use crate::enums::tariff_get_status_enum_type::TariffGetStatusEnumType;
+use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::structures::tariff_assignment_type::TariffAssignmentType;
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use serde::{Deserialize, Serialize};
+use std::default::Default;
 
 /// 1.37. GetTariffs
 pub struct GetTariffs;
@@ -34,6 +34,12 @@ impl OcppEntity for GetTariffsRequest {
     }
 }
 
+impl OcppRequest for GetTariffsRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetTariffs")
+    }
+}
+
 /// 1.37.2. GetTariffsResponse
 /// The response to a GetTariffsRequest, sent by the Charging Station to the CSMS.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
@@ -50,7 +56,6 @@ pub struct GetTariffsResponse {
 impl OcppEntity for GetTariffsResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
-
 
         if let Some(assignments) = &self.tariff_assignments {
             // Cardinality: 0..*

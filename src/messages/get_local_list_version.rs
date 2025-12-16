@@ -1,5 +1,5 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -20,6 +20,12 @@ pub struct GetLocalListVersionRequest {}
 impl OcppEntity for GetLocalListVersionRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
+    }
+}
+
+impl OcppRequest for GetLocalListVersionRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetLocalListVersion")
     }
 }
 

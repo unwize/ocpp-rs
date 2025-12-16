@@ -3,7 +3,7 @@ use crate::enums::operational_status_enum_type::OperationalStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::evse_type::EVSEType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -36,6 +36,12 @@ impl OcppEntity for ChangeAvailabilityRequest {
         }
 
         b.build("ChangeAvailabilityRequest")
+    }
+}
+
+impl OcppRequest for ChangeAvailabilityRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ChangeAvailability")
     }
 }
 

@@ -2,7 +2,7 @@ use crate::enums::get_certificate_status_enum_type::GetCertificateStatusEnumType
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -30,6 +30,12 @@ impl OcppEntity for GetCertificateStatusRequest {
         b.check_member("ocsp_request_data", &self.ocsp_request_data);
 
         b.build("GetCertificateStatusRequest")
+    }
+}
+
+impl OcppRequest for GetCertificateStatusRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetCertificateStatus")
     }
 }
 

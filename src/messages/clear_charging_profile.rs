@@ -2,7 +2,7 @@ use crate::enums::clear_charging_profile_status_enum_type::ClearChargingProfileS
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_charging_profile_type::ClearChargingProfileType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -34,6 +34,12 @@ impl OcppEntity for ClearChargingProfileRequest {
         }
 
         b.build("ClearChargingProfileRequest")
+    }
+}
+
+impl OcppRequest for ClearChargingProfileRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ClearChargingProfile")
     }
 }
 

@@ -1,7 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_status_request_info_type::CertificateStatusRequestInfoType;
 use crate::structures::certificate_status_type::CertificateStatusType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -38,6 +38,12 @@ impl OcppEntity for GetCertificateChainStatusRequest {
         );
 
         b.build("GetCertificateChainStatusRequest")
+    }
+}
+
+impl OcppRequest for GetCertificateChainStatusRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetCertificateChainStatus")
     }
 }
 

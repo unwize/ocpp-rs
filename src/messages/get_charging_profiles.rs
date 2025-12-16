@@ -2,7 +2,7 @@ use crate::enums::get_charging_profile_status_enum_type::GetChargingProfileStatu
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_profile_criterion_type::ChargingProfileCriterionType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -42,6 +42,12 @@ impl OcppEntity for GetChargingProfilesRequest {
         b.check_member("charging_profile", &self.charging_profile);
 
         b.build("GetChargingProfilesRequest")
+    }
+}
+
+impl OcppRequest for GetChargingProfilesRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetChargingProfiles")
     }
 }
 

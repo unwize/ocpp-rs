@@ -2,7 +2,7 @@ use crate::enums::delete_certificate_status_enum_type::DeleteCertificateStatusEn
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -30,6 +30,12 @@ impl OcppEntity for DeleteCertificateRequest {
         b.check_member("certificate_hash_data", &self.certificate_hash_data);
 
         b.build("DeleteCertificateRequest")
+    }
+}
+
+impl OcppRequest for DeleteCertificateRequest {
+    fn get_message_type(&self) -> String {
+        String::from("DeleteCertificate")
     }
 }
 

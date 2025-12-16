@@ -3,7 +3,7 @@ use crate::enums::registration_status_enum_type::RegistrationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_station_type::ChargingStationType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
@@ -34,6 +34,12 @@ impl OcppEntity for BootNotificationRequest {
         b.check_member("charging_station", &self.charging_station);
 
         b.build("BootNotificationRequest")
+    }
+}
+
+impl OcppRequest for BootNotificationRequest {
+    fn get_message_type(&self) -> String {
+        String::from("BootNotification")
     }
 }
 

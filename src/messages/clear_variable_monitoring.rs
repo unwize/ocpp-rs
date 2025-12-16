@@ -1,6 +1,6 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_monitoring_result_type::ClearMonitoringResultType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -37,6 +37,12 @@ impl OcppEntity for ClearVariableMonitoringRequest {
 impl Default for ClearVariableMonitoringRequest {
     fn default() -> ClearVariableMonitoringRequest {
         Self { id: vec![0] }
+    }
+}
+
+impl OcppRequest for ClearVariableMonitoringRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ClearVariableMonitoring")
     }
 }
 

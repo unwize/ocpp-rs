@@ -2,7 +2,7 @@ use crate::enums::battery_swap_event_enum_types::BatterySwapEventEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::battery_data_type::BatteryDataType;
 use crate::structures::id_token_type::IdTokenType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -39,6 +39,12 @@ impl OcppEntity for BatterySwapRequest {
         b.check_iter_member("battery_data", self.battery_data.iter());
 
         b.build("BatterySwapRequest")
+    }
+}
+
+impl OcppRequest for BatterySwapRequest {
+    fn get_message_type(&self) -> String {
+        String::from("BatterySwap")
     }
 }
 

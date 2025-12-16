@@ -5,7 +5,7 @@ use crate::structures::id_token_info_type::IdTokenInfoType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
 use crate::structures::tariff_type::TariffType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -57,6 +57,12 @@ impl OcppEntity for AuthorizeRequest {
         }
 
         b.build("AuthorizeRequest")
+    }
+}
+
+impl OcppRequest for AuthorizeRequest {
+    fn get_message_type(&self) -> String {
+        String::from("Authorize")
     }
 }
 

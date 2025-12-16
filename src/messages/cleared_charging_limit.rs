@@ -1,5 +1,5 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -38,6 +38,12 @@ impl OcppEntity for ClearedChargingLimitRequest {
         }
 
         b.build("ClearedChargingLimitRequest")
+    }
+}
+
+impl OcppRequest for ClearedChargingLimitRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ClearedChargingLimit")
     }
 }
 

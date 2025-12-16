@@ -2,7 +2,7 @@ use crate::enums::certificate_action_enum_type::CertificateActionEnumType;
 use crate::enums::iso_15118_ev_certificate_status_enum_type::Iso15118EVCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -60,6 +60,12 @@ impl OcppEntity for Get15118EVCertificateRequest {
         }
 
         b.build("Get15118EVCertificateRequest")
+    }
+}
+
+impl OcppRequest for Get15118EVCertificateRequest {
+    fn get_message_type(&self) -> String {
+        String::from("Get15118EVCertificate")
     }
 }
 

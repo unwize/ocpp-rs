@@ -3,7 +3,7 @@ use crate::enums::get_installed_certificate_status_enum_type::GetInstalledCertif
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_chain_type::CertificateHashDataChainType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -33,6 +33,12 @@ impl OcppEntity for GetInstalledCertificateIdsRequest {
         }
 
         b.build("GetInstalledCertificateIdsRequest")
+    }
+}
+
+impl OcppRequest for GetInstalledCertificateIdsRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetInstalledCertificateIds")
     }
 }
 

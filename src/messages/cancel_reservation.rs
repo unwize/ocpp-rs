@@ -1,7 +1,7 @@
 use crate::enums::cancel_reservation_status_enum_type::CancelReservationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -52,6 +52,12 @@ impl OcppEntity for CancelReservationResponse {
         }
 
         b.build("CancelReservationResponse")
+    }
+}
+
+impl OcppRequest for CancelReservationRequest {
+    fn get_message_type(&self) -> String {
+        String::from("CancelReservation")
     }
 }
 

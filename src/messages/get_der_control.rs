@@ -2,7 +2,7 @@ use crate::enums::der_control_enum_type::DERControlEnumType;
 use crate::enums::der_control_status_enum_type::DERControlStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -41,6 +41,12 @@ impl OcppEntity for GetDERControlRequest {
         }
 
         b.build("GetDERControlRequest")
+    }
+}
+
+impl OcppRequest for GetDERControlRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetDERControl")
     }
 }
 

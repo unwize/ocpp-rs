@@ -1,6 +1,6 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_tarrifs_result_type::ClearTariffsResultType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -38,6 +38,12 @@ impl OcppEntity for ClearTariffsRequest {
         }
 
         b.build("ClearTariffsRequest")
+    }
+}
+
+impl OcppRequest for ClearTariffsRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ClearTariffs")
     }
 }
 

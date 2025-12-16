@@ -3,7 +3,7 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -53,6 +53,12 @@ impl OcppEntity for CustomerInformationRequest {
         }
 
         b.build("CustomerInformationRequest")
+    }
+}
+
+impl OcppRequest for CustomerInformationRequest {
+    fn get_message_type(&self) -> String {
+        String::from("CustomerInformation")
     }
 }
 

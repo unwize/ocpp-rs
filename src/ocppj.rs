@@ -1,16 +1,16 @@
-use serde::{Serialize, Deserialize};
-use serde_json::Value;
 use crate::traits::OcppEntity;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
-#[serde(into="i32")]
+#[serde(into = "i32")]
 enum MessageTypeId {
     #[default]
     Call = 2,
     CallResult = 3,
     CallError = 4,
     CallResultError = 5,
-    Send = 6
+    Send = 6,
 }
 
 impl TryFrom<&str> for MessageTypeId {
@@ -22,7 +22,7 @@ impl TryFrom<&str> for MessageTypeId {
             "CALLERROR" => Ok(MessageTypeId::CallError),
             "CALLRESULTERROR" => Ok(MessageTypeId::CallResultError),
             "SEND" => Ok(MessageTypeId::Send),
-            _ => Err(())
+            _ => Err(()),
         }
     }
 }
@@ -43,7 +43,7 @@ impl TryFrom<i32> for MessageTypeId {
             4 => Ok(MessageTypeId::CallError),
             5 => Ok(MessageTypeId::CallResultError),
             6 => Ok(MessageTypeId::Send),
-            _ => Err(())
+            _ => Err(()),
         }
     }
 }
@@ -55,7 +55,7 @@ impl Into<String> for MessageTypeId {
             MessageTypeId::CallResult => "CALLRESULT".to_string(),
             MessageTypeId::CallError => "CALLERROR".to_string(),
             MessageTypeId::Send => "SEND".to_string(),
-            MessageTypeId::CallResultError => "CallRESULTERROR".to_string()
+            MessageTypeId::CallResultError => "CallRESULTERROR".to_string(),
         }
     }
 }
@@ -79,21 +79,21 @@ pub struct RcpCall {
     message_type_id: MessageTypeId,
     message_id: String,
     action: String,
-    payload: Box<dyn OcppEntity>
+    payload: Box<dyn OcppEntity>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct RcpCallResult {
     message_type_id: MessageTypeId,
     message_id: String,
-    payload: Box<dyn OcppEntity>
+    payload: Box<dyn OcppEntity>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct RcpCallError{
+pub struct RcpCallError {
     message_type_id: MessageTypeId,
     message_id: String,
     error_code: String,
     error_description: String,
-    error_details: Value
+    error_details: Value,
 }

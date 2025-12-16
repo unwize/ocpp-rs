@@ -1,8 +1,8 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::structures::constant_stream_data_type::ConstantStreamDataType;
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-use crate::structures::constant_stream_data_type::ConstantStreamDataType;
 
 /// 1.35. GetPeriodicEventStream
 pub struct GetPeriodicEventStream;
@@ -21,6 +21,12 @@ pub struct GetPeriodicEventStreamRequest {}
 impl OcppEntity for GetPeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())
+    }
+}
+
+impl OcppRequest for GetPeriodicEventStreamRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetPeriodicEventStream")
     }
 }
 

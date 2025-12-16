@@ -2,7 +2,7 @@ use crate::enums::tariff_change_status_enum_type::TariffChangeStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::structures::tariff_type::TariffType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -33,6 +33,12 @@ impl OcppEntity for ChangeTransactionTariffRequest {
         b.check_member("tariff", &self.tariff);
 
         b.build("ChangeTransactionTariffRequest")
+    }
+}
+
+impl OcppRequest for ChangeTransactionTariffRequest {
+    fn get_message_type(&self) -> String {
+        String::from("ChangeTransactionTariff")
     }
 }
 

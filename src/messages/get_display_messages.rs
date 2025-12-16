@@ -3,7 +3,7 @@ use crate::enums::message_priority_enum_type::MessagePriorityEnumType;
 use crate::enums::message_state_enum_type::MessageStateEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -43,6 +43,12 @@ impl OcppEntity for GetDisplayMessagesRequest {
 
         b.check_bounds("request_id", 0, i32::MAX, self.request_id);
         b.build("GetDisplayMessagesRequest")
+    }
+}
+
+impl OcppRequest for GetDisplayMessagesRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetDisplayMessages")
     }
 }
 

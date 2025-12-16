@@ -3,7 +3,7 @@ use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::composite_schedule_type::CompositeScheduleType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage};
+use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
@@ -40,6 +40,12 @@ impl OcppEntity for GetCompositeScheduleRequest {
         b.check_bounds("evse_id", 0, i32::MAX, self.evse_id);
 
         b.build("GetCompositeScheduleRequest")
+    }
+}
+
+impl OcppRequest for GetCompositeScheduleRequest {
+    fn get_message_type(&self) -> String {
+        String::from("GetCompositeSchedule")
     }
 }
 
