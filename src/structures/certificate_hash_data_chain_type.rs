@@ -17,7 +17,7 @@ pub struct CertificateHashDataChainType {
 }
 #[typetag::serde]
 impl OcppEntity for CertificateHashDataChainType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_member("certificate_hash_data", &self.certificate_hash_data);

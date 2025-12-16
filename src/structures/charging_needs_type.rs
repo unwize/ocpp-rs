@@ -56,7 +56,7 @@ pub struct ChargingNeedsType {
 }
 #[typetag::serde]
 impl OcppEntity for ChargingNeedsType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(v2x_charging_parameters) = &self.v2x_charging_parameters {

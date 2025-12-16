@@ -32,7 +32,7 @@ impl Default for CertificateStatusType {
 }
 #[typetag::serde]
 impl OcppEntity for CertificateStatusType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         self.certificate_hash_data.validate()
     }
 }

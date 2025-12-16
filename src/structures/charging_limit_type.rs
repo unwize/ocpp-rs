@@ -18,7 +18,7 @@ pub struct ChargingLimitType {
 }
 #[typetag::serde]
 impl OcppEntity for ChargingLimitType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality(
             "charging_limit_source",

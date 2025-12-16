@@ -44,7 +44,7 @@ impl Default for APNType {
 impl OcppEntity for APNType {
     /// Validates the fields of ApnType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("apn", 0, 2000, &self.apn.chars());

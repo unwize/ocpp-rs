@@ -38,7 +38,7 @@ impl Default for CertificateHashDataType {
 impl OcppEntity for CertificateHashDataType {
     /// Validates the fields of CertificateHashDataType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("issuer_name_hash", 0, 128, &self.issuer_name_hash.chars());

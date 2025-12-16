@@ -42,7 +42,7 @@ impl Default for BatteryDataType {
 impl OcppEntity for BatteryDataType {
     /// Validates the fields of BatteryDataType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_bounds("evse_id", 0, i32::MAX, self.evse_id);

@@ -29,7 +29,7 @@ impl Default for CertificateStatusRequestInfoType {
 }
 #[typetag::serde]
 impl OcppEntity for CertificateStatusRequestInfoType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("urls", 1, 5, &self.urls.iter());

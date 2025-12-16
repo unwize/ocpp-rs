@@ -27,7 +27,7 @@ pub struct ChargingProfileCriterionType {
 }
 #[typetag::serde]
 impl OcppEntity for ChargingProfileCriterionType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(stack_level) = self.stack_level {

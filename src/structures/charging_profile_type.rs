@@ -72,7 +72,7 @@ pub struct ChargingProfileType {
 }
 #[typetag::serde]
 impl OcppEntity for ChargingProfileType {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_bounds("stack_level", 0, i32::MAX, self.stack_level);
 

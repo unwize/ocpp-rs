@@ -18,7 +18,7 @@ pub struct AuthorizationData {
 }
 #[typetag::serde]
 impl OcppEntity for AuthorizationData {
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut errors: Vec<OcppError> = Vec::new();
 
         if let Err(e) = self.id_token_info.validate() {
