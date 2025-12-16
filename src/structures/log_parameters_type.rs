@@ -37,17 +37,15 @@ impl OcppEntity for LogParametersType {
 
         e.check_cardinality("remote_location", 0, 2000, &self.remote_location.chars());
 
-        if let Some(oldest_timestamp) = &self.oldest_timestamp {
-            if let Some(newest_timestamp) = &self.latest_timestamp {
-                if newest_timestamp < oldest_timestamp {
+        if let Some(oldest_timestamp) = &self.oldest_timestamp
+            && let Some(newest_timestamp) = &self.latest_timestamp
+                && newest_timestamp < oldest_timestamp {
                     e.push_relation_error(
                         "oldest_timestamp",
                         "latest_timestamp",
                         "latest_timestamp must be greater than oldest_timestamp!",
                     );
                 }
-            }
-        }
 
         e.build("LogParametersType")
     }
