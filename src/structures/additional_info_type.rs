@@ -29,7 +29,7 @@ impl Default for AdditionalInfoType {
 impl OcppEntity for AdditionalInfoType {
     /// Validates the fields of AdditionalInfoType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality(

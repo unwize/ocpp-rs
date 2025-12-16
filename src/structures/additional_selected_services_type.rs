@@ -17,7 +17,7 @@ pub struct AdditionalSelectedServicesType {
 impl OcppEntity for AdditionalSelectedServicesType {
     /// Validates the fields of AdditionalSelectedServicesType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
         e.check_cardinality("service_name", 0, 80, &self.service_name.chars());
         e.build("AdditionalSelectedServicesType")

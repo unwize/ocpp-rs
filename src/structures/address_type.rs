@@ -29,7 +29,7 @@ pub struct AddressType {
 impl OcppEntity for AddressType {
     /// Validates the fields of AddressType based on specified string length constraints.
     /// Returns `true` if all values are valid, `false` otherwise.
-    fn validate(self: &Self) -> Result<(), OcppError> {
+    fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
         e.check_cardinality("name", 0, 50, &self.name.chars());
