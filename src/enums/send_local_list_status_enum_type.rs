@@ -25,9 +25,9 @@ impl fmt::Display for SendLocalListStatusEnumType {
     }
 }
 
-impl Into<String> for SendLocalListStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<SendLocalListStatusEnumType> for String {
+    fn from(val: SendLocalListStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -25,9 +25,9 @@ impl fmt::Display for ResetStatusEnumType {
     }
 }
 
-impl Into<String> for ResetStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ResetStatusEnumType> for String {
+    fn from(val: ResetStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

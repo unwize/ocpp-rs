@@ -25,9 +25,9 @@ impl fmt::Display for MutabilityEnumType {
     }
 }
 
-impl Into<String> for MutabilityEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MutabilityEnumType> for String {
+    fn from(val: MutabilityEnumType) -> Self {
+        val.to_string()
     }
 }
 

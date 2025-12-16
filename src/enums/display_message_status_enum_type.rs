@@ -41,9 +41,9 @@ impl TryFrom<String> for DisplayMessageStatusEnumType {
     }
 }
 
-impl Into<String> for DisplayMessageStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DisplayMessageStatusEnumType> for String {
+    fn from(val: DisplayMessageStatusEnumType) -> Self {
+        match val {
             DisplayMessageStatusEnumType::Accepted => "Accepted".to_string(),
             DisplayMessageStatusEnumType::NotSupportedMessageFormat => {
                 "NotSupportedMessageFormat".to_string()

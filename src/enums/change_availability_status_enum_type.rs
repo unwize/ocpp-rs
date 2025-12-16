@@ -28,9 +28,9 @@ impl TryFrom<String> for ChangeAvailabilityStatusEnumType {
     }
 }
 
-impl Into<String> for ChangeAvailabilityStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ChangeAvailabilityStatusEnumType> for String {
+    fn from(val: ChangeAvailabilityStatusEnumType) -> Self {
+        match val {
             ChangeAvailabilityStatusEnumType::Accepted => "Accepted".to_string(),
             ChangeAvailabilityStatusEnumType::Rejected => "Rejected".to_string(),
             ChangeAvailabilityStatusEnumType::Scheduled => "Scheduled".to_string(),

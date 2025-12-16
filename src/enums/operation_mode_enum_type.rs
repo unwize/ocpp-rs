@@ -40,9 +40,9 @@ impl fmt::Display for OperationModeEnumType {
     }
 }
 
-impl Into<String> for OperationModeEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<OperationModeEnumType> for String {
+    fn from(val: OperationModeEnumType) -> Self {
+        val.to_string()
     }
 }
 

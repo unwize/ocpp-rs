@@ -36,9 +36,9 @@ impl fmt::Display for MonitorEnumType {
     }
 }
 
-impl Into<String> for MonitorEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MonitorEnumType> for String {
+    fn from(val: MonitorEnumType) -> Self {
+        val.to_string()
     }
 }
 

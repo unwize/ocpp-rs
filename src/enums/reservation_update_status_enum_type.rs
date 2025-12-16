@@ -25,9 +25,9 @@ impl fmt::Display for ReservationUpdateStatusEnumType {
     }
 }
 
-impl Into<String> for ReservationUpdateStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ReservationUpdateStatusEnumType> for String {
+    fn from(val: ReservationUpdateStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

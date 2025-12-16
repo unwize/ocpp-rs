@@ -25,9 +25,9 @@ impl TryFrom<String> for ClearMessageStatusEnumType {
     }
 }
 
-impl Into<String> for ClearMessageStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ClearMessageStatusEnumType> for String {
+    fn from(val: ClearMessageStatusEnumType) -> Self {
+        match val {
             ClearMessageStatusEnumType::Accepted => "Accepted".to_string(),
             ClearMessageStatusEnumType::Unknown => "Unknown".to_string(),
             ClearMessageStatusEnumType::Rejected => "Rejected".to_string(),

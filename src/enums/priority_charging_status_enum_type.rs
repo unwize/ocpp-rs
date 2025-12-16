@@ -25,9 +25,9 @@ impl fmt::Display for PriorityChargingStatusEnumType {
     }
 }
 
-impl Into<String> for PriorityChargingStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PriorityChargingStatusEnumType> for String {
+    fn from(val: PriorityChargingStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

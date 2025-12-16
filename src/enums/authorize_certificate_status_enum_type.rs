@@ -41,9 +41,9 @@ impl TryFrom<String> for AuthorizeCertificateStatusEnumType {
     }
 }
 
-impl Into<String> for AuthorizeCertificateStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<AuthorizeCertificateStatusEnumType> for String {
+    fn from(val: AuthorizeCertificateStatusEnumType) -> Self {
+        match val {
             AuthorizeCertificateStatusEnumType::Accepted => "Accepted".to_string(),
             AuthorizeCertificateStatusEnumType::SignatureError => "SignatureError".to_string(),
             AuthorizeCertificateStatusEnumType::CertificateExpired => {

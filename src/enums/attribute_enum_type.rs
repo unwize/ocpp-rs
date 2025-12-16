@@ -27,9 +27,9 @@ impl TryFrom<String> for AttributeEnumType {
     }
 }
 
-impl Into<String> for AttributeEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<AttributeEnumType> for String {
+    fn from(val: AttributeEnumType) -> Self {
+        match val {
             AttributeEnumType::Actual => "Actual".to_string(),
             AttributeEnumType::Target => "Target".to_string(),
             AttributeEnumType::MinSet => "MinSet".to_string(),

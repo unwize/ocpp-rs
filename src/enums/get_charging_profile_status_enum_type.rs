@@ -25,9 +25,9 @@ impl TryFrom<String> for GetChargingProfileStatusEnumType {
     }
 }
 
-impl Into<String> for GetChargingProfileStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GetChargingProfileStatusEnumType> for String {
+    fn from(val: GetChargingProfileStatusEnumType) -> Self {
+        match val {
             GetChargingProfileStatusEnumType::Accepted => "Accepted".to_string(),
             GetChargingProfileStatusEnumType::NoProfiles => "NoProfiles".to_string(),
         }

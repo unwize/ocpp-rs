@@ -34,9 +34,9 @@ impl fmt::Display for OCPPVersionEnumType {
     }
 }
 
-impl Into<String> for OCPPVersionEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<OCPPVersionEnumType> for String {
+    fn from(val: OCPPVersionEnumType) -> Self {
+        val.to_string()
     }
 }
 

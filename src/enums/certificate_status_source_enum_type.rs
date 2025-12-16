@@ -24,9 +24,9 @@ impl TryFrom<String> for CertificateStatusSourceEnumType {
     }
 }
 
-impl Into<String> for CertificateStatusSourceEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CertificateStatusSourceEnumType> for String {
+    fn from(val: CertificateStatusSourceEnumType) -> Self {
+        match val {
             CertificateStatusSourceEnumType::Crl => "CRL".to_string(),
             CertificateStatusSourceEnumType::Ocsp => "OCSP".to_string(),
         }

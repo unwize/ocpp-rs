@@ -48,9 +48,9 @@ impl TryFrom<String> for EnergyTransferModeEnumType {
     }
 }
 
-impl Into<String> for EnergyTransferModeEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<EnergyTransferModeEnumType> for String {
+    fn from(val: EnergyTransferModeEnumType) -> Self {
+        match val {
             EnergyTransferModeEnumType::AC_single_phase => "AC_single_phase".to_string(),
             EnergyTransferModeEnumType::AC_two_phase => "AC_two_phase".to_string(),
             EnergyTransferModeEnumType::AC_three_phase => "AC_three_phase".to_string(),

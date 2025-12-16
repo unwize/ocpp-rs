@@ -25,9 +25,9 @@ impl TryFrom<String> for CancelReservationStatusEnumType {
     }
 }
 
-impl Into<String> for CancelReservationStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CancelReservationStatusEnumType> for String {
+    fn from(val: CancelReservationStatusEnumType) -> Self {
+        match val {
             CancelReservationStatusEnumType::Accepted => "Accepted".to_string(),
             CancelReservationStatusEnumType::Rejected => "Rejected".to_string(),
         }

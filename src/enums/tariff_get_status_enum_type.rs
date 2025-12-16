@@ -26,9 +26,9 @@ impl fmt::Display for TariffGetStatusEnumType {
     }
 }
 
-impl Into<String> for TariffGetStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<TariffGetStatusEnumType> for String {
+    fn from(val: TariffGetStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

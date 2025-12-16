@@ -22,9 +22,9 @@ impl fmt::Display for RecurrencyKindEnumType {
     }
 }
 
-impl Into<String> for RecurrencyKindEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<RecurrencyKindEnumType> for String {
+    fn from(val: RecurrencyKindEnumType) -> Self {
+        val.to_string()
     }
 }
 

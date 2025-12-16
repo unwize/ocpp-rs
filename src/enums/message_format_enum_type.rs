@@ -31,9 +31,9 @@ impl fmt::Display for MessageFormatEnumType {
     }
 }
 
-impl Into<String> for MessageFormatEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MessageFormatEnumType> for String {
+    fn from(val: MessageFormatEnumType) -> Self {
+        val.to_string()
     }
 }
 

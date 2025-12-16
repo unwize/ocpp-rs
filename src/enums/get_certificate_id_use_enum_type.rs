@@ -38,9 +38,9 @@ impl TryFrom<String> for GetCertificateIdUseEnumType {
     }
 }
 
-impl Into<String> for GetCertificateIdUseEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GetCertificateIdUseEnumType> for String {
+    fn from(val: GetCertificateIdUseEnumType) -> Self {
+        match val {
             GetCertificateIdUseEnumType::V2GRootCertificate => "V2GRootCertificate".to_string(),
             GetCertificateIdUseEnumType::MORootCertificate => "MORootCertificate".to_string(),
             GetCertificateIdUseEnumType::CSMSRootCertificate => "CSMSRootCertificate".to_string(),

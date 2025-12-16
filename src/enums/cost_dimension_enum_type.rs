@@ -36,9 +36,9 @@ impl TryFrom<String> for CostDimensionEnumType {
     }
 }
 
-impl Into<String> for CostDimensionEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CostDimensionEnumType> for String {
+    fn from(val: CostDimensionEnumType) -> Self {
+        match val {
             CostDimensionEnumType::Energy => "Energy".to_string(),
             CostDimensionEnumType::MaxCurrent => "MaxCurrent".to_string(),
             CostDimensionEnumType::MinCurrent => "MinCurrent".to_string(),

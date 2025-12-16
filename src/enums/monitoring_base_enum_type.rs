@@ -24,9 +24,9 @@ impl fmt::Display for MonitoringBaseEnumType {
     }
 }
 
-impl Into<String> for MonitoringBaseEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MonitoringBaseEnumType> for String {
+    fn from(val: MonitoringBaseEnumType) -> Self {
+        val.to_string()
     }
 }
 

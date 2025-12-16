@@ -30,9 +30,9 @@ impl TryFrom<String> for ConnectorStatusEnumType {
     }
 }
 
-impl Into<String> for ConnectorStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ConnectorStatusEnumType> for String {
+    fn from(val: ConnectorStatusEnumType) -> Self {
+        match val {
             ConnectorStatusEnumType::Available => "Available".to_string(),
             ConnectorStatusEnumType::Occupied => "Occupied".to_string(),
             ConnectorStatusEnumType::Reserved => "Reserved".to_string(),

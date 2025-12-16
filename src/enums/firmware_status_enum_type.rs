@@ -58,9 +58,9 @@ impl TryFrom<String> for FirmwareStatusEnumType {
     }
 }
 
-impl Into<String> for FirmwareStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<FirmwareStatusEnumType> for String {
+    fn from(val: FirmwareStatusEnumType) -> Self {
+        match val {
             FirmwareStatusEnumType::Downloaded => "Downloaded".to_string(),
             FirmwareStatusEnumType::DownloadFailed => "DownloadFailed".to_string(),
             FirmwareStatusEnumType::Downloading => "Downloading".to_string(),

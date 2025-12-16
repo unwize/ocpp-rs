@@ -25,9 +25,9 @@ impl TryFrom<String> for BatterySwapEventEnumType {
     }
 }
 
-impl Into<String> for BatterySwapEventEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<BatterySwapEventEnumType> for String {
+    fn from(val: BatterySwapEventEnumType) -> Self {
+        match val {
             BatterySwapEventEnumType::BatteryIn => "BatteryIn".to_string(),
             BatterySwapEventEnumType::BatteryOut => "BatteryOut".to_string(),
             BatterySwapEventEnumType::BatteryOutTimeout => "BatteryOutTimeout".to_string(),

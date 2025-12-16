@@ -25,9 +25,9 @@ impl fmt::Display for TriggerMessageStatusEnumType {
     }
 }
 
-impl Into<String> for TriggerMessageStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<TriggerMessageStatusEnumType> for String {
+    fn from(val: TriggerMessageStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

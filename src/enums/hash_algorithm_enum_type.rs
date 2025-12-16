@@ -24,9 +24,9 @@ impl TryFrom<String> for HashAlgorithmEnumType {
     }
 }
 
-impl Into<String> for HashAlgorithmEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<HashAlgorithmEnumType> for String {
+    fn from(val: HashAlgorithmEnumType) -> Self {
+        match val {
             HashAlgorithmEnumType::SHA256 => "SHA256".to_string(),
             HashAlgorithmEnumType::SHA384 => "SHA384".to_string(),
             HashAlgorithmEnumType::SHA512 => "SHA512".to_string(),

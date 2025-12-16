@@ -30,9 +30,9 @@ impl TryFrom<String> for ChargingProfileKindEnumType {
     }
 }
 
-impl Into<String> for ChargingProfileKindEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ChargingProfileKindEnumType> for String {
+    fn from(val: ChargingProfileKindEnumType) -> Self {
+        match val {
             ChargingProfileKindEnumType::Absolute => "Absolute".to_string(),
             ChargingProfileKindEnumType::Recurring => "Recurring".to_string(),
             ChargingProfileKindEnumType::Relative => "Relative".to_string(),

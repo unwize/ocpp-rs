@@ -48,9 +48,9 @@ impl TryFrom<String> for GridEventFaultEnumType {
     }
 }
 
-impl Into<String> for GridEventFaultEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GridEventFaultEnumType> for String {
+    fn from(val: GridEventFaultEnumType) -> Self {
+        match val {
             GridEventFaultEnumType::CurrentImbalance => "CurrentImbalance".to_string(),
             GridEventFaultEnumType::LocalEmergency => "LocalEmergency".to_string(),
             GridEventFaultEnumType::LowInputPower => "LowInputPower".to_string(),

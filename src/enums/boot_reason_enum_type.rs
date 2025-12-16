@@ -43,9 +43,9 @@ impl TryFrom<String> for BootReasonEnumType {
     }
 }
 
-impl Into<String> for BootReasonEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<BootReasonEnumType> for String {
+    fn from(val: BootReasonEnumType) -> Self {
+        match val {
             BootReasonEnumType::ApplicationReset => "ApplicationReset".to_string(),
             BootReasonEnumType::FirmwareUpdate => "FirmwareUpdate".to_string(),
             BootReasonEnumType::LocalReset => "LocalReset".to_string(),

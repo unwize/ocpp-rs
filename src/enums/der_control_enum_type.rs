@@ -78,9 +78,9 @@ impl TryFrom<String> for DERControlEnumType {
     }
 }
 
-impl Into<String> for DERControlEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DERControlEnumType> for String {
+    fn from(val: DERControlEnumType) -> Self {
+        match val {
             DERControlEnumType::EnterService => "EnterService".to_string(),
             DERControlEnumType::FreqDroop => "FreqDroop".to_string(),
             DERControlEnumType::FreqWatt => "FreqWatt".to_string(),

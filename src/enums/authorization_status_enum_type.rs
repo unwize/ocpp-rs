@@ -49,9 +49,9 @@ impl TryFrom<String> for AuthorizationStatusEnumType {
     }
 }
 
-impl Into<String> for AuthorizationStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<AuthorizationStatusEnumType> for String {
+    fn from(val: AuthorizationStatusEnumType) -> Self {
+        match val {
             AuthorizationStatusEnumType::Accepted => "Accepted".to_string(),
             AuthorizationStatusEnumType::Blocked => "Blocked".to_string(),
             AuthorizationStatusEnumType::ConcurrentTx => "ConcurrentTx".to_string(),

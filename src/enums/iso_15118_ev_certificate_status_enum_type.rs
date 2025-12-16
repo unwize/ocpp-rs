@@ -25,9 +25,9 @@ impl TryFrom<String> for Iso15118EVCertificateStatusEnumType {
     }
 }
 
-impl Into<String> for Iso15118EVCertificateStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<Iso15118EVCertificateStatusEnumType> for String {
+    fn from(val: Iso15118EVCertificateStatusEnumType) -> Self {
+        match val {
             Iso15118EVCertificateStatusEnumType::Accepted => "Accepted".to_string(),
             Iso15118EVCertificateStatusEnumType::Failed => "Failed".to_string(),
         }

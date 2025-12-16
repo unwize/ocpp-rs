@@ -21,9 +21,9 @@ impl TryFrom<String> for ChargingRateUnitEnumType {
     }
 }
 
-impl Into<String> for ChargingRateUnitEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ChargingRateUnitEnumType> for String {
+    fn from(val: ChargingRateUnitEnumType) -> Self {
+        match val {
             ChargingRateUnitEnumType::W => "W".to_string(),
             ChargingRateUnitEnumType::A => "A".to_string(),
         }

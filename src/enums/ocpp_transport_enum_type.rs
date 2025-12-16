@@ -22,9 +22,9 @@ impl fmt::Display for OCPPTransportEnumType {
     }
 }
 
-impl Into<String> for OCPPTransportEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<OCPPTransportEnumType> for String {
+    fn from(val: OCPPTransportEnumType) -> Self {
+        val.to_string()
     }
 }
 

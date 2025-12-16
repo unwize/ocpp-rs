@@ -60,9 +60,9 @@ impl TryFrom<String> for IslandingDetectionEnumType {
     }
 }
 
-impl Into<String> for IslandingDetectionEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<IslandingDetectionEnumType> for String {
+    fn from(val: IslandingDetectionEnumType) -> Self {
+        match val {
             IslandingDetectionEnumType::NoAntiIslandingSupport => {
                 "NoAntiIslandingSupport".to_string()
             }

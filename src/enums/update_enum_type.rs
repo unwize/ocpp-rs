@@ -22,9 +22,9 @@ impl fmt::Display for UpdateEnumType {
     }
 }
 
-impl Into<String> for UpdateEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<UpdateEnumType> for String {
+    fn from(val: UpdateEnumType) -> Self {
+        val.to_string()
     }
 }
 

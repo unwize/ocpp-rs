@@ -27,9 +27,9 @@ impl TryFrom<String> for ClearMonitoringStatusEnumType {
     }
 }
 
-impl Into<String> for ClearMonitoringStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ClearMonitoringStatusEnumType> for String {
+    fn from(val: ClearMonitoringStatusEnumType) -> Self {
+        match val {
             ClearMonitoringStatusEnumType::Accepted => "Accepted".to_string(),
             ClearMonitoringStatusEnumType::Rejected => "Rejected".to_string(),
             ClearMonitoringStatusEnumType::NotFound => "NotFound".to_string(),

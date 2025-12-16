@@ -27,9 +27,9 @@ impl fmt::Display for VPNEnumType {
     }
 }
 
-impl Into<String> for VPNEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<VPNEnumType> for String {
+    fn from(val: VPNEnumType) -> Self {
+        val.to_string()
     }
 }
 

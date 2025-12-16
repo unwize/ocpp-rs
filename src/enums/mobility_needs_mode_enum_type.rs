@@ -21,9 +21,9 @@ impl fmt::Display for MobilityNeedsModeEnumType {
     }
 }
 
-impl Into<String> for MobilityNeedsModeEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MobilityNeedsModeEnumType> for String {
+    fn from(val: MobilityNeedsModeEnumType) -> Self {
+        val.to_string()
     }
 }
 

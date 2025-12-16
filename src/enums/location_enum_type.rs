@@ -33,9 +33,9 @@ impl TryFrom<String> for LocationEnumType {
     }
 }
 
-impl Into<String> for LocationEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<LocationEnumType> for String {
+    fn from(val: LocationEnumType) -> Self {
+        match val {
             LocationEnumType::Body => "Body".to_string(),
             LocationEnumType::Cable => "Cable".to_string(),
             LocationEnumType::EV => "EV".to_string(),

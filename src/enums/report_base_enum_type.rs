@@ -41,9 +41,9 @@ impl fmt::Display for ReportBaseEnumType {
     }
 }
 
-impl Into<String> for ReportBaseEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ReportBaseEnumType> for String {
+    fn from(val: ReportBaseEnumType) -> Self {
+        val.to_string()
     }
 }
 

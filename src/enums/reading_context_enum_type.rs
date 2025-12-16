@@ -45,9 +45,9 @@ impl fmt::Display for ReadingContextEnumType {
     }
 }
 
-impl Into<String> for ReadingContextEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ReadingContextEnumType> for String {
+    fn from(val: ReadingContextEnumType) -> Self {
+        val.to_string()
     }
 }
 

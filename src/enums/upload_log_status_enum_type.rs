@@ -40,9 +40,9 @@ impl fmt::Display for UploadLogStatusEnumType {
     }
 }
 
-impl Into<String> for UploadLogStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<UploadLogStatusEnumType> for String {
+    fn from(val: UploadLogStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

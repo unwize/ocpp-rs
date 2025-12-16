@@ -31,9 +31,9 @@ impl TryFrom<String> for GenericDeviceModelStatusEnumType {
     }
 }
 
-impl Into<String> for GenericDeviceModelStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GenericDeviceModelStatusEnumType> for String {
+    fn from(val: GenericDeviceModelStatusEnumType) -> Self {
+        match val {
             GenericDeviceModelStatusEnumType::Accepted => "Accepted".to_string(),
             GenericDeviceModelStatusEnumType::Rejected => "Rejected".to_string(),
             GenericDeviceModelStatusEnumType::NotSupported => "NotSupported".to_string(),

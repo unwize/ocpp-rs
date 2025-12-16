@@ -22,9 +22,9 @@ impl fmt::Display for NotifyAllowedEnergyTransferStatusEnumType {
     }
 }
 
-impl Into<String> for NotifyAllowedEnergyTransferStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<NotifyAllowedEnergyTransferStatusEnumType> for String {
+    fn from(val: NotifyAllowedEnergyTransferStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -22,9 +22,9 @@ impl fmt::Display for RequestStartStopStatusEnumType {
     }
 }
 
-impl Into<String> for RequestStartStopStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<RequestStartStopStatusEnumType> for String {
+    fn from(val: RequestStartStopStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

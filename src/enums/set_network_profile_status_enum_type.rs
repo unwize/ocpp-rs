@@ -25,9 +25,9 @@ impl fmt::Display for SetNetworkProfileStatusEnumType {
     }
 }
 
-impl Into<String> for SetNetworkProfileStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<SetNetworkProfileStatusEnumType> for String {
+    fn from(val: SetNetworkProfileStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

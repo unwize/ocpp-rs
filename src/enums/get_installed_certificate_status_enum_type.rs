@@ -25,9 +25,9 @@ impl TryFrom<String> for GetInstalledCertificateStatusEnumType {
     }
 }
 
-impl Into<String> for GetInstalledCertificateStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GetInstalledCertificateStatusEnumType> for String {
+    fn from(val: GetInstalledCertificateStatusEnumType) -> Self {
+        match val {
             GetInstalledCertificateStatusEnumType::Accepted => "Accepted".to_string(),
             GetInstalledCertificateStatusEnumType::NotFound => "NotFound".to_string(),
         }

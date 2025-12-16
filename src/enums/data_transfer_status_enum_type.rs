@@ -28,9 +28,9 @@ impl TryFrom<String> for DataTransferStatusEnumType {
     }
 }
 
-impl Into<String> for DataTransferStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DataTransferStatusEnumType> for String {
+    fn from(val: DataTransferStatusEnumType) -> Self {
+        match val {
             DataTransferStatusEnumType::Accepted => "Accepted".to_string(),
             DataTransferStatusEnumType::Rejected => "Rejected".to_string(),
             DataTransferStatusEnumType::UnknownMessageId => "UnknownMessageId".to_string(),

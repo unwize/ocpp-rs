@@ -21,9 +21,9 @@ impl TryFrom<String> for ControlModeEnumType {
     }
 }
 
-impl Into<String> for ControlModeEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ControlModeEnumType> for String {
+    fn from(val: ControlModeEnumType) -> Self {
+        match val {
             ControlModeEnumType::ScheduledControl => "ScheduledControl".to_string(),
             ControlModeEnumType::DynamicControl => "DynamicControl".to_string(),
         }

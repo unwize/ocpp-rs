@@ -27,9 +27,9 @@ impl TryFrom<String> for EventNotificationEnumType {
     }
 }
 
-impl Into<String> for EventNotificationEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<EventNotificationEnumType> for String {
+    fn from(val: EventNotificationEnumType) -> Self {
+        match val {
             EventNotificationEnumType::HardWiredNotification => "HardWiredNotification".to_string(),
             EventNotificationEnumType::HardWiredMonitor => "HardWiredMonitor".to_string(),
             EventNotificationEnumType::PreconfiguredMonitor => "PreconfiguredMonitor".to_string(),

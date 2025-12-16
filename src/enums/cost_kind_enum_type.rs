@@ -24,9 +24,9 @@ impl TryFrom<String> for CostKindEnumType {
     }
 }
 
-impl Into<String> for CostKindEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CostKindEnumType> for String {
+    fn from(val: CostKindEnumType) -> Self {
+        match val {
             CostKindEnumType::CarbonDioxideEmission => "CarbonDioxideEmission".to_string(),
             CostKindEnumType::RelativePricePercentage => "RelativePricePercentage".to_string(),
             CostKindEnumType::RenewableGenerationPercentage => {

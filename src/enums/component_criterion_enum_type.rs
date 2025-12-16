@@ -27,9 +27,9 @@ impl TryFrom<String> for ComponentCriterionEnumType {
     }
 }
 
-impl Into<String> for ComponentCriterionEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ComponentCriterionEnumType> for String {
+    fn from(val: ComponentCriterionEnumType) -> Self {
+        match val {
             ComponentCriterionEnumType::Active => "Active".to_string(),
             ComponentCriterionEnumType::Available => "Available".to_string(),
             ComponentCriterionEnumType::Enabled => "Enabled".to_string(),

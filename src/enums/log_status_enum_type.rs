@@ -25,9 +25,9 @@ impl TryFrom<String> for LogStatusEnumType {
     }
 }
 
-impl Into<String> for LogStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<LogStatusEnumType> for String {
+    fn from(val: LogStatusEnumType) -> Self {
+        match val {
             LogStatusEnumType::Accepted => "Accepted".to_string(),
             LogStatusEnumType::Rejected => "Rejected".to_string(),
             LogStatusEnumType::AcceptedCanceled => "AcceptedCanceled".to_string(),

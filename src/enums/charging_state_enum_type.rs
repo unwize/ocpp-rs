@@ -30,9 +30,9 @@ impl TryFrom<String> for ChargingStateEnumType {
     }
 }
 
-impl Into<String> for ChargingStateEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ChargingStateEnumType> for String {
+    fn from(val: ChargingStateEnumType) -> Self {
+        match val {
             ChargingStateEnumType::EVConnected => "EVConnected".to_string(),
             ChargingStateEnumType::Charging => "Charging".to_string(),
             ChargingStateEnumType::SuspendedEV => "SuspendedEV".to_string(),

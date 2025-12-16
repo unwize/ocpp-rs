@@ -22,9 +22,9 @@ impl TryFrom<String> for GenericStatusEnumType {
     }
 }
 
-impl Into<String> for GenericStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GenericStatusEnumType> for String {
+    fn from(val: GenericStatusEnumType) -> Self {
+        match val {
             GenericStatusEnumType::Accepted => "Accepted".to_string(),
             GenericStatusEnumType::Rejected => "Rejected".to_string(),
         }

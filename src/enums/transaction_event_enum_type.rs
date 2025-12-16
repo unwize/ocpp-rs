@@ -25,9 +25,9 @@ impl fmt::Display for TransactionEventEnumType {
     }
 }
 
-impl Into<String> for TransactionEventEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<TransactionEventEnumType> for String {
+    fn from(val: TransactionEventEnumType) -> Self {
+        val.to_string()
     }
 }
 

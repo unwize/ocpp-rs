@@ -28,9 +28,9 @@ impl fmt::Display for PreconditioningStatusEnumType {
     }
 }
 
-impl Into<String> for PreconditioningStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PreconditioningStatusEnumType> for String {
+    fn from(val: PreconditioningStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

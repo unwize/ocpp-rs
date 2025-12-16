@@ -46,9 +46,9 @@ impl fmt::Display for PublishFirmwareStatusEnumType {
     }
 }
 
-impl Into<String> for PublishFirmwareStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PublishFirmwareStatusEnumType> for String {
+    fn from(val: PublishFirmwareStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -28,9 +28,9 @@ impl fmt::Display for NotifyEVChargingNeedsStatusEnumType {
     }
 }
 
-impl Into<String> for NotifyEVChargingNeedsStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<NotifyEVChargingNeedsStatusEnumType> for String {
+    fn from(val: NotifyEVChargingNeedsStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -29,9 +29,9 @@ impl TryFrom<String> for CertificateSigningUseEnumType {
     }
 }
 
-impl Into<String> for CertificateSigningUseEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CertificateSigningUseEnumType> for String {
+    fn from(val: CertificateSigningUseEnumType) -> Self {
+        match val {
             CertificateSigningUseEnumType::ChargingStationCertificate => {
                 "ChargingStationCertificate".to_string()
             }

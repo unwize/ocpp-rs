@@ -29,9 +29,9 @@ impl TryFrom<String> for DayOfWeekEnumType {
     }
 }
 
-impl Into<String> for DayOfWeekEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DayOfWeekEnumType> for String {
+    fn from(val: DayOfWeekEnumType) -> Self {
+        match val {
             DayOfWeekEnumType::Monday => "Monday".to_string(),
             DayOfWeekEnumType::Tuesday => "Tuesday".to_string(),
             DayOfWeekEnumType::Wednesday => "Wednesday".to_string(),

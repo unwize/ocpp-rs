@@ -22,9 +22,9 @@ impl TryFrom<String> for ClearCacheStatusEnumType {
     }
 }
 
-impl Into<String> for ClearCacheStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ClearCacheStatusEnumType> for String {
+    fn from(val: ClearCacheStatusEnumType) -> Self {
+        match val {
             ClearCacheStatusEnumType::Accepted => "Accepted".to_string(),
             ClearCacheStatusEnumType::Rejected => "Rejected".to_string(),
         }

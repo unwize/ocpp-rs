@@ -76,9 +76,9 @@ impl fmt::Display for ReasonEnumType {
     }
 }
 
-impl Into<String> for ReasonEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ReasonEnumType> for String {
+    fn from(val: ReasonEnumType) -> Self {
+        val.to_string()
     }
 }
 

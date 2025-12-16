@@ -28,9 +28,9 @@ impl fmt::Display for UnlockStatusEnumType {
     }
 }
 
-impl Into<String> for UnlockStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<UnlockStatusEnumType> for String {
+    fn from(val: UnlockStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

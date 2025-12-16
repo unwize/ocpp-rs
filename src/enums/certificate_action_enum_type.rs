@@ -22,9 +22,9 @@ impl TryFrom<String> for CertificateActionEnumType {
     }
 }
 
-impl Into<String> for CertificateActionEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CertificateActionEnumType> for String {
+    fn from(val: CertificateActionEnumType) -> Self {
+        match val {
             CertificateActionEnumType::Install => "Install".to_string(),
             CertificateActionEnumType::Update => "Update".to_string(),
         }

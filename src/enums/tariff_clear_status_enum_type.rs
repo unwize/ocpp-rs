@@ -25,9 +25,9 @@ impl fmt::Display for TariffClearStatusEnumType {
     }
 }
 
-impl Into<String> for TariffClearStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<TariffClearStatusEnumType> for String {
+    fn from(val: TariffClearStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

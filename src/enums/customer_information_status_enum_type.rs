@@ -28,9 +28,9 @@ impl TryFrom<String> for CustomerInformationStatusEnumType {
     }
 }
 
-impl Into<String> for CustomerInformationStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CustomerInformationStatusEnumType> for String {
+    fn from(val: CustomerInformationStatusEnumType) -> Self {
+        match val {
             CustomerInformationStatusEnumType::Accepted => "Accepted".to_string(),
             CustomerInformationStatusEnumType::Rejected => "Rejected".to_string(),
             CustomerInformationStatusEnumType::Invalid => "Invalid".to_string(),

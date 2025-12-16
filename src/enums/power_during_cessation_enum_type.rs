@@ -22,9 +22,9 @@ impl fmt::Display for PowerDuringCessationEnumType {
     }
 }
 
-impl Into<String> for PowerDuringCessationEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PowerDuringCessationEnumType> for String {
+    fn from(val: PowerDuringCessationEnumType) -> Self {
+        val.to_string()
     }
 }
 

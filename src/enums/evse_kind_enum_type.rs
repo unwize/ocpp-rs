@@ -21,9 +21,9 @@ impl TryFrom<String> for EvseKindEnumType {
     }
 }
 
-impl Into<String> for EvseKindEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<EvseKindEnumType> for String {
+    fn from(val: EvseKindEnumType) -> Self {
+        match val {
             EvseKindEnumType::AC => "AC".to_string(),
             EvseKindEnumType::DC => "DC".to_string(),
         }

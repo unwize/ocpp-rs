@@ -31,9 +31,9 @@ impl fmt::Display for ReserveNowStatusEnumType {
     }
 }
 
-impl Into<String> for ReserveNowStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<ReserveNowStatusEnumType> for String {
+    fn from(val: ReserveNowStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -189,9 +189,9 @@ impl fmt::Display for MeasurandEnumType {
     }
 }
 
-impl Into<String> for MeasurandEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MeasurandEnumType> for String {
+    fn from(val: MeasurandEnumType) -> Self {
+        val.to_string()
     }
 }
 

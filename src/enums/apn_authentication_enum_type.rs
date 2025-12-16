@@ -27,9 +27,9 @@ impl TryFrom<String> for APNAuthenticationEnumType {
     }
 }
 
-impl Into<String> for APNAuthenticationEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<APNAuthenticationEnumType> for String {
+    fn from(val: APNAuthenticationEnumType) -> Self {
+        match val {
             APNAuthenticationEnumType::Pap => "PAP".to_string(),
             APNAuthenticationEnumType::Chap => "CHAP".to_string(),
             APNAuthenticationEnumType::None => "NONE".to_string(),

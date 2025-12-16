@@ -43,9 +43,9 @@ impl fmt::Display for OCPPInterfaceEnumType {
     }
 }
 
-impl Into<String> for OCPPInterfaceEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<OCPPInterfaceEnumType> for String {
+    fn from(val: OCPPInterfaceEnumType) -> Self {
+        val.to_string()
     }
 }
 

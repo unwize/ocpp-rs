@@ -34,9 +34,9 @@ impl fmt::Display for SetMonitoringStatusEnumType {
     }
 }
 
-impl Into<String> for SetMonitoringStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<SetMonitoringStatusEnumType> for String {
+    fn from(val: SetMonitoringStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

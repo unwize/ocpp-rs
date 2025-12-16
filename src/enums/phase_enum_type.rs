@@ -52,9 +52,9 @@ impl fmt::Display for PhaseEnumType {
     }
 }
 
-impl Into<String> for PhaseEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PhaseEnumType> for String {
+    fn from(val: PhaseEnumType) -> Self {
+        val.to_string()
     }
 }
 

@@ -25,9 +25,9 @@ impl TryFrom<String> for CertificateSignedStatusEnumType {
     }
 }
 
-impl Into<String> for CertificateSignedStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<CertificateSignedStatusEnumType> for String {
+    fn from(val: CertificateSignedStatusEnumType) -> Self {
+        match val {
             CertificateSignedStatusEnumType::Accepted => "Accepted".to_string(),
             CertificateSignedStatusEnumType::Rejected => "Rejected".to_string(),
         }

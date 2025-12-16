@@ -28,9 +28,9 @@ impl fmt::Display for PaymentStatusEnumType {
     }
 }
 
-impl Into<String> for PaymentStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<PaymentStatusEnumType> for String {
+    fn from(val: PaymentStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

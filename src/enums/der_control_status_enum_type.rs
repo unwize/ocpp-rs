@@ -28,9 +28,9 @@ impl TryFrom<String> for DERControlStatusEnumType {
     }
 }
 
-impl Into<String> for DERControlStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DERControlStatusEnumType> for String {
+    fn from(val: DERControlStatusEnumType) -> Self {
+        match val {
             DERControlStatusEnumType::Accepted => "Accepted".to_string(),
             DERControlStatusEnumType::Rejected => "Rejected".to_string(),
             DERControlStatusEnumType::NotSupported => "NotSupported".to_string(),

@@ -40,9 +40,9 @@ impl TryFrom<String> for ChargingProfilePurposeEnumType {
     }
 }
 
-impl Into<String> for ChargingProfilePurposeEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<ChargingProfilePurposeEnumType> for String {
+    fn from(val: ChargingProfilePurposeEnumType) -> Self {
+        match val {
             ChargingProfilePurposeEnumType::ChargingStationExternalConstraints => {
                 "ChargingStationExternalConstraints".to_string()
             }

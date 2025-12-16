@@ -103,9 +103,9 @@ impl fmt::Display for TriggerReasonEnumType {
     }
 }
 
-impl Into<String> for TriggerReasonEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<TriggerReasonEnumType> for String {
+    fn from(val: TriggerReasonEnumType) -> Self {
+        val.to_string()
     }
 }
 

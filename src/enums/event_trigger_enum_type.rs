@@ -24,9 +24,9 @@ impl TryFrom<String> for EventTriggerEnumType {
     }
 }
 
-impl Into<String> for EventTriggerEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<EventTriggerEnumType> for String {
+    fn from(val: EventTriggerEnumType) -> Self {
+        match val {
             EventTriggerEnumType::Alerting => "Alerting".to_string(),
             EventTriggerEnumType::Delta => "Delta".to_string(),
             EventTriggerEnumType::Periodic => "Periodic".to_string(),

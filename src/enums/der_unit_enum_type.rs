@@ -33,9 +33,9 @@ impl TryFrom<String> for DERUnitEnumType {
     }
 }
 
-impl Into<String> for DERUnitEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DERUnitEnumType> for String {
+    fn from(val: DERUnitEnumType) -> Self {
+        match val {
             DERUnitEnumType::Not_Applicable => "Not_Applicable".to_string(),
             DERUnitEnumType::PctMaxW => "PctMaxW".to_string(),
             DERUnitEnumType::PctMaxVar => "PctMaxVar".to_string(),

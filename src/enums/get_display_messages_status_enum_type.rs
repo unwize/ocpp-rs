@@ -25,9 +25,9 @@ impl TryFrom<String> for GetDisplayMessagesStatusEnumType {
     }
 }
 
-impl Into<String> for GetDisplayMessagesStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GetDisplayMessagesStatusEnumType> for String {
+    fn from(val: GetDisplayMessagesStatusEnumType) -> Self {
+        match val {
             GetDisplayMessagesStatusEnumType::Accepted => "Accepted".to_string(),
             GetDisplayMessagesStatusEnumType::Unknown => "Unknown".to_string(),
         }

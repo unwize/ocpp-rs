@@ -30,9 +30,9 @@ impl TryFrom<String> for GetVariableStatusEnumType {
     }
 }
 
-impl Into<String> for GetVariableStatusEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<GetVariableStatusEnumType> for String {
+    fn from(val: GetVariableStatusEnumType) -> Self {
+        match val {
             GetVariableStatusEnumType::Accepted => "Accepted".to_string(),
             GetVariableStatusEnumType::Rejected => "Rejected".to_string(),
             GetVariableStatusEnumType::UnknownComponent => "UnknownComponent".to_string(),

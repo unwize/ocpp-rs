@@ -39,9 +39,9 @@ impl TryFrom<String> for DataEnumType {
     }
 }
 
-impl Into<String> for DataEnumType {
-    fn into(self) -> String {
-        match self {
+impl From<DataEnumType> for String {
+    fn from(val: DataEnumType) -> Self {
+        match val {
             DataEnumType::String => "string".to_string(),
             DataEnumType::Decimal => "decimal".to_string(),
             DataEnumType::Integer => "integer".to_string(),

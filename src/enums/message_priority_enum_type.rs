@@ -25,9 +25,9 @@ impl fmt::Display for MessagePriorityEnumType {
     }
 }
 
-impl Into<String> for MessagePriorityEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<MessagePriorityEnumType> for String {
+    fn from(val: MessagePriorityEnumType) -> Self {
+        val.to_string()
     }
 }
 

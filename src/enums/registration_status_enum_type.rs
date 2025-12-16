@@ -26,9 +26,9 @@ impl fmt::Display for RegistrationStatusEnumType {
     }
 }
 
-impl Into<String> for RegistrationStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<RegistrationStatusEnumType> for String {
+    fn from(val: RegistrationStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 

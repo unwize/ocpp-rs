@@ -23,9 +23,9 @@ impl fmt::Display for OperationalStatusEnumType {
     }
 }
 
-impl Into<String> for OperationalStatusEnumType {
-    fn into(self) -> String {
-        self.to_string()
+impl From<OperationalStatusEnumType> for String {
+    fn from(val: OperationalStatusEnumType) -> Self {
+        val.to_string()
     }
 }
 
