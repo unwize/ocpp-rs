@@ -134,6 +134,12 @@ pub struct StructureValidationBuilder {
     errors: Vec<OcppError>,
 }
 
+impl Default for StructureValidationBuilder {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl StructureValidationBuilder {
     pub fn new() -> Self {
         Self { errors: vec![] }
