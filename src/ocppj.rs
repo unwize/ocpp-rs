@@ -2,7 +2,6 @@ use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
-use uuid::uuid;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 #[serde(into = "i32")]
@@ -87,10 +86,10 @@ pub struct RcpCall {
 impl RcpCall {
 
     /// Create a new RCP-spec CALL.
-    pub fn new(message_type_id: MessageTypeId, payload: Box<dyn OcppRequest>) -> Self {
+    pub fn new(message_id: &str, payload: Box<dyn OcppRequest>) -> Self {
         Self {
-            message_type_id,
-            message_id: uuid::Uuid::new_v4().to_string(),
+            message_type_id: MessageTypeId::Call,
+            message_id: String::from(message_id),
             action: payload.get_message_type(),
             payload,
         }
