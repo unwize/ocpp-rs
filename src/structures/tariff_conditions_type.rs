@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
+#[derive(Default)]
 pub struct TariffConditionsType {
     /// Optional. Start time of day in local time. Format: HH:mm
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -64,30 +65,6 @@ pub struct TariffConditionsType {
     pub max_idle_time: Option<i32>,
 }
 
-impl Default for TariffConditionsType {
-    fn default() -> Self {
-        Self {
-            start_time_of_day: None,
-            end_time_of_day: None,
-            day_of_week: None,
-            valid_from_date: None,
-            valid_to_date: None,
-            evse_kind: None,
-            min_energy: None,
-            max_energy: None,
-            min_current: None,
-            max_current: None,
-            min_power: None,
-            max_power: None,
-            min_time: None,
-            max_time: None,
-            min_charging_time: None,
-            max_charging_time: None,
-            min_idle_time: None,
-            max_idle_time: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for TariffConditionsType {
     /// Validates the fields of TariffConditionsType.
