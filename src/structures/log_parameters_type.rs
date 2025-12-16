@@ -39,13 +39,14 @@ impl OcppEntity for LogParametersType {
 
         if let Some(oldest_timestamp) = &self.oldest_timestamp
             && let Some(newest_timestamp) = &self.latest_timestamp
-                && newest_timestamp < oldest_timestamp {
-                    e.push_relation_error(
-                        "oldest_timestamp",
-                        "latest_timestamp",
-                        "latest_timestamp must be greater than oldest_timestamp!",
-                    );
-                }
+            && newest_timestamp < oldest_timestamp
+        {
+            e.push_relation_error(
+                "oldest_timestamp",
+                "latest_timestamp",
+                "latest_timestamp must be greater than oldest_timestamp!",
+            );
+        }
 
         e.build("LogParametersType")
     }

@@ -9,8 +9,7 @@ use serde::{Deserialize, Serialize};
 /// It is used in: CompositeScheduleType and in ChargingScheduleType.
 /// When used in a NotifyEVChargingScheduleRequest only startPeriod, limit, limit_L2, limit_L3 are relevant.
 /// Used by: Common::ChargingScheduleType, Common::CompositeScheduleType
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
-#[derive(Default)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 pub struct ChargingSchedulePeriodType {
     /// Required. Start of the period, in seconds from the start of schedule.
     /// The value of StartPeriod also defines the stop time of the previous period.

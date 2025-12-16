@@ -41,24 +41,28 @@ impl OcppEntity for TariffConditionsFixedType {
         let mut e = StructureValidationBuilder::new();
 
         if let Some(start_time_of_day) = &self.start_time_of_day
-            && let Err(err) = validate_rfc3339_24hr_time(start_time_of_day) {
-                e.push(err.to_field_validation_error("start_time_of_day"));
-            }
+            && let Err(err) = validate_rfc3339_24hr_time(start_time_of_day)
+        {
+            e.push(err.to_field_validation_error("start_time_of_day"));
+        }
         if let Some(end_time_of_day) = &self.end_time_of_day
-            && let Err(err) = validate_rfc3339_24hr_time(end_time_of_day) {
-                e.push(err.to_field_validation_error("end_time_of_day"));
-            }
+            && let Err(err) = validate_rfc3339_24hr_time(end_time_of_day)
+        {
+            e.push(err.to_field_validation_error("end_time_of_day"));
+        }
         if let Some(days) = &self.day_of_week {
             e.check_cardinality("dayOfWeek", 0, 7, &days.iter());
         }
         if let Some(valid_from_date) = &self.valid_from_date
-            && let Err(err) = validate_rfc3339_date(valid_from_date) {
-                e.push(err.to_field_validation_error("valid_from_date"));
-            }
+            && let Err(err) = validate_rfc3339_date(valid_from_date)
+        {
+            e.push(err.to_field_validation_error("valid_from_date"));
+        }
         if let Some(valid_to_date) = &self.valid_to_date
-            && let Err(err) = validate_rfc3339_date(valid_to_date) {
-                e.push(err.to_field_validation_error("valid_to_date"));
-            }
+            && let Err(err) = validate_rfc3339_date(valid_to_date)
+        {
+            e.push(err.to_field_validation_error("valid_to_date"));
+        }
         if let Some(payment_brand) = &self.payment_brand {
             e.check_cardinality("payment_brand", 0, 20, &payment_brand.chars());
         }
