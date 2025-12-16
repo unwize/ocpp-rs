@@ -24,6 +24,8 @@ impl OcppEntity for GetPeriodicEventStreamRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetPeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("GetPeriodicEventStream")

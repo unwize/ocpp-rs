@@ -60,6 +60,7 @@ impl OcppEntity for AuthorizeRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for AuthorizeRequest {
     fn get_message_type(&self) -> String {
         String::from("Authorize")

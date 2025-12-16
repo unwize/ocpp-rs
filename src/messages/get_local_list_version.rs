@@ -23,6 +23,8 @@ impl OcppEntity for GetLocalListVersionRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetLocalListVersionRequest {
     fn get_message_type(&self) -> String {
         String::from("GetLocalListVersion")

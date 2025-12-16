@@ -36,6 +36,8 @@ impl OcppEntity for GetInstalledCertificateIdsRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetInstalledCertificateIdsRequest {
     fn get_message_type(&self) -> String {
         String::from("GetInstalledCertificateIds")

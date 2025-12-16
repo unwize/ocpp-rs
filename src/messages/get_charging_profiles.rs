@@ -45,6 +45,8 @@ impl OcppEntity for GetChargingProfilesRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetChargingProfilesRequest {
     fn get_message_type(&self) -> String {
         String::from("GetChargingProfiles")

@@ -37,6 +37,7 @@ impl OcppEntity for ClearChargingProfileRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearChargingProfileRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearChargingProfile")

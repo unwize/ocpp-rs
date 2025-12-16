@@ -46,6 +46,8 @@ impl OcppEntity for GetDisplayMessagesRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetDisplayMessagesRequest {
     fn get_message_type(&self) -> String {
         String::from("GetDisplayMessages")

@@ -56,6 +56,7 @@ impl OcppEntity for CustomerInformationRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for CustomerInformationRequest {
     fn get_message_type(&self) -> String {
         String::from("CustomerInformation")

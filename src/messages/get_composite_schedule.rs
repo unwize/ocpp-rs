@@ -43,6 +43,8 @@ impl OcppEntity for GetCompositeScheduleRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetCompositeScheduleRequest {
     fn get_message_type(&self) -> String {
         String::from("GetCompositeSchedule")

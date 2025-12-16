@@ -42,6 +42,7 @@ impl OcppEntity for FirmwareStatusNotificationRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for FirmwareStatusNotificationRequest {
     fn get_message_type(&self) -> String {
         String::from("FirmwareStatusNotification")

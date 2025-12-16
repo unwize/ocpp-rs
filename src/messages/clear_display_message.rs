@@ -32,6 +32,7 @@ impl OcppEntity for ClearDisplayMessageRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearDisplayMessageRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearDisplayMessage")

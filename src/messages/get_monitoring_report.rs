@@ -48,6 +48,8 @@ impl OcppEntity for GetMonitoringReportRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetMonitoringReportRequest {
     fn get_message_type(&self) -> String {
         String::from("GetMonitoringReport")

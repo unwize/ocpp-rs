@@ -32,6 +32,7 @@ impl OcppEntity for CostUpdatedRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for CostUpdatedRequest {
     fn get_message_type(&self) -> String {
         String::from("CostUpdated")

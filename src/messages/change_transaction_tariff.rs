@@ -36,6 +36,7 @@ impl OcppEntity for ChangeTransactionTariffRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ChangeTransactionTariffRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeTransactionTariff")

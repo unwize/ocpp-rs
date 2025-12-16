@@ -43,6 +43,7 @@ impl OcppEntity for DataTransferRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for DataTransferRequest {
     fn get_message_type(&self) -> String {
         String::from("DataTransfer")

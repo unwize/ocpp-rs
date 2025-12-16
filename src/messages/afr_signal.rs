@@ -31,6 +31,8 @@ impl OcppEntity for AFRRSignalRequest {
         Ok(())
     }
 }
+
+#[typetag::serde]
 impl OcppRequest for AFRRSignalRequest {
     fn get_message_type(&self) -> String {
         String::from("AFRRSignal")

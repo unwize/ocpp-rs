@@ -63,6 +63,7 @@ impl OcppEntity for Get15118EVCertificateRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for Get15118EVCertificateRequest {
     fn get_message_type(&self) -> String {
         String::from("Get15118EVCertificate")

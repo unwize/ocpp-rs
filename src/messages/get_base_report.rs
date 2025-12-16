@@ -37,6 +37,7 @@ impl OcppEntity for GetBaseReportRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for GetBaseReportRequest {
     fn get_message_type(&self) -> String {
         String::from("GetBaseReport")

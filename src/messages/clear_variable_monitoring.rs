@@ -40,6 +40,7 @@ impl Default for ClearVariableMonitoringRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearVariableMonitoringRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearVariableMonitoring")

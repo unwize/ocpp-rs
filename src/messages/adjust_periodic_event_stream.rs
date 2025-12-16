@@ -24,6 +24,7 @@ pub struct AdjustPeriodicEventStreamRequest {
     pub params: PeriodicEventStreamParamsType,
 }
 
+#[typetag::serde]
 impl OcppRequest for AdjustPeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("AdjustPeriodicEventStream")

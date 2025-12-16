@@ -26,6 +26,7 @@ impl OcppEntity for ClearCacheRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearCacheRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearCache")

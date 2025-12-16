@@ -33,6 +33,7 @@ impl OcppEntity for DeleteCertificateRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for DeleteCertificateRequest {
     fn get_message_type(&self) -> String {
         String::from("DeleteCertificate")

@@ -29,6 +29,7 @@ impl OcppEntity for ClosePeriodicEventStreamRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClosePeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("ClosePeriodicEventStream")

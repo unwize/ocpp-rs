@@ -41,6 +41,7 @@ impl OcppEntity for GetCertificateChainStatusRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for GetCertificateChainStatusRequest {
     fn get_message_type(&self) -> String {
         String::from("GetCertificateChainStatus")

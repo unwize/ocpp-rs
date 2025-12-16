@@ -39,6 +39,7 @@ impl OcppEntity for ChangeAvailabilityRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ChangeAvailabilityRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeAvailability")

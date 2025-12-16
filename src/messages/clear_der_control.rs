@@ -39,6 +39,7 @@ impl OcppEntity for ClearDERControlRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearDERControlRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearDERControl")

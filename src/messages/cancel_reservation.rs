@@ -55,6 +55,7 @@ impl OcppEntity for CancelReservationResponse {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for CancelReservationRequest {
     fn get_message_type(&self) -> String {
         String::from("CancelReservation")

@@ -52,6 +52,8 @@ impl OcppEntity for GetLogRequest {
     }
 }
 
+#[typetag::serde]
+
 impl OcppRequest for GetLogRequest {
     fn get_message_type(&self) -> String {
         String::from("GetLog")

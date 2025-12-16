@@ -1,10 +1,12 @@
-use crate::traits::OcppEntity;
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+use serde_tuple::{Deserialize_tuple, Serialize_tuple};
+use uuid::uuid;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 #[serde(into = "i32")]
-enum MessageTypeId {
+pub enum MessageTypeId {
     #[default]
     Call = 2,
     CallResult = 3,
@@ -74,26 +76,39 @@ impl From<MessageTypeId> for i32 {
 
 /// A struct containing all the info required to send an ocpp message in a way that complies with
 /// OCPP-J. Messages strictly adhere to RCP standards.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct RcpCall {
-    message_type_id: MessageTypeId,
-    message_id: String,
-    action: String,
-    payload: Box<dyn OcppEntity>,
+    pub message_type_id: MessageTypeId,
+    pub message_id: String,
+    pub action: String,
+    pub payload: Box<dyn OcppRequest>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+impl RcpCall {
+
+    /// Create a new RCP-spec CALL.
+    pub fn new(message_type_id: MessageTypeId, payload: Box<dyn OcppRequest>) -> Self {
+        Self {
+            message_type_id,
+            message_id: uuid::Uuid::new_v4().to_string(),
+            action: payload.get_message_type(),
+            payload,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct RcpCallResult {
-    message_type_id: MessageTypeId,
-    message_id: String,
-    payload: Box<dyn OcppEntity>,
+    pub message_type_id: MessageTypeId,
+    pub message_id: String,
+    pub payload: Box<dyn OcppEntity>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
 pub struct RcpCallError {
-    message_type_id: MessageTypeId,
-    message_id: String,
-    error_code: String,
-    error_description: String,
-    error_details: Value,
+    pub message_type_id: MessageTypeId,
+    pub message_id: String,
+    pub error_code: String,
+    pub error_description: String,
+    pub error_details: Value,
 }

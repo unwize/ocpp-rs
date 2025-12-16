@@ -42,6 +42,7 @@ impl OcppEntity for BatterySwapRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for BatterySwapRequest {
     fn get_message_type(&self) -> String {
         String::from("BatterySwap")

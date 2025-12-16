@@ -41,6 +41,7 @@ impl OcppEntity for ClearTariffsRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearTariffsRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearTariffs")

@@ -42,6 +42,7 @@ impl OcppEntity for CertificateSignedRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for CertificateSignedRequest {
     fn get_message_type(&self) -> String {
         String::from("CertificateSigned")

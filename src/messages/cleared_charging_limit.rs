@@ -41,6 +41,7 @@ impl OcppEntity for ClearedChargingLimitRequest {
     }
 }
 
+#[typetag::serde]
 impl OcppRequest for ClearedChargingLimitRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearedChargingLimit")
