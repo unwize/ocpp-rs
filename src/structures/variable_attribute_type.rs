@@ -45,16 +45,15 @@ impl OcppEntity for VariableAttributeType {
             e.check_cardinality("value", 0, 2500, &value.chars());
         }
 
-        if self.attribute_type.is_none() {
-            if let Some(mutability) = &self.mutability {
-                if *mutability != MutabilityEnumType::WriteOnly {
-                    e.push_relation_error(
-                        "value",
-                        "mutability",
-                        "`value` may only be `None` when `mutability` is set to `WriteOnly`",
-                    )
-                }
-            }
+        if self.attribute_type.is_none()
+            && let Some(mutability) = &self.mutability
+            && *mutability != MutabilityEnumType::WriteOnly
+        {
+            e.push_relation_error(
+                "value",
+                "mutability",
+                "`value` may only be `None` when `mutability` is set to `WriteOnly`",
+            )
         }
 
         e.build("VariableAttributeType")

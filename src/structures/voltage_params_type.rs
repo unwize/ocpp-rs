@@ -3,7 +3,7 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::traits::OcppEntity;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct VoltageParamsType {
     /// Optional. Voltage threshold for 10-min time window mean value monitoring. Mandatory if hv10MinMeanTripDelay is set.
@@ -17,29 +17,18 @@ pub struct VoltageParamsType {
     pub power_during_cessation: Option<PowerDuringCessationEnumType>,
 }
 
-impl Default for VoltageParamsType {
-    fn default() -> VoltageParamsType {
-        Self {
-            hv10_min_mean_value: None,
-            hv10_min_mean_trip_delay: None,
-            power_during_cessation: None,
-        }
-    }
-}
 #[typetag::serde]
 impl OcppEntity for VoltageParamsType {
     /// Validates the fields of VoltageParamsType.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
 
-        if let Some(_) = self.hv10_min_mean_trip_delay {
-            if self.hv10_min_mean_value.is_none() {
-                e.push_relation_error(
-                    "hv10_min_mean_trip_delay",
-                    "hv10_min_mean_value",
-                    "`hv10_min_mean_value` must be defined if `hv10_min_mean_trip_delay` is defined!"
-                );
-            }
+        if self.hv10_min_mean_trip_delay.is_some() && self.hv10_min_mean_value.is_none() {
+            e.push_relation_error(
+                "hv10_min_mean_trip_delay",
+                "hv10_min_mean_value",
+                "`hv10_min_mean_value` must be defined if `hv10_min_mean_trip_delay` is defined!",
+            );
         }
 
         e.build("VoltageParamsType")
