@@ -99,7 +99,7 @@ impl RcpCall {
 pub struct RcpCallResult {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
-    //pub payload: Box<dyn OcppEntity>,
+    pub payload: Box<OcppMessage>,
 }
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
