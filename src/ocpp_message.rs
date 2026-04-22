@@ -67,7 +67,7 @@ pub enum OcppMessage {
     CertificateSignedResponse(CertificateSignedResponse),
     ChangeAvailabilityRequest(ChangeAvailabilityRequest),
     ChangeAvailabilityResponse(ChangeAvailabilityResponse),
-    ChangeTransactionTariffRequest(ChangeTransactionTariffRequest),
+    ChangeTransactionTariffRequest(Box<ChangeTransactionTariffRequest>),
     ChangeTransactionTariffResponse(ChangeTransactionTariffResponse),
     ClearCacheRequest(ClearCacheRequest),
     ClearCacheResponse(ClearCacheResponse),
