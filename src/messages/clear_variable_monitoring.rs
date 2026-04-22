@@ -1,16 +1,8 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_monitoring_result_type::ClearMonitoringResultType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.16. ClearVariableMonitoring
-pub struct ClearVariableMonitoring;
-
-impl OcppMessage for ClearVariableMonitoring {
-    type Request = ClearVariableMonitoringRequest;
-    type Response = ClearVariableMonitoringResponse;
-}
 
 /// 1.16.1. ClearVariableMonitoringRequest
 /// This contains the field definition of the ClearVariableMonitoringRequest PDU sent by the CSMS to the Charging Station.
@@ -89,8 +81,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearVariableMonitoring::request();
-        let resp = ClearVariableMonitoring::response();
+        let req = ClearVariableMonitoringRequest::default();
+        let resp = ClearVariableMonitoringResponse::default();
     }
 
     #[test]
@@ -111,11 +103,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearVariableMonitoring::request().validate().is_ok());
+        assert!(ClearVariableMonitoringRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearVariableMonitoring::response().validate().is_ok());
+        assert!(ClearVariableMonitoringResponse::default().validate().is_ok());
     }
 }

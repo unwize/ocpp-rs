@@ -3,17 +3,9 @@ use crate::enums::monitoring_criterion_enum_type::MonitoringCriterionEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_variable_type::ComponentVariableType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.34. GetMonitoringReport
-pub struct GetMonitoringReport;
-
-impl OcppMessage for GetMonitoringReport {
-    type Request = GetMonitoringReportRequest;
-    type Response = GetMonitoringReportResponse;
-}
 
 /// 1.34.1. GetMonitoringReportRequest
 /// This contains the field definition of the GetMonitoringReportRequest PDU sent by the CSMS to the Charging Station.
@@ -85,8 +77,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetMonitoringReport::request();
-        let resp = GetMonitoringReport::response();
+        let req = GetMonitoringReportRequest::default();
+        let resp = GetMonitoringReportResponse::default();
     }
 
     #[test]
@@ -107,11 +99,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetMonitoringReport::request().validate().is_ok());
+        assert!(GetMonitoringReportRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetMonitoringReport::response().validate().is_ok());
+        assert!(GetMonitoringReportResponse::default().validate().is_ok());
     }
 }

@@ -1,15 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.32. GetLocalListVersion
-pub struct GetLocalListVersion;
-
-impl OcppMessage for GetLocalListVersion {
-    type Request = GetLocalListVersionRequest;
-    type Response = GetLocalListVersionResponse;
-}
 
 /// 1.32.1. GetLocalListVersionRequest
 /// This contains the field definition of the GetLocalListVersionRequest PDU sent by the CSMS to the Charging Station. No fields are defined.
@@ -57,8 +49,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetLocalListVersion::request();
-        let resp = GetLocalListVersion::response();
+        let req = GetLocalListVersionRequest::default();
+        let resp = GetLocalListVersionResponse::default();
     }
 
     #[test]
@@ -79,11 +71,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetLocalListVersion::request().validate().is_ok());
+        assert!(GetLocalListVersionRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetLocalListVersion::response().validate().is_ok());
+        assert!(GetLocalListVersionResponse::default().validate().is_ok());
     }
 }

@@ -3,17 +3,9 @@ use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::composite_schedule_type::CompositeScheduleType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.28. GetCompositeSchedule
-pub struct GetCompositeSchedule;
-
-impl OcppMessage for GetCompositeSchedule {
-    type Request = GetCompositeScheduleRequest;
-    type Response = GetCompositeScheduleResponse;
-}
 
 /// 1.28.1. GetCompositeScheduleRequest
 /// This contains the field definition of the GetCompositeScheduleRequest PDU sent by the CSMS to the Charging Station.
@@ -86,8 +78,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetCompositeSchedule::request();
-        let resp = GetCompositeSchedule::response();
+        let req = GetCompositeScheduleRequest::default();
+        let resp = GetCompositeScheduleResponse::default();
     }
 
     #[test]
@@ -108,11 +100,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetCompositeSchedule::request().validate().is_ok());
+        assert!(GetCompositeScheduleRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetCompositeSchedule::response().validate().is_ok());
+        assert!(GetCompositeScheduleResponse::default().validate().is_ok());
     }
 }

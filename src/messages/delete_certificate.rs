@@ -2,17 +2,9 @@ use crate::enums::delete_certificate_status_enum_type::DeleteCertificateStatusEn
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.21. DeleteCertificate
-pub struct DeleteCertificate;
-
-impl OcppMessage for DeleteCertificate {
-    type Request = DeleteCertificateRequest;
-    type Response = DeleteCertificateResponse;
-}
 
 /// 1.21.1. DeleteCertificateRequest
 /// This contains the field definition of the DeleteCertificateRequest PDU sent by the CSMS to the Charging Station to request deletion of an installed certificate.
@@ -70,8 +62,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = DeleteCertificate::request();
-        let resp = DeleteCertificate::response();
+        let req = DeleteCertificateRequest::default();
+        let resp = DeleteCertificateResponse::default();
     }
 
     #[test]
@@ -92,11 +84,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(DeleteCertificate::request().validate().is_ok());
+        assert!(DeleteCertificateRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(DeleteCertificate::response().validate().is_ok());
+        assert!(DeleteCertificateResponse::default().validate().is_ok());
     }
 }

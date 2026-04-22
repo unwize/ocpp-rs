@@ -1,15 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.17. ClosePeriodicEventStream
-pub struct ClosePeriodicEventStream;
-
-impl OcppMessage for ClosePeriodicEventStream {
-    type Request = ClosePeriodicEventStreamRequest;
-    type Response = ClosePeriodicEventStreamResponse;
-}
 
 /// 1.17.1. ClosePeriodicEventStreamRequest
 /// This contains the field definition of the ClosePeriodicEventStreamRequest PDU sent by the CSMS to the Charging Station.
@@ -53,8 +45,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClosePeriodicEventStream::request();
-        let resp = ClosePeriodicEventStream::response();
+        let req = ClosePeriodicEventStreamRequest::default();
+        let resp = ClosePeriodicEventStreamResponse::default();
     }
 
     #[test]
@@ -75,11 +67,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClosePeriodicEventStream::request().validate().is_ok());
+        assert!(ClosePeriodicEventStreamRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClosePeriodicEventStream::response().validate().is_ok());
+        assert!(ClosePeriodicEventStreamResponse::default().validate().is_ok());
     }
 }

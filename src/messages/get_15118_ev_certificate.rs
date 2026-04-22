@@ -2,17 +2,9 @@ use crate::enums::certificate_action_enum_type::CertificateActionEnumType;
 use crate::enums::iso_15118_ev_certificate_status_enum_type::Iso15118EVCertificateStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.23. Get15118EVCertificate
-pub struct Get15118EVCertificate;
-
-impl OcppMessage for Get15118EVCertificate {
-    type Request = Get15118EVCertificateRequest;
-    type Response = Get15118EVCertificateResponse;
-}
 
 /// 1.23.1. Get15118EVCertificateRequest
 /// This contains the field definition of the Get15118EVCertificateRequest PDU sent by the Charging Station to the CSMS if an ISO 15118 vehicle selects the service Certificate Installation.
@@ -110,8 +102,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = Get15118EVCertificate::request();
-        let resp = Get15118EVCertificate::response();
+        let req = Get15118EVCertificateRequest::default();
+        let resp = Get15118EVCertificateResponse::default();
     }
 
     #[test]
@@ -132,11 +124,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(Get15118EVCertificate::request().validate().is_ok());
+        assert!(Get15118EVCertificateRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(Get15118EVCertificate::response().validate().is_ok());
+        assert!(Get15118EVCertificateResponse::default().validate().is_ok());
     }
 }

@@ -2,15 +2,8 @@ use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::periodic_event_stream_params_type::PeriodicEventStreamParamsType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
-
-pub struct AdjustPeriodicEventStream;
-
-impl OcppMessage for AdjustPeriodicEventStream {
-    type Request = AdjustPeriodicEventStreamRequest;
-    type Response = AdjustPeriodicEventStreamResponse;
-}
 
 /// Represents the `AdjustPeriodicEventStreamRequest` message.
 ///

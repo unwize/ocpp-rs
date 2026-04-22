@@ -1,17 +1,9 @@
 use crate::enums::data_transfer_status_enum_type::DataTransferStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.20. DataTransfer
-pub struct DataTransfer;
-
-impl OcppMessage for DataTransfer {
-    type Request = DataTransferRequest;
-    type Response = DataTransferResponse;
-}
 
 /// 1.20.1. DataTransferRequest
 /// This contains the field definition of the DataTransferRequest PDU sent either by the CSMS to the Charging Station or vice versa.
@@ -82,8 +74,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = DataTransfer::request();
-        let resp = DataTransfer::response();
+        let req = DataTransferRequest::default();
+        let resp = DataTransferResponse::default();
     }
 
     #[test]
@@ -104,11 +96,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(DataTransfer::request().validate().is_ok());
+        assert!(DataTransferRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(DataTransfer::response().validate().is_ok());
+        assert!(DataTransferResponse::default().validate().is_ok());
     }
 }

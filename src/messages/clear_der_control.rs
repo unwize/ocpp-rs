@@ -2,17 +2,9 @@ use crate::enums::der_control_enum_type::DERControlEnumType;
 use crate::enums::der_control_status_enum_type::DERControlStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.12. ClearDERControl
-pub struct ClearDERControl;
-
-impl OcppMessage for ClearDERControl {
-    type Request = ClearDERControlRequest;
-    type Response = ClearDERControlResponse;
-}
 
 /// 1.12.1. ClearDERControlRequest
 /// This contains the field definition of the ClearDERControlRequest PDU sent by the CSMS to the Charging Station.
@@ -75,8 +67,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearDERControl::request();
-        let resp = ClearDERControl::response();
+        let req = ClearDERControlRequest::default();
+        let resp = ClearDERControlResponse::default();
     }
 
     #[test]
@@ -97,11 +89,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearDERControl::request().validate().is_ok());
+        assert!(ClearDERControlRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearDERControl::response().validate().is_ok());
+        assert!(ClearDERControlResponse::default().validate().is_ok());
     }
 }

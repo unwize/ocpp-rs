@@ -2,17 +2,9 @@ use crate::enums::clear_charging_profile_status_enum_type::ClearChargingProfileS
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_charging_profile_type::ClearChargingProfileType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.11. ClearChargingProfile
-pub struct ClearChargingProfile;
-
-impl OcppMessage for ClearChargingProfile {
-    type Request = ClearChargingProfileRequest;
-    type Response = ClearChargingProfileResponse;
-}
 
 /// 1.11.1. ClearChargingProfileRequest
 /// This contains the field definition of the ClearChargingProfileRequest PDU sent by the CSMS to the Charging Station. The CSMS can use this message to clear (remove) either a specific charging profile (denoted by id) or a selection of charging profiles that match with the values of the optional `evse`, `stackLevel` and `chargingProfilePurpose` fields.
@@ -73,8 +65,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearChargingProfile::request();
-        let resp = ClearChargingProfile::response();
+        let req = ClearChargingProfileRequest::default();
+        let resp = ClearChargingProfileResponse::default();
     }
 
     #[test]
@@ -95,11 +87,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearChargingProfile::request().validate().is_ok());
+        assert!(ClearChargingProfileRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearChargingProfile::response().validate().is_ok());
+        assert!(ClearChargingProfileResponse::default().validate().is_ok());
     }
 }

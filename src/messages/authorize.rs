@@ -5,17 +5,9 @@ use crate::structures::id_token_info_type::IdTokenInfoType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::ocsp_request_data_type::OCSPRequestDataType;
 use crate::structures::tariff_type::TariffType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.3. Authorize
-pub struct Authorize;
-
-impl OcppMessage for Authorize {
-    type Request = AuthorizeRequest;
-    type Response = AuthorizeResponse;
-}
 
 /// 1.3.1. AuthorizeRequest
 /// This contains the field definition of the AuthorizeRequest PDU sent by the Charging Station to the CSMS.
@@ -105,8 +97,8 @@ mod tests {
 
     #[test]
     fn test_authorize() {
-        let req = Authorize::request();
-        let resp = Authorize::response();
+        let req = AuthorizeRequest::default();
+        let resp = AuthorizeResponse::default();
 
         assert!(req.validate().is_ok());
         assert!(resp.validate().is_ok());
@@ -114,20 +106,20 @@ mod tests {
 
     #[test]
     fn test_authorize_request_certificate_long() {
-        let mut req = Authorize::request();
+        let mut req = AuthorizeRequest::default();
         req.certificate = Some("a".repeat(10001));
         assert!(req.validate().is_err());
     }
 
     #[test]
     fn test_authorize_iso15118_certificate_hash_data_long() {
-        let mut req = Authorize::request();
+        let mut req = AuthorizeRequest::default();
         req.iso15118_certificate_hash_data = Some(vec![Default::default(); 5])
     }
 
     #[test]
     fn test_authorize_request_serialize_deserialize() {
-        let req = Authorize::request();
+        let req = AuthorizeRequest::default();
         let serialized = serde_json::to_string(&req).unwrap();
         let deserialized: AuthorizeRequest = serde_json::from_str(&serialized).unwrap();
         assert!(req.validate().is_ok());
@@ -136,7 +128,7 @@ mod tests {
 
     #[test]
     fn test_authorize_response_serialize_deserialize() {
-        let resp = Authorize::response();
+        let resp = AuthorizeResponse::default();
         let serialized = serde_json::to_string(&resp).unwrap();
         let deserialized: AuthorizeResponse = serde_json::from_str(&serialized).unwrap();
         assert!(resp.validate().is_ok());

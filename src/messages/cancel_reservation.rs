@@ -1,17 +1,9 @@
 use crate::enums::cancel_reservation_status_enum_type::CancelReservationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.6. CancelReservation
-pub struct CancelReservation;
-
-impl OcppMessage for CancelReservation {
-    type Request = CancelReservationRequest;
-    type Response = CancelReservationResponse;
-}
 
 /// 1.6.1. CancelReservationRequest
 /// This contains the field definition of the CancelReservationRequest PDU sent by the CSMS to the Charging Station.
@@ -68,8 +60,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = CancelReservation::request();
-        let resp = CancelReservation::response();
+        let req = CancelReservationRequest::default();
+        let resp = CancelReservationResponse::default();
     }
 
     #[test]
@@ -90,11 +82,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(CancelReservation::request().validate().is_ok());
+        assert!(CancelReservationRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(CancelReservation::response().validate().is_ok());
+        assert!(CancelReservationResponse::default().validate().is_ok());
     }
 }

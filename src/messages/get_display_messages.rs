@@ -3,17 +3,9 @@ use crate::enums::message_priority_enum_type::MessagePriorityEnumType;
 use crate::enums::message_state_enum_type::MessageStateEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.30. GetDisplayMessages
-pub struct GetDisplayMessages;
-
-impl OcppMessage for GetDisplayMessages {
-    type Request = GetDisplayMessagesRequest;
-    type Response = GetDisplayMessagesResponse;
-}
 
 /// 1.30.1. GetDisplayMessagesRequest
 /// This contains the field definition of the GetDisplayMessagesRequest PDU sent by the CSMS to the Charging Station.
@@ -83,8 +75,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetDisplayMessages::request();
-        let resp = GetDisplayMessages::response();
+        let req = GetDisplayMessagesRequest::default();
+        let resp = GetDisplayMessagesResponse::default();
     }
 
     #[test]
@@ -105,11 +97,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetDisplayMessages::request().validate().is_ok());
+        assert!(GetDisplayMessagesRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetDisplayMessages::response().validate().is_ok());
+        assert!(GetDisplayMessagesResponse::default().validate().is_ok());
     }
 }

@@ -3,17 +3,9 @@ use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::component_variable_type::ComponentVariableType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.36. GetReport
-pub struct GetReport;
-
-impl OcppMessage for GetReport {
-    type Request = GetReportRequest;
-    type Response = GetReportResponse;
-}
 
 /// 1.36.1. GetReportRequest
 /// This contains the field definition of the GetReportRequest PDU sent by the CSMS to the Charging Station.
@@ -85,8 +77,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetReport::request();
-        let resp = GetReport::response();
+        let req = GetReportRequest::default();
+        let resp = GetReportResponse::default();
     }
 
     #[test]
@@ -107,11 +99,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetReport::request().validate().is_ok());
+        assert!(GetReportRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetReport::response().validate().is_ok());
+        assert!(GetReportResponse::default().validate().is_ok());
     }
 }

@@ -2,17 +2,9 @@ use crate::enums::tariff_change_status_enum_type::TariffChangeStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::structures::tariff_type::TariffType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.9. ChangeTransactionTariff
-pub struct ChangeTransactionTariff;
-
-impl OcppMessage for ChangeTransactionTariff {
-    type Request = ChangeTransactionTariffRequest;
-    type Response = ChangeTransactionTariffResponse;
-}
 
 /// 1.9.1. ChangeTransactionTariffRequest
 /// This contains the field definition of the ChangeTransactionTariffRequest PDU sent by the CSMS to the Charging Station.
@@ -73,8 +65,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ChangeTransactionTariff::request();
-        let resp = ChangeTransactionTariff::response();
+        let req = ChangeTransactionTariffRequest::default();
+        let resp = ChangeTransactionTariffResponse::default();
     }
 
     #[test]
@@ -95,11 +87,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ChangeTransactionTariff::request().validate().is_ok());
+        assert!(ChangeTransactionTariffRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ChangeTransactionTariff::response().validate().is_ok());
+        assert!(ChangeTransactionTariffResponse::default().validate().is_ok());
     }
 }

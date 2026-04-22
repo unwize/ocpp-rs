@@ -3,17 +3,9 @@ use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_type::CertificateHashDataType;
 use crate::structures::id_token_type::IdTokenType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.19. CustomerInformation
-pub struct CustomerInformation;
-
-impl OcppMessage for CustomerInformation {
-    type Request = CustomerInformationRequest;
-    type Response = CustomerInformationResponse;
-}
 
 /// 1.19.1. CustomerInformationRequest
 /// This contains the field definition of the CustomerInformationRequest PDU sent by the CSMS to the Charging Station. With this request the CSMS can send the current cost of a transaction to a Charging Station.
@@ -92,8 +84,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = CustomerInformation::request();
-        let resp = CustomerInformation::response();
+        let req = CustomerInformationRequest::default();
+        let resp = CustomerInformationResponse::default();
     }
 
     #[test]
@@ -114,11 +106,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(CustomerInformation::request().validate().is_ok());
+        assert!(CustomerInformationRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(CustomerInformation::response().validate().is_ok());
+        assert!(CustomerInformationResponse::default().validate().is_ok());
     }
 }

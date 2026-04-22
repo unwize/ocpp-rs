@@ -3,18 +3,10 @@ use crate::enums::registration_status_enum_type::RegistrationStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_station_type::ChargingStationType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.5. BootNotification
-pub struct BootNotification;
-
-impl OcppMessage for BootNotification {
-    type Request = BootNotificationRequest;
-    type Response = BootNotificationResponse;
-}
 
 /// 1.5.1. BootNotificationRequest
 /// This contains the field definition of the BootNotificationRequest PDU sent by the Charging Station to the CSMS.
@@ -78,8 +70,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = BootNotification::request();
-        let resp = BootNotification::response();
+        let req = BootNotificationRequest::default();
+        let resp = BootNotificationResponse::default();
     }
 
     #[test]
@@ -100,11 +92,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(BootNotification::request().validate().is_ok());
+        assert!(BootNotificationRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(BootNotification::response().validate().is_ok());
+        assert!(BootNotificationResponse::default().validate().is_ok());
     }
 }

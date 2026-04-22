@@ -2,17 +2,9 @@ use crate::enums::der_control_enum_type::DERControlEnumType;
 use crate::enums::der_control_status_enum_type::DERControlStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.29. GetDERControl
-pub struct GetDERControl;
-
-impl OcppMessage for GetDERControl {
-    type Request = GetDERControlRequest;
-    type Response = GetDERControlResponse;
-}
 
 /// 1.29.1. GetDERControlRequest
 /// This contains the field definition of the GetDERControlRequest PDU sent by the CSMS to the Charging Station.
@@ -81,8 +73,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetDERControl::request();
-        let resp = GetDERControl::response();
+        let req = GetDERControlRequest::default();
+        let resp = GetDERControlResponse::default();
     }
 
     #[test]
@@ -103,11 +95,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetDERControl::request().validate().is_ok());
+        assert!(GetDERControlRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetDERControl::response().validate().is_ok());
+        assert!(GetDERControlResponse::default().validate().is_ok());
     }
 }

@@ -3,17 +3,9 @@ use crate::enums::operational_status_enum_type::OperationalStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::evse_type::EVSEType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.8. ChangeAvailability
-pub struct ChangeAvailability;
-
-impl OcppMessage for ChangeAvailability {
-    type Request = ChangeAvailabilityRequest;
-    type Response = ChangeAvailabilityResponse;
-}
 
 /// 1.8.1. ChangeAvailabilityRequest
 /// This contains the field definition of the ChangeAvailabilityRequest PDU sent by the CSMS to the Charging Station.
@@ -76,8 +68,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ChangeAvailability::request();
-        let resp = ChangeAvailability::response();
+        let req = ChangeAvailabilityRequest::default();
+        let resp = ChangeAvailabilityResponse::default();
     }
 
     #[test]
@@ -98,11 +90,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ChangeAvailability::request().validate().is_ok());
+        assert!(ChangeAvailabilityRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ChangeAvailability::response().validate().is_ok());
+        assert!(ChangeAvailabilityResponse::default().validate().is_ok());
     }
 }

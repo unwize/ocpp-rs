@@ -1,16 +1,8 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::constant_stream_data_type::ConstantStreamDataType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.35. GetPeriodicEventStream
-pub struct GetPeriodicEventStream;
-
-impl OcppMessage for GetPeriodicEventStream {
-    type Request = GetPeriodicEventStreamRequest;
-    type Response = GetPeriodicEventStreamResponse;
-}
 
 /// 1.35.1. GetPeriodicEventStreamRequest
 /// This contains the field definition of the GetPeriodicEventStreamRequest PDU sent by the CSMS to the Charging Station. No fields are defined.
@@ -62,8 +54,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetPeriodicEventStream::request();
-        let resp = GetPeriodicEventStream::response();
+        let req = GetPeriodicEventStreamRequest::default();
+        let resp = GetPeriodicEventStreamResponse::default();
     }
 
     #[test]
@@ -84,11 +76,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetPeriodicEventStream::request().validate().is_ok());
+        assert!(GetPeriodicEventStreamRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetPeriodicEventStream::response().validate().is_ok());
+        assert!(GetPeriodicEventStreamResponse::default().validate().is_ok());
     }
 }

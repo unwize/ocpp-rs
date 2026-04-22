@@ -1,15 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.18. CostUpdated
-pub struct CostUpdated;
-
-impl OcppMessage for CostUpdated {
-    type Request = CostUpdatedRequest;
-    type Response = CostUpdatedResponse;
-}
 
 /// 1.18.1. CostUpdatedRequest
 /// This contains the field definition of the CostUpdatedRequest PDU sent by the CSMS to the Charging Station. With this request the CSMS can send the current cost of a transaction to a Charging Station.
@@ -57,8 +49,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = CostUpdated::request();
-        let resp = CostUpdated::response();
+        let req = CostUpdatedRequest::default();
+        let resp = CostUpdatedResponse::default();
     }
 
     #[test]
@@ -79,11 +71,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(CostUpdated::request().validate().is_ok());
+        assert!(CostUpdatedRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(CostUpdated::response().validate().is_ok());
+        assert!(CostUpdatedResponse::default().validate().is_ok());
     }
 }

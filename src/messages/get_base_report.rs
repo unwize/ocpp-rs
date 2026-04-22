@@ -2,17 +2,9 @@ use crate::enums::generic_device_model_status::GenericDeviceModelStatusEnumType;
 use crate::enums::report_base_enum_type::ReportBaseEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.24. GetBaseReport
-pub struct GetBaseReport;
-
-impl OcppMessage for GetBaseReport {
-    type Request = GetBaseReportRequest;
-    type Response = GetBaseReportResponse;
-}
 
 /// 1.24.1. GetBaseReportRequest
 /// This contains the field definition of the GetBaseReportRequest PDU sent by the CSMS to the Charging Station.
@@ -74,8 +66,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetBaseReport::request();
-        let resp = GetBaseReport::response();
+        let req = GetBaseReportRequest::default();
+        let resp = GetBaseReportResponse::default();
     }
 
     #[test]
@@ -96,11 +88,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetBaseReport::request().validate().is_ok());
+        assert!(GetBaseReportRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetBaseReport::response().validate().is_ok());
+        assert!(GetBaseReportResponse::default().validate().is_ok());
     }
 }

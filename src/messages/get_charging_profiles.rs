@@ -2,17 +2,9 @@ use crate::enums::get_charging_profile_status_enum_type::GetChargingProfileStatu
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::charging_profile_criterion_type::ChargingProfileCriterionType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.27. GetChargingProfiles
-pub struct GetChargingProfiles;
-
-impl OcppMessage for GetChargingProfiles {
-    type Request = GetChargingProfilesRequest;
-    type Response = GetChargingProfilesResponse;
-}
 
 /// 1.27.1. GetChargingProfilesRequest
 /// The message GetChargingProfilesRequest can be used by the CSMS to request installed charging profiles from the Charging Station. The charging profiles will then be reported by the Charging Station via ReportChargingProfilesRequest messages.
@@ -83,8 +75,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetChargingProfiles::request();
-        let resp = GetChargingProfiles::response();
+        let req = GetChargingProfilesRequest::default();
+        let resp = GetChargingProfilesResponse::default();
     }
 
     #[test]
@@ -105,11 +97,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetChargingProfiles::request().validate().is_ok());
+        assert!(GetChargingProfilesRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetChargingProfiles::response().validate().is_ok());
+        assert!(GetChargingProfilesResponse::default().validate().is_ok());
     }
 }

@@ -2,17 +2,9 @@ use crate::enums::certificate_signed_status_enum_type::CertificateSignedStatusEn
 use crate::enums::certificate_signing_use_enum_type::CertificateSigningUseEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.7. CertificateSigned
-pub struct CertificateSigned;
-
-impl OcppMessage for CertificateSigned {
-    type Request = CertificateSignedRequest;
-    type Response = CertificateSignedResponse;
-}
 
 /// 1.7.1. CertificateSignedRequest
 /// This contains the field definition of the CertificateSignedRequest PDU sent by the CSMS to the Charging Station.
@@ -78,8 +70,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = CertificateSigned::request();
-        let resp = CertificateSigned::response();
+        let req = CertificateSignedRequest::default();
+        let resp = CertificateSignedResponse::default();
     }
 
     #[test]
@@ -100,11 +92,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(CertificateSigned::request().validate().is_ok());
+        assert!(CertificateSignedRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(CertificateSigned::response().validate().is_ok());
+        assert!(CertificateSignedResponse::default().validate().is_ok());
     }
 }

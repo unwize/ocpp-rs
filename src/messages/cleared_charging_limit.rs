@@ -1,15 +1,7 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.14. ClearedChargingLimit
-pub struct ClearedChargingLimit;
-
-impl OcppMessage for ClearedChargingLimit {
-    type Request = ClearedChargingLimitRequest;
-    type Response = ClearedChargingLimitResponse;
-}
 
 /// 1.14.1. ClearedChargingLimitRequest
 /// This contains the field definition of the ClearedChargingLimitRequest PDU sent by the Charging Station to the CSMS.
@@ -67,8 +59,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearedChargingLimit::request();
-        let resp = ClearedChargingLimit::response();
+        let req = ClearedChargingLimitRequest::default();
+        let resp = ClearedChargingLimitResponse::default();
     }
 
     #[test]
@@ -89,11 +81,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearedChargingLimit::request().validate().is_ok());
+        assert!(ClearedChargingLimitRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearedChargingLimit::response().validate().is_ok());
+        assert!(ClearedChargingLimitResponse::default().validate().is_ok());
     }
 }

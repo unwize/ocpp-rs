@@ -1,16 +1,8 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::clear_tarrifs_result_type::ClearTariffsResultType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.15. ClearTariffs
-pub struct ClearTariffs;
-
-impl OcppMessage for ClearTariffs {
-    type Request = ClearTariffsRequest;
-    type Response = ClearTariffsResponse;
-}
 
 /// 1.15.1. ClearTariffsRequest
 /// This contains the field definition of the ClearTariffsRequest PDU sent by the CSMS to the Charging Station.
@@ -87,8 +79,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearTariffs::request();
-        let resp = ClearTariffs::response();
+        let req = ClearTariffsRequest::default();
+        let resp = ClearTariffsResponse::default();
     }
 
     #[test]
@@ -109,11 +101,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearTariffs::request().validate().is_ok());
+        assert!(ClearTariffsRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearTariffs::response().validate().is_ok());
+        assert!(ClearTariffsResponse::default().validate().is_ok());
     }
 }

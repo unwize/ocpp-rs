@@ -1,17 +1,9 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_status_request_info_type::CertificateStatusRequestInfoType;
 use crate::structures::certificate_status_type::CertificateStatusType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.25. GetCertificateChainStatus
-pub struct GetCertificateChainStatus;
-
-impl OcppMessage for GetCertificateChainStatus {
-    type Request = GetCertificateChainStatusRequest;
-    type Response = GetCertificateChainStatusResponse;
-}
 
 /// 1.25.1. GetCertificateChainStatusRequest
 /// This contains the field definition of the GetCertificateChainStatusRequest PDU sent by the CSMS to the Charging Station.
@@ -90,8 +82,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetCertificateChainStatus::request();
-        let resp = GetCertificateChainStatus::response();
+        let req = GetCertificateChainStatusRequest::default();
+        let resp = GetCertificateChainStatusResponse::default();
     }
 
     #[test]
@@ -112,11 +104,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetCertificateChainStatus::request().validate().is_ok());
+        assert!(GetCertificateChainStatusRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetCertificateChainStatus::response().validate().is_ok());
+        assert!(GetCertificateChainStatusResponse::default().validate().is_ok());
     }
 }

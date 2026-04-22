@@ -1,18 +1,10 @@
 use crate::enums::generic_status_enum_type::GenericStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.2. AFRRSignal
-pub struct AFRRSignal;
-
-impl OcppMessage for AFRRSignal {
-    type Request = AFRRSignalRequest;
-    type Response = AFRRSignalResponse;
-}
 
 /// 1.2.1. AFRRSignalRequest
 /// This message passes an aFRR signal on to the charging station. Charging station uses the value of signal to select a

@@ -1,17 +1,9 @@
 use crate::enums::firmware_status_enum_type::FirmwareStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.22. FirmwareStatusNotification
-pub struct FirmwareStatusNotification;
-
-impl OcppMessage for FirmwareStatusNotification {
-    type Request = FirmwareStatusNotificationRequest;
-    type Response = FirmwareStatusNotificationResponse;
-}
 
 /// 1.22.1. FirmwareStatusNotificationRequest
 /// This contains the field definition of the FirmwareStatusNotificationRequest PDU sent by the Charging Station to the CSMS.
@@ -68,8 +60,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = FirmwareStatusNotification::request();
-        let resp = FirmwareStatusNotification::response();
+        let req = FirmwareStatusNotificationRequest::default();
+        let resp = FirmwareStatusNotificationResponse::default();
     }
 
     #[test]
@@ -90,11 +82,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(FirmwareStatusNotification::request().validate().is_ok());
+        assert!(FirmwareStatusNotificationRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(FirmwareStatusNotification::response().validate().is_ok());
+        assert!(FirmwareStatusNotificationResponse::default().validate().is_ok());
     }
 }

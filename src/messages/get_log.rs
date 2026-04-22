@@ -3,17 +3,9 @@ use crate::enums::log_status_enum_type::LogStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::log_parameters_type::LogParametersType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.33. GetLog
-pub struct GetLog;
-
-impl OcppMessage for GetLog {
-    type Request = GetLogRequest;
-    type Response = GetLogResponse;
-}
 
 /// 1.33.1. GetLogRequest
 /// This contains the field definition of the GetLogRequest PDU sent by the CSMS to the Charging Station.
@@ -95,8 +87,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetLog::request();
-        let resp = GetLog::response();
+        let req = GetLogRequest::default();
+        let resp = GetLogResponse::default();
     }
 
     #[test]
@@ -117,11 +109,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetLog::request().validate().is_ok());
+        assert!(GetLogRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetLog::response().validate().is_ok());
+        assert!(GetLogResponse::default().validate().is_ok());
     }
 }

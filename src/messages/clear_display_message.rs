@@ -1,17 +1,9 @@
 use crate::enums::clear_message_status_enum_type::ClearMessageStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.13. ClearDisplayMessage
-pub struct ClearDisplayMessage;
-
-impl OcppMessage for ClearDisplayMessage {
-    type Request = ClearDisplayMessageRequest;
-    type Response = ClearDisplayMessageResponse;
-}
 
 /// 1.13.1. ClearDisplayMessageRequest
 /// This contains the field definition of the ClearDisplayMessageRequest PDU sent by the CSMS to the Charging Station. The CSMS asks the Charging Station to clear a display message that has been configured in the Charging Station to be cleared/removed.
@@ -69,8 +61,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = ClearDisplayMessage::request();
-        let resp = ClearDisplayMessage::response();
+        let req = ClearDisplayMessageRequest::default();
+        let resp = ClearDisplayMessageResponse::default();
     }
 
     #[test]
@@ -91,17 +83,17 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClearDisplayMessage::request().validate().is_ok());
+        assert!(ClearDisplayMessageRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearDisplayMessage::response().validate().is_ok());
+        assert!(ClearDisplayMessageResponse::default().validate().is_ok());
     }
 
     #[test]
     fn test_request_invalid_id() {
-        let mut req = ClearDisplayMessage::request();
+        let mut req = ClearDisplayMessageRequest::default();
         req.id = -1;
         assert!(req.validate().is_err());
     }

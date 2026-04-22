@@ -3,17 +3,9 @@ use crate::enums::get_installed_certificate_status_enum_type::GetInstalledCertif
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::certificate_hash_data_chain_type::CertificateHashDataChainType;
 use crate::structures::status_info_type::StatusInfoType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.31. GetInstalledCertificateIds
-pub struct GetInstalledCertificateIds;
-
-impl OcppMessage for GetInstalledCertificateIds {
-    type Request = GetInstalledCertificateIdsRequest;
-    type Response = GetInstalledCertificateIdsResponse;
-}
 
 /// 1.31.1. GetInstalledCertificateIdsRequest
 /// Used by the CSMS to request an overview of the installed certificates on a Charging Station.
@@ -84,8 +76,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetInstalledCertificateIds::request();
-        let resp = GetInstalledCertificateIds::response();
+        let req = GetInstalledCertificateIdsRequest::default();
+        let resp = GetInstalledCertificateIdsResponse::default();
     }
 
     #[test]
@@ -106,11 +98,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetInstalledCertificateIds::request().validate().is_ok());
+        assert!(GetInstalledCertificateIdsRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetInstalledCertificateIds::response().validate().is_ok());
+        assert!(GetInstalledCertificateIdsResponse::default().validate().is_ok());
     }
 }

@@ -2,17 +2,9 @@ use crate::enums::tariff_get_status_enum_type::TariffGetStatusEnumType;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::status_info_type::StatusInfoType;
 use crate::structures::tariff_assignment_type::TariffAssignmentType;
-use crate::traits::{OcppEntity, OcppMessage, OcppRequest};
+use crate::traits::{OcppEntity, OcppRequest};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
-
-/// 1.37. GetTariffs
-pub struct GetTariffs;
-
-impl OcppMessage for GetTariffs {
-    type Request = GetTariffsRequest;
-    type Response = GetTariffsResponse;
-}
 
 /// 1.37.1. GetTariffsRequest
 /// This contains the field definition of the GetTariffsRequest PDU sent by the CSMS to the Charging Station.
@@ -80,8 +72,8 @@ mod tests {
 
     #[test]
     fn test_msg() {
-        let req = GetTariffs::request();
-        let resp = GetTariffs::response();
+        let req = GetTariffsRequest::default();
+        let resp = GetTariffsResponse::default();
     }
 
     #[test]
@@ -102,11 +94,11 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetTariffs::request().validate().is_ok());
+        assert!(GetTariffsRequest::default().validate().is_ok());
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetTariffs::response().validate().is_ok());
+        assert!(GetTariffsResponse::default().validate().is_ok());
     }
 }
