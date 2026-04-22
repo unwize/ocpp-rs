@@ -20,7 +20,7 @@ pub struct ReactivePowerParamsType {
     pub autonomous_v_ref_time_constant: Option<f64>,
 }
 
-#[typetag::serde]
+
 impl OcppEntity for ReactivePowerParamsType {
     /// Validates the fields of ReactivePowerParamsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

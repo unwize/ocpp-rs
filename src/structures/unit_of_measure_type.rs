@@ -13,7 +13,7 @@ pub struct UnitOfMeasureType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub multiplier: Option<i32>,
 }
-#[typetag::serde]
+
 impl OcppEntity for UnitOfMeasureType {
     /// Validates the fields of UnitOfMeasureType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

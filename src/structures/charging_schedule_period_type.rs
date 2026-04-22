@@ -135,7 +135,7 @@ pub struct ChargingSchedulePeriodType {
     pub v2x_signal_watt_point_type: Option<Vec<V2XSignalWattPointType>>,
 }
 
-#[typetag::serde]
+
 impl OcppEntity for ChargingSchedulePeriodType {
     /// Validates the fields of ChargingSchedulePeriodType based on specified constraints.
     /// Returns `true` if all values are valid, `false` otherwise.

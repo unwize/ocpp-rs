@@ -1,5 +1,4 @@
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::additional_selected_services_type::AdditionalSelectedServicesType;
 use crate::structures::overstay_rule_list_type::OverstayRuleListType;
 use crate::structures::price_rule_stack_type::PriceRuleStackType;
@@ -55,7 +54,7 @@ pub struct AbsolutePriceScheduleType {
     ///  Optional. Maximum amount to be billed for the overall charging session (e.g. including energy, parking, and overstay).
     maximum_cost: Option<u32>,
 }
-#[typetag::serde]
+
 impl OcppEntity for AbsolutePriceScheduleType {
     /// Naively validate the values within the struct. Does not cross-validate against external
     /// data.
@@ -70,17 +69,6 @@ impl OcppEntity for AbsolutePriceScheduleType {
                 0,
                 160,
                 &price_schedule_description.chars(),
-            );
-        }
-
-        // Validate ISO compliance for currency
-        if !CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
-            e.push(
-                OcppError::FieldISOError {
-                    value: "currency".to_string(),
-                    iso: "4217".to_string(),
-                }
-                .to_field_validation_error("currency"),
             );
         }
 

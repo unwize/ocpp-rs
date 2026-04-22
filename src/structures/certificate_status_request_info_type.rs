@@ -27,7 +27,7 @@ impl Default for CertificateStatusRequestInfoType {
         }
     }
 }
-#[typetag::serde]
+
 impl OcppEntity for CertificateStatusRequestInfoType {
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();

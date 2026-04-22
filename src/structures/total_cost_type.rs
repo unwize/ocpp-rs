@@ -1,7 +1,6 @@
 use crate::enums::tariff_cost_enum_type::TariffCostEnumType;
 use crate::errors::OcppError::FieldISOError;
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::iso::iso_4217::CurrencyRegistry;
 use crate::structures::price_type::PriceType;
 use crate::structures::total_price_type::TotalPriceType;
 use crate::traits::OcppEntity;
@@ -51,21 +50,11 @@ impl Default for TotalCostType {
         }
     }
 }
-#[typetag::serde]
+
 impl OcppEntity for TotalCostType {
     /// Validates the fields of TotalCostType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-
-        if !CurrencyRegistry::new().is_valid_code(&self.currency) {
-            e.push(
-                FieldISOError {
-                    value: self.currency.to_string(),
-                    iso: "4217".to_string(),
-                }
-                .to_field_validation_error("currency"),
-            );
-        }
 
         if let Some(fixed) = &self.fixed {
             e.check_member("fixed", fixed);

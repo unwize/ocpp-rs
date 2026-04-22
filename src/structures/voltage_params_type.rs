@@ -17,7 +17,7 @@ pub struct VoltageParamsType {
     pub power_during_cessation: Option<PowerDuringCessationEnumType>,
 }
 
-#[typetag::serde]
+
 impl OcppEntity for VoltageParamsType {
     /// Validates the fields of VoltageParamsType.
     fn validate(&self) -> Result<(), OcppError> {

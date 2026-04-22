@@ -20,7 +20,7 @@ pub struct HysteresisType {
     pub hysteresis_gradient: Option<f64>,
 }
 
-#[typetag::serde]
+
 impl OcppEntity for HysteresisType {
     /// Validates the fields of HysteresisType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

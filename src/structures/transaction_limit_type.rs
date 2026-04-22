@@ -19,7 +19,7 @@ pub struct TransactionLimitType {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub max_soc: Option<i32>,
 }
-#[typetag::serde]
+
 impl OcppEntity for TransactionLimitType {
     /// Validates the fields of TransactionLimitType based on specified constraints.
     fn validate(&self) -> Result<(), OcppError> {

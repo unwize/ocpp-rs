@@ -1,6 +1,5 @@
 use crate::errors::OcppError::FieldISOError;
 use crate::errors::{OcppError, StructureValidationBuilder};
-use crate::iso;
 use crate::structures::ev_absolute_price_schedule_entry_type::EVAbsolutePriceScheduleEntryType;
 use crate::traits::OcppEntity;
 use chrono::{DateTime, Utc};
@@ -33,24 +32,12 @@ impl Default for EVAbsolutePriceScheduleType {
         }
     }
 }
-#[typetag::serde]
+
 impl OcppEntity for EVAbsolutePriceScheduleType {
     /// Validates the fields of EVAbsolutePriceScheduleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.
     fn validate(&self) -> Result<(), OcppError> {
         let mut e = StructureValidationBuilder::new();
-
-        // Manually check if the `currency` field is in compliance with ISO-4217 and push a corresponding error if it is not.
-        // Currently, there is no convenience function implemented for ISO errors.
-        if !iso::iso_4217::CurrencyRegistry::new().is_valid_code(self.currency.as_str()) {
-            e.push(
-                FieldISOError {
-                    value: self.currency.to_string(),
-                    iso: "4217".to_string(),
-                }
-                .to_field_validation_error("currency"),
-            );
-        }
 
         e.check_cardinality("price_algorithm", 0, 2000, &self.price_algorithm.chars());
         e.check_cardinality(
