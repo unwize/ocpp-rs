@@ -80,7 +80,7 @@ pub struct RcpCall {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
     pub action: String,
-    pub payload: Box<dyn OcppRequest>,
+    //pub payload: Box<dyn OcppRequest>,
 }
 
 impl RcpCall {
@@ -91,7 +91,7 @@ impl RcpCall {
             message_type_id: MessageTypeId::Call,
             message_id: String::from(message_id),
             action: payload.get_message_type(),
-            payload,
+            //payload,
         }
     }
 }
@@ -100,7 +100,7 @@ impl RcpCall {
 pub struct RcpCallResult {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
-    pub payload: Box<dyn OcppEntity>,
+    //pub payload: Box<dyn OcppEntity>,
 }
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
