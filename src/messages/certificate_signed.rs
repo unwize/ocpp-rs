@@ -34,7 +34,6 @@ impl OcppEntity for CertificateSignedRequest {
     }
 }
 
-
 impl OcppRequest for CertificateSignedRequest {
     fn get_message_type(&self) -> String {
         String::from("CertificateSigned")

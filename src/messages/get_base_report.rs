@@ -29,7 +29,6 @@ impl OcppEntity for GetBaseReportRequest {
     }
 }
 
-
 impl OcppRequest for GetBaseReportRequest {
     fn get_message_type(&self) -> String {
         String::from("GetBaseReport")

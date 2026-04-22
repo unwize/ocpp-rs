@@ -28,8 +28,6 @@ impl OcppEntity for GetInstalledCertificateIdsRequest {
     }
 }
 
-
-
 impl OcppRequest for GetInstalledCertificateIdsRequest {
     fn get_message_type(&self) -> String {
         String::from("GetInstalledCertificateIds")
@@ -98,11 +96,19 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetInstalledCertificateIdsRequest::default().validate().is_ok());
+        assert!(
+            GetInstalledCertificateIdsRequest::default()
+                .validate()
+                .is_ok()
+        );
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetInstalledCertificateIdsResponse::default().validate().is_ok());
+        assert!(
+            GetInstalledCertificateIdsResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

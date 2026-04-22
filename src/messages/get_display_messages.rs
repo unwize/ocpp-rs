@@ -38,8 +38,6 @@ impl OcppEntity for GetDisplayMessagesRequest {
     }
 }
 
-
-
 impl OcppRequest for GetDisplayMessagesRequest {
     fn get_message_type(&self) -> String {
         String::from("GetDisplayMessages")

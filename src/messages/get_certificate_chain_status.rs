@@ -33,7 +33,6 @@ impl OcppEntity for GetCertificateChainStatusRequest {
     }
 }
 
-
 impl OcppRequest for GetCertificateChainStatusRequest {
     fn get_message_type(&self) -> String {
         String::from("GetCertificateChainStatus")
@@ -104,11 +103,19 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(GetCertificateChainStatusRequest::default().validate().is_ok());
+        assert!(
+            GetCertificateChainStatusRequest::default()
+                .validate()
+                .is_ok()
+        );
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(GetCertificateChainStatusResponse::default().validate().is_ok());
+        assert!(
+            GetCertificateChainStatusResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

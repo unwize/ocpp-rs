@@ -9,7 +9,7 @@ use std::default::Default;
 /// 1.2.1. AFRRSignalRequest
 /// This message passes an aFRR signal on to the charging station. Charging station uses the value of signal to select a
 /// matching power value from the v2xSignalWattCurve in the ChargingSchedulePeriod.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AFRRSignalRequest {
     /// Required. Time when signal becomes active.
@@ -24,7 +24,6 @@ impl OcppEntity for AFRRSignalRequest {
     }
 }
 
-
 impl OcppRequest for AFRRSignalRequest {
     fn get_message_type(&self) -> String {
         String::from("AFRRSignal")
@@ -34,7 +33,7 @@ impl OcppRequest for AFRRSignalRequest {
 /// 1.2.2. AFRRSignalResponse
 /// Response stating whether signal was accepted. Response will be Accepted if a v2xSignalWattCurve_ element exists in the
 /// ChargingSchedulePeriodType for that point in time.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AFRRSignalResponse {
     /// Required.

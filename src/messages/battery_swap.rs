@@ -8,7 +8,7 @@ use std::default::Default;
 
 /// 1.4.1. BatterySwapRequest
 /// Message sent by Charging Station when a battery is swapped in or out of a battery swap station.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BatterySwapRequest {
     /// Required. Battery in/out
@@ -34,7 +34,6 @@ impl OcppEntity for BatterySwapRequest {
     }
 }
 
-
 impl OcppRequest for BatterySwapRequest {
     fn get_message_type(&self) -> String {
         String::from("BatterySwap")
@@ -43,10 +42,9 @@ impl OcppRequest for BatterySwapRequest {
 
 /// 1.4.2. BatterySwapResponse
 /// Empty response by CSMS to confirm receipt of BatterySwapRequest.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct BatterySwapResponse {}
-
 
 impl OcppEntity for BatterySwapResponse {
     fn validate(&self) -> Result<(), OcppError> {

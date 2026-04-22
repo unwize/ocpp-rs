@@ -25,8 +25,6 @@ impl OcppEntity for GetCertificateStatusRequest {
     }
 }
 
-
-
 impl OcppRequest for GetCertificateStatusRequest {
     fn get_message_type(&self) -> String {
         String::from("GetCertificateStatus")

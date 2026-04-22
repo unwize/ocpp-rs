@@ -28,7 +28,6 @@ pub struct PriceRuleType {
     pub power_range_start: RationalNumberType,
 }
 
-
 impl OcppEntity for PriceRuleType {
     /// Validates the fields of PriceRuleType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

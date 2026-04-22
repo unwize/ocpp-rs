@@ -24,7 +24,6 @@ impl OcppEntity for ClearDisplayMessageRequest {
     }
 }
 
-
 impl OcppRequest for ClearDisplayMessageRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearDisplayMessage")

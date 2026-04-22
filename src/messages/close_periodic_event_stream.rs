@@ -21,7 +21,6 @@ impl OcppEntity for ClosePeriodicEventStreamRequest {
     }
 }
 
-
 impl OcppRequest for ClosePeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("ClosePeriodicEventStream")
@@ -67,11 +66,19 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(ClosePeriodicEventStreamRequest::default().validate().is_ok());
+        assert!(
+            ClosePeriodicEventStreamRequest::default()
+                .validate()
+                .is_ok()
+        );
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(ClosePeriodicEventStreamResponse::default().validate().is_ok());
+        assert!(
+            ClosePeriodicEventStreamResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

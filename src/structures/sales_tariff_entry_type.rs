@@ -21,7 +21,6 @@ pub struct SalesTariffEntryType {
     pub consumption_cost: Option<Vec<ConsumptionCostType>>,
 }
 
-
 impl OcppEntity for SalesTariffEntryType {
     /// Validates the fields of SalesTariffEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

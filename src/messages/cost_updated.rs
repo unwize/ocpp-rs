@@ -24,7 +24,6 @@ impl OcppEntity for CostUpdatedRequest {
     }
 }
 
-
 impl OcppRequest for CostUpdatedRequest {
     fn get_message_type(&self) -> String {
         String::from("CostUpdated")

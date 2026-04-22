@@ -36,8 +36,6 @@ impl OcppEntity for GetDERControlRequest {
     }
 }
 
-
-
 impl OcppRequest for GetDERControlRequest {
     fn get_message_type(&self) -> String {
         String::from("GetDERControl")

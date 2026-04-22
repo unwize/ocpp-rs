@@ -84,7 +84,6 @@ pub struct RcpCall {
 }
 
 impl RcpCall {
-
     /// Create a new RCP-spec CALL.
     pub fn new(message_id: &str, payload: Box<dyn OcppRequest>) -> Self {
         Self {

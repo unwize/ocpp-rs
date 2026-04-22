@@ -44,8 +44,6 @@ impl OcppEntity for GetLogRequest {
     }
 }
 
-
-
 impl OcppRequest for GetLogRequest {
     fn get_message_type(&self) -> String {
         String::from("GetLog")

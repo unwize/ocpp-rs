@@ -32,7 +32,6 @@ impl Default for ClearVariableMonitoringRequest {
     }
 }
 
-
 impl OcppRequest for ClearVariableMonitoringRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearVariableMonitoring")
@@ -108,6 +107,10 @@ mod tests {
 
     #[test]
     fn test_response_validate() {
-        assert!(ClearVariableMonitoringResponse::default().validate().is_ok());
+        assert!(
+            ClearVariableMonitoringResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

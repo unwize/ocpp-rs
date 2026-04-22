@@ -17,7 +17,6 @@ pub struct PeriodicEventStreamParamsType {
     pub values: Option<i32>,
 }
 
-
 impl OcppEntity for PeriodicEventStreamParamsType {
     /// Validates the fields of PeriodicEventStreamParamsType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

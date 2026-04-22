@@ -34,7 +34,6 @@ impl OcppEntity for FirmwareStatusNotificationRequest {
     }
 }
 
-
 impl OcppRequest for FirmwareStatusNotificationRequest {
     fn get_message_type(&self) -> String {
         String::from("FirmwareStatusNotification")
@@ -82,11 +81,19 @@ mod tests {
 
     #[test]
     fn test_request_validate() {
-        assert!(FirmwareStatusNotificationRequest::default().validate().is_ok());
+        assert!(
+            FirmwareStatusNotificationRequest::default()
+                .validate()
+                .is_ok()
+        );
     }
 
     #[test]
     fn test_response_validate() {
-        assert!(FirmwareStatusNotificationResponse::default().validate().is_ok());
+        assert!(
+            FirmwareStatusNotificationResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

@@ -48,7 +48,6 @@ impl OcppEntity for CustomerInformationRequest {
     }
 }
 
-
 impl OcppRequest for CustomerInformationRequest {
     fn get_message_type(&self) -> String {
         String::from("CustomerInformation")

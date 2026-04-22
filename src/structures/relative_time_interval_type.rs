@@ -16,7 +16,6 @@ pub struct RelativeTimeIntervalType {
     pub duration: Option<i32>,
 }
 
-
 impl OcppEntity for RelativeTimeIntervalType {
     /// Validates the fields of RelativeTimeIntervalType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

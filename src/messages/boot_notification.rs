@@ -29,7 +29,6 @@ impl OcppEntity for BootNotificationRequest {
     }
 }
 
-
 impl OcppRequest for BootNotificationRequest {
     fn get_message_type(&self) -> String {
         String::from("BootNotification")

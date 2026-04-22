@@ -40,8 +40,6 @@ impl OcppEntity for GetMonitoringReportRequest {
     }
 }
 
-
-
 impl OcppRequest for GetMonitoringReportRequest {
     fn get_message_type(&self) -> String {
         String::from("GetMonitoringReport")

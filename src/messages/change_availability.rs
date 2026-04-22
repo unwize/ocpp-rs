@@ -31,7 +31,6 @@ impl OcppEntity for ChangeAvailabilityRequest {
     }
 }
 
-
 impl OcppRequest for ChangeAvailabilityRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeAvailability")

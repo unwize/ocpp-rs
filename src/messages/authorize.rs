@@ -52,7 +52,6 @@ impl OcppEntity for AuthorizeRequest {
     }
 }
 
-
 impl OcppRequest for AuthorizeRequest {
     fn get_message_type(&self) -> String {
         String::from("Authorize")

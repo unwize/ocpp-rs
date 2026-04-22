@@ -15,7 +15,6 @@ pub struct PriceLevelScheduleEntryType {
     pub price_level: i32,
 }
 
-
 impl OcppEntity for PriceLevelScheduleEntryType {
     /// Validates the fields of PriceLevelScheduleEntryType based on specified constraints.
     /// Returns `Ok(())` if all values are valid, or `Err(OcppError::StructureValidationError)` if validation fails.

@@ -26,8 +26,6 @@ impl OcppEntity for GetTariffsRequest {
     }
 }
 
-
-
 impl OcppRequest for GetTariffsRequest {
     fn get_message_type(&self) -> String {
         String::from("GetTariffs")

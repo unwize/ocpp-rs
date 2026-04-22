@@ -29,7 +29,6 @@ impl OcppEntity for ClearChargingProfileRequest {
     }
 }
 
-
 impl OcppRequest for ClearChargingProfileRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearChargingProfile")

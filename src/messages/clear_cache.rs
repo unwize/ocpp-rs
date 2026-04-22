@@ -18,7 +18,6 @@ impl OcppEntity for ClearCacheRequest {
     }
 }
 
-
 impl OcppRequest for ClearCacheRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearCache")

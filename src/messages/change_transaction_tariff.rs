@@ -28,7 +28,6 @@ impl OcppEntity for ChangeTransactionTariffRequest {
     }
 }
 
-
 impl OcppRequest for ChangeTransactionTariffRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeTransactionTariff")
@@ -92,6 +91,10 @@ mod tests {
 
     #[test]
     fn test_response_validate() {
-        assert!(ChangeTransactionTariffResponse::default().validate().is_ok());
+        assert!(
+            ChangeTransactionTariffResponse::default()
+                .validate()
+                .is_ok()
+        );
     }
 }

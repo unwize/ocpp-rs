@@ -35,7 +35,6 @@ impl OcppEntity for DataTransferRequest {
     }
 }
 
-
 impl OcppRequest for DataTransferRequest {
     fn get_message_type(&self) -> String {
         String::from("DataTransfer")
