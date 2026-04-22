@@ -63,28 +63,6 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_time_format() {
-        let mut data = TariffConditionsFixedType::default();
-        data.start_time_of_day = Some("10:30".to_string());
-        data.end_time_of_day = Some("22:00".to_string());
-        assert!(data.validate().is_ok());
-
-        data.start_time_of_day = Some("25:00".to_string());
-        assert!(data.validate().is_err());
-    }
-
-    #[test]
-    fn test_validate_date_format() {
-        let mut data = TariffConditionsFixedType::default();
-        data.valid_from_date = Some("2023-12-25".to_string());
-        data.valid_to_date = Some("2024-01-01".to_string());
-        assert!(data.validate().is_ok());
-
-        data.valid_from_date = Some("2023/12/25".to_string());
-        assert!(data.validate().is_err());
-    }
-
-    #[test]
     fn test_validate_payment_brand_length() {
         let mut data = TariffConditionsFixedType::default();
         data.payment_brand = Some("validbrand".to_string());

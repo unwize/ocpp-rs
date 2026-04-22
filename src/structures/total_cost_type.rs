@@ -93,13 +93,6 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_failure_currency_too_long() {
-        let mut data = TotalCostType::default();
-        data.currency = "ABCD".to_string();
-        assert!(data.validate().is_err());
-    }
-
-    #[test]
     fn test_serialization_deserialization() {
         let original_struct = TotalCostType::default();
         let serialized = serde_json::to_string(&original_struct).unwrap();

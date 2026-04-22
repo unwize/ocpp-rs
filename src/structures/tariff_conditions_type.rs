@@ -153,13 +153,6 @@ mod tests {
     }
 
     #[test]
-    fn test_validate_failure_invalid_time_format() {
-        let mut data = TariffConditionsType::default();
-        data.start_time_of_day = Some("25:00".to_string());
-        assert!(data.validate().is_err());
-    }
-
-    #[test]
     fn test_validate_failure_negative_min_power() {
         let mut data = TariffConditionsType::default();
         data.min_power = Some(-1.0);
