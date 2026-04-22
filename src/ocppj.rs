@@ -1,10 +1,12 @@
 use crate::ocpp_message::OcppMessage;
+use serde::de::{self, Deserializer, SeqAccess, Visitor};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
+use std::fmt;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
-#[serde(into = "i32")]
+#[serde(into = "i32", try_from = "i32")]
 pub enum MessageTypeId {
     #[default]
     Call = 2,
@@ -36,7 +38,7 @@ impl TryFrom<String> for MessageTypeId {
 }
 
 impl TryFrom<i32> for MessageTypeId {
-    type Error = ();
+    type Error = String;
     fn try_from(i: i32) -> Result<Self, Self::Error> {
         match i {
             2 => Ok(MessageTypeId::Call),
@@ -44,7 +46,7 @@ impl TryFrom<i32> for MessageTypeId {
             4 => Ok(MessageTypeId::CallError),
             5 => Ok(MessageTypeId::CallResultError),
             6 => Ok(MessageTypeId::Send),
-            _ => Err(()),
+            _ => Err(format!("Invalid MessageTypeId: {}", i)),
         }
     }
 }
@@ -75,17 +77,64 @@ impl From<MessageTypeId> for i32 {
 
 /// A struct containing all the info required to send an ocpp message in a way that complies with
 /// OCPP-J. Messages strictly adhere to RCP standards.
-#[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
+#[derive(Clone, Debug, Serialize_tuple)]
 pub struct RcpCall {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
     pub action: String,
-    pub payload: Box<OcppMessage>,
+    pub payload: OcppMessage,
+}
+
+impl<'de> Deserialize<'de> for RcpCall {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct RcpCallVisitor;
+
+        impl<'de> Visitor<'de> for RcpCallVisitor {
+            type Value = RcpCall;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("a tuple representing an RcpCall")
+            }
+
+            fn visit_seq<V>(self, mut seq: V) -> Result<RcpCall, V::Error>
+            where
+                V: SeqAccess<'de>,
+            {
+                let message_type_id = seq
+                    .next_element::<MessageTypeId>()?
+                    .ok_or_else(|| de::Error::invalid_length(0, &self))?;
+                let message_id = seq
+                    .next_element::<String>()?
+                    .ok_or_else(|| de::Error::invalid_length(1, &self))?;
+                let action = seq
+                    .next_element::<String>()?
+                    .ok_or_else(|| de::Error::invalid_length(2, &self))?;
+                let payload_value = seq
+                    .next_element::<Value>()?
+                    .ok_or_else(|| de::Error::invalid_length(3, &self))?;
+
+                let payload = OcppMessage::parse_request(&action, payload_value)
+                    .map_err(de::Error::custom)?;
+
+                Ok(RcpCall {
+                    message_type_id,
+                    message_id,
+                    action,
+                    payload,
+                })
+            }
+        }
+
+        deserializer.deserialize_seq(RcpCallVisitor)
+    }
 }
 
 impl RcpCall {
     /// Create a new RCP-spec CALL.
-    pub fn new(message_id: &str, payload: Box<OcppMessage>) -> Self {
+    pub fn new(message_id: &str, payload: OcppMessage) -> Self {
         Self {
             message_type_id: MessageTypeId::Call,
             message_id: String::from(message_id),
@@ -99,7 +148,7 @@ impl RcpCall {
 pub struct RcpCallResult {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
-    pub payload: Box<OcppMessage>,
+    pub payload: OcppMessage,
 }
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
@@ -109,4 +158,23 @@ pub struct RcpCallError {
     pub error_code: String,
     pub error_description: String,
     pub error_details: Value,
+}
+
+#[cfg(test)]
+mod test {
+    use crate::messages::adjust_periodic_event_stream::AdjustPeriodicEventStreamRequest;
+    use super::*;
+    #[test]
+    fn test_serialize_rpc_call() {
+        let call = RcpCall::new(
+            "12345",
+            OcppMessage::AdjustPeriodicEventStreamRequest(AdjustPeriodicEventStreamRequest::default()),
+        );
+
+        let serialized = serde_json::to_string_pretty(&call).unwrap();
+        println!("{}", serialized);
+        let deserialized: RcpCall = serde_json::from_str(&serialized).unwrap();
+
+        assert_eq!(deserialized.message_type_id, MessageTypeId::Call);
+    }
 }
