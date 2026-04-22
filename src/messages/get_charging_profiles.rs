@@ -26,7 +26,7 @@ pub struct GetChargingProfilesRequest {
     /// Required. Specifies the charging profile.
     pub charging_profile: ChargingProfileCriterionType,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetChargingProfilesRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -45,7 +45,7 @@ impl OcppEntity for GetChargingProfilesRequest {
     }
 }
 
-#[typetag::serde]
+
 
 impl OcppRequest for GetChargingProfilesRequest {
     fn get_message_type(&self) -> String {
@@ -63,7 +63,7 @@ pub struct GetChargingProfilesResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetChargingProfilesResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

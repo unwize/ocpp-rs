@@ -25,7 +25,7 @@ pub struct ChangeAvailabilityRequest {
     /// Optional. Contains Id's to designate a specific EVSE/connector by index numbers. When omitted, the message refers to the Charging Station as a whole.
     pub evse: Option<EVSEType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ChangeAvailabilityRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -39,7 +39,7 @@ impl OcppEntity for ChangeAvailabilityRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ChangeAvailabilityRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeAvailability")
@@ -56,7 +56,7 @@ pub struct ChangeAvailabilityResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ChangeAvailabilityResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

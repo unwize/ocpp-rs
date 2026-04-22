@@ -24,7 +24,7 @@ pub struct AdjustPeriodicEventStreamRequest {
     pub params: PeriodicEventStreamParamsType,
 }
 
-#[typetag::serde]
+
 impl OcppRequest for AdjustPeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("AdjustPeriodicEventStream")
@@ -37,7 +37,7 @@ impl AdjustPeriodicEventStreamRequest {
         Self { id, params }
     }
 }
-#[typetag::serde]
+
 impl OcppEntity for AdjustPeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut err = StructureValidationBuilder::new();
@@ -71,7 +71,7 @@ impl AdjustPeriodicEventStreamResponse {
         }
     }
 }
-#[typetag::serde]
+
 impl OcppEntity for AdjustPeriodicEventStreamResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut builder = StructureValidationBuilder::new();

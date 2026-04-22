@@ -24,7 +24,7 @@ pub struct ChangeTransactionTariffRequest {
     /// Required. New tariff to use for transaction.
     pub tariff: TariffType,
 }
-#[typetag::serde]
+
 impl OcppEntity for ChangeTransactionTariffRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -36,7 +36,7 @@ impl OcppEntity for ChangeTransactionTariffRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ChangeTransactionTariffRequest {
     fn get_message_type(&self) -> String {
         String::from("ChangeTransactionTariff")
@@ -53,7 +53,7 @@ pub struct ChangeTransactionTariffResponse {
     /// Optional. Detailed status information
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ChangeTransactionTariffResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

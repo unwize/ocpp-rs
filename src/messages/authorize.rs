@@ -32,7 +32,7 @@ pub struct AuthorizeRequest {
     /// Not needed if certificate is provided.
     pub iso15118_certificate_hash_data: Option<Vec<OCSPRequestDataType>>,
 }
-#[typetag::serde]
+
 impl OcppEntity for AuthorizeRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -60,7 +60,7 @@ impl OcppEntity for AuthorizeRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for AuthorizeRequest {
     fn get_message_type(&self) -> String {
         String::from("Authorize")
@@ -84,7 +84,7 @@ pub struct AuthorizeResponse {
     /// Optional. (2.1) Tariff for this IdToken.
     pub tariff: Option<TariffType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for AuthorizeResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

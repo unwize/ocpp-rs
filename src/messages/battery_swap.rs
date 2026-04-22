@@ -28,7 +28,7 @@ pub struct BatterySwapRequest {
     /// Required. Info on batteries inserted or taken out.
     pub battery_data: Vec<BatteryDataType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for BatterySwapRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -42,7 +42,7 @@ impl OcppEntity for BatterySwapRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for BatterySwapRequest {
     fn get_message_type(&self) -> String {
         String::from("BatterySwap")
@@ -55,7 +55,7 @@ impl OcppRequest for BatterySwapRequest {
 #[serde(rename_all = "camelCase")]
 pub struct BatterySwapResponse {}
 
-#[typetag::serde]
+
 impl OcppEntity for BatterySwapResponse {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())

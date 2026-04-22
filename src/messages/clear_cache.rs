@@ -18,7 +18,7 @@ impl OcppMessage for ClearCache {
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct ClearCacheRequest {}
-#[typetag::serde]
+
 impl OcppEntity for ClearCacheRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let b = StructureValidationBuilder::new();
@@ -26,7 +26,7 @@ impl OcppEntity for ClearCacheRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ClearCacheRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearCache")
@@ -43,7 +43,7 @@ pub struct ClearCacheResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClearCacheResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

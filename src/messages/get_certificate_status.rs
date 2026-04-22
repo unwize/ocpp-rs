@@ -22,7 +22,7 @@ pub struct GetCertificateStatusRequest {
     /// Required. Indicates the certificate of which the status is requested.
     pub ocsp_request_data: OCSPRequestDataType,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetCertificateStatusRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -33,7 +33,7 @@ impl OcppEntity for GetCertificateStatusRequest {
     }
 }
 
-#[typetag::serde]
+
 
 impl OcppRequest for GetCertificateStatusRequest {
     fn get_message_type(&self) -> String {
@@ -53,7 +53,7 @@ pub struct GetCertificateStatusResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetCertificateStatusResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

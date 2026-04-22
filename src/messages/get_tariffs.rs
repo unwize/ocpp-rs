@@ -22,7 +22,7 @@ pub struct GetTariffsRequest {
     /// Required. EVSE id to get tariff from. When evseId = 0, this gets tariffs from all EVSEs.
     pub evse_id: i32,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetTariffsRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -34,7 +34,7 @@ impl OcppEntity for GetTariffsRequest {
     }
 }
 
-#[typetag::serde]
+
 
 impl OcppRequest for GetTariffsRequest {
     fn get_message_type(&self) -> String {
@@ -54,7 +54,7 @@ pub struct GetTariffsResponse {
     /// Optional. Details status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetTariffsResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

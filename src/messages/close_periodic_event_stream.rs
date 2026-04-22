@@ -18,7 +18,7 @@ pub struct ClosePeriodicEventStreamRequest {
     /// Required. Id of stream to close.
     pub id: i32,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClosePeriodicEventStreamRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -29,7 +29,7 @@ impl OcppEntity for ClosePeriodicEventStreamRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ClosePeriodicEventStreamRequest {
     fn get_message_type(&self) -> String {
         String::from("ClosePeriodicEventStream")
@@ -40,7 +40,7 @@ impl OcppRequest for ClosePeriodicEventStreamRequest {
 /// This contains the field definition of the ClosePeriodicEventStreamResponse PDU sent by the Charging Station to the CSMS. No fields are defined in the visible part of the specification.
 #[derive(Debug, Clone, Default, Serialize, Deserialize, PartialEq)]
 pub struct ClosePeriodicEventStreamResponse {}
-#[typetag::serde]
+
 impl OcppEntity for ClosePeriodicEventStreamResponse {
     fn validate(&self) -> Result<(), OcppError> {
         Ok(())

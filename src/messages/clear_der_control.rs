@@ -26,7 +26,7 @@ pub struct ClearDERControlRequest {
     /// Optional. Id of control setting to clear. When omitted all settings for `controlType` are cleared.
     pub control_id: Option<String>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClearDERControlRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -39,7 +39,7 @@ impl OcppEntity for ClearDERControlRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ClearDERControlRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearDERControl")
@@ -56,7 +56,7 @@ pub struct ClearDERControlResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClearDERControlResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

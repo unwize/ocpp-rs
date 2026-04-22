@@ -27,7 +27,7 @@ pub struct GetMonitoringReportRequest {
     /// Optional. This field specifies the components and variables for which a monitoring report is requested.
     pub component_variable: Option<Vec<ComponentVariableType>>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetMonitoringReportRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -48,7 +48,7 @@ impl OcppEntity for GetMonitoringReportRequest {
     }
 }
 
-#[typetag::serde]
+
 
 impl OcppRequest for GetMonitoringReportRequest {
     fn get_message_type(&self) -> String {
@@ -66,7 +66,7 @@ pub struct GetMonitoringReportResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetMonitoringReportResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

@@ -21,7 +21,7 @@ pub struct GetCertificateChainStatusRequest {
     /// Required. Certificate to check revocation status for.
     pub certificate_status_requests: Vec<CertificateStatusRequestInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetCertificateChainStatusRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -41,7 +41,7 @@ impl OcppEntity for GetCertificateChainStatusRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for GetCertificateChainStatusRequest {
     fn get_message_type(&self) -> String {
         String::from("GetCertificateChainStatus")
@@ -56,7 +56,7 @@ pub struct GetCertificateChainStatusResponse {
     /// Required. Status of the certificate revocation check.
     pub certificate_status: Vec<CertificateStatusType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetCertificateChainStatusResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

@@ -23,7 +23,7 @@ pub struct GetInstalledCertificateIdsRequest {
     /// Optional. Indicates the type of certificates requested. When omitted, all certificate types are requested.
     pub certificate_type: Option<Vec<GetCertificateIdUseEnumType>>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetInstalledCertificateIdsRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -36,7 +36,7 @@ impl OcppEntity for GetInstalledCertificateIdsRequest {
     }
 }
 
-#[typetag::serde]
+
 
 impl OcppRequest for GetInstalledCertificateIdsRequest {
     fn get_message_type(&self) -> String {
@@ -56,7 +56,7 @@ pub struct GetInstalledCertificateIdsResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for GetInstalledCertificateIdsResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();

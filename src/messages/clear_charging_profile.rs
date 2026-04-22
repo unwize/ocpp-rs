@@ -24,7 +24,7 @@ pub struct ClearChargingProfileRequest {
     /// Optional. Specifies the charging profile.
     pub charging_profile_criteria: Option<ClearChargingProfileType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClearChargingProfileRequest {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
@@ -37,7 +37,7 @@ impl OcppEntity for ClearChargingProfileRequest {
     }
 }
 
-#[typetag::serde]
+
 impl OcppRequest for ClearChargingProfileRequest {
     fn get_message_type(&self) -> String {
         String::from("ClearChargingProfile")
@@ -54,7 +54,7 @@ pub struct ClearChargingProfileResponse {
     /// Optional. Detailed status information.
     pub status_info: Option<StatusInfoType>,
 }
-#[typetag::serde]
+
 impl OcppEntity for ClearChargingProfileResponse {
     fn validate(&self) -> Result<(), OcppError> {
         let mut b = StructureValidationBuilder::new();
