@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
 use std::fmt;
+use crate::errors::OcppError;
 
 #[derive(Clone, Eq, PartialEq, Debug, Serialize, Deserialize, Default)]
 #[serde(into = "i32", try_from = "i32")]
@@ -145,10 +146,36 @@ impl RcpCall {
 }
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]
+pub struct RawRcpCallResult {
+    pub message_type_id: MessageTypeId,
+    pub message_id: String,
+    pub payload: Value,
+}
+
+impl RawRcpCallResult {
+    pub fn to(self, action: &str) -> Result<RcpCallResult, OcppError> {
+
+        match OcppMessage::parse_response(action, self.payload) {
+            Ok(payload) => {
+                Ok(RcpCallResult {
+                    message_type_id: Default::default(),
+                    message_id: "".to_string(),
+                    payload,
+                })
+            }
+            Err(e) => {
+                Err(OcppError::InvalidEnumValueError { enum_name: "OcppMessage".to_string(), value: e.clone() })
+            }
+        }
+
+
+    }
+}
+
 pub struct RcpCallResult {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
-    pub payload: OcppMessage,
+    pub payload: OcppMessage
 }
 
 #[derive(Clone, Debug, Serialize_tuple, Deserialize_tuple)]

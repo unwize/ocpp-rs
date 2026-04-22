@@ -251,4 +251,47 @@ impl OcppMessage {
             _ => Err(format!("Unknown action: {}", action)),
         }
     }
+
+    pub fn parse_response(action: &str, payload: serde_json::Value) -> Result<Self, String> {
+        match action {
+            "AdjustPeriodicEventStream" => Ok(OcppMessage::AdjustPeriodicEventStreamResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "AFRRSignal" => Ok(OcppMessage::AFRRSignalResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "Authorize" => Ok(OcppMessage::AuthorizeResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "BatterySwap" => Ok(OcppMessage::BatterySwapResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "BootNotification" => Ok(OcppMessage::BootNotificationResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "CancelReservation" => Ok(OcppMessage::CancelReservationResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "CertificateSigned" => Ok(OcppMessage::CertificateSignedResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ChangeAvailability" => Ok(OcppMessage::ChangeAvailabilityResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ChangeTransactionTariff" => Ok(OcppMessage::ChangeTransactionTariffResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearCache" => Ok(OcppMessage::ClearCacheResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearChargingProfile" => Ok(OcppMessage::ClearChargingProfileResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearDERControl" => Ok(OcppMessage::ClearDERControlResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearDisplayMessage" => Ok(OcppMessage::ClearDisplayMessageResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearTariffs" => Ok(OcppMessage::ClearTariffsResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearVariableMonitoring" => Ok(OcppMessage::ClearVariableMonitoringResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClearedChargingLimit" => Ok(OcppMessage::ClearedChargingLimitResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "ClosePeriodicEventStream" => Ok(OcppMessage::ClosePeriodicEventStreamResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "CostUpdated" => Ok(OcppMessage::CostUpdatedResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "CustomerInformation" => Ok(OcppMessage::CustomerInformationResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "DataTransfer" => Ok(OcppMessage::DataTransferResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "DeleteCertificate" => Ok(OcppMessage::DeleteCertificateResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "FirmwareStatusNotification" => Ok(OcppMessage::FirmwareStatusNotificationResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "Get15118EVCertificate" => Ok(OcppMessage::Get15118EVCertificateResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetBaseReport" => Ok(OcppMessage::GetBaseReportResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetCertificateChainStatus" => Ok(OcppMessage::GetCertificateChainStatusResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetCertificateStatus" => Ok(OcppMessage::GetCertificateStatusResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetChargingProfiles" => Ok(OcppMessage::GetChargingProfilesResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetCompositeSchedule" => Ok(OcppMessage::GetCompositeScheduleResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetDERControl" => Ok(OcppMessage::GetDERControlResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetDisplayMessages" => Ok(OcppMessage::GetDisplayMessagesResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetInstalledCertificateIds" => Ok(OcppMessage::GetInstalledCertificateIdsResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetLocalListVersion" => Ok(OcppMessage::GetLocalListVersionResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetLog" => Ok(OcppMessage::GetLogResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetMonitoringReport" => Ok(OcppMessage::GetMonitoringReportResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetPeriodicEventStream" => Ok(OcppMessage::GetPeriodicEventStreamResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetReport" => Ok(OcppMessage::GetReportResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            "GetTariffs" => Ok(OcppMessage::GetTariffsResponse(serde_json::from_value(payload).map_err(|e| e.to_string())?)),
+            _ => Err(format!("Unknown action: {}", action)),
+        }
+    }
 }
