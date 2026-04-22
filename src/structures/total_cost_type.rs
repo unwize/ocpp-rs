@@ -1,5 +1,4 @@
 use crate::enums::tariff_cost_enum_type::TariffCostEnumType;
-use crate::errors::OcppError::FieldISOError;
 use crate::errors::{OcppError, StructureValidationBuilder};
 use crate::structures::price_type::PriceType;
 use crate::structures::total_price_type::TotalPriceType;
