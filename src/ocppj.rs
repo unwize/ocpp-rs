@@ -89,7 +89,7 @@ impl RcpCall {
         Self {
             message_type_id: MessageTypeId::Call,
             message_id: String::from(message_id),
-            action: payload.get_message_name().to_string(),
+            action: payload.get_message_type().to_string(),
             payload,
         }
     }

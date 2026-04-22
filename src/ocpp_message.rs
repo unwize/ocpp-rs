@@ -128,7 +128,7 @@ pub enum OcppMessage {
 }
 
 impl OcppMessage {
-    pub fn get_message_name(&self) -> &'static str {
+    pub fn get_message_type(&self) -> &'static str {
         match self {
             OcppMessage::AdjustPeriodicEventStreamRequest(_)
             | OcppMessage::AdjustPeriodicEventStreamResponse(_) => "AdjustPeriodicEventStream",
