@@ -41,9 +41,8 @@ impl OcppEntity for GetMonitoringReportRequest {
 }
 
 impl OcppRequest for GetMonitoringReportRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetMonitoringReport")
-    }
+    const NAME: &'static str = "GetMonitoringReport";
+    type ResponseType = GetMonitoringReportResponse;
 }
 
 /// 1.34.2. GetMonitoringReportResponse

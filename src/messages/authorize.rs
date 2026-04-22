@@ -53,9 +53,8 @@ impl OcppEntity for AuthorizeRequest {
 }
 
 impl OcppRequest for AuthorizeRequest {
-    fn get_message_type(&self) -> String {
-        String::from("Authorize")
-    }
+    const NAME: &'static str = "Authorize";
+    type ResponseType = AuthorizeResponse;
 }
 
 /// 1.3.2. AuthorizeResponse

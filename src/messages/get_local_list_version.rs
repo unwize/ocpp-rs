@@ -16,9 +16,8 @@ impl OcppEntity for GetLocalListVersionRequest {
 }
 
 impl OcppRequest for GetLocalListVersionRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetLocalListVersion")
-    }
+    const NAME: &'static str = "GetLocalListVersion";
+    type ResponseType = GetLocalListVersionResponse;
 }
 
 /// 1.32.2. GetLocalListVersionResponse

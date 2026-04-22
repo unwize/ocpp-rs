@@ -38,9 +38,8 @@ impl OcppEntity for GetChargingProfilesRequest {
 }
 
 impl OcppRequest for GetChargingProfilesRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetChargingProfiles")
-    }
+    const NAME: &'static str = "GetChargingProfiles";
+    type ResponseType = GetChargingProfilesResponse;
 }
 
 /// 1.27.2. GetChargingProfilesResponse

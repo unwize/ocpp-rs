@@ -36,9 +36,8 @@ impl OcppEntity for GetCompositeScheduleRequest {
 }
 
 impl OcppRequest for GetCompositeScheduleRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetCompositeSchedule")
-    }
+    const NAME: &'static str = "GetCompositeSchedule";
+    type ResponseType = GetCompositeScheduleResponse;
 }
 
 /// 1.28.2. GetCompositeScheduleResponse

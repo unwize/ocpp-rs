@@ -26,9 +26,8 @@ impl OcppEntity for GetCertificateStatusRequest {
 }
 
 impl OcppRequest for GetCertificateStatusRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetCertificateStatus")
-    }
+    const NAME: &'static str = "GetCertificateStatus";
+    type ResponseType = GetCertificateStatusResponse;
 }
 
 /// 1.26.2. GetCertificateStatusResponse

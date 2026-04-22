@@ -34,9 +34,8 @@ impl OcppEntity for ClearedChargingLimitRequest {
 }
 
 impl OcppRequest for ClearedChargingLimitRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearedChargingLimit")
-    }
+    const NAME: &'static str = "ClearedChargingLimit";
+    type ResponseType = ClearedChargingLimitResponse;
 }
 
 /// 1.14.2. ClearedChargingLimitResponse

@@ -34,9 +34,8 @@ impl OcppEntity for ClearTariffsRequest {
 }
 
 impl OcppRequest for ClearTariffsRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearTariffs")
-    }
+    const NAME: &'static str = "ClearTariffs";
+    type ResponseType = ClearTariffsResponse;
 }
 
 /// 1.15.2. ClearTariffsResponse

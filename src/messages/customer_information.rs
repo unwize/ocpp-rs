@@ -49,9 +49,8 @@ impl OcppEntity for CustomerInformationRequest {
 }
 
 impl OcppRequest for CustomerInformationRequest {
-    fn get_message_type(&self) -> String {
-        String::from("CustomerInformation")
-    }
+    const NAME: &'static str = "CustomerInformation";
+    type ResponseType = CustomerInformationResponse;
 }
 
 /// 1.19.2. CustomerInformationResponse

@@ -35,9 +35,8 @@ impl OcppEntity for FirmwareStatusNotificationRequest {
 }
 
 impl OcppRequest for FirmwareStatusNotificationRequest {
-    fn get_message_type(&self) -> String {
-        String::from("FirmwareStatusNotification")
-    }
+    const NAME: &'static str = "FirmwareStatusNotification";
+    type ResponseType = FirmwareStatusNotificationResponse;
 }
 
 /// 1.22.2. FirmwareStatusNotificationResponse

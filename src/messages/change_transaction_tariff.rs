@@ -29,9 +29,8 @@ impl OcppEntity for ChangeTransactionTariffRequest {
 }
 
 impl OcppRequest for ChangeTransactionTariffRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ChangeTransactionTariff")
-    }
+    const NAME: &'static str = "ChangeTransactionTariff";
+    type ResponseType = ChangeTransactionTariffResponse;
 }
 
 /// 1.9.2. ChangeTransactionTariffResponse

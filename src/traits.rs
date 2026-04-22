@@ -6,17 +6,11 @@ pub trait OcppEntity: Debug {
 }
 
 pub trait OcppRequest: Debug {
-    fn get_message_type(&self) -> String;
-}
+    const NAME: &'static str;
 
-pub trait OcppMessage {
-    type Request: Default;
-    type Response: Default;
+    type ResponseType;
 
-    fn request() -> Self::Request {
-        Self::Request::default()
-    }
-    fn response() -> Self::Response {
-        Self::Response::default()
+    fn get_message_type(&self) -> &'static str {
+        Self::NAME
     }
 }

@@ -45,9 +45,8 @@ impl OcppEntity for GetLogRequest {
 }
 
 impl OcppRequest for GetLogRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetLog")
-    }
+    const NAME: &'static str = "GetLog";
+    type ResponseType = GetLogResponse;
 }
 
 /// 1.33.2. GetLogResponse

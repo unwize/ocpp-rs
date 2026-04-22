@@ -35,9 +35,8 @@ impl OcppEntity for CertificateSignedRequest {
 }
 
 impl OcppRequest for CertificateSignedRequest {
-    fn get_message_type(&self) -> String {
-        String::from("CertificateSigned")
-    }
+    const NAME: &'static str = "CertificateSigned";
+    type ResponseType = CertificateSignedResponse;
 }
 
 /// 1.7.2. CertificateSignedResponse

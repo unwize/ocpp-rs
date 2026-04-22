@@ -29,9 +29,8 @@ impl OcppEntity for GetInstalledCertificateIdsRequest {
 }
 
 impl OcppRequest for GetInstalledCertificateIdsRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetInstalledCertificateIds")
-    }
+    const NAME: &'static str = "GetInstalledCertificateIds";
+    type ResponseType = GetInstalledCertificateIdsResponse;
 }
 
 /// 1.31.2. GetInstalledCertificateIdsResponse

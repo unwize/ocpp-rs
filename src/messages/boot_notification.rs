@@ -30,9 +30,8 @@ impl OcppEntity for BootNotificationRequest {
 }
 
 impl OcppRequest for BootNotificationRequest {
-    fn get_message_type(&self) -> String {
-        String::from("BootNotification")
-    }
+    const NAME: &'static str = "BootNotification";
+    type ResponseType = BootNotificationResponse;
 }
 
 /// 1.5.2. BootNotificationResponse

@@ -32,9 +32,8 @@ impl OcppEntity for ChangeAvailabilityRequest {
 }
 
 impl OcppRequest for ChangeAvailabilityRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ChangeAvailability")
-    }
+    const NAME: &'static str = "ChangeAvailability";
+    type ResponseType = ChangeAvailabilityResponse;
 }
 
 /// 1.8.2. ChangeAvailabilityResponse

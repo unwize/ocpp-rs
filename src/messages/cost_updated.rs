@@ -25,9 +25,8 @@ impl OcppEntity for CostUpdatedRequest {
 }
 
 impl OcppRequest for CostUpdatedRequest {
-    fn get_message_type(&self) -> String {
-        String::from("CostUpdated")
-    }
+    const NAME: &'static str = "CostUpdated";
+    type ResponseType = CostUpdatedResponse;
 }
 
 /// 1.18.2. CostUpdatedResponse

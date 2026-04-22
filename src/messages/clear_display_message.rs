@@ -25,9 +25,8 @@ impl OcppEntity for ClearDisplayMessageRequest {
 }
 
 impl OcppRequest for ClearDisplayMessageRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearDisplayMessage")
-    }
+    const NAME: &'static str = "ClearDisplayMessage";
+    type ResponseType = ClearDisplayMessageResponse;
 }
 
 /// 1.13.2. ClearDisplayMessageResponse

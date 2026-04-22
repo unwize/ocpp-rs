@@ -39,9 +39,8 @@ impl OcppEntity for GetDisplayMessagesRequest {
 }
 
 impl OcppRequest for GetDisplayMessagesRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetDisplayMessages")
-    }
+    const NAME: &'static str = "GetDisplayMessages";
+    type ResponseType = GetDisplayMessagesResponse;
 }
 
 /// 1.30.2. GetDisplayMessagesResponse

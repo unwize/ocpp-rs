@@ -19,9 +19,8 @@ impl OcppEntity for ClearCacheRequest {
 }
 
 impl OcppRequest for ClearCacheRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearCache")
-    }
+    const NAME: &'static str = "ClearCache";
+    type ResponseType = ClearCacheResponse;
 }
 
 /// 1.10.2. ClearCacheResponse

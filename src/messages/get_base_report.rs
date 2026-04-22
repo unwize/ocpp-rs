@@ -30,9 +30,8 @@ impl OcppEntity for GetBaseReportRequest {
 }
 
 impl OcppRequest for GetBaseReportRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetBaseReport")
-    }
+    const NAME: &'static str = "GetBaseReport";
+    type ResponseType = GetBaseReportResponse;
 }
 
 /// 1.24.2. GetBaseReportResponse

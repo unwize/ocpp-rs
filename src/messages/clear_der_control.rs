@@ -32,9 +32,8 @@ impl OcppEntity for ClearDERControlRequest {
 }
 
 impl OcppRequest for ClearDERControlRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearDERControl")
-    }
+    const NAME: &'static str = "ClearDERControl";
+    type ResponseType = ClearDERControlResponse;
 }
 
 /// 1.12.2. ClearDERControlResponse

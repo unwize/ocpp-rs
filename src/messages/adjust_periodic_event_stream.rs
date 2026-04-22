@@ -18,9 +18,8 @@ pub struct AdjustPeriodicEventStreamRequest {
 }
 
 impl OcppRequest for AdjustPeriodicEventStreamRequest {
-    fn get_message_type(&self) -> String {
-        String::from("AdjustPeriodicEventStream")
-    }
+    const NAME: &'static str = "AdjustPeriodicEventStream";
+    type ResponseType = AdjustPeriodicEventStreamResponse;
 }
 
 impl AdjustPeriodicEventStreamRequest {

@@ -25,9 +25,8 @@ impl OcppEntity for AFRRSignalRequest {
 }
 
 impl OcppRequest for AFRRSignalRequest {
-    fn get_message_type(&self) -> String {
-        String::from("AFRRSignal")
-    }
+    const NAME: &'static str = "AFRRSignal";
+    type ResponseType = AFRRSignalResponse;
 }
 
 /// 1.2.2. AFRRSignalResponse

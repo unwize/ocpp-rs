@@ -48,9 +48,8 @@ impl OcppEntity for CancelReservationResponse {
 }
 
 impl OcppRequest for CancelReservationRequest {
-    fn get_message_type(&self) -> String {
-        String::from("CancelReservation")
-    }
+    const NAME: &'static str = "CancelReservation";
+    type ResponseType = CancelReservationResponse;
 }
 
 #[cfg(test)]

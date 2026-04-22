@@ -17,9 +17,8 @@ impl OcppEntity for GetPeriodicEventStreamRequest {
 }
 
 impl OcppRequest for GetPeriodicEventStreamRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetPeriodicEventStream")
-    }
+    const NAME: &'static str = "GetPeriodicEventStream";
+    type ResponseType = GetPeriodicEventStreamResponse;
 }
 
 /// 1.35.2. GetPeriodicEventStreamResponse

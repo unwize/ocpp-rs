@@ -26,9 +26,8 @@ impl OcppEntity for DeleteCertificateRequest {
 }
 
 impl OcppRequest for DeleteCertificateRequest {
-    fn get_message_type(&self) -> String {
-        String::from("DeleteCertificate")
-    }
+    const NAME: &'static str = "DeleteCertificate";
+    type ResponseType = DeleteCertificateResponse;
 }
 
 /// 1.21.2. DeleteCertificateResponse

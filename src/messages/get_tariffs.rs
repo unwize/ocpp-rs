@@ -27,9 +27,8 @@ impl OcppEntity for GetTariffsRequest {
 }
 
 impl OcppRequest for GetTariffsRequest {
-    fn get_message_type(&self) -> String {
-        String::from("GetTariffs")
-    }
+    const NAME: &'static str = "GetTariffs";
+    type ResponseType = GetTariffsResponse;
 }
 
 /// 1.37.2. GetTariffsResponse

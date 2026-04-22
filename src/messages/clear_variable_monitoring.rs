@@ -33,9 +33,8 @@ impl Default for ClearVariableMonitoringRequest {
 }
 
 impl OcppRequest for ClearVariableMonitoringRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClearVariableMonitoring")
-    }
+    const NAME: &'static str = "ClearVariableMonitoring";
+    type ResponseType = ClearVariableMonitoringResponse;
 }
 
 /// 1.16.2. ClearVariableMonitoringResponse

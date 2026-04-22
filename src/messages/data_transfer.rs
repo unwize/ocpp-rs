@@ -36,9 +36,8 @@ impl OcppEntity for DataTransferRequest {
 }
 
 impl OcppRequest for DataTransferRequest {
-    fn get_message_type(&self) -> String {
-        String::from("DataTransfer")
-    }
+    const NAME: &'static str = "DataTransfer";
+    type ResponseType = DataTransferResponse;
 }
 
 /// 1.20.2. DataTransferResponse

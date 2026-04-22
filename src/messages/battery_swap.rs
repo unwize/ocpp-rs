@@ -35,9 +35,8 @@ impl OcppEntity for BatterySwapRequest {
 }
 
 impl OcppRequest for BatterySwapRequest {
-    fn get_message_type(&self) -> String {
-        String::from("BatterySwap")
-    }
+    const NAME: &'static str = "BatterySwap";
+    type ResponseType = BatterySwapResponse;
 }
 
 /// 1.4.2. BatterySwapResponse

@@ -1,4 +1,4 @@
-use crate::traits::{OcppEntity, OcppRequest};
+use crate::ocpp_message::OcppMessage;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use serde_tuple::{Deserialize_tuple, Serialize_tuple};
@@ -80,17 +80,17 @@ pub struct RcpCall {
     pub message_type_id: MessageTypeId,
     pub message_id: String,
     pub action: String,
-    //pub payload: Box<dyn OcppRequest>,
+    pub payload: Box<OcppMessage>,
 }
 
 impl RcpCall {
     /// Create a new RCP-spec CALL.
-    pub fn new(message_id: &str, payload: Box<dyn OcppRequest>) -> Self {
+    pub fn new(message_id: &str, payload: Box<OcppMessage>) -> Self {
         Self {
             message_type_id: MessageTypeId::Call,
             message_id: String::from(message_id),
-            action: payload.get_message_type(),
-            //payload,
+            action: payload.get_message_name().to_string(),
+            payload,
         }
     }
 }

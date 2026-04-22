@@ -22,9 +22,8 @@ impl OcppEntity for ClosePeriodicEventStreamRequest {
 }
 
 impl OcppRequest for ClosePeriodicEventStreamRequest {
-    fn get_message_type(&self) -> String {
-        String::from("ClosePeriodicEventStream")
-    }
+    const NAME: &'static str = "ClosePeriodicEventStream";
+    type ResponseType = ClosePeriodicEventStreamResponse;
 }
 
 /// 1.17.2. ClosePeriodicEventStreamResponse
